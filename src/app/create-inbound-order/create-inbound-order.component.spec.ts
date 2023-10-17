@@ -1,21 +1,21 @@
-import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed } from "@angular/core/testing";
 
-import { CreateInboundOrderComponent } from './create-inbound-order.component';
+import { CreateInboundOrderComponent } from "./create-inbound-order.component";
 
-describe('CreateInboundOrderComponent', () => {
-  let component: CreateInboundOrderComponent;
-  let fixture: ComponentFixture<CreateInboundOrderComponent>;
+describe("CreateInboundOrderComponent", () => {
+	let component: CreateInboundOrderComponent;
+	let fixture: ComponentFixture<CreateInboundOrderComponent>;
 
-  beforeEach(() => {
-    TestBed.configureTestingModule({
-      declarations: [CreateInboundOrderComponent]
-    });
-    fixture = TestBed.createComponent(CreateInboundOrderComponent);
-    component = fixture.componentInstance;
-    fixture.detectChanges();
-  });
+	beforeEach(() => {
+		TestBed.configureTestingModule({
+			declarations: [CreateInboundOrderComponent]
+		});
+		fixture = TestBed.createComponent(CreateInboundOrderComponent);
+		component = fixture.componentInstance;
+		fixture.detectChanges();
+	});
 
-  it('should create', () => {
-    expect(component).toBeTruthy();
-  });
+	it("should create", () => {
+		expect(component).toBeTruthy();
+	});
 });
