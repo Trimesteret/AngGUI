@@ -8,6 +8,9 @@ import { MatButtonModule } from "@angular/material/button";
 import { MatInputModule } from "@angular/material/input";
 import { FlexModule } from "@angular/flex-layout";
 import { CreateItemsComponent } from "./create-items/create-items.component";
+import { FormsModule, ReactiveFormsModule } from "@angular/forms";
+import { HttpClientModule } from "@angular/common/http";
+import { MatFormFieldModule } from "@angular/material/form-field";
 
 @NgModule({
 	declarations: [
@@ -20,7 +23,11 @@ import { CreateItemsComponent } from "./create-items/create-items.component";
 		BrowserAnimationsModule,
 		MatButtonModule,
 		MatInputModule,
-		FlexModule
+		FlexModule,
+		FormsModule,
+		ReactiveFormsModule,
+		HttpClientModule,
+		MatFormFieldModule
 	],
 	providers: [],
 	bootstrap: [AppComponent]

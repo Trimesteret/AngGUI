@@ -1,11 +1,25 @@
-
 <div fxFlexFill>
-  <div fxFlex="30" fxLayout="column wrap"  fxLayoutAlign="center none">
-    <mat-form-field style color=primary *ngFor="let field of inputFields">
-      <mat-label>{{field.name}}</mat-label>
-      <input matInput id={{field.id}}>
+  <form [formGroup]="itemForm">
+    <mat-form-field appearance="fill">
+      <mat-label for="wine-quantity">Wine Quantity: </mat-label>
+      <input matInput id="wine-quantity" type="number" formControlName="wineQuantity">
     </mat-form-field>
-    <button (click)="submitItem()" mat-raised-button color="primary"> Submit </button>
-    <img src="https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Fpluspng.com%2Fimg-png%2Fpng-wine-bottle-and-glass--1694.png" alt="wine">
-  </div>
+
+    <mat-form-field appearance="fill">
+      <mat-label for="wine-type">Wine Type: </mat-label>
+      <input matInput id="wine-type" type="text" formControlName="wineType">
+    </mat-form-field>
+
+    <mat-form-field appearance="fill">
+      <mat-label for="wine-name">Wine Name: </mat-label>
+      <input matInput id="wine-name" type="text" formControlName="name">
+    </mat-form-field>
+
+    <mat-form-field appearance="fill">
+      <mat-label for="item-id">Item ID: </mat-label>
+      <input matInput id="item-id" type="text" formControlName="id">
+    </mat-form-field>
+
+    <button (click)="submitItem()" mat-raised-button color="primary">Submit</button>
+  </form>
 </div>
