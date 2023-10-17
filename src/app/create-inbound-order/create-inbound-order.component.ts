@@ -9,8 +9,7 @@ export class CreateInboundOrderComponent {
 		console.log("jeg knepper din mor");
 		const data = { "Name":"vinx", "Id":"69" };
 		const headers = new Headers({
-			"Content-Type": "application/json", // Adjust the content type as needed
-			// You can also add any other headers here, like authentication tokens
+			"Content-Type": "application/json",
 		});
 		fetch("http://localhost:5169/api/Wines", {
 			method: "POST",
