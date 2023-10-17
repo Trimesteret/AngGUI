@@ -7,10 +7,12 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import {MatButtonModule} from "@angular/material/button";
 import {MatInputModule} from "@angular/material/input";
 import {FlexModule} from "@angular/flex-layout";
+import { CreateInboundOrderComponent } from './create-inbound-order/create-inbound-order.component';
 
 @NgModule({
   declarations: [
-    AppComponent
+    AppComponent,
+    CreateInboundOrderComponent
   ],
   imports: [
     BrowserModule,
