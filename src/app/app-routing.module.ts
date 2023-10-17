@@ -1,13 +1,15 @@
-import { NgModule } from "@angular/core";
-import { RouterModule, Routes } from "@angular/router";
-import { CreateInboundOrderComponent } from "./create-inbound-order/create-inbound-order.component";
+import { NgModule } from '@angular/core';
+import { RouterModule, Routes } from '@angular/router';
+import { FrontPageComponent } from './common/front-page/front-page.component';
 
 const routes: Routes = [
-	{ path: "create-inbound-order", component: CreateInboundOrderComponent }
+  { path: '', component: FrontPageComponent },
+  { path: 'warehouse', loadChildren: () => import('./warehouse/warehouse.module').then(m => m.WarehouseModule) },
+  { path: 'webshop', loadChildren: () => import('./webshop/webshop.module').then(m => m.WebshopModule) }
 ];
 
 @NgModule({
-	imports: [RouterModule.forRoot(routes)],
-	exports: [RouterModule]
+  imports: [RouterModule.forRoot(routes)],
+  exports: [RouterModule]
 })
 export class AppRoutingModule { }
