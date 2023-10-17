@@ -1,0 +1,16 @@
+.image-card{
+  height: 95%;
+  background-size: cover;
+  background-position: center;
+  border-radius: 8px;
+  overflow: hidden;
+  display: block;
+}
+
+.gradient{
+  width: 100%;
+  height: 100%;
+  opacity: 0.60;
+  background: linear-gradient(97deg, rgba(0,0,0, 1) 33%, rgba(255, 255, 255, 0) 44%);
+  mix-blend-mode: multiply;
+}
