@@ -1,0 +1,11 @@
+
+<div fxFlexFill>
+  <div fxFlex="30" fxLayout="column wrap"  fxLayoutAlign="center none">
+    <mat-form-field style color=primary *ngFor="let field of inputFields">
+      <mat-label>{{field.name}}</mat-label>
+      <input matInput id={{field.id}}>
+    </mat-form-field>
+    <button (click)="submitItem()" mat-raised-button color="primary"> Submit </button>
+    <img src="https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Fpluspng.com%2Fimg-png%2Fpng-wine-bottle-and-glass--1694.png" alt="wine">
+  </div>
+</div>
