@@ -1,9 +1,11 @@
 import { Component } from '@angular/core';
+
 @Component({
   selector: 'app-create-inbound-order',
   templateUrl: './create-inbound-order.component.html',
-  styleUrls: ['./create-inbound-order.component.scss']
+  styleUrls: ['./create-inbound-order.component.scss'],
 })
+
 export class CreateInboundOrderComponent {
 
   createInboundOrder():void{

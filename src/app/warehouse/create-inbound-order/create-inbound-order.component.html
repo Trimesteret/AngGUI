@@ -2,11 +2,22 @@
   <mat-tab label="View">
     View inbound orders
   </mat-tab>
-
-
   <mat-tab label="Create">
-    <button mat-raised-button color="primary" (click)="createInboundOrder()">Test-fetch</button>
+    <div class="input-section-inbound">
+      <mat-form-field>
+        <mat-label>Supplier</mat-label>
+        <select matNativeControl required>
+          <option value="Supplier1">Supplier1</option>
+          <option value="Supplier2">Supplier2</option>
+          <option value="Supplier3">Supplier3</option>
+        </select>
+      </mat-form-field>
+
+
+<!--    Insert date field here-->
+
+
+      <button mat-raised-button color="primary" (click)="createInboundOrder()">Test-fetch</button>
+    </div>
   </mat-tab>
 </mat-tab-group>
-
-
