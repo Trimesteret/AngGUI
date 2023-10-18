@@ -5,6 +5,7 @@ import { Component } from '@angular/core';
   styleUrls: ['./create-inbound-order.component.scss']
 })
 export class CreateInboundOrderComponent {
+
   createInboundOrder():void{
     console.log('jeg knepper din mor');
     const data = { 'Name':'vinx', 'Id':'69' };
