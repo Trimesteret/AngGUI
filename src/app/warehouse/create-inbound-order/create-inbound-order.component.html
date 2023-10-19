@@ -1,23 +1,17 @@
-<mat-tab-group>
-  <mat-tab label="View">
-    View inbound orders
-  </mat-tab>
-  <mat-tab label="Create">
-    <div class="input-section-inbound">
-      <mat-form-field>
-        <mat-label>Supplier</mat-label>
-        <select matNativeControl required>
-          <option value="Supplier1">Supplier1</option>
-          <option value="Supplier2">Supplier2</option>
-          <option value="Supplier3">Supplier3</option>
-        </select>
-      </mat-form-field>
+<div fxFlexFill>
+  <form [formGroup]="inboundOrderForm">
+    <mat-form-field appearance="fill">
+      <mat-label for="supplier">Supplier: </mat-label>
+      <input matInput id="supplier" type="text" formControlName="supplier">
+    </mat-form-field>
 
-
-<!--    Insert date field here-->
-
-
-      <button mat-raised-button color="primary" (click)="createInboundOrder()">Test-fetch</button>
-    </div>
-  </mat-tab>
-</mat-tab-group>
+    <mat-form-field appearance="fill">
+      <mat-label for="expected-delivery-date">Expected delivery: </mat-label>
+      <input matInput id="expected-delivery-date" [matDatepicker]="picker" formControlName="expectedDeliveryDate">
+      <mat-hint>DD/MM/YYYY</mat-hint>
+      <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
+      <mat-datepicker #picker></mat-datepicker>
+    </mat-form-field>
+    <button (click)="createInboundOrder()" mat-raised-button color="primary">Submit</button>
+  </form>
+</div>

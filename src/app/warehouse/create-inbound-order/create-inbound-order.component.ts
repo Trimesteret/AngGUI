@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-
+import { FormGroup, FormControl } from '@angular/forms';
 @Component({
   selector: 'app-create-inbound-order',
   templateUrl: './create-inbound-order.component.html',
@@ -7,18 +7,11 @@ import { Component } from '@angular/core';
 })
 
 export class CreateInboundOrderComponent {
-
-  createInboundOrder():void{
-    console.log('jeg knepper din mor');
-    const data = { 'Name':'vinx', 'Id':'69' };
-    const headers = new Headers({
-      'Content-Type': 'application/json',
-    });
-    fetch('http://localhost:5169/api/Wines', {
-      method: 'POST',
-      mode: 'cors',
-      headers: headers,
-      body: JSON.stringify(data)
-    }).then((res) => console.log(res));
+  inboundOrderForm = new FormGroup({
+    supplier: new FormControl(''),
+    expectedDeliveryDate: new FormControl(),
+  });
+  createInboundOrder () :void {
+    console.log(this.inboundOrderForm.value);
   }
 }

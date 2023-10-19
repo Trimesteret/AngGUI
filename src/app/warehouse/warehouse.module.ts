@@ -10,6 +10,8 @@ import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatInputModule } from '@angular/material/input';
 import { MatButtonModule } from '@angular/material/button';
 import { MatDatepickerModule } from '@angular/material/datepicker';
+import { FlexModule } from '@angular/flex-layout';
+import { MAT_DATE_LOCALE, MatNativeDateModule } from '@angular/material/core';
 
 
 
@@ -27,7 +29,10 @@ import { MatDatepickerModule } from '@angular/material/datepicker';
     MatCheckboxModule,
     MatInputModule,
     MatButtonModule,
-    MatDatepickerModule
-  ]
+    MatDatepickerModule,
+    FlexModule,
+    MatNativeDateModule
+  ],
+  providers: [{ provide: MAT_DATE_LOCALE, useValue: 'es-Es' }]
 })
 export class WarehouseModule { }
