@@ -19,7 +19,7 @@ import { CreateItemComponent } from './create-item/create-item.component';
 @NgModule({
   declarations: [
     HomePageComponent,
-    CreateInboundOrderComponent
+    CreateInboundOrderComponent,
     CreateItemComponent
   ],
   imports: [

@@ -7,6 +7,5 @@ import { Component } from '@angular/core';
 })
 export class AppComponent {
   title = 'AngGUI';
-  user: string[] = ['Hello', 'Hi', 'You are welcome', 'boyzzz', 'satengudedme nogle gode junger'];
 }
 
