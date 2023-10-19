@@ -12,6 +12,7 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { FlexModule } from '@angular/flex-layout';
 import { MAT_DATE_LOCALE, MatNativeDateModule } from '@angular/material/core';
+import { CreateItemComponent } from './create-item/create-item.component';
 
 
 
@@ -19,6 +20,7 @@ import { MAT_DATE_LOCALE, MatNativeDateModule } from '@angular/material/core';
   declarations: [
     HomePageComponent,
     CreateInboundOrderComponent
+    CreateItemComponent
   ],
   imports: [
     CommonModule,

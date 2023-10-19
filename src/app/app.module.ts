@@ -7,18 +7,21 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MatButtonModule } from '@angular/material/button';
 import { MatInputModule } from '@angular/material/input';
 import { FlexModule } from '@angular/flex-layout';
-import { MatToolbarModule } from '@angular/material/toolbar';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { HttpClientModule } from '@angular/common/http';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { FrontPageComponent } from './front/front-page/front-page.component';
+import { FrontBasicLayoutComponent } from './front/front-basic-layout/front-basic-layout.component';
+import { FrontHeaderComponent } from './front/front-header/front-header.component';
 import { MatIconModule } from '@angular/material/icon';
-import { HomeHeaderComponent } from './common/home-header/home-header.component';
-import { BasicLayoutComponent } from './common/basic-layout/basic-layout.component';
-import { FrontPageComponent } from './common/front-page/front-page.component';
+import { MatToolbarModule } from '@angular/material/toolbar';
 
 @NgModule({
   declarations: [
     AppComponent,
     FrontPageComponent,
-    HomeHeaderComponent,
-    BasicLayoutComponent
+    FrontBasicLayoutComponent,
+    FrontHeaderComponent
   ],
   imports: [
     BrowserModule,
@@ -27,8 +30,12 @@ import { FrontPageComponent } from './common/front-page/front-page.component';
     MatButtonModule,
     MatInputModule,
     FlexModule,
-    MatToolbarModule,
+    FormsModule,
+    ReactiveFormsModule,
+    HttpClientModule,
+    MatFormFieldModule,
     MatIconModule,
+    MatToolbarModule
   ],
   providers: [],
   bootstrap: [AppComponent]

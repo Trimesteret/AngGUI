@@ -1,16 +1,16 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { FrontBasicLayoutComponent } from './front-basic-layout.component';
 
-import { BasicLayoutComponent } from './basic-layout.component';
 
 describe('BasicLayoutComponent', () => {
-  let component: BasicLayoutComponent;
-  let fixture: ComponentFixture<BasicLayoutComponent>;
+  let component: FrontBasicLayoutComponent;
+  let fixture: ComponentFixture<FrontBasicLayoutComponent>;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      declarations: [BasicLayoutComponent]
+      declarations: [FrontBasicLayoutComponent]
     });
-    fixture = TestBed.createComponent(BasicLayoutComponent);
+    fixture = TestBed.createComponent(FrontBasicLayoutComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });
