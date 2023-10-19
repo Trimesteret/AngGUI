@@ -19,7 +19,6 @@ export class CreateItemComponent {
   constructor(private http: HttpClient) {}
 
   submitItem(): void {
-    console.log();
     const req = this.http.post<Item>('http://localhost:5169/api/item', { item: this.itemForm.value as Item } );
     req.subscribe(items => console.log(items));
   }
