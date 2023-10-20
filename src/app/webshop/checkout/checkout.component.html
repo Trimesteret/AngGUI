@@ -1,0 +1,18 @@
+<div fxFlexFill>
+  <form [formGroup]="checkoutForm">
+    <mat-form-field appearance="fill">
+      <mat-label for="firstName">First Name: </mat-label>
+      <input matInput id="firstName" type="text" formControlName="firstName">
+    </mat-form-field>
+    <mat-form-field appearance="fill">
+      <mat-label for="lastName">Last Name: </mat-label>
+      <input matInput id="lastName" type="text" formControlName="lastName">
+    </mat-form-field>
+    <mat-form-field appearance="fill">
+      <mat-label for="address">Your Address: </mat-label>
+      <input matInput id="address" type="text" formControlName="address">
+    </mat-form-field>
+
+    <button (click)="createCheckout()" mat-raised-button color="primary">Submit</button>
+  </form>
+</div>
