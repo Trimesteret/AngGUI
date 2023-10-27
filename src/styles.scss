@@ -2,5 +2,16 @@
 
 @import 'https://fonts.googleapis.com/icon?family=Material+Icons';
 
-html, body { height: 100% }
 body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+
+.margin-inline-25{
+  margin-inline: 25px;
+}
+
+.background-color-white{
+  background-color: white !important;
+}
+
+.full-height{
+  height: 100%;
+}
