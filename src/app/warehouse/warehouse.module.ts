@@ -13,6 +13,9 @@ import { MatDatepickerModule } from '@angular/material/datepicker';
 import { FlexModule } from '@angular/flex-layout';
 import { MAT_DATE_LOCALE, MatNativeDateModule } from '@angular/material/core';
 import { CreateItemComponent } from './create-item/create-item.component';
+import { WarehouseBasicLayoutComponent } from './warehouse-basic-layout/warehouse-basic-layout.component';
+import { WarehouseHeaderComponent } from './warehouse-header/warehouse-header.component';
+import { MatToolbarModule } from '@angular/material/toolbar';
 
 
 
@@ -20,7 +23,9 @@ import { CreateItemComponent } from './create-item/create-item.component';
   declarations: [
     HomePageComponent,
     CreateInboundOrderComponent,
-    CreateItemComponent
+    CreateItemComponent,
+    WarehouseBasicLayoutComponent,
+    WarehouseHeaderComponent
   ],
   imports: [
     CommonModule,
@@ -33,7 +38,8 @@ import { CreateItemComponent } from './create-item/create-item.component';
     MatButtonModule,
     MatDatepickerModule,
     FlexModule,
-    MatNativeDateModule
+    MatNativeDateModule,
+    MatToolbarModule
   ],
   providers: [{ provide: MAT_DATE_LOCALE, useValue: 'es-Es' }]
 })
