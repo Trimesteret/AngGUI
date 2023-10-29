@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
-import { AuthenticationService } from '../../authentication/services/authentication.service';
+import { AuthenticationService } from '../../services/authentication/authentication.service';
 
 @Component({
   selector: 'app-front-page',
@@ -12,11 +12,15 @@ export class FrontPageComponent {
   public loading = false;
 
   constructor(public router: Router, private authenticationService: AuthenticationService) {
-    this.loggedIn = this.authenticationService.isLoggedIn();
+    this.loggedIn = this.authenticationService.checkIsLoggedIn();
   }
 
   public logout(): void{
     this.loading = true;
-    this.authenticationService.logOut();
+    this.authenticationService.logOut().subscribe(res => {
+      console.log(res);
+    },error=>{
+      console.log(error);
+    });
   }
 }
