@@ -1,5 +1,4 @@
-import { Component } from '@angular/core';
-import { Router } from '@angular/router';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
 
 @Component({
   selector: 'app-front-header',
@@ -7,7 +6,11 @@ import { Router } from '@angular/router';
   styleUrls: ['./front-header.component.scss']
 })
 export class FrontHeaderComponent {
+  @Input() loggedIn = false;
 
-  constructor(public router: Router) {
+  @Output() logOutEvent = new EventEmitter();
+
+  public logout(): void{
+    this.logOutEvent.emit();
   }
 }

@@ -1,7 +1,8 @@
 <app-login-basic-layout>
   <div fxFlex fxLayoutAlign="center center">
-    <div fxFlex fxLayout="column" fxLayoutGap="8" class="login-form">
-      <form fxFlex fxLayout="column"  [formGroup]="loginForm">
+    <div fxFlex fxLayout="column" fxLayoutGap="12" class="login-form">
+      <img class="logo-image" ngSrc="assets/Budolfivin.jpeg" alt="budolfi vin" height="406" width="716">
+      <form fxFlex fxLayout="column" fxLayoutGap="5" [formGroup]="loginForm" (ngSubmit)="login()">
         <mat-form-field>
           <mat-label>Enter your email</mat-label>
           <input matInput type="email" formControlName="email">
@@ -14,9 +15,14 @@
             <mat-icon>{{hide ? 'visibility_off' : 'visibility'}}</mat-icon>
           </button>
         </mat-form-field>
+        <button mat-raised-button color="primary" type="submit">Submit</button>
       </form>
-      <button mat-raised-button color="primary">Submit</button>
       <button mat-raised-button>Sign up</button>
+      <button mat-raised-button>Forgot password</button>
     </div>
   </div>
+  <div fxFlexFill *ngIf="loading" fxLayoutAlign="center center" class="spinner">
+    <mat-spinner></mat-spinner>
+  </div>
 </app-login-basic-layout>
+
