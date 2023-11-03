@@ -1,28 +1,17 @@
-<app-login-basic-layout>
-  <div fxFlex fxLayoutAlign="center center">
-    <div fxFlex fxLayout="column" fxLayoutGap="12" class="login-form">
-      <img class="logo-image" ngSrc="assets/Budolfivin.jpeg" alt="budolfi vin" height="406" width="716">
-      <form fxFlex fxLayout="column" fxLayoutGap="5" [formGroup]="loginForm" (ngSubmit)="login()">
-        <mat-form-field>
-          <mat-label>Enter your email</mat-label>
-          <input matInput type="email" formControlName="email">
-          <mat-icon matIconSuffix>mail</mat-icon>
-        </mat-form-field>
-        <mat-form-field>
-          <mat-label>Enter your password</mat-label>
-          <input matInput [type]="hide ? 'password' : 'text'" formControlName="password">
-          <button mat-icon-button matSuffix (click)="hide = !hide" [attr.aria-label]="'Hide password'" [attr.aria-pressed]="hide">
-            <mat-icon>{{hide ? 'visibility_off' : 'visibility'}}</mat-icon>
-          </button>
-        </mat-form-field>
-        <button mat-raised-button color="primary" type="submit">Submit</button>
-      </form>
-      <button mat-raised-button>Sign up</button>
-      <button mat-raised-button>Forgot password</button>
-    </div>
-  </div>
-  <div fxFlexFill *ngIf="loading" fxLayoutAlign="center center" class="spinner">
-    <mat-spinner></mat-spinner>
-  </div>
+<app-login-basic-layout title="Log In" [loading]="loading" page="login" (submitAuth)="login()">
+  <form fxFlex class="full-width" fxLayout="column" fxLayoutGap="9" [formGroup]="loginForm" (ngSubmit)="login()">
+    <mat-form-field>
+      <mat-label>Enter your email</mat-label>
+      <input matInput type="email" formControlName="email">
+      <mat-icon matIconSuffix>mail</mat-icon>
+    </mat-form-field>
+    <mat-form-field>
+      <mat-label>Enter your password</mat-label>
+      <input matInput [type]="hide ? 'password' : 'text'" formControlName="password">
+      <button mat-icon-button matSuffix (click)="hide = !hide" [attr.aria-label]="'Hide password'" [attr.aria-pressed]="hide">
+        <mat-icon>{{hide ? 'visibility_off' : 'visibility'}}</mat-icon>
+      </button>
+    </mat-form-field>
+  </form>
 </app-login-basic-layout>
 

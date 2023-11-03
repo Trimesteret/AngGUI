@@ -1,10 +1,10 @@
 export interface User {
-  id: number
-  firstName: string
-  lastName: string
+  id?: number
+  name: string
   email: string
   password: string
-  role: number
-  token: string
-  tokenExpiration: Date
+  phone: number
+  role?: number
+  token?: string
+  tokenExpiration?: Date
 }

@@ -15,20 +15,25 @@ export class HomePageComponent {
   public items: Item[] = [];
 
   constructor(public router: Router, private authenticationService: AuthenticationService, private itemService: ItemsService) {
-    this.loggedIn = this.authenticationService.checkIsLoggedIn();
+    this.loggedIn = this.authenticationService.isLoggedIn;
     this.getItems();
   }
 
   public getItems(): void {
+    this.loading = true;
     this.itemService.getAllItems().subscribe(items => {
       console.log(items);
+      this.loading = false;
     });
   }
 
   public logout(): void {
+    this.loading = true;
     this.authenticationService.logOut().subscribe(res => {
-      console.log(res);
+      this.loading = false;
+      window.location.reload();
     },error=>{
+      this.loading = false;
       console.log(error);
     });
   }

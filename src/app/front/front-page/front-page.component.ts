@@ -12,15 +12,13 @@ export class FrontPageComponent {
   public loading = false;
 
   constructor(public router: Router, private authenticationService: AuthenticationService) {
-    this.loggedIn = this.authenticationService.checkIsLoggedIn();
+    this.loggedIn = this.authenticationService.isLoggedIn;
   }
 
   public logout(): void{
     this.loading = true;
-    this.authenticationService.logOut().subscribe(res => {
-      console.log(res);
-    },error=>{
-      console.log(error);
+    this.authenticationService.logOut().subscribe(() => {
+      window.location.reload();
     });
   }
 }

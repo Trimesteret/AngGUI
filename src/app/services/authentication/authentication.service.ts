@@ -1,10 +1,11 @@
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpParams } from '@angular/common/http';
+import { HttpClient } from '@angular/common/http';
 import { Observable, tap } from 'rxjs';
 import { CookieService } from 'ngx-cookie-service';
 import { environment } from '../../../environments/environment';
 import { AuthenticationPass } from '../../authentication/models/authentication-pass';
-import { AuthenticationResult } from '../../authentication/models/authentication-result';
+import { AuthModel } from '../../authentication/models/authModel';
+import { User } from '../../authentication/models/user';
 
 @Injectable({
   providedIn: 'root'
@@ -20,25 +21,42 @@ export class AuthenticationService {
    * @param authPass
    * https://angular.io/guide/router-tutorial-toh#milestone-5-route-guards
    */
-  public login(authPass: AuthenticationPass): Observable<AuthenticationResult>{
-    return this.http.post<AuthenticationResult>(this.url, authPass).pipe(
+  public login(authPass: AuthenticationPass): Observable<AuthModel>{
+    return this.http.post<AuthModel>(this.url, authPass).pipe(
       tap(() => this.isLoggedIn = true)
     );
   }
 
   /**
-   * Checks if the user is logged in and returns true or false OBS: Should be improved later
+   * The signup function
+   * @param user
    */
-  public checkIsLoggedIn(): boolean{
-    return !!this.cookieService.get('jwtToken');
+  public signup(user: User): Observable<boolean>{
+    return this.http.post<boolean>(this.url, user);
+  }
+
+  /**
+   * Gets the token
+   */
+  public getToken(): string{
+    return this.cookieService.get('jwtToken');
+  }
+
+  /**
+   * Verify token
+   */
+  public verifyToken(token: string):Observable<boolean>{
+    return this.http.post<boolean>(this.url + '/verify', { token: token } as AuthModel).pipe(
+      tap(() => this.isLoggedIn = true)
+    );
   }
 
   /**
    * Logs out the user with a token
    */
   public logOut(): Observable<boolean> {
-    const params = new HttpParams().set('token ', this.cookieService.get('jwtToken'));
-    return this.http.post<boolean>(this.url + '/LogOut',null, { params }).pipe(
+    const token = this.cookieService.get('jwtToken');
+    return this.http.post<boolean>(this.url + '/LogOut', { token: token } as AuthModel).pipe(
       tap(() => {
         this.isLoggedIn = false;
         this.cookieService.deleteAll();
