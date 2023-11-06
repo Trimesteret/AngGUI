@@ -3,9 +3,9 @@ import { HttpClient } from '@angular/common/http';
 import { Observable, tap } from 'rxjs';
 import { CookieService } from 'ngx-cookie-service';
 import { environment } from '../../../environments/environment';
-import { AuthenticationPass } from '../../authentication/models/authentication-pass';
-import { AuthModel } from '../../authentication/models/authModel';
 import { User } from '../../authentication/models/user';
+import { LoginDto } from '../../authentication/models/login-dto';
+import { AuthPas } from '../../authentication/models/authPas';
 
 @Injectable({
   providedIn: 'root'
@@ -18,11 +18,11 @@ export class AuthenticationService {
 
   /**
    * The login function
-   * @param authPass
+   * @param loginDto
    * https://angular.io/guide/router-tutorial-toh#milestone-5-route-guards
    */
-  public login(authPass: AuthenticationPass): Observable<AuthModel>{
-    return this.http.post<AuthModel>(this.url, authPass).pipe(
+  public login(loginDto: LoginDto): Observable<AuthPas>{
+    return this.http.post<AuthPas>(this.url + '/Login', loginDto).pipe(
       tap(() => this.isLoggedIn = true)
     );
   }
@@ -46,7 +46,7 @@ export class AuthenticationService {
    * Verify token
    */
   public verifyToken(token: string):Observable<boolean>{
-    return this.http.post<boolean>(this.url + '/verify', { token: token } as AuthModel).pipe(
+    return this.http.post<boolean>(this.url + '/verify', { token: token } as AuthPas).pipe(
       tap(() => this.isLoggedIn = true)
     );
   }
@@ -56,7 +56,7 @@ export class AuthenticationService {
    */
   public logOut(): Observable<boolean> {
     const token = this.cookieService.get('jwtToken');
-    return this.http.post<boolean>(this.url + '/LogOut', { token: token } as AuthModel).pipe(
+    return this.http.post<boolean>(this.url + '/LogOut', { token: token } as AuthPas).pipe(
       tap(() => {
         this.isLoggedIn = false;
         this.cookieService.deleteAll();

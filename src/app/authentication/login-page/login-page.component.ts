@@ -1,9 +1,9 @@
 import { Component } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
-import { AuthenticationPass } from '../models/authentication-pass';
 import { CookieService } from 'ngx-cookie-service';
 import { Router } from '@angular/router';
 import { AuthenticationService } from '../../services/authentication/authentication.service';
+import { LoginDto } from '../models/login-dto';
 
 @Component({
   selector: 'app-login-page',
@@ -32,7 +32,7 @@ export class LoginPageComponent {
 
   public login(): void{
     this.loading = true;
-    this.authService.login(this.loginForm.value as AuthenticationPass).subscribe(authRes =>{
+    this.authService.login(this.loginForm.value as LoginDto).subscribe(authRes =>{
       this.cookieService.set('jwtToken', authRes.token );
       this.loading = false;
       this.router.navigate(['/warehouse']);
