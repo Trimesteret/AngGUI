@@ -1,5 +1,5 @@
 <div fxFlex fxLayout="column">
-  <app-front-header></app-front-header>
+  <app-front-header [loggedIn]="loggedIn" (logOutEvent)="logout()"></app-front-header>
   <ng-content>
   </ng-content>
 </div>

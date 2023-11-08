@@ -5,15 +5,17 @@
   <div fxFlex="60" fxLayoutAlign="center center" fxLayoutGap="20px">
     <button mat-button routerLink="">Forside</button>
     <button mat-button routerLink="/webshop">Webshop</button>
-    <button mat-button routerLink="">Kontakt Os</button>
-    <button mat-button routerLink="/login">Login</button>
+    <button *ngIf="!loggedIn" mat-button routerLink="">Kontakt Os</button>
+    <button *ngIf="loggedIn" mat-button routerLink="/warehouse">Warehouse</button>
   </div>
-  <a fxFlex="20" href="https://maps.app.goo.gl/ocNzjtvXR2i2vxg79" target="_blank" fxLayoutAlign="center center">
-    <button mat-button>
-      <mat-icon matIconPrefix>
-      location_on
-      </mat-icon>
-      Budolfi Pl. 5, Aalborg
+  <div fxFlex="20" fxLayoutAlign="end center">
+    <button *ngIf="!loggedIn" mat-raised-button color="primary" routerLink="/login">
+      login
+      <mat-icon>login</mat-icon>
     </button>
-  </a>
+    <button *ngIf="loggedIn" (click)="logout()" mat-raised-button color="primary">
+      logout
+      <mat-icon>logout</mat-icon>
+    </button>
+  </div>
 </mat-toolbar>
