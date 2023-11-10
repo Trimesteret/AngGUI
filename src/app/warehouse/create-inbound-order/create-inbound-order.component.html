@@ -1,0 +1,17 @@
+<app-warehouse-basic-layout>
+  <form [formGroup]="inboundOrderForm">
+    <mat-form-field appearance="fill">
+      <mat-label for="supplier">Supplier: </mat-label>
+      <input matInput id="supplier" type="text" formControlName="supplier">
+    </mat-form-field>
+
+    <mat-form-field appearance="fill">
+      <mat-label for="expected-delivery-date">Expected delivery: </mat-label>
+      <input matInput id="expected-delivery-date" [matDatepicker]="picker" formControlName="expectedDeliveryDate">
+      <mat-hint>DD/MM/YYYY</mat-hint>
+      <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
+      <mat-datepicker #picker></mat-datepicker>
+    </mat-form-field>
+    <button (click)="createInboundOrder()" mat-raised-button color="primary">Submit</button>
+  </form>
+</app-warehouse-basic-layout>

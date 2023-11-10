@@ -1,5 +1,7 @@
-<app-front-basic-layout>
-  <div fxFlex class="image-card" style="background-image: url('assets/Budolfi vin.png');">
-    <div class="gradient"></div>
+<app-front-basic-layout [loggedIn]="loggedIn" (logOutEvent)="logout()">
+  <div fxFlex>
+    <div fxFlex class="wine-image-container" fxLayoutAlign="center center">
+      <img fxFlex class="wine-image" style="height: 100%" src="assets/Budolfi vin.png" alt="Wine image" height="1423" width="2134"/>
+    </div>
   </div>
 </app-front-basic-layout>

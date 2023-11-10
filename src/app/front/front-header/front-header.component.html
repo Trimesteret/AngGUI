@@ -1,20 +1,21 @@
-<mat-toolbar class="home-header">
-  <div fxFlex fxFlexAlign="start center">
-    <img style="display: flex" height="35px" alt="Budolfi Vin logo" src="assets/budolfilogo.svg">
+<mat-toolbar fxFlex fxLayoutAlign="space-between center" class="background-color-white">
+  <a fxFlex="20" routerLink="">
+    <img style="display: flex" height="30px" alt="Budolfi Vin logo" src="assets/budolfilogo.svg">
+  </a>
+  <div fxFlex="60" fxLayoutAlign="center center" fxLayoutGap="20px">
+    <button mat-button routerLink="">Forside</button>
+    <button mat-button routerLink="/webshop">Webshop</button>
+    <button *ngIf="!loggedIn" mat-button routerLink="">Kontakt Os</button>
+    <button *ngIf="loggedIn" mat-button routerLink="/warehouse">Warehouse</button>
   </div>
-  <div fxFlex="40" fxLayoutAlign="center center" fxLayoutGap="20px">
-    <a routerLink="">Forside</a>
-    <a>Om Budolfi Vin</a>
-    <a>Kontakt Os</a>
-  </div>
-  <span class="example-spacer"></span>
-  <div fxFlex fxLayoutAlign="end center" fxLayoutGap="20px">
-    <a fxFlex href="https://maps.app.goo.gl/ocNzjtvXR2i2vxg79" target="_blank" fxLayoutAlign="center center">
-      <mat-icon>
-      location_on
-      </mat-icon>
-      Budolfi Pl. 5, 9000 Aalborg
-    </a>
-    <button mat-raised-button (click)="router.navigate(['/webshop'])">Webshop</button>
+  <div fxFlex="20" fxLayoutAlign="end center">
+    <button *ngIf="!loggedIn" mat-raised-button color="primary" routerLink="/login">
+      login
+      <mat-icon>login</mat-icon>
+    </button>
+    <button *ngIf="loggedIn" (click)="logout()" mat-raised-button color="primary">
+      logout
+      <mat-icon>logout</mat-icon>
+    </button>
   </div>
 </mat-toolbar>

@@ -1,8 +1,5 @@
-<div fxFlexFill fxLayout="column" style="padding-inline: 30px">
-  <app-front-header></app-front-header>
-  <div class="basic-container" fxFlex>
-    <ng-content>
-
-    </ng-content>
-  </div>
+<div fxFlex fxLayout="column">
+  <app-front-header [loggedIn]="loggedIn" (logOutEvent)="logout()"></app-front-header>
+  <ng-content>
+  </ng-content>
 </div>
