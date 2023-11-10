@@ -15,7 +15,7 @@ export class HomePageComponent {
   public items: Item[] = [];
 
   constructor(public router: Router, private authenticationService: AuthenticationService, private itemService: ItemsService) {
-    this.loggedIn = this.authenticationService.isLoggedIn;
+    this.loggedIn = this.authenticationService.getLoggedIn();
     this.getItems();
   }
 

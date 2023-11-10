@@ -12,7 +12,7 @@ export class FrontPageComponent {
   public loading = false;
 
   constructor(public router: Router, private authenticationService: AuthenticationService) {
-    this.loggedIn = this.authenticationService.isLoggedIn;
+    this.loggedIn = this.authenticationService.getLoggedIn();
   }
 
   public logout(): void{

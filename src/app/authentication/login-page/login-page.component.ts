@@ -33,7 +33,6 @@ export class LoginPageComponent {
   public login(): void{
     this.loading = true;
     this.authService.login(this.loginForm.value as LoginDto).subscribe(authRes =>{
-      this.cookieService.set('jwtToken', authRes.token );
       this.loading = false;
       this.router.navigate(['/warehouse']);
     },
