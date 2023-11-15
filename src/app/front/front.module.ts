@@ -8,8 +8,9 @@ import { MatInputModule } from '@angular/material/input';
 import { MatButtonModule } from '@angular/material/button';
 import { RouterLink } from '@angular/router';
 import { MatToolbarModule } from '@angular/material/toolbar';
-import { FlexModule } from '@angular/flex-layout';
+import { ExtendedModule, FlexModule } from '@angular/flex-layout';
 import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatMenuModule } from '@angular/material/menu';
 
 @NgModule({
   declarations: [
@@ -29,7 +30,9 @@ import { MatFormFieldModule } from '@angular/material/form-field';
     RouterLink,
     MatToolbarModule,
     FlexModule,
-    MatFormFieldModule
+    MatFormFieldModule,
+    MatMenuModule,
+    ExtendedModule
   ]
 })
 export class FrontModuleModule { }

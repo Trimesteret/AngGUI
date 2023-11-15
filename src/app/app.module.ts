@@ -16,6 +16,9 @@ import { NgOptimizedImage } from '@angular/common';
 import { FrontModuleModule } from './front/front.module';
 import { AuthenticationModule } from './authentication/authentication.module';
 import { AuthenticationInterceptor } from './services/authentication/authentication.interceptor';
+import { SharedModule } from './shared/shared.module';
+import { MatDialogModule } from '@angular/material/dialog';
+import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
 
 @NgModule({
   declarations: [
@@ -36,7 +39,10 @@ import { AuthenticationInterceptor } from './services/authentication/authenticat
     MatToolbarModule,
     NgOptimizedImage,
     FrontModuleModule,
-    AuthenticationModule
+    AuthenticationModule,
+    SharedModule,
+    MatDialogModule,
+    MatSnackBarModule
   ],
   providers: [{
     provide: HTTP_INTERCEPTORS,

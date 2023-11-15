@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { AuthenticationService } from '../../services/authentication/authentication.service';
 import { User } from '../models/user';
+import { MessageService } from '../../shared/services/message.service';
 
 @Component({
   selector: 'app-signup-page',
@@ -29,24 +30,27 @@ export class SignupPageComponent {
     ]),
   });
 
-  constructor(private authenticationService: AuthenticationService) {
+  constructor(private authenticationService: AuthenticationService, private messageService: MessageService) {
   }
 
   public signup(): void{
     if(!this.signupForm.valid){
-      console.log('Sign up form invalid');
+      this.messageService.show('Sign up form invalid');
       return;
     }
 
     const signUpUser = this.mapFormToUser();
     if(!signUpUser){
-      console.log('Sign up form invalid');
+      this.messageService.show('Sign up form invalid');
       return;
     }
+
+    this.loading = true;
     this.authenticationService.signup(signUpUser).subscribe(authRes => {
       console.log(authRes);
     }, error => {
-      console.error(error);
+      this.loading = false;
+      this.messageService.showError(error);
     });
   }
 
@@ -65,7 +69,7 @@ export class SignupPageComponent {
         user = null;
       }
     }catch (e){
-      console.log(e);
+      this.messageService.show(e as string);
     }
     return user;
   }

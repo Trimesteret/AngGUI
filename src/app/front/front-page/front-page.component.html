@@ -1,7 +1,16 @@
 <app-front-basic-layout [loggedIn]="loggedIn" (logOutEvent)="logout()">
   <div fxFlex>
     <div fxFlex class="wine-image-container" fxLayoutAlign="center center">
-      <img fxFlex class="wine-image" style="height: 100%" src="assets/Budolfi vin.png" alt="Wine image" height="1423" width="2134"/>
+      <div class="wine-image" [ngStyle.gt-sm]="{ 'aspect-ratio': '3 / 2', 'background-image': 'url(assets/Budolfi%20vin.png)'  }" [ngStyle.lt-md]="{'background-image': 'url(assets/Budolfi%20vin.png)' }" >
+        <div fxFlexFill fxLayoutAlign="center end" class="wine-image-text">
+          <div class="wine-image-text-box"  [ngStyle.lt-md]="{'padding-inline': '15px'}" [ngStyle.gt-sm]="{'padding-inline': '40px'}">
+            <h1 style="font-size:  3.3rem; line-height: 55px">
+              Velkommen til Budolfi Vin!
+            </h1>
+            <h2 style="font-size: 1.5rem">‘Holte Vinlager Aalborg’ har skiftet navn til Budolfi vin. Vi befinder os i de samme hyggelige lokaler med samme flinke personale.</h2>
+          </div>
+        </div>
+      </div>
     </div>
   </div>
 </app-front-basic-layout>

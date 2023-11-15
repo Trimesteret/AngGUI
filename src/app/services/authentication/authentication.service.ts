@@ -11,7 +11,6 @@ import { AuthPas } from '../../authentication/models/authPas';
   providedIn: 'root'
 })
 export class AuthenticationService {
-  isLoggedIn = false;
   url = environment.apiUrl + '/Authentication';
 
   constructor(private http: HttpClient, private cookieService: CookieService) { }
@@ -23,7 +22,7 @@ export class AuthenticationService {
    */
   public login(loginDto: LoginDto): Observable<AuthPas>{
     return this.http.post<AuthPas>(this.url + '/Login', loginDto).pipe(
-      tap(() => this.isLoggedIn = true)
+      tap(authRes => this.cookieService.set('jwtToken', authRes.token ))
     );
   }
 
@@ -43,12 +42,17 @@ export class AuthenticationService {
   }
 
   /**
+   * Gets the logged in status
+   */
+  public getLoggedIn(): boolean {
+    return this.cookieService.check('jwtToken');
+  }
+
+  /**
    * Verify token
    */
   public verifyToken(token: string):Observable<boolean>{
-    return this.http.post<boolean>(this.url + '/verify', { token: token } as AuthPas).pipe(
-      tap(() => this.isLoggedIn = true)
-    );
+    return this.http.post<boolean>(this.url + '/verify', { token: token } as AuthPas);
   }
 
   /**
@@ -58,7 +62,6 @@ export class AuthenticationService {
     const token = this.cookieService.get('jwtToken');
     return this.http.post<boolean>(this.url + '/LogOut', { token: token } as AuthPas).pipe(
       tap(() => {
-        this.isLoggedIn = false;
         this.cookieService.deleteAll();
       })
     );
