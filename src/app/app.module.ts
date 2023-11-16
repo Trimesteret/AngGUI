@@ -19,6 +19,9 @@ import { AuthenticationInterceptor } from './services/authentication/authenticat
 import { SharedModule } from './shared/shared.module';
 import { MatDialogModule } from '@angular/material/dialog';
 import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
+import { MatGridList, MatGridListModule, MatGridTile } from '@angular/material/grid-list';
+import { MatSelectModule } from '@angular/material/select';
+import { MatCardModule } from '@angular/material/card';
 
 @NgModule({
   declarations: [
@@ -42,7 +45,10 @@ import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
     AuthenticationModule,
     SharedModule,
     MatDialogModule,
-    MatSnackBarModule
+    MatSnackBarModule,
+    MatGridListModule,
+    MatSelectModule,
+    MatCardModule
   ],
   providers: [{
     provide: HTTP_INTERCEPTORS,

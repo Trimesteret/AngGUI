@@ -10,12 +10,19 @@ import { MatToolbarModule } from '@angular/material/toolbar';
 import { FrontModuleModule } from '../front/front.module';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { FlexLayoutModule } from '@angular/flex-layout';
+import { CatalogueComponent } from './catalogue/catalogue.component';
+import { MatButtonModule } from '@angular/material/button';
+import { MatGridListModule } from '@angular/material/grid-list';
+import { MatAutocompleteModule } from '@angular/material/autocomplete';
+import { MatSelectModule } from '@angular/material/select';
+import { MatCardModule } from '@angular/material/card';
 
 
 @NgModule({
   declarations: [
     HomePageComponent,
-    CheckoutComponent
+    CheckoutComponent,
+    CatalogueComponent
   ],
   imports: [
     CommonModule,
@@ -27,7 +34,11 @@ import { FlexLayoutModule } from '@angular/flex-layout';
     MatToolbarModule,
     FrontModuleModule,
     MatProgressSpinnerModule,
-    FlexLayoutModule
+    FlexLayoutModule,
+    MatButtonModule,
+    MatGridListModule,
+    MatSelectModule,
+    MatCardModule
   ]
 })
 export class WebshopModule { }
