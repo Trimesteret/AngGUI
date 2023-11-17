@@ -1,0 +1,21 @@
+<div fxFlex [fxLayout.lt-md]="'column'" fxLayoutAlign="center center" fxLayoutGap="10" class="padding-inline-10">
+  <mat-form-field fxFlex="40" >
+    <mat-label>Søg</mat-label>
+    <input matInput>
+  </mat-form-field>
+
+  <mat-form-field fxFlex="30">
+    <mat-label>Filtrer efter vin type</mat-label>
+    <mat-select>
+      <mat-option *ngFor="let wine of wineType" [value]="wine.type">{{wine.viewType}}</mat-option>
+    </mat-select>
+  </mat-form-field>
+
+  <mat-form-field fxFlex="30">
+    <mat-label> Sortér efter pris </mat-label>
+    <mat-select>
+      <mat-option > Lav til høj </mat-option>
+      <mat-option > Høj til lav </mat-option>
+    </mat-select>
+  </mat-form-field>
+</div>

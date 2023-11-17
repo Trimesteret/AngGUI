@@ -16,13 +16,15 @@ import { MatGridListModule } from '@angular/material/grid-list';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { MatSelectModule } from '@angular/material/select';
 import { MatCardModule } from '@angular/material/card';
+import { SearchComponent } from './search/search.component';
 
 
 @NgModule({
   declarations: [
     HomePageComponent,
     CheckoutComponent,
-    CatalogueComponent
+    CatalogueComponent,
+    SearchComponent
   ],
   imports: [
     CommonModule,

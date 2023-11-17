@@ -1,48 +1,15 @@
 <app-front-basic-layout>
-  <ng-container>
-    <p>catalogue works!</p>
-    <mat-grid-list cols="2" rowHeight="2:1">
-      <mat-grid-tile>
-        <mat-card>
-          <mat-card-content>
-            <mat-form-field>
-              <mat-label>Søg</mat-label>
-              <input matInput>
-            </mat-form-field>
-          </mat-card-content>
-        </mat-card>
-      </mat-grid-tile>
-
-      <mat-grid-tile>
-        <mat-card>
-          <mat-card-content>
-            <p>Filtrer:</p>
-              <mat-form-field>
-                <mat-label>Vin type</mat-label>
-                <mat-select>
-                <mat-option *ngFor="let wine of wineType" [value]="wine.type">{{wine.viewType}}</mat-option>
-              </mat-select>
-            </mat-form-field>
-          </mat-card-content>
-        </mat-card>
-      </mat-grid-tile>
-    </mat-grid-list>
-
-    <mat-grid-list cols="5" rowHeight="1:2">
+  <app-search></app-search>
+  <div fxFlexFill>
+    <mat-grid-list fxFlex="100%" gutterSize="10" [cols]="columnAmount">
       <mat-grid-tile *ngFor="let wine of wines">
-        <mat-card>
-
-
-              <mat-card-content>
-<!--                route link to id instead of webshop: {{wine.id}}-->
-                <div routerLink="/webshop" style="cursor:pointer" >
-                  <img src="{{wine.image}}" alt="Billede af smuk vin!" style="width: 100%; height: 100%">
-                  <p> {{wine.name}} {{wine.price}},- DKK </p>
-                </div>
-              </mat-card-content>
-
+        <mat-card routerLink="/webshop" style="cursor:pointer" fxFlex fxLayoutAlign="center center">
+          <mat-card-content >
+            <img src="{{wine.image}}" alt="Billede af smuk vin!" style="width: 60%">
+            <p> {{wine.name}} {{wine.price}},- DKK </p>
+          </mat-card-content>
         </mat-card>
       </mat-grid-tile>
     </mat-grid-list>
-  </ng-container>
+  </div>
 </app-front-basic-layout>
