@@ -7,15 +7,15 @@ import { MatInputModule } from '@angular/material/input';
 import { ReactiveFormsModule } from '@angular/forms';
 import { MatIconModule } from '@angular/material/icon';
 import { MatToolbarModule } from '@angular/material/toolbar';
-import { FrontModuleModule } from '../front/front.module';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { FlexLayoutModule } from '@angular/flex-layout';
+import { FrontModule } from './front-pages/front.module';
 
 
 @NgModule({
   declarations: [
     HomePageComponent,
-    CheckoutComponent
+    CheckoutComponent,
   ],
   imports: [
     CommonModule,
@@ -25,7 +25,7 @@ import { FlexLayoutModule } from '@angular/flex-layout';
     MatIconModule,
     MatToolbarModule,
     MatToolbarModule,
-    FrontModuleModule,
+    FrontModule,
     MatProgressSpinnerModule,
     FlexLayoutModule
   ]

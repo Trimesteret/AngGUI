@@ -3,9 +3,9 @@ import { HttpClient } from '@angular/common/http';
 import { Observable, tap } from 'rxjs';
 import { CookieService } from 'ngx-cookie-service';
 import { environment } from '../../../environments/environment';
-import { User } from '../../authentication/models/user';
-import { LoginDto } from '../../authentication/models/login-dto';
-import { AuthPas } from '../../authentication/models/authPas';
+import { LoginDto } from '../../shared/authentication/models/login-dto';
+import { AuthPas } from '../../shared/authentication/models/authPas';
+import { User } from '../../shared/authentication/models/user';
 
 @Injectable({
   providedIn: 'root'

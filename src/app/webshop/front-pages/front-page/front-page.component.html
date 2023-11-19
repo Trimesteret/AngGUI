@@ -1,0 +1,39 @@
+<app-front-basic-layout [loggedIn]="loggedIn" (logOutEvent)="logout()">
+  <div fxFlex fxLayout="column" fxLayoutGap="50">
+    <div fxFlex fxLayout.gt-md="row" fxLayout.lt-md="column" fxLayoutGap="30" style="padding-inline: 30px">
+      <div *ngFor="let card of cards" fxFlex>
+        <div fxFlex fxLayout="column" fxLayoutAlign="end center" class="front-card-image" [ngStyle]="{'background-image': 'url(' + card.image + ')'}">
+          <div fxFlex="30" fxLayout="column" fxLayoutAlign="end start" class="front-card-image-text">
+            <h1>{{card.title}}</h1>
+            <p>
+              {{card.text}}
+            </p>
+          </div>
+          <div fxFlex="15" fxLayoutAlign="start center" style="width: 100%; padding-inline: 20px;">
+            <button style="height: 50%" [routerLink]="card.link" mat-raised-button>
+              {{card.buttonText}}
+              <mat-icon *ngIf="card.buttonIcon">
+                {{ card.buttonIcon }}
+              </mat-icon>
+              <mat-icon *ngIf="!card.buttonIcon">
+                <img height="100%" alt="Budolfi Vin logo" src="assets/budolfiGrapes.svg">
+              </mat-icon>
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div fxFlex class="wine-image-container" fxLayoutAlign="center center">
+      <div class="wine-image" [ngStyle.gt-sm]="{ 'aspect-ratio': '3 / 2', 'background-image': 'url(assets/Budolfi%20vin.png)'  }" [ngStyle.lt-md]="{'background-image': 'url(assets/Budolfi%20vin.png)' }" >
+        <div fxFlexFill fxLayoutAlign="center end" class="wine-image-text">
+          <div class="wine-image-text-box"  [ngStyle.lt-md]="{'padding-inline': '15px'}" [ngStyle.gt-sm]="{'padding-inline': '40px'}">
+            <h1 style="font-size:  3.3rem; line-height: 55px">
+              Velkommen til Budolfi Vin!
+            </h1>
+            <h2 style="font-size: 1.5rem">‘Holte Vinlager Aalborg’ har skiftet navn til Budolfi vin. Vi befinder os i de samme hyggelige lokaler med samme flinke personale.</h2>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</app-front-basic-layout>

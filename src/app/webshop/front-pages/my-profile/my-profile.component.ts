@@ -1,14 +1,15 @@
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
-import { AuthenticationService } from '../../services/authentication/authentication.service';
-import { MessageService } from '../../shared/services/message.service';
+import { AuthenticationService } from '../../../services/authentication/authentication.service';
+import { MessageService } from '../../../shared/services/message.service';
 
 @Component({
-  selector: 'app-front-page',
-  templateUrl: './front-page.component.html',
-  styleUrls: ['./front-page.component.scss']
+  selector: 'app-my-profile',
+  templateUrl: './my-profile.component.html',
+  styleUrls: ['./my-profile.component.scss']
 })
-export class FrontPageComponent {
+export class MyProfileComponent {
+
   public loggedIn = false;
   public loading = false;
 

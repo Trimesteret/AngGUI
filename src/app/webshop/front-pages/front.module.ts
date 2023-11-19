@@ -11,12 +11,15 @@ import { MatToolbarModule } from '@angular/material/toolbar';
 import { ExtendedModule, FlexModule } from '@angular/flex-layout';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatMenuModule } from '@angular/material/menu';
+import { MatCardModule } from '@angular/material/card';
+import { MyProfileComponent } from './my-profile/my-profile.component';
 
 @NgModule({
   declarations: [
     FrontPageComponent,
     FrontBasicLayoutComponent,
     FrontHeaderComponent,
+    MyProfileComponent
   ],
   exports: [
     FrontBasicLayoutComponent,
@@ -32,7 +35,8 @@ import { MatMenuModule } from '@angular/material/menu';
     FlexModule,
     MatFormFieldModule,
     MatMenuModule,
-    ExtendedModule
+    ExtendedModule,
+    MatCardModule,
   ]
 })
-export class FrontModuleModule { }
+export class FrontModule { }
