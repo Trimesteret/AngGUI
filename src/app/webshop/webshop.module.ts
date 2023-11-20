@@ -4,7 +4,7 @@ import { HomePageComponent } from './home-page/home-page.component';
 import { WebshopRoutingModule } from './webshop-routing.module';
 import { CheckoutComponent } from './checkout/checkout.component';
 import { MatInputModule } from '@angular/material/input';
-import { ReactiveFormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatIconModule } from '@angular/material/icon';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { FrontModuleModule } from '../front/front.module';
@@ -40,7 +40,8 @@ import { SearchComponent } from './search/search.component';
     MatButtonModule,
     MatGridListModule,
     MatSelectModule,
-    MatCardModule
+    MatCardModule,
+    FormsModule
   ]
 })
 export class WebshopModule { }

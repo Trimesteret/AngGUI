@@ -17,6 +17,8 @@ interface Wine {
 
 export class CatalogueComponent {
 
+  public search = '';
+
   columnAmount = 5;
 
   wines: Wine[] = [
@@ -28,11 +30,21 @@ export class CatalogueComponent {
     { name: 'Peanut Noar', price: 23, image: 'assets/PeanutNoar.jfif', id:5 }
   ];
 
+  displayWines: Wine[] = [];
+
   constructor(private breakpointObserver: BreakpointObserver) {
     this.columnAmount = this.breakpointObserver.isMatched(Breakpoints.Handset) ? 1 : 5;
 
     this.breakpointObserver.observe(Breakpoints.Handset).subscribe(result => {
       this.columnAmount = result.matches ? 1 : 5;
     });
+
+    this.displayWines = this.wines;
+  }
+
+  public searchChange(val: string): void{
+    this.search = val;
+    console.log(this.search);
+    this.displayWines = this.wines.filter(wine => wine.name.includes(this.search) || wine.price == Number(this.search));
   }
 }

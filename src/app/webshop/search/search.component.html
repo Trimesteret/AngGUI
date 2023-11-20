@@ -1,7 +1,7 @@
 <div fxFlex [fxLayout.lt-md]="'column'" fxLayoutAlign="center center" fxLayoutGap="10" class="padding-inline-10">
   <mat-form-field fxFlex="40" >
     <mat-label>Søg</mat-label>
-    <input matInput>
+    <input matInput (ngModelChange)="searchChange()" [(ngModel)]="search">
   </mat-form-field>
 
   <mat-form-field fxFlex="30">
