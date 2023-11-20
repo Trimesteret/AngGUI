@@ -19,6 +19,8 @@ import { MatDialogModule } from '@angular/material/dialog';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { AuthenticationModule } from './shared/authentication/authentication.module';
 import { FrontModule } from './webshop/front-pages/front.module';
+import { MatTableModule } from '@angular/material/table';
+import { MatSortModule } from '@angular/material/sort';
 
 @NgModule({
   declarations: [
@@ -43,6 +45,8 @@ import { FrontModule } from './webshop/front-pages/front.module';
     SharedModule,
     MatDialogModule,
     MatSnackBarModule,
+    MatTableModule,
+    MatSortModule,
   ],
   providers: [{
     provide: HTTP_INTERCEPTORS,

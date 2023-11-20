@@ -14,6 +14,8 @@ import { MatMenuModule } from '@angular/material/menu';
 import { MatCardModule } from '@angular/material/card';
 import { MyProfileComponent } from './my-profile/my-profile.component';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { MatTableModule } from '@angular/material/table';
+import { MatSortModule } from '@angular/material/sort';
 
 @NgModule({
   declarations: [
@@ -39,6 +41,8 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
     ExtendedModule,
     MatCardModule,
     MatProgressSpinnerModule,
+    MatTableModule,
+    MatSortModule,
   ]
 })
 export class FrontModule { }
