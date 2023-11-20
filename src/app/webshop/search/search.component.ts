@@ -1,4 +1,4 @@
-import {Component, EventEmitter, Output} from '@angular/core';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { WineType } from './WineType';
 
 @Component({
@@ -10,17 +10,25 @@ import { WineType } from './WineType';
 export class SearchComponent {
 
   public search = '';
+  public select = '';
+  public price = '';
+
 
   @Output() searchOutput = new EventEmitter<string>();
-  
-  wineType: WineType[] = [
-    { type: 'red-0', viewType: 'Red' },
-    { type: 'white-1', viewType: 'White' },
-    { type: 'rose-2', viewType: 'Rose' },
-  ];
+  @Output() selectOutput = new EventEmitter<string>();
+  @Output() priceFilterOutput = new EventEmitter<string>();
+  @Input() wineTypes : WineType[] = [];
 
-
-  public searchChange(): void{
+  public searchChange() : void {
     this.searchOutput.emit(this.search);
   }
+
+  public selectChange() : void {
+    this.selectOutput.emit(this.select);
+  }
+
+  public priceFilterChange() : void {
+    this.priceFilterOutput.emit(this.price);
+  }
+
 }

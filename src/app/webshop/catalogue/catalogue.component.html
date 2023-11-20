@@ -1,10 +1,13 @@
 <app-front-basic-layout>
-  <app-search (searchOutput)="searchChange($event)"></app-search>
+  <app-search (searchOutput)="searchChange($event)" 
+              [wineTypes]="uniqueWineTypes"
+              (selectOutput)="selectChange($event)"
+              (priceFilterOutput)="priceSorting($event)" ></app-search>
   <div fxFlexFill>
     <mat-grid-list fxFlex="100%" gutterSize="10" [cols]="columnAmount">
       <mat-grid-tile *ngFor="let wine of displayWines">
         <mat-card routerLink="/webshop" style="cursor:pointer" fxFlex fxLayoutAlign="center center">
-          <mat-card-content >
+          <mat-card-content style="text-align: center">
             <img src="{{wine.image}}" alt="Billede af smuk vin!" style="width: 60%">
             <p> {{wine.name}} {{wine.price}},- DKK </p>
           </mat-card-content>

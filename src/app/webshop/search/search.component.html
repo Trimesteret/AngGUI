@@ -6,16 +6,16 @@
 
   <mat-form-field fxFlex="30">
     <mat-label>Filtrer efter vin type</mat-label>
-    <mat-select>
-      <mat-option *ngFor="let wine of wineType" [value]="wine.type">{{wine.viewType}}</mat-option>
+    <mat-select (ngModelChange)="selectChange()" [(ngModel)]="select">
+      <mat-option *ngFor="let wine of wineTypes" [value]="wine.type">{{wine.viewType}}</mat-option>
     </mat-select>
   </mat-form-field>
 
   <mat-form-field fxFlex="30">
     <mat-label> Sortér efter pris </mat-label>
-    <mat-select>
-      <mat-option > Lav til høj </mat-option>
-      <mat-option > Høj til lav </mat-option>
+    <mat-select (ngModelChange)="priceFilterChange()" [(ngModel)]="price">
+      <mat-option value="low-to-high"> Lav til høj </mat-option>
+      <mat-option value="high-to-low"> Høj til lav </mat-option>
     </mat-select>
   </mat-form-field>
 </div>
