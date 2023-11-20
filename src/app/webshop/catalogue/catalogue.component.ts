@@ -1,14 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
+import {Wine} from "../search/Wine";
 
-
-
-interface Wine {
-  name: string;
-  price: number;
-  image: string;
-  id: number;
-}
 @Component({
   selector: 'app-catalogue',
   templateUrl: './catalogue.component.html',
@@ -42,9 +35,9 @@ export class CatalogueComponent {
     this.displayWines = this.wines;
   }
 
-  public searchChange(val: string): void{
+  public searchChange(val: string): void {
     this.search = val;
     console.log(this.search);
-    this.displayWines = this.wines.filter(wine => wine.name.includes(this.search) || wine.price == Number(this.search));
+    this.displayWines = this.wines.filter(wine => wine.name.toLowerCase().includes(this.search.toLowerCase()) || wine.price.toString().includes(this.search));
   }
 }
