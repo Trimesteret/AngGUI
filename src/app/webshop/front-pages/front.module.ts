@@ -13,6 +13,7 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatMenuModule } from '@angular/material/menu';
 import { MatCardModule } from '@angular/material/card';
 import { MyProfileComponent } from './my-profile/my-profile.component';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 
 @NgModule({
   declarations: [
@@ -37,6 +38,7 @@ import { MyProfileComponent } from './my-profile/my-profile.component';
     MatMenuModule,
     ExtendedModule,
     MatCardModule,
+    MatProgressSpinnerModule,
   ]
 })
 export class FrontModule { }
