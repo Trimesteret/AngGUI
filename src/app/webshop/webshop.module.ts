@@ -4,18 +4,23 @@ import { HomePageComponent } from './home-page/home-page.component';
 import { WebshopRoutingModule } from './webshop-routing.module';
 import { CheckoutComponent } from './checkout/checkout.component';
 import { MatInputModule } from '@angular/material/input';
-import { ReactiveFormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatIconModule } from '@angular/material/icon';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { FrontModuleModule } from '../front/front.module';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { FlexLayoutModule } from '@angular/flex-layout';
-
+import { CatalogueComponent } from './catalogue/catalogue.component';
+import { MatButtonModule } from '@angular/material/button';
+import { MatGridListModule } from '@angular/material/grid-list';
+import { MatSelectModule } from '@angular/material/select';
+import { MatCardModule } from '@angular/material/card';
 
 @NgModule({
   declarations: [
     HomePageComponent,
-    CheckoutComponent
+    CheckoutComponent,
+    CatalogueComponent
   ],
   imports: [
     CommonModule,
@@ -27,7 +32,12 @@ import { FlexLayoutModule } from '@angular/flex-layout';
     MatToolbarModule,
     FrontModuleModule,
     MatProgressSpinnerModule,
-    FlexLayoutModule
+    FlexLayoutModule,
+    MatButtonModule,
+    MatGridListModule,
+    MatSelectModule,
+    MatCardModule,
+    FormsModule
   ]
 })
 export class WebshopModule { }
