@@ -13,18 +13,14 @@ import { FlexLayoutModule } from '@angular/flex-layout';
 import { CatalogueComponent } from './catalogue/catalogue.component';
 import { MatButtonModule } from '@angular/material/button';
 import { MatGridListModule } from '@angular/material/grid-list';
-import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { MatSelectModule } from '@angular/material/select';
 import { MatCardModule } from '@angular/material/card';
-import { SearchComponent } from './search/search.component';
-
 
 @NgModule({
   declarations: [
     HomePageComponent,
     CheckoutComponent,
-    CatalogueComponent,
-    SearchComponent
+    CatalogueComponent
   ],
   imports: [
     CommonModule,

@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
-import { Wine } from '../search/Wine';
-import { WineType } from '../search/WineType';
-import { distinctUntilChanged, tap } from 'rxjs';
+import { distinctUntilChanged } from 'rxjs';
+import { ItemDto } from '../../shared/interfaces/item-dto';
+import { WineType } from '../../shared/enums/wine-type';
 
 @Component({
   selector: 'app-catalogue',
@@ -10,32 +10,135 @@ import { distinctUntilChanged, tap } from 'rxjs';
   styleUrls: ['./catalogue.component.scss']
 })
 
-export class CatalogueComponent implements OnInit{
+export class CatalogueComponent implements OnInit {
 
-  public search = '';
-  public select = '';
-  public price = '';
+  search  = '';
+  typeFilter = '';
+  priceSort = '';
 
   columnAmount = 5;
 
-  uniqueWineTypes : WineType[] = [
-    { type: 'red-0', viewType: 'Rød vin' },
-    { type: 'white-1', viewType: 'Hvid vin' },
-    { type: 'rose-2', viewType: 'Rosé vin' },
-    { type: 'all-3', viewType: 'Alle vin' } // Type only set here because I needed the ngFor to make the option. Suboptimal.
+  wines: ItemDto[] = [
+    {
+      id: 1,
+      type: WineType.RoseWine,
+      price: 200,
+      ean: '',
+      name: 'My-wine-1',
+      quantity: 100,
+      imageUrl: 'assets/PeanutNoar.jfif'
+    },
+    {
+      id: 2,
+      type: WineType.RedWine,
+      price: 300,
+      ean: '',
+      name: 'My-wine-2',
+      quantity: 100,
+      imageUrl: 'assets/PeanutNoar.jfif'
+    },
+    {
+      id: 3,
+      type: WineType.RedWine,
+      price: 300,
+      ean: '',
+      name: 'My-wine-3',
+      quantity: 100,
+      imageUrl: 'assets/PeanutNoar.jfif'
+    },
+    {
+      id: 4,
+      type: WineType.RoseWine,
+      price: 300,
+      ean: '',
+      name: 'My-wine-4',
+      quantity: 100,
+      imageUrl: 'assets/PeanutNoar.jfif'
+    },
+    {
+      id: 5,
+      type: WineType.RoseWine,
+      price: 350,
+      ean: '',
+      name: 'My-wine-5',
+      quantity: 100,
+      imageUrl: 'assets/PeanutNoar.jfif'
+    },
+    {
+      id: 6,
+      type: WineType.RoseWine,
+      price: 300,
+      ean: '',
+      name: 'My-wine-6',
+      quantity: 100,
+      imageUrl: 'assets/PeanutNoar.jfif'
+    },
+    {
+      id: 7,
+      type: WineType.WhiteWine,
+      price: 100,
+      ean: '',
+      name: 'My-wine-7',
+      quantity: 100,
+      imageUrl: 'assets/PeanutNoar.jfif'
+    },
+    {
+      id: 8,
+      type: WineType.WhiteWine,
+      price: 300,
+      ean: '',
+      name: 'My-wine-8',
+      quantity: 100,
+      imageUrl: 'assets/PeanutNoar.jfif'
+    },
+    {
+      id: 9,
+      type: WineType.WhiteWine,
+      price: 300,
+      ean: '',
+      name: 'My-wine-9',
+      quantity: 100,
+      imageUrl: 'assets/PeanutNoar.jfif'
+    },
+    {
+      id: 10,
+      type: WineType.RedWine,
+      price: 300,
+      ean: '',
+      name: 'My-wine',
+      quantity: 100,
+      imageUrl: 'assets/PeanutNoar.jfif'
+    },
+    {
+      id: 11,
+      type: WineType.RedWine,
+      price: 900,
+      ean: '',
+      name: 'My-wine',
+      quantity: 100,
+      imageUrl: 'assets/PeanutNoar.jfif'
+    },
+    {
+      id: 12,
+      type: WineType.RedWine,
+      price: 300,
+      ean: '',
+      name: 'My-wine',
+      quantity: 100,
+      imageUrl: 'assets/PeanutNoar.jfif'
+    },
+    {
+      id: 13,
+      type: WineType.RedWine,
+      price: 300,
+      ean: '',
+      name: 'My-wine',
+      quantity: 100,
+      imageUrl: 'assets/PeanutNoar.jfif'
+    }
   ];
 
-  wines: Wine[] = [
-    { name: 'æøå', price: 45, type: 'red-0', image: 'assets/PeanutNoar.jfif', id:45 },
-    { name: 'Peanut Noar', type: 'red-0',price: 2364, image: 'assets/PeanutNoar.jfif', id:1 },
-    { name: 'Pinot Noir', type: 'rose-2',price: 239, image: 'assets/PeanutNoar.jfif', id:4 },
-    { name: 'Peanut Noar', type: 'red-0',price: 23, image: 'assets/PeanutNoar.jfif', id:5 },
-    { name: 'Peanut oar', type: 'white-1',price: 23, image: 'assets/PeanutNoar.jfif', id:9 },
-    { name: 'Peanut Noar', type: 'red-0',price: 23, image: 'assets/PeanutNoar.jfif', id:5 },
-    { name: 'Peanut Noar', type: 'rose-2',price: 23, image: 'assets/PeanutNoar.jfif', id:76 }
-  ];
-
-  displayWines: Wine[] = [];
+  displayWines: ItemDto[] = [];
 
   readonly breakPoints = this.breakpointObserver
     .observe([Breakpoints.Large, Breakpoints.Medium, Breakpoints.Small, '(min-width: 500px)'])
@@ -47,6 +150,11 @@ export class CatalogueComponent implements OnInit{
     this.displayWines = this.wines;
   }
 
+  getWineTypeValues(): string[] {
+    return Object.values(WineType);
+  }
+
+
   ngOnInit(): void {
     this.breakPoints.subscribe(() =>
       this.breakpointChanged()
@@ -54,8 +162,8 @@ export class CatalogueComponent implements OnInit{
   }
 
 
-  private breakpointChanged():void  {
-    if(this.breakpointObserver.isMatched(Breakpoints.XLarge)) {
+  private breakpointChanged(): void {
+    if (this.breakpointObserver.isMatched(Breakpoints.XLarge)) {
       this.columnAmount = 1;
     } else if (this.breakpointObserver.isMatched(Breakpoints.Large)) {
       this.columnAmount = 1;
@@ -63,25 +171,26 @@ export class CatalogueComponent implements OnInit{
       this.columnAmount = 2;
     } else if (this.breakpointObserver.isMatched(Breakpoints.Small)) {
       this.columnAmount = 3;
-    }else{
+    } else {
       this.columnAmount = 6;
     }
   }
 
-  public searchChange(val: string): void {
-    this.search = val;
-    this.displayWines = this.wines.filter(wine => wine.name.toLowerCase().includes(this.search.toLowerCase()) || wine.price.toString().includes(this.search));
+  public searchChange(): void {
+    this.displayWines = this.wines.filter(wine => wine.name?.toLowerCase().includes(this.search.toLowerCase()) ||
+      wine.price.toString().includes(this.search.toLowerCase()));
+    console.log(this.typeFilter);
+    if (this.typeFilter) {
+      this.displayWines = this.displayWines.filter(wine => wine.type === this.typeFilter);
+    }
+
+    switch (this.priceSort) {
+    case 'low-to-high':
+      this.displayWines = this.displayWines.sort((a, b) => a.price - b.price);
+      break;
+    case 'high-to-low':
+      this.displayWines = this.displayWines.sort((a, b) => b.price - a.price);
+      break;
+    }
   }
-
-  public selectChange(val: string): void {
-    this.select = val;
-    console.log(this.select);
-    this.displayWines = this.select === 'all-3' ? this.wines : this.wines.filter(wine => wine.type.toString().includes(this.select));
-  } // If God exists there must be a better way of doing this.
-
-  public priceSorting(val: string): void {
-    this.price = val;
-    console.log(this.price);
-    this.displayWines = this.price === 'low-to-high' ? this.wines.sort((a, b) => a.price - b.price) : this.wines.sort((a, b) => b.price - a.price);
-  } // This appears the wrong way around because the site only updates ~every other time... I think <3
 }
