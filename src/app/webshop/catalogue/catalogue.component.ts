@@ -1,8 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
-import { distinctUntilChanged } from 'rxjs';
+import { distinctUntilChanged, Observable } from 'rxjs';
 import { ItemDto } from '../../shared/interfaces/item-dto';
 import { WineType } from '../../shared/enums/wine-type';
+import { HttpClient } from '@angular/common/http';
 
 @Component({
   selector: 'app-catalogue',
@@ -18,125 +19,12 @@ export class CatalogueComponent implements OnInit {
 
   columnAmount = 5;
 
-  wines: ItemDto[] = [
-    {
-      id: 1,
-      type: WineType.RoseWine,
-      price: 200,
-      ean: '',
-      name: 'My-wine-1',
-      quantity: 100,
-      imageUrl: 'assets/PeanutNoar.jfif'
-    },
-    {
-      id: 2,
-      type: WineType.RedWine,
-      price: 300,
-      ean: '',
-      name: 'My-wine-2',
-      quantity: 100,
-      imageUrl: 'assets/PeanutNoar.jfif'
-    },
-    {
-      id: 3,
-      type: WineType.RedWine,
-      price: 300,
-      ean: '',
-      name: 'My-wine-3',
-      quantity: 100,
-      imageUrl: 'assets/PeanutNoar.jfif'
-    },
-    {
-      id: 4,
-      type: WineType.RoseWine,
-      price: 300,
-      ean: '',
-      name: 'My-wine-4',
-      quantity: 100,
-      imageUrl: 'assets/PeanutNoar.jfif'
-    },
-    {
-      id: 5,
-      type: WineType.RoseWine,
-      price: 350,
-      ean: '',
-      name: 'My-wine-5',
-      quantity: 100,
-      imageUrl: 'assets/PeanutNoar.jfif'
-    },
-    {
-      id: 6,
-      type: WineType.RoseWine,
-      price: 300,
-      ean: '',
-      name: 'My-wine-6',
-      quantity: 100,
-      imageUrl: 'assets/PeanutNoar.jfif'
-    },
-    {
-      id: 7,
-      type: WineType.WhiteWine,
-      price: 100,
-      ean: '',
-      name: 'My-wine-7',
-      quantity: 100,
-      imageUrl: 'assets/PeanutNoar.jfif'
-    },
-    {
-      id: 8,
-      type: WineType.WhiteWine,
-      price: 300,
-      ean: '',
-      name: 'My-wine-8',
-      quantity: 100,
-      imageUrl: 'assets/PeanutNoar.jfif'
-    },
-    {
-      id: 9,
-      type: WineType.WhiteWine,
-      price: 300,
-      ean: '',
-      name: 'My-wine-9',
-      quantity: 100,
-      imageUrl: 'assets/PeanutNoar.jfif'
-    },
-    {
-      id: 10,
-      type: WineType.RedWine,
-      price: 300,
-      ean: '',
-      name: 'My-wine',
-      quantity: 100,
-      imageUrl: 'assets/PeanutNoar.jfif'
-    },
-    {
-      id: 11,
-      type: WineType.RedWine,
-      price: 900,
-      ean: '',
-      name: 'My-wine',
-      quantity: 100,
-      imageUrl: 'assets/PeanutNoar.jfif'
-    },
-    {
-      id: 12,
-      type: WineType.RedWine,
-      price: 300,
-      ean: '',
-      name: 'My-wine',
-      quantity: 100,
-      imageUrl: 'assets/PeanutNoar.jfif'
-    },
-    {
-      id: 13,
-      type: WineType.RedWine,
-      price: 300,
-      ean: '',
-      name: 'My-wine',
-      quantity: 100,
-      imageUrl: 'assets/PeanutNoar.jfif'
-    }
-  ];
+  wines: ItemDto[] = [];
+
+  getWines(): void {
+    const req = this.http.get<ItemDto[]>('http://localhost:5169/api/item');
+    req.subscribe(items => this.wines = items );
+  }
 
   displayWines: ItemDto[] = [];
 
@@ -144,10 +32,12 @@ export class CatalogueComponent implements OnInit {
     .observe([Breakpoints.Large, Breakpoints.Medium, Breakpoints.Small, '(min-width: 500px)'])
     .pipe(distinctUntilChanged());
 
-  constructor(private breakpointObserver: BreakpointObserver) {
+  constructor(private breakpointObserver: BreakpointObserver, private http: HttpClient) {
     this.columnAmount = this.breakpointObserver.isMatched(Breakpoints.Handset) ? 1 : 5;
 
     this.displayWines = this.wines;
+
+
   }
 
   getWineTypeValues(): string[] {
@@ -159,6 +49,8 @@ export class CatalogueComponent implements OnInit {
     this.breakPoints.subscribe(() =>
       this.breakpointChanged()
     );
+    this.getWines();
+    console.log(this.wines);
   }
 
 
@@ -182,14 +74,17 @@ export class CatalogueComponent implements OnInit {
 
     if (this.typeFilter) {
       this.displayWines = this.displayWines.filter(wine => wine.type === this.typeFilter);
+      console.log(this.wines);
     }
 
     switch (this.priceSort) {
     case 'low-to-high':
       this.displayWines = this.displayWines.sort((a, b) => a.price - b.price);
+      console.log(this.wines);
       break;
     case 'high-to-low':
       this.displayWines = this.displayWines.sort((a, b) => b.price - a.price);
+      console.log(this.wines);
       break;
     }
   }
