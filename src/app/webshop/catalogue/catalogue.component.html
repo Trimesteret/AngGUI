@@ -1,12 +1,12 @@
 <app-front-basic-layout>
   <div fxFlexFill fxLayout="column" class="padding-inline-10" fxLayoutGap="10">
-    <div fxFlex fxLayout="row" fxLayoutGap="20" class="padding-top-20">
-      <mat-form-field fxFlex="40">
+    <div fxFlex fxLayout.lt-sm="column" fxLayout.gt-sm="row" fxLayoutGap="20" class="padding-top-20">
+      <mat-form-field fxFlex.gt-sm="40" fxFlex.sm="100">
         <mat-label>Søg</mat-label>
         <input matInput (keyup)="searchChange()" [(ngModel)]="search">
       </mat-form-field>
 
-      <mat-form-field fxFlex="30">
+      <mat-form-field fxFlex.gt-sm="30" fxFlex.sm="100">
         <mat-label>Filtrer efter vin type</mat-label>
         <mat-select [(value)]="typeFilter" [(ngModel)]="typeFilter" (ngModelChange)="searchChange()">
           <mat-option>None</mat-option>
@@ -14,7 +14,7 @@
         </mat-select>
       </mat-form-field>
 
-      <mat-form-field fxFlex="30">
+      <mat-form-field fxFlex.gt-sm="30" fxFlex.sm="100">
         <mat-label> Sortér efter pris </mat-label>
         <mat-select [(ngModel)]="priceSort" (ngModelChange)="searchChange()">
           <mat-option>None</mat-option>

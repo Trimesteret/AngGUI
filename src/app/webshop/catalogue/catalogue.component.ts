@@ -179,7 +179,7 @@ export class CatalogueComponent implements OnInit {
   public searchChange(): void {
     this.displayWines = this.wines.filter(wine => wine.name?.toLowerCase().includes(this.search.toLowerCase()) ||
       wine.price.toString().includes(this.search.toLowerCase()));
-    console.log(this.typeFilter);
+
     if (this.typeFilter) {
       this.displayWines = this.displayWines.filter(wine => wine.type === this.typeFilter);
     }
