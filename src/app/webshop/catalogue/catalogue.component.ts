@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
 import { Wine } from '../search/Wine';
 import { WineType } from '../search/WineType';
+import { distinctUntilChanged, tap } from 'rxjs';
 
 @Component({
   selector: 'app-catalogue',
@@ -9,7 +10,7 @@ import { WineType } from '../search/WineType';
   styleUrls: ['./catalogue.component.scss']
 })
 
-export class CatalogueComponent {
+export class CatalogueComponent implements OnInit{
 
   public search = '';
   public select = '';
@@ -36,19 +37,39 @@ export class CatalogueComponent {
 
   displayWines: Wine[] = [];
 
+  readonly breakPoints = this.breakpointObserver
+    .observe([Breakpoints.Large, Breakpoints.Medium, Breakpoints.Small, '(min-width: 500px)'])
+    .pipe(distinctUntilChanged());
+
   constructor(private breakpointObserver: BreakpointObserver) {
     this.columnAmount = this.breakpointObserver.isMatched(Breakpoints.Handset) ? 1 : 5;
-
-    this.breakpointObserver.observe(Breakpoints.Handset).subscribe(result => {
-      this.columnAmount = result.matches ? 1 : 5;
-    });
 
     this.displayWines = this.wines;
   }
 
+  ngOnInit(): void {
+    this.breakPoints.subscribe(() =>
+      this.breakpointChanged()
+    );
+  }
+
+
+  private breakpointChanged():void  {
+    if(this.breakpointObserver.isMatched(Breakpoints.XLarge)) {
+      this.columnAmount = 1;
+    } else if (this.breakpointObserver.isMatched(Breakpoints.Large)) {
+      this.columnAmount = 1;
+    } else if (this.breakpointObserver.isMatched(Breakpoints.Medium)) {
+      this.columnAmount = 2;
+    } else if (this.breakpointObserver.isMatched(Breakpoints.Small)) {
+      this.columnAmount = 3;
+    }else{
+      this.columnAmount = 6;
+    }
+  }
+
   public searchChange(val: string): void {
     this.search = val;
-    console.log(this.search);
     this.displayWines = this.wines.filter(wine => wine.name.toLowerCase().includes(this.search.toLowerCase()) || wine.price.toString().includes(this.search));
   }
 
