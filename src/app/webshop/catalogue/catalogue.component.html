@@ -26,7 +26,7 @@
 
     <mat-grid-list fxFlex="100%" gutterSize="20" cols="6">
       <mat-grid-tile [colspan]="columnAmount" [rowspan]="columnAmount" *ngFor="let wine of displayWines">
-        <div routerLink="/webshop" style="padding: 10px" class="shop-card full-width full-height" fxFlex fxLayout="column" fxLayoutAlign="center center">
+        <div routerLink="/webshop/display/{{ wine.id }}" style="padding: 10px" class="shop-card full-width full-height" fxFlex fxLayout="column" fxLayoutAlign="center center">
           <img [src]="wine.imageUrl" alt="{{ wine.name }}" class="wine-image" style="margin-bottom: 10px">
           <span fxFlex fxLayout="row" style="font-size: 1.1rem; font-weight: bold;" class="full-width" fxLayoutAlign="space-between center">
             <p>{{wine.name}} </p>
