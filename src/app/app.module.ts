@@ -13,15 +13,14 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { NgOptimizedImage } from '@angular/common';
-import { FrontModuleModule } from './front/front.module';
-import { AuthenticationModule } from './authentication/authentication.module';
-import { AuthenticationInterceptor } from './services/authentication/authentication.interceptor';
 import { SharedModule } from './shared/shared.module';
 import { MatDialogModule } from '@angular/material/dialog';
-import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
-import { MatGridList, MatGridListModule, MatGridTile } from '@angular/material/grid-list';
-import { MatSelectModule } from '@angular/material/select';
-import { MatCardModule } from '@angular/material/card';
+import { MatSnackBarModule } from '@angular/material/snack-bar';
+import { AuthenticationModule } from './shared/authentication/authentication.module';
+import { FrontModule } from './webshop/front-pages/front.module';
+import { MatTableModule } from '@angular/material/table';
+import { MatSortModule } from '@angular/material/sort';
+import { AuthenticationInterceptor } from './shared/services/authentication/authentication.interceptor';
 
 @NgModule({
   declarations: [
@@ -41,14 +40,13 @@ import { MatCardModule } from '@angular/material/card';
     MatIconModule,
     MatToolbarModule,
     NgOptimizedImage,
-    FrontModuleModule,
+    FrontModule,
     AuthenticationModule,
     SharedModule,
     MatDialogModule,
     MatSnackBarModule,
-    MatGridListModule,
-    MatSelectModule,
-    MatCardModule
+    MatTableModule,
+    MatSortModule,
   ],
   providers: [{
     provide: HTTP_INTERCEPTORS,

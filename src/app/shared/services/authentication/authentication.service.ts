@@ -2,10 +2,10 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable, tap } from 'rxjs';
 import { CookieService } from 'ngx-cookie-service';
-import { environment } from '../../../environments/environment';
-import { User } from '../../authentication/models/user';
+import { environment } from '../../../../environments/environment';
 import { LoginDto } from '../../authentication/models/login-dto';
 import { AuthPas } from '../../authentication/models/authPas';
+import { User } from '../../authentication/models/user';
 
 @Injectable({
   providedIn: 'root'
@@ -51,7 +51,7 @@ export class AuthenticationService {
   /**
    * Verify token
    */
-  public verifyToken(token: string):Observable<boolean>{
+  public verifyToken(token: string): Observable<boolean>{
     return this.http.post<boolean>(this.url + '/verify', { token: token } as AuthPas);
   }
 
@@ -60,10 +60,8 @@ export class AuthenticationService {
    */
   public logOut(): Observable<boolean> {
     const token = this.cookieService.get('jwtToken');
-    return this.http.post<boolean>(this.url + '/LogOut', { token: token } as AuthPas).pipe(
-      tap(() => {
-        this.cookieService.deleteAll();
-      })
-    );
+    this.cookieService.deleteAll();
+    window.location.reload();
+    return this.http.post<boolean>(this.url + '/LogOut', { token: token } as AuthPas);
   }
 }
