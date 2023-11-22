@@ -7,9 +7,13 @@ import { FormGroup, FormControl } from '@angular/forms';
 })
 export class CheckoutComponent {
   checkoutForm = new FormGroup({
-    firstName: new FormControl(''),
-    lastName: new FormControl(''),
+    name: new FormControl(''),
     address: new FormControl(''),
+    phoneNumber: new FormControl(''),
+    city: new FormControl(''),
+    country: new FormControl(''),
+    email: new FormControl(''),
+    deliveryMethod: new FormControl('')
   });
 
   createCheckout():void{
