@@ -2,8 +2,8 @@ import { Component } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { LoginDto } from '../models/login-dto';
-import { AuthenticationService } from '../../../services/authentication/authentication.service';
 import { MessageService } from '../../services/message.service';
+import { AuthenticationService } from '../../services/authentication/authentication.service';
 
 @Component({
   selector: 'app-login-page',
@@ -12,9 +12,9 @@ import { MessageService } from '../../services/message.service';
 })
 export class LoginPageComponent {
 
-  public hide = true;
+  hide = true;
 
-  public loading = false;
+  loading = false;
 
   loginForm = new FormGroup({
     email: new FormControl('', [

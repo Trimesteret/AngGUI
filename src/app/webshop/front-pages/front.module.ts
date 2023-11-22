@@ -16,6 +16,7 @@ import { MyProfileComponent } from './my-profile/my-profile.component';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatTableModule } from '@angular/material/table';
 import { MatSortModule } from '@angular/material/sort';
+import { ReactiveFormsModule } from '@angular/forms';
 
 @NgModule({
   declarations: [
@@ -43,6 +44,7 @@ import { MatSortModule } from '@angular/material/sort';
     MatProgressSpinnerModule,
     MatTableModule,
     MatSortModule,
+    ReactiveFormsModule,
   ]
 })
 export class FrontModule { }

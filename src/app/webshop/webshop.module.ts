@@ -10,6 +10,7 @@ import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { FlexLayoutModule } from '@angular/flex-layout';
 import { FrontModule } from './front-pages/front.module';
+import { MatTableModule } from '@angular/material/table';
 
 
 @NgModule({
@@ -27,7 +28,8 @@ import { FrontModule } from './front-pages/front.module';
     MatToolbarModule,
     FrontModule,
     MatProgressSpinnerModule,
-    FlexLayoutModule
+    FlexLayoutModule,
+    MatTableModule
   ]
 })
 export class WebshopModule { }

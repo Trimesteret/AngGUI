@@ -1,8 +1,9 @@
 export interface User {
   id?: number
-  name: string
+  firstName: string
+  lastName: string
   email: string
-  password: string
+  password?: string
   phone: number
   role?: number
   token?: string

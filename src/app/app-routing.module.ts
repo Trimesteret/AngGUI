@@ -12,7 +12,7 @@ const routes: Routes = [
   { path: 'login', component: LoginPageComponent },
   { path: 'signup', component: SignupPageComponent },
   { path: 'forgot-password', component: ForgotPasswordComponent },
-  { path: 'my-profile', component: MyProfileComponent },
+  { path: 'my-profile', component: MyProfileComponent, canActivate: [authGuard] },
   { path: 'warehouse',
     loadChildren: () => import('./warehouse/warehouse.module').then(m => m.WarehouseModule),
     canActivate: [authGuard]

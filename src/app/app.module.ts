@@ -13,7 +13,6 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { NgOptimizedImage } from '@angular/common';
-import { AuthenticationInterceptor } from './services/authentication/authentication.interceptor';
 import { SharedModule } from './shared/shared.module';
 import { MatDialogModule } from '@angular/material/dialog';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
@@ -21,6 +20,7 @@ import { AuthenticationModule } from './shared/authentication/authentication.mod
 import { FrontModule } from './webshop/front-pages/front.module';
 import { MatTableModule } from '@angular/material/table';
 import { MatSortModule } from '@angular/material/sort';
+import { AuthenticationInterceptor } from './shared/services/authentication/authentication.interceptor';
 
 @NgModule({
   declarations: [
