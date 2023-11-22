@@ -4,7 +4,7 @@ import { distinctUntilChanged } from 'rxjs';
 import { ItemDto } from '../../shared/interfaces/item-dto';
 import { WineType } from '../../shared/enums/wine-type';
 import { HttpClient } from '@angular/common/http';
-import { ItemsService } from '../../services/items/items.service';
+import { ItemsService } from '../../shared/services/items/items.service';
 
 @Component({
   selector: 'app-catalogue',
@@ -76,14 +76,14 @@ export class CatalogueComponent implements OnInit {
     }
 
     switch (this.priceSort) {
-    case 'low-to-high':
-      this.displayWines = this.displayWines.sort((a, b) => a.price - b.price);
-      console.log(this.wines);
-      break;
-    case 'high-to-low':
-      this.displayWines = this.displayWines.sort((a, b) => b.price - a.price);
-      console.log(this.wines);
-      break;
+      case 'low-to-high':
+        this.displayWines = this.displayWines.sort((a, b) => a.price - b.price);
+        console.log(this.wines);
+        break;
+      case 'high-to-low':
+        this.displayWines = this.displayWines.sort((a, b) => b.price - a.price);
+        console.log(this.wines);
+        break;
     }
   }
 }
