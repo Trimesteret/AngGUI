@@ -51,8 +51,8 @@ export class AuthenticationService {
   /**
    * Verify token
    */
-  public verifyToken(token: string): Promise<boolean>{
-    return Promise.all(this.http.post<boolean>(this.url + '/verify', { token: token } as AuthPas));
+  public verifyToken(token: string): Observable<boolean>{
+    return this.http.post<boolean>(this.url + '/verify', { token: token } as AuthPas);
   }
 
   /**
