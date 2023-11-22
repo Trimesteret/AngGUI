@@ -1,16 +1,36 @@
 <app-front-basic-layout>
   <p>This view is for user #{{ userId }}</p>
   <mat-grid-list fxFlex="100%" gutterSize="20" cols="2">
-    <mat-grid-tile class="image-tile">
-      <img [src]="wine[0].imageUrl" alt="{{ wine[0].name }}" class="wine-image" style="margin-bottom: 10px">
-    </mat-grid-tile>
-    <mat-grid-tile>
-      <div style="height:25%">
-        dsa
-      </div> <br>
-      <div style="height:50%">
-        asd
-      </div>
-    </mat-grid-tile>
+    <div class="padding-inline-10">
+      <!-- Left grid tile -->
+      <mat-grid-tile class="image-tile">
+        <img [src]="wine[0].imageUrl" alt="{{ wine[0].name }}" class="wine-image" style="margin-bottom: 10px">
+      </mat-grid-tile>
+
+      <!-- Right grid tile -->
+      <mat-grid-tile>
+        <div class="vertical-container" fxFlex style="margin-bottom: 40px">
+          <div style="height: 10%;">
+            <h1 class="header">{{ wine[0].name }}</h1>
+          </div>
+          <div style="height: 5%"></div>
+          <div style="height: 40%;">
+            <p>Lorem ipsum is simply dummy text of the printing and typesetting industry.</p>
+          </div>
+          <div fxFlex fxLayout="row" fxLayoutAlign="center center" style="height: 35%; background-color: lightgrey">
+            <div fxFlex="50">
+              <h3 style="text-align: center; font-weight: bold;"><i>(Mængde i flaske)</i> cl | {{ wine[0].price }},- / L</h3>
+              <h1 class="header" style= "color:#673ab7">{{ wine[0].price }},-</h1>
+            </div>
+            <div fxFlex="50" fxLayout="column" style=" margin: 10px">
+              <h1>Antal</h1>
+              <input type="number" maxlength="5" placeholder="1" value="1" style="">
+              <p><!-- How do you even add padding to this, I gave up, it only worked between header and the input --></p>
+              <button mat-raised-button color="primary">Føj til kurv</button>
+            </div>
+          </div>
+        </div>
+      </mat-grid-tile>
+    </div>
   </mat-grid-list>
 </app-front-basic-layout>
