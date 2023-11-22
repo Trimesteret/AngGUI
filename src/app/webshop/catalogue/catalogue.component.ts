@@ -1,9 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
-import { distinctUntilChanged, Observable } from 'rxjs';
+import { distinctUntilChanged } from 'rxjs';
 import { ItemDto } from '../../shared/interfaces/item-dto';
 import { WineType } from '../../shared/enums/wine-type';
 import { HttpClient } from '@angular/common/http';
+import { ItemsService } from '../../services/items/items.service';
 
 @Component({
   selector: 'app-catalogue',
@@ -17,14 +18,10 @@ export class CatalogueComponent implements OnInit {
   typeFilter = '';
   priceSort = '';
 
+  loading = true;
   columnAmount = 5;
 
   wines: ItemDto[] = [];
-
-  getWines(): void {
-    const req = this.http.get<ItemDto[]>('http://localhost:5169/api/item');
-    req.subscribe(items => this.wines = items );
-  }
 
   displayWines: ItemDto[] = [];
 
@@ -32,12 +29,13 @@ export class CatalogueComponent implements OnInit {
     .observe([Breakpoints.Large, Breakpoints.Medium, Breakpoints.Small, '(min-width: 500px)'])
     .pipe(distinctUntilChanged());
 
-  constructor(private breakpointObserver: BreakpointObserver, private http: HttpClient) {
+  constructor(private breakpointObserver: BreakpointObserver, private http: HttpClient, private itemService: ItemsService) {
     this.columnAmount = this.breakpointObserver.isMatched(Breakpoints.Handset) ? 1 : 5;
-
-    this.displayWines = this.wines;
-
-
+    itemService.getWines().subscribe(items => {
+      this.wines = items;
+      this.loading = false;
+      this.searchChange();
+    });
   }
 
   getWineTypeValues(): string[] {
@@ -49,8 +47,8 @@ export class CatalogueComponent implements OnInit {
     this.breakPoints.subscribe(() =>
       this.breakpointChanged()
     );
-    this.getWines();
-    console.log(this.wines);
+
+    this.displayWines = this.wines;
   }
 
 

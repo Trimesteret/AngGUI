@@ -1,5 +1,5 @@
 <app-front-basic-layout>
-  <div fxFlexFill fxLayout="column" class="padding-inline-10" fxLayoutGap="10">
+  <div fxFlexFill *ngIf="!loading" fxLayout="column" class="padding-inline-10" fxLayoutGap="10">
     <div fxFlex fxLayout.lt-sm="column" fxLayout.gt-sm="row" fxLayoutGap="20" class="padding-top-20">
       <mat-form-field fxFlex.gt-sm="40" fxFlex.sm="100">
         <mat-label>Søg</mat-label>
@@ -35,5 +35,8 @@
         </div>
       </mat-grid-tile>
     </mat-grid-list>
+  </div>
+  <div fxFlexFill *ngIf="loading" fxLayoutAlign="center center" class="spinner">
+    <mat-spinner></mat-spinner>
   </div>
 </app-front-basic-layout>

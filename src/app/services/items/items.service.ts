@@ -1,21 +1,19 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { environment } from '../../../environments/environment';
-import { Item } from '../../warehouse/create-item/item';
 import { Observable } from 'rxjs';
-import { User } from '../../authentication/models/user';
+import { ItemDto } from '../../shared/interfaces/item-dto';
 
 @Injectable({
   providedIn: 'root'
 })
 export class ItemsService {
 
-  url = environment.apiUrl + '/User';
+  url = environment.apiUrl + '/item';
 
-  constructor(private httpClient: HttpClient) {
+  constructor(private http: HttpClient) {
   }
-
-  public getAllItems(): Observable<User[]>{
-    return this.httpClient.get<User[]>(this.url);
+  getWines(): Observable<ItemDto[]> {
+    return this.http.get<ItemDto[]>(this.url);
   }
 }
