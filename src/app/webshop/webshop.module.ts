@@ -7,11 +7,11 @@ import { MatInputModule } from '@angular/material/input';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatIconModule } from '@angular/material/icon';
 import { MatToolbarModule } from '@angular/material/toolbar';
-import { FrontModuleModule } from '../front/front.module';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { FlexLayoutModule } from '@angular/flex-layout';
+import { FrontModule } from './front-pages/front.module';
+import { MatTableModule } from '@angular/material/table';
 import { CatalogueComponent } from './catalogue/catalogue.component';
-import { MatButtonModule } from '@angular/material/button';
 import { MatGridListModule } from '@angular/material/grid-list';
 import { MatSelectModule } from '@angular/material/select';
 import { MatCardModule } from '@angular/material/card';
@@ -30,10 +30,10 @@ import { MatCardModule } from '@angular/material/card';
     MatIconModule,
     MatToolbarModule,
     MatToolbarModule,
-    FrontModuleModule,
+    FrontModule,
     MatProgressSpinnerModule,
     FlexLayoutModule,
-    MatButtonModule,
+    MatTableModule,
     MatGridListModule,
     MatSelectModule,
     MatCardModule,

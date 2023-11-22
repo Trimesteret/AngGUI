@@ -1,8 +1,8 @@
 import { Component } from '@angular/core';
-import { FormControl, FormGroup, Validators } from '@angular/forms';
-import { AuthenticationService } from '../../services/authentication/authentication.service';
+import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { User } from '../models/user';
-import { MessageService } from '../../shared/services/message.service';
+import { MessageService } from '../../services/message.service';
+import { AuthenticationService } from '../../services/authentication/authentication.service';
 
 @Component({
   selector: 'app-signup-page',
@@ -13,24 +13,16 @@ export class SignupPageComponent {
 
   public loading = false;
 
-  signupForm = new FormGroup({
-    name: new FormControl<string>('', [
-      Validators.required
-    ]),
-    phone: new FormControl<string>('' , [
-      Validators.required
-    ]),
-    email: new FormControl<string>('', [
-      Validators.required,
-      Validators.email
-    ]),
-    password: new FormControl<string>('', [
-      Validators.required,
-      Validators.minLength(7)
-    ]),
+  signupForm = this.formBuilder.group({
+    firstName: ['', Validators.required],
+    lastName: ['', Validators.required],
+    phone: ['', Validators.required],
+    email: ['', [Validators.required, Validators.email]],
+    password: ['', [Validators.required, Validators.minLength(7)]]
   });
 
-  constructor(private authenticationService: AuthenticationService, private messageService: MessageService) {
+  constructor(private authenticationService: AuthenticationService, private messageService: MessageService,
+    private formBuilder: FormBuilder) {
   }
 
   public signup(): void{
@@ -59,7 +51,8 @@ export class SignupPageComponent {
     try {
       const formValue = this.signupForm.value;
       user = {
-        name: String(formValue.name),
+        firstName: String(formValue.firstName),
+        lastName: String(formValue.lastName),
         email: String(formValue.email),
         password: String(formValue.password),
         phone: formValue.phone ? Number.parseInt(formValue.phone) : null, // Convert phone to a number or null
