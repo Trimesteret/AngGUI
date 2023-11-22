@@ -1,9 +1,11 @@
-<app-front-basic-layout>
-  <form fxLayout="column" class="left-section" fxLayoutAlign="start start" [formGroup]="checkoutForm" (ngSubmit)="createCheckout()">
+<app-front-basic-layout></app-front-basic-layout>
+ <div fxLayout = "row" fxFlexFill>
+
+  <form fxFlex = "60" fxLayout="column" class="left-section" [formGroup]="checkoutForm" (ngSubmit)="createCheckout()">
     <div class="form-container">
       <h2>Dine Oplysninger</h2>
-      <div fxLayout="column" fxLayoutGap="10px">
-        <mat-form-field>
+      <div fxLayout="column">
+        <mat-form-field >
           <input matInput formControlName="name" placeholder="Navn" required>
         </mat-form-field>
 
@@ -34,11 +36,15 @@
       <mat-radio-group formControlName="deliveryMethod" required>
         <div fxLayout="column" fxLayoutGap="5px">
           <mat-radio-button value="pickup">Afhentning i Butik</mat-radio-button>
-          <mat-radio-button value="postnord">Postnord hjemmelevering</mat-radio-button>
+          <mat-radio-button value="postnord">Postnord Hjemmelevering</mat-radio-button>
           <mat-radio-button value="gls">GLS</mat-radio-button>
           <mat-radio-button value="dao">DAO</mat-radio-button>
         </div>
       </mat-radio-group>
     </div>
   </form>
-</app-front-basic-layout>
+  <div fxFlex = "20" class="basket-box">
+    <p>Snooty Grape Snickerdoodle Delight - 1x</p>
+  </div>
+  </div>
+
