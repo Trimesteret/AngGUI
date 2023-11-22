@@ -1,35 +1,44 @@
 <app-front-basic-layout>
-    <form fxFlex="6" fxLayout="column" fxLayoutGap="15" [formGroup]="checkoutForm" (ngSubmit)="createCheckout()">
-      <mat-form-field appearance="outline">
-        <mat-label>Enter Name</mat-label>
-        <input matInput type="name" formControlName="name">
-        <mat-icon matIconSuffix>account_circle</mat-icon>
-      </mat-form-field>
-      <mat-form-field>
-        <mat-label>Enter Telephone Number</mat-label>
-        <input matInput type="phonenumber" formControlName="phonenumber">
-        <mat-icon matIconSuffix> stay_current_portrait</mat-icon>
-      </mat-form-field>
-      <mat-form-field>
-        <mat-label>Enter Email</mat-label>
-        <input matInput type="email" formControlName="email">
-        <mat-icon matIconSuffix>mail</mat-icon>
-      </mat-form-field>
-      <mat-form-field>
-        <mat-label>Enter Address</mat-label>
-        <input matInput type="address" formControlName="adress">
-        <mat-icon matIconSuffix> location_on</mat-icon>
-      </mat-form-field>
-      <mat-form-field>
-        <mat-label>Enter City</mat-label>
-        <input matInput type="city" formControlName="city">
-        <mat-icon matIconSuffix>location_city</mat-icon>
-      </mat-form-field>
-      <mat-form-field>
-        <mat-label>Enter Country</mat-label>
-        <input matInput type="country" formControlName="country">
-        <mat-icon matIconSuffix>language</mat-icon>
-      </mat-form-field>
-    </form>
-</app-front-basic-layout>
+  <form fxLayout="column" class="left-section" fxLayoutAlign="start start">
+    <div class="form-container">
+      <h2>Dine Oplysninger</h2>
+      <div fxLayout="column" fxLayoutGap="10px">
+        <mat-form-field>
+          <input matInput formControlName="name" placeholder="Navn">
+        </mat-form-field>
 
+        <mat-form-field>
+          <input matInput formControlName="phoneNumber" placeholder="Telefon">
+        </mat-form-field>
+
+        <mat-form-field>
+          <input matInput formControlName="email" placeholder="Email">
+        </mat-form-field>
+
+        <mat-form-field>
+          <input matInput formControlName="address" placeholder="Adresse">
+        </mat-form-field>
+
+        <mat-form-field>
+          <input matInput formControlName="city" placeholder="By">
+        </mat-form-field>
+
+        <mat-form-field>
+          <input matInput formControlName="country" placeholder="Land">
+        </mat-form-field>
+      </div>
+    </div>
+
+    <div class="form-container">
+      <h2>Leveringsmuligheder</h2>
+      <mat-radio-group formControlName="deliveryMethod">
+        <div fxLayout="column" fxLayoutGap="5px">
+          <mat-radio-button value="pickup">Afhentning i Butik</mat-radio-button>
+          <mat-radio-button value="postnord">Postnord hjemmelevering</mat-radio-button>
+          <mat-radio-button value="gls">GLS</mat-radio-button>
+          <mat-radio-button value="dao">DAO</mat-radio-button>
+        </div>
+      </mat-radio-group>
+    </div>
+  </form>
+</app-front-basic-layout>
