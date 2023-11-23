@@ -1,8 +1,12 @@
 import { Component, OnInit } from '@angular/core';
 import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
-import { distinctUntilChanged } from 'rxjs';
+import { debounceTime, distinctUntilChanged } from 'rxjs';
 import { ItemDto } from '../../shared/interfaces/item-dto';
-import { WineType } from '../../shared/enums/wine-type';
+import { ItemsService } from '../../shared/services/items/items.service';
+import { ItemType } from '../../shared/enums/item-type';
+import { SortByPrice } from '../../shared/enums/sort-by-price';
+import { AuthenticationService } from '../../shared/services/authentication/authentication.service';
+import { MessageService } from '../../shared/services/message.service';
 
 @Component({
   selector: 'app-catalogue',
@@ -11,149 +15,52 @@ import { WineType } from '../../shared/enums/wine-type';
 })
 
 export class CatalogueComponent implements OnInit {
+  loggedIn = false;
 
   search  = '';
-  typeFilter = '';
-  priceSort = '';
+  typeFilter: ItemType | undefined;
+  priceSort: SortByPrice | undefined;
+  itemCount= 0;
 
+  loading = true;
   columnAmount = 5;
 
-  wines: ItemDto[] = [
-    {
-      id: 1,
-      type: WineType.RoseWine,
-      price: 200,
-      ean: '',
-      name: 'My-wine-1',
-      quantity: 100,
-      imageUrl: 'assets/PeanutNoar.jfif'
-    },
-    {
-      id: 2,
-      type: WineType.RedWine,
-      price: 300,
-      ean: '',
-      name: 'My-wine-2',
-      quantity: 100,
-      imageUrl: 'assets/PeanutNoar.jfif'
-    },
-    {
-      id: 3,
-      type: WineType.RedWine,
-      price: 300,
-      ean: '',
-      name: 'My-wine-3',
-      quantity: 100,
-      imageUrl: 'assets/PeanutNoar.jfif'
-    },
-    {
-      id: 4,
-      type: WineType.RoseWine,
-      price: 300,
-      ean: '',
-      name: 'My-wine-4',
-      quantity: 100,
-      imageUrl: 'assets/PeanutNoar.jfif'
-    },
-    {
-      id: 5,
-      type: WineType.RoseWine,
-      price: 350,
-      ean: '',
-      name: 'My-wine-5',
-      quantity: 100,
-      imageUrl: 'assets/PeanutNoar.jfif'
-    },
-    {
-      id: 6,
-      type: WineType.RoseWine,
-      price: 300,
-      ean: '',
-      name: 'My-wine-6',
-      quantity: 100,
-      imageUrl: 'assets/PeanutNoar.jfif'
-    },
-    {
-      id: 7,
-      type: WineType.WhiteWine,
-      price: 100,
-      ean: '',
-      name: 'My-wine-7',
-      quantity: 100,
-      imageUrl: 'assets/PeanutNoar.jfif'
-    },
-    {
-      id: 8,
-      type: WineType.WhiteWine,
-      price: 300,
-      ean: '',
-      name: 'My-wine-8',
-      quantity: 100,
-      imageUrl: 'assets/PeanutNoar.jfif'
-    },
-    {
-      id: 9,
-      type: WineType.WhiteWine,
-      price: 300,
-      ean: '',
-      name: 'My-wine-9',
-      quantity: 100,
-      imageUrl: 'assets/PeanutNoar.jfif'
-    },
-    {
-      id: 10,
-      type: WineType.RedWine,
-      price: 300,
-      ean: '',
-      name: 'My-wine',
-      quantity: 100,
-      imageUrl: 'assets/PeanutNoar.jfif'
-    },
-    {
-      id: 11,
-      type: WineType.RedWine,
-      price: 900,
-      ean: '',
-      name: 'My-wine',
-      quantity: 100,
-      imageUrl: 'assets/PeanutNoar.jfif'
-    },
-    {
-      id: 12,
-      type: WineType.RedWine,
-      price: 300,
-      ean: '',
-      name: 'My-wine',
-      quantity: 100,
-      imageUrl: 'assets/PeanutNoar.jfif'
-    },
-    {
-      id: 13,
-      type: WineType.RedWine,
-      price: 300,
-      ean: '',
-      name: 'My-wine',
-      quantity: 100,
-      imageUrl: 'assets/PeanutNoar.jfif'
-    }
-  ];
-
-  displayWines: ItemDto[] = [];
+  displayItems: ItemDto[] = [];
+  amountOfItemsShown = 36;
 
   readonly breakPoints = this.breakpointObserver
     .observe([Breakpoints.Large, Breakpoints.Medium, Breakpoints.Small, '(min-width: 500px)'])
     .pipe(distinctUntilChanged());
 
-  constructor(private breakpointObserver: BreakpointObserver) {
+  constructor(private breakpointObserver: BreakpointObserver, private authenticationService: AuthenticationService,
+              private itemService: ItemsService, private messageService: MessageService) {
     this.columnAmount = this.breakpointObserver.isMatched(Breakpoints.Handset) ? 1 : 5;
 
-    this.displayWines = this.wines;
+    this.loggedIn = this.authenticationService.getLoggedIn();
+
+    itemService.getItemsBySearch(this.amountOfItemsShown).subscribe(items => {
+      this.displayItems = items;
+      this.loading = false;
+    });
+
+    this.itemService.getItemCount().subscribe(itemCount => {
+      this.itemCount = itemCount;
+    });
   }
 
-  getWineTypeValues(): string[] {
-    return Object.values(WineType);
+  getItemText(): string {
+    return ` Viser ${this.displayItems.length} ud af ${this.itemCount} varer`;
   }
 
+  getItemTypeValues(): string[] {
+    return Object.keys(ItemType)
+      .filter(key => isNaN(Number(key)));
+  }
+
+  getSortFilterValues(): string[] {
+    return Object.keys(SortByPrice)
+      .filter(key => isNaN(Number(key)));
+  }
 
   ngOnInit(): void {
     this.breakPoints.subscribe(() =>
@@ -177,20 +84,33 @@ export class CatalogueComponent implements OnInit {
   }
 
   public searchChange(): void {
-    this.displayWines = this.wines.filter(wine => wine.name?.toLowerCase().includes(this.search.toLowerCase()) ||
-      wine.price.toString().includes(this.search.toLowerCase()));
+    this.loading = true;
+    this.itemService.getItemCount(this.search, this.priceSort, this.typeFilter).subscribe(itemCount => {
+      this.itemCount = itemCount;
+    });
 
-    if (this.typeFilter) {
-      this.displayWines = this.displayWines.filter(wine => wine.type === this.typeFilter);
-    }
+    this.itemService.getItemsBySearch(this.amountOfItemsShown, this.search, this.priceSort, this.typeFilter)
+      .pipe(debounceTime(2000))
+      .subscribe(items => {
+        this.displayItems = items;
+        this.loading = false;
+      });
+  }
 
-    switch (this.priceSort) {
-    case 'low-to-high':
-      this.displayWines = this.displayWines.sort((a, b) => a.price - b.price);
-      break;
-    case 'high-to-low':
-      this.displayWines = this.displayWines.sort((a, b) => b.price - a.price);
-      break;
-    }
+  public showMoreItems(): void {
+    this.amountOfItemsShown += 36;
+    this.searchChange();
+  }
+
+  public checkForMoreItems(): boolean {
+    return this.amountOfItemsShown < this.itemCount;
+  }
+
+  public logout(): void{
+    this.loading = true;
+    this.messageService.show('Logging out...');
+    this.authenticationService.logOut().subscribe(() => {
+      window.location.reload();
+    });
   }
 }

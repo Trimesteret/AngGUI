@@ -16,15 +16,6 @@ export class HomePageComponent {
 
   constructor(public router: Router, private authenticationService: AuthenticationService, private itemService: ItemsService) {
     this.loggedIn = this.authenticationService.getLoggedIn();
-    this.getItems();
-  }
-
-  public getItems(): void {
-    this.loading = true;
-    this.itemService.getAllItems().subscribe(items => {
-      console.log(items);
-      this.loading = false;
-    });
   }
 
   public logout(): void {
