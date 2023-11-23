@@ -38,12 +38,12 @@
           <input matInput type="text" formControlName="yearField">
         </mat-form-field>
 
-        <mat-form-field *ngIf="selected === 'wine' || selected === 'liquor'">
+        <mat-form-field>
           <mat-label>Produkt volume:</mat-label>
           <input matInput type="text" formControlName="volumeField">
         </mat-form-field>
 
-        <mat-form-field *ngIf="selected === 'wine' || selected === 'liquor'">
+        <mat-form-field>
           <mat-label>Alkohol Procent:</mat-label>
           <input matInput type="text" formControlName="alcoholPercentageField">
         </mat-form-field>
@@ -51,25 +51,24 @@
 
 <!--      wine specific-->
       <ng-container *ngIf="selected === 'wine'">
-
-        <mat-form-field *ngIf="selected === 'wine'">
+        <mat-form-field>
           <mat-label>Oprindelsesland:</mat-label>
           <input matInput type="text" formControlName="countryField">
         </mat-form-field>
 
-        <mat-form-field *ngIf="selected === 'wine'">
+        <mat-form-field>
           <mat-label>Druesort:</mat-label>
           <input matInput type="text" formControlName="grapesortField">
         </mat-form-field>
 
-        <mat-form-field *ngIf="selected === 'wine'">
+        <mat-form-field>
           <mat-label>Passer til:</mat-label>
           <mat-select [formControl]="suitables" multiple>
             <mat-option *ngFor="let suitableFor of suitablesList" [value]="suitableFor">{{suitableFor}}</mat-option>
           </mat-select>
         </mat-form-field>
 
-        <mat-form-field *ngIf="selected === 'wine'">
+        <mat-form-field>
           <mat-label>Vintype</mat-label>
           <mat-select [(value)]="wineType">
             <mat-option>None</mat-option>
