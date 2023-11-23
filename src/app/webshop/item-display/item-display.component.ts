@@ -22,6 +22,9 @@ export class ItemDisplayComponent {
     this.route.params.subscribe((params) => {
       this.itemsService.getItemById(params['id']).subscribe((item) => {
         this.item = item;
+        this.item.volume = this.item.volume ? Math.round(this.item.volume * 100) / 100 : undefined;
+        this.item.price = this.item.price ? Math.round(this.item.price * 100) / 100 : 0;
+        this.item.mass = this.item.mass ? Math.round(this.item.mass * 100) / 100 : 0;
         this.loading = false;
       });
     });
@@ -36,7 +39,7 @@ export class ItemDisplayComponent {
     if(this.item?.volume == undefined || this.item.volume == 0) {
       return 0;
     }
-    return this.item.price / this.item.volume;
+    return Math.round((this.item.price / this.item.volume)*100)/100;
   }
 
   public logout(): void{
