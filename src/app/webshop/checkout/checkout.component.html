@@ -36,19 +36,23 @@
       </div>
       <div class="form-container">
         <h2>Leveringsmuligheder</h2>
-        <mat-radio-group formControlName="deliveryMethod" required>
+        <mat-radio-group formControlName="deliveryMethod" required> <!--Replace with ngFor -->
           <div fxLayout="column" fxLayoutGap="5px">
-            <mat-card>
+            <mat-card fxLayoutAlign = "space-between center" class =  "delivery-checkboxes">
               <mat-radio-button value="pickup">Afhentning i Butik</mat-radio-button>
+              <span>0 kr</span>
             </mat-card>
-            <mat-card>
+            <mat-card fxLayoutAlign = "space-between center" class = "delivery-checkboxes">
               <mat-radio-button value="postnord">Postnord Hjemmelevering</mat-radio-button>
+              <span>59 kr</span>
             </mat-card>
-            <mat-card>
+            <mat-card fxLayoutAlign = "space-between center" class = "delivery-checkboxes">
               <mat-radio-button value="gls">GLS</mat-radio-button>
+              <span>59 kr</span>
             </mat-card>
-            <mat-card>
+            <mat-card fxLayoutAlign = "space-between center" class = delivery-checkboxes>
               <mat-radio-button value="dao">DAO</mat-radio-button>
+              <span>59 kr</span>
             </mat-card>
           </div>
         </mat-radio-group>
