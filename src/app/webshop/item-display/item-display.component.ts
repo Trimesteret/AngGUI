@@ -1,7 +1,10 @@
 import { Component } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { ItemDto } from '../../shared/interfaces/item-dto';
-import { WineType } from '../../shared/enums/wine-type';
+import { ItemType } from '../../shared/enums/item-type';
+import { ItemsService } from '../../shared/services/items/items.service';
+import { AuthenticationService } from '../../shared/services/authentication/authentication.service';
+import { MessageService } from '../../shared/services/message.service';
 
 @Component({
   selector: 'app-item-display',
@@ -9,24 +12,40 @@ import { WineType } from '../../shared/enums/wine-type';
   styleUrls: ['./item-display.component.scss']
 })
 export class ItemDisplayComponent {
-  public userId: string | undefined;
+  loading = true;
+  loggedIn = false;
 
+  item: ItemDto | undefined;
 
+  constructor(private route: ActivatedRoute, private itemsService: ItemsService, private authenticationService: AuthenticationService,
+              private messageService: MessageService) {
+    this.route.params.subscribe((params) => {
+      this.itemsService.getItemById(params['id']).subscribe((item) => {
+        this.item = item;
+        this.loading = false;
+      });
+    });
 
-  wine: ItemDto[] = [
-    {
-      id: 1,
-      type: WineType.RoseWine,
-      price: 200,
-      ean: '',
-      name: 'My-wine-1',
-      quantity: 100,
-      imageUrl: 'assets/PeanutNoar.jfif'
-    }];
-  constructor(route: ActivatedRoute) {
-    route.params.subscribe((params) => {
-      this.userId = params['id'];
-      console.log(this.userId);
+    this.loggedIn = this.authenticationService.getLoggedIn();
+  }
+
+  /**
+   * Get volume price
+   */
+  getVolumePrice(): number {
+    if(this.item?.volume == undefined || this.item.volume == 0) {
+      return 0;
+    }
+    return this.item.price / this.item.volume;
+  }
+
+  public logout(): void{
+    this.loading = true;
+    this.messageService.show('Logging out...');
+    this.authenticationService.logOut().subscribe(() => {
+      window.location.reload();
     });
   }
+
+  protected readonly ItemType = ItemType;
 }

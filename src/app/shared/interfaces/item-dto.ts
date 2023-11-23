@@ -7,6 +7,18 @@ export interface ItemDto {
   quantity: number,
   price: number,
   imageUrl: string,
+  description: string,
+  mass: number,
+  year?: number,
+  volume?: number,
+  alcoholPercentage?: number,
+  country?: string,
+  region?: string,
+  grapeSort?: string,
+  winery?: string,
+  tastingNotes?: string,
+  suitableFor?: string,
+  servingTemperature?: string,
   expirationDate?: Date,
   type?: ItemType
 }

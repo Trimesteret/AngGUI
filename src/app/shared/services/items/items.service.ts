@@ -16,6 +16,20 @@ export class ItemsService {
   constructor(private http: HttpClient) {
   }
 
+  /**
+   * Get item by id
+   * @param id id of item
+   */
+  getItemById(id: number): Observable<ItemDto> {
+    return this.http.get<ItemDto>(this.url + '/' + id);
+  }
+
+  /**
+   * Get item count with a search
+   * @param search search string
+   * @param sortByPrice sort by price
+   * @param itemType item type
+   */
   getItemCount(search?: string, sortByPrice?: SortByPrice, itemType?: ItemType): Observable<number> {
     search = search?.trim();
 
@@ -28,6 +42,13 @@ export class ItemsService {
     return this.http.get<number>(this.url + '/itemCount', { params: params });
   }
 
+  /**
+   * Get items by search
+   * @param amountOfItemsShown amount of items shown
+   * @param search search string
+   * @param sortByPrice sort by price
+   * @param itemType item type
+   */
   getItemsBySearch(amountOfItemsShown: number, search?: string, sortByPrice?: SortByPrice, itemType?: ItemType): Observable<ItemDto[]> {
     search = search?.trim();
 
