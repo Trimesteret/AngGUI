@@ -1,8 +1,8 @@
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
-import { AuthenticationService } from '../../services/authentication/authentication.service';
-import { ItemsService } from '../../services/items/items.service';
 import { Item } from '../../warehouse/create-item/item';
+import { AuthenticationService } from '../../shared/services/authentication/authentication.service';
+import { ItemsService } from '../../shared/services/items/items.service';
 
 @Component({
   selector: 'app-home-page',
@@ -16,15 +16,6 @@ export class HomePageComponent {
 
   constructor(public router: Router, private authenticationService: AuthenticationService, private itemService: ItemsService) {
     this.loggedIn = this.authenticationService.getLoggedIn();
-    this.getItems();
-  }
-
-  public getItems(): void {
-    this.loading = true;
-    this.itemService.getAllItems().subscribe(items => {
-      console.log(items);
-      this.loading = false;
-    });
   }
 
   public logout(): void {

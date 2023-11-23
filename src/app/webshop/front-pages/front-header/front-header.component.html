@@ -1,45 +1,51 @@
 <mat-toolbar fxFlex fxLayoutAlign="center center" class="background-color-white">
   <div style="width: 96%; display: flex" fxLayoutAlign="space-between center">
-    <a fxFlex="30" routerLink="">
+    <a fxFlex="25" routerLink="">
       <img style="display: flex" height="30px" alt="Budolfi Vin logo" src="assets/budolfilogo.svg">
     </a>
-    <div *ngIf="!isTablet" fxFlex="60" fxLayoutAlign="center center" fxLayoutGap="20px">
+    <div *ngIf="!isTablet" fxFlex="70" fxLayoutAlign="center center" fxLayoutGap="20px">
       <button mat-button routerLink="">
         Forside
         <mat-icon>
           <img height="100%" alt="Budolfi Vin logo" src="assets/budolfiGrapes.svg">
         </mat-icon>
       </button>
-      <button *ngIf="!loggedIn" mat-button routerLink="">
-        Om Budolfi Vin
+      <button mat-button routerLink="">
+        Vinsmagning
         <mat-icon>
-          info
+          wine_bar
+        </mat-icon>
+      </button>
+      <button *ngIf="loggedIn" mat-button routerLink="/my-profile">
+        Min profil
+        <mat-icon>
+          person
         </mat-icon>
       </button>
       <button *ngIf="loggedIn" mat-button routerLink="/warehouse">
-        Warehouse
+        Varehus
         <mat-icon>
           warehouse
         </mat-icon>
       </button>
       <button *ngIf="!loggedIn" mat-button routerLink="/login">
-        login
+        Log ind
         <mat-icon>login</mat-icon>
       </button>
       <button *ngIf="loggedIn" (click)="logout()" mat-button>
-        logout
+        Log ud
         <mat-icon>logout</mat-icon>
       </button>
     </div>
-    <div fxFlex.lt-md="70" fxFlex.gt-md="30" fxLayoutGap.gt-md="20" fxLayoutGap.lt-md="0" fxLayoutAlign="end center">
-      <button mat-button  routerLink="/webshop">
+    <div fxFlex.lt-md="70" fxFlex.gt-md="25" fxLayoutGap.gt-md="20" fxLayoutGap.lt-md="0" fxLayoutAlign="end center">
+      <button mat-button routerLink="/webshop">
         {{'100'}}
         <mat-icon>
           shopping_cart
         </mat-icon>
       </button>
       <ng-container *ngIf="!isTablet">
-        <button mat-raised-button color="primary" routerLink="/webshop/catalogue">
+        <button mat-raised-button color="primary" routerLink="/webshop">
           Webshop
           <mat-icon>
             webshop
@@ -76,17 +82,29 @@
     </mat-icon>
   </button>
   <button *ngIf="loggedIn" mat-menu-item routerLink="/warehouse">
-    Warehouse
+    Varehus
     <mat-icon>
       warehouse
     </mat-icon>
   </button>
+  <button mat-menu-item routerLink="">
+    Vinsmagning
+    <mat-icon>
+      wine_bar
+    </mat-icon>
+  </button>
+  <button *ngIf="loggedIn" mat-menu-item routerLink="/my-profile">
+    Min profil
+    <mat-icon>
+      person
+    </mat-icon>
+  </button>
   <button *ngIf="!loggedIn" mat-menu-item routerLink="/login">
-    Login
+    Log ind
     <mat-icon>login</mat-icon>
   </button>
   <button *ngIf="loggedIn" (click)="logout()" mat-menu-item>
-    Logout
+    Log ud
     <mat-icon>logout</mat-icon>
   </button>
 </mat-menu>

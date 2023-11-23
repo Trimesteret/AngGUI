@@ -28,10 +28,22 @@ html, body {
   z-index: 3;
 }
 
+.no-padding{
+  padding: 0 !important;
+}
+
+.no-margin {
+  margin: 0 !important;
+}
+
 .padding-inline-10{
   padding-inline: 10px
 }
 
 .padding-top-20{
   padding-top: 20px;
+}
+
+.padding-20{
+  padding: 20px;
 }

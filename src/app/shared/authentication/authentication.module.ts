@@ -8,11 +8,11 @@ import { MatInputModule } from '@angular/material/input';
 import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
 import { MatFormFieldModule } from '@angular/material/form-field';
-import { FrontModuleModule } from '../front/front.module';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { SignupPageComponent } from './signup-page/signup-page.component';
 import { RouterLink } from '@angular/router';
 import { ForgotPasswordComponent } from './forgot-password/forgot-password.component';
+import { FrontModule } from '../../webshop/front-pages/front.module';
 
 
 @NgModule({
@@ -30,7 +30,7 @@ import { ForgotPasswordComponent } from './forgot-password/forgot-password.compo
     MatIconModule,
     MatButtonModule,
     MatFormFieldModule,
-    FrontModuleModule,
+    FrontModule,
     NgOptimizedImage,
     MatProgressSpinnerModule,
     RouterLink,

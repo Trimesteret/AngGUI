@@ -11,12 +11,19 @@ import { MatToolbarModule } from '@angular/material/toolbar';
 import { ExtendedModule, FlexModule } from '@angular/flex-layout';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatMenuModule } from '@angular/material/menu';
+import { MatCardModule } from '@angular/material/card';
+import { MyProfileComponent } from './my-profile/my-profile.component';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { MatTableModule } from '@angular/material/table';
+import { MatSortModule } from '@angular/material/sort';
+import { ReactiveFormsModule } from '@angular/forms';
 
 @NgModule({
   declarations: [
     FrontPageComponent,
     FrontBasicLayoutComponent,
     FrontHeaderComponent,
+    MyProfileComponent
   ],
   exports: [
     FrontBasicLayoutComponent,
@@ -32,7 +39,12 @@ import { MatMenuModule } from '@angular/material/menu';
     FlexModule,
     MatFormFieldModule,
     MatMenuModule,
-    ExtendedModule
+    ExtendedModule,
+    MatCardModule,
+    MatProgressSpinnerModule,
+    MatTableModule,
+    MatSortModule,
+    ReactiveFormsModule,
   ]
 })
-export class FrontModuleModule { }
+export class FrontModule { }
