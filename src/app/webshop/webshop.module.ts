@@ -15,6 +15,7 @@ import { CatalogueComponent } from './catalogue/catalogue.component';
 import { MatGridListModule } from '@angular/material/grid-list';
 import { MatSelectModule } from '@angular/material/select';
 import { MatCardModule } from '@angular/material/card';
+import { MatButtonModule } from '@angular/material/button';
 
 @NgModule({
   declarations: [
@@ -37,7 +38,8 @@ import { MatCardModule } from '@angular/material/card';
     MatGridListModule,
     MatSelectModule,
     MatCardModule,
-    FormsModule
+    FormsModule,
+    MatButtonModule
   ]
 })
 export class WebshopModule { }

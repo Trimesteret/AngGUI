@@ -1,4 +1,4 @@
-import { WineType } from '../enums/wine-type';
+import { ItemType } from '../enums/item-type';
 
 export interface ItemDto {
   id: number,
@@ -8,5 +8,5 @@ export interface ItemDto {
   price: number,
   imageUrl: string,
   expirationDate?: Date,
-  type?: WineType
+  type?: ItemType
 }

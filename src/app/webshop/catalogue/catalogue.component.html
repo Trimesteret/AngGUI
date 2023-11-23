@@ -1,5 +1,5 @@
-<app-front-basic-layout>
-  <div fxFlexFill fxLayout="column" class="padding-inline-10" fxLayoutGap="10">
+<app-front-basic-layout [loggedIn]="loggedIn" (logOutEvent)="logout()">
+  <div fxLayout="column" class="padding-inline-10" fxLayoutGap="10">
     <div fxFlex fxLayout.lt-sm="column" fxLayout.gt-sm="row" fxLayoutGap="20" class="padding-top-20">
       <mat-form-field fxFlex.gt-sm="40" fxFlex.sm="100">
         <mat-label>Søg</mat-label>
@@ -10,7 +10,7 @@
         <mat-label>Filtrer efter vin type</mat-label>
         <mat-select [(value)]="typeFilter" [(ngModel)]="typeFilter" (ngModelChange)="searchChange()">
           <mat-option>None</mat-option>
-          <mat-option *ngFor="let wineType of getWineTypeValues()" [value]="wineType">{{wineType}}</mat-option>
+          <mat-option *ngFor="let itemType of getItemTypeValues()" [value]="itemType">{{itemType}}</mat-option>
         </mat-select>
       </mat-form-field>
 
@@ -18,22 +18,37 @@
         <mat-label> Sortér efter pris </mat-label>
         <mat-select [(ngModel)]="priceSort" (ngModelChange)="searchChange()">
           <mat-option>None</mat-option>
-          <mat-option value="low-to-high"> Lav til høj </mat-option>
-          <mat-option value="high-to-low"> Høj til lav </mat-option>
+          <mat-option *ngFor="let sortFilter of getSortFilterValues()" [value]="sortFilter">{{sortFilter}}</mat-option>
         </mat-select>
       </mat-form-field>
     </div>
 
-    <mat-grid-list fxFlex="100%" gutterSize="20" cols="6">
-      <mat-grid-tile [colspan]="columnAmount" [rowspan]="columnAmount" *ngFor="let wine of displayWines">
+    <div fxFlexFill *ngIf="loading" fxLayoutAlign="center top" class="spinner">
+      <mat-spinner></mat-spinner>
+    </div>
+
+    <mat-grid-list *ngIf="!loading"  fxFlex="100%" gutterSize="20" cols="6">
+      <mat-grid-tile [colspan]="columnAmount" [rowspan]="columnAmount" *ngFor="let item of displayItems">
         <div routerLink="/webshop" style="padding: 10px" class="shop-card full-width full-height" fxFlex fxLayout="column" fxLayoutAlign="center center">
-          <img [src]="wine.imageUrl" alt="{{ wine.name }}" class="wine-image" style="margin-bottom: 10px">
+          <img [src]="item.imageUrl" alt="{{ item.name }}" class="wine-image" style="margin-bottom: 10px">
           <span fxFlex fxLayout="row" style="font-size: 1.1rem; font-weight: bold;" class="full-width" fxLayoutAlign="space-between center">
-            <p>{{wine.name}} </p>
-            <p style="color: #673ab7">{{wine.price}},- </p>
+            <p>{{item.name}} </p>
+            <p style="color: #673ab7">{{item.price}},- </p>
           </span>
         </div>
       </mat-grid-tile>
     </mat-grid-list>
+
+    <div fxFlex fxLayout="row"  class="padding-20"  fxLayoutAlign="center center">
+      <div fxFlex="33">
+
+      </div>
+      <div fxFlex="33" fxLayoutAlign="center center">
+        <button *ngIf="checkForMoreItems()" mat-fab (click)="showMoreItems()"><mat-icon>arrow_downward</mat-icon></button>
+      </div>
+      <div fxFlex="33" fxLayoutAlign="end start">
+        <p class="no-margin">{{getItemText()}}</p>
+      </div>
+    </div>
   </div>
 </app-front-basic-layout>
