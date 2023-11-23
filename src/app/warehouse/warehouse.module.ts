@@ -16,6 +16,13 @@ import { CreateItemComponent } from './create-item/create-item.component';
 import { WarehouseBasicLayoutComponent } from './warehouse-basic-layout/warehouse-basic-layout.component';
 import { WarehouseHeaderComponent } from './warehouse-header/warehouse-header.component';
 import { MatToolbarModule } from '@angular/material/toolbar';
+import { MatIconModule } from '@angular/material/icon';
+import { MatSelectModule } from '@angular/material/select';
+import { MatGridListModule } from '@angular/material/grid-list';
+import { FrontModule } from '../webshop/front-pages/front.module';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { MatSortModule } from '@angular/material/sort';
+import { MatTableModule } from '@angular/material/table';
 
 
 
@@ -39,7 +46,14 @@ import { MatToolbarModule } from '@angular/material/toolbar';
     MatDatepickerModule,
     FlexModule,
     MatNativeDateModule,
-    MatToolbarModule
+    MatToolbarModule,
+    MatIconModule,
+    MatSelectModule,
+    MatGridListModule,
+    FrontModule,
+    MatProgressSpinnerModule,
+    MatSortModule,
+    MatTableModule
   ],
   providers: [{ provide: MAT_DATE_LOCALE, useValue: 'es-Es' }]
 })

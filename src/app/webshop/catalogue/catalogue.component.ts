@@ -185,12 +185,12 @@ export class CatalogueComponent implements OnInit {
     }
 
     switch (this.priceSort) {
-    case 'low-to-high':
-      this.displayWines = this.displayWines.sort((a, b) => a.price - b.price);
-      break;
-    case 'high-to-low':
-      this.displayWines = this.displayWines.sort((a, b) => b.price - a.price);
-      break;
+      case 'low-to-high':
+        this.displayWines = this.displayWines.sort((a, b) => a.price - b.price);
+        break;
+      case 'high-to-low':
+        this.displayWines = this.displayWines.sort((a, b) => b.price - a.price);
+        break;
     }
   }
 }
