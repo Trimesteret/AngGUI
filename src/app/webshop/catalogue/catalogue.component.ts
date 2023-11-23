@@ -1,10 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
-import { distinctUntilChanged } from 'rxjs';
+import { debounceTime, distinctUntilChanged } from 'rxjs';
 import { ItemDto } from '../../shared/interfaces/item-dto';
-import { WineType } from '../../shared/enums/wine-type';
-import { HttpClient } from '@angular/common/http';
 import { ItemsService } from '../../shared/services/items/items.service';
+import { ItemType } from '../../shared/enums/item-type';
+import { SortByPrice } from '../../shared/enums/sort-by-price';
 
 @Component({
   selector: 'app-catalogue',
@@ -15,40 +15,49 @@ import { ItemsService } from '../../shared/services/items/items.service';
 export class CatalogueComponent implements OnInit {
 
   search  = '';
-  typeFilter = '';
-  priceSort = '';
+  typeFilter: ItemType | undefined;
+  priceSort: SortByPrice | undefined;
+  itemCount= 0;
 
   loading = true;
   columnAmount = 5;
 
-  wines: ItemDto[] = [];
-
-  displayWines: ItemDto[] = [];
+  displayItems: ItemDto[] = [];
 
   readonly breakPoints = this.breakpointObserver
     .observe([Breakpoints.Large, Breakpoints.Medium, Breakpoints.Small, '(min-width: 500px)'])
     .pipe(distinctUntilChanged());
 
-  constructor(private breakpointObserver: BreakpointObserver, private http: HttpClient, private itemService: ItemsService) {
+  constructor(private breakpointObserver: BreakpointObserver, private itemService: ItemsService) {
     this.columnAmount = this.breakpointObserver.isMatched(Breakpoints.Handset) ? 1 : 5;
-    itemService.getWines().subscribe(items => {
-      this.wines = items;
+    itemService.getItemsBySearch().subscribe(items => {
+      this.displayItems = items;
       this.loading = false;
-      this.searchChange();
+    });
+
+    this.itemService.getItemCount().subscribe(itemCount => {
+      this.itemCount = itemCount;
     });
   }
 
-  getWineTypeValues(): string[] {
-    return Object.values(WineType);
+  getItemText(): string {
+    return ` Viser ${this.displayItems.length} ud af ${this.itemCount}`;
   }
 
+  getItemTypeValues(): string[] {
+    return Object.keys(ItemType)
+      .filter(key => isNaN(Number(key)));
+  }
+
+  getSortFilterValues(): string[] {
+    return Object.keys(SortByPrice)
+      .filter(key => isNaN(Number(key)));
+  }
 
   ngOnInit(): void {
     this.breakPoints.subscribe(() =>
       this.breakpointChanged()
     );
-
-    this.displayWines = this.wines;
   }
 
 
@@ -67,23 +76,12 @@ export class CatalogueComponent implements OnInit {
   }
 
   public searchChange(): void {
-    this.displayWines = this.wines.filter(wine => wine.name?.toLowerCase().includes(this.search.toLowerCase()) ||
-      wine.price.toString().includes(this.search.toLowerCase()));
-
-    if (this.typeFilter) {
-      this.displayWines = this.displayWines.filter(wine => wine.type === this.typeFilter);
-      console.log(this.wines);
-    }
-
-    switch (this.priceSort) {
-      case 'low-to-high':
-        this.displayWines = this.displayWines.sort((a, b) => a.price - b.price);
-        console.log(this.wines);
-        break;
-      case 'high-to-low':
-        this.displayWines = this.displayWines.sort((a, b) => b.price - a.price);
-        console.log(this.wines);
-        break;
-    }
+    this.loading = true;
+    this.itemService.getItemsBySearch(this.search, this.priceSort, this.typeFilter)
+      .pipe(debounceTime(2000))
+      .subscribe(items => {
+        this.displayItems = items;
+        this.loading = false;
+      });
   }
 }

@@ -61,7 +61,6 @@ export class AuthenticationService {
   public logOut(): Observable<boolean> {
     const token = this.cookieService.get('jwtToken');
     this.cookieService.deleteAll();
-    window.location.reload();
     return this.http.post<boolean>(this.url + '/LogOut', { token: token } as AuthPas);
   }
 }
