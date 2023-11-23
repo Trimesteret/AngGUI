@@ -14,7 +14,9 @@ export class CheckoutComponent {
     country: new FormControl(''),
     email: new FormControl(''),
     deliveryMethod: new FormControl(''),
-    postcode: new FormControl('')
+    postcode: new FormControl(''),
+    termsCheckbox: new FormControl(''),
+    newsletterCheckbox: new FormControl('')
   });
 
   goToPayment():void{
