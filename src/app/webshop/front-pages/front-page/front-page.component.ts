@@ -9,8 +9,8 @@ import { AuthenticationService } from '../../../shared/services/authentication/a
   styleUrls: ['./front-page.component.scss']
 })
 export class FrontPageComponent {
-  public loggedIn = false;
-  public loading = false;
+  loggedIn = false;
+  loading = false;
 
   public cards = [
     {

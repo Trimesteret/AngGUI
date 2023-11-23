@@ -5,6 +5,8 @@ import { ItemDto } from '../../shared/interfaces/item-dto';
 import { ItemsService } from '../../shared/services/items/items.service';
 import { ItemType } from '../../shared/enums/item-type';
 import { SortByPrice } from '../../shared/enums/sort-by-price';
+import { AuthenticationService } from '../../shared/services/authentication/authentication.service';
+import { MessageService } from '../../shared/services/message.service';
 
 @Component({
   selector: 'app-catalogue',
@@ -13,6 +15,7 @@ import { SortByPrice } from '../../shared/enums/sort-by-price';
 })
 
 export class CatalogueComponent implements OnInit {
+  loggedIn = false;
 
   search  = '';
   typeFilter: ItemType | undefined;
@@ -23,14 +26,19 @@ export class CatalogueComponent implements OnInit {
   columnAmount = 5;
 
   displayItems: ItemDto[] = [];
+  amountOfItemsShown = 36;
 
   readonly breakPoints = this.breakpointObserver
     .observe([Breakpoints.Large, Breakpoints.Medium, Breakpoints.Small, '(min-width: 500px)'])
     .pipe(distinctUntilChanged());
 
-  constructor(private breakpointObserver: BreakpointObserver, private itemService: ItemsService) {
+  constructor(private breakpointObserver: BreakpointObserver, private authenticationService: AuthenticationService,
+              private itemService: ItemsService, private messageService: MessageService) {
     this.columnAmount = this.breakpointObserver.isMatched(Breakpoints.Handset) ? 1 : 5;
-    itemService.getItemsBySearch().subscribe(items => {
+
+    this.loggedIn = this.authenticationService.getLoggedIn();
+
+    itemService.getItemsBySearch(this.amountOfItemsShown).subscribe(items => {
       this.displayItems = items;
       this.loading = false;
     });
@@ -41,7 +49,7 @@ export class CatalogueComponent implements OnInit {
   }
 
   getItemText(): string {
-    return ` Viser ${this.displayItems.length} ud af ${this.itemCount}`;
+    return ` Viser ${this.displayItems.length} ud af ${this.itemCount} varer`;
   }
 
   getItemTypeValues(): string[] {
@@ -77,11 +85,32 @@ export class CatalogueComponent implements OnInit {
 
   public searchChange(): void {
     this.loading = true;
-    this.itemService.getItemsBySearch(this.search, this.priceSort, this.typeFilter)
+    this.itemService.getItemCount(this.search, this.priceSort, this.typeFilter).subscribe(itemCount => {
+      this.itemCount = itemCount;
+    });
+
+    this.itemService.getItemsBySearch(this.amountOfItemsShown, this.search, this.priceSort, this.typeFilter)
       .pipe(debounceTime(2000))
       .subscribe(items => {
         this.displayItems = items;
         this.loading = false;
       });
+  }
+
+  public showMoreItems(): void {
+    this.amountOfItemsShown += 36;
+    this.searchChange();
+  }
+
+  public checkForMoreItems(): boolean {
+    return this.amountOfItemsShown < this.itemCount;
+  }
+
+  public logout(): void{
+    this.loading = true;
+    this.messageService.show('Logging out...');
+    this.authenticationService.logOut().subscribe(() => {
+      window.location.reload();
+    });
   }
 }
