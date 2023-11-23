@@ -25,8 +25,17 @@ export class CheckoutComponent {
     { value: 'gls', cost: 59, label: 'GLS' },
     { value: 'dao', cost: 59, label: 'DAO' }
   ];
+
+  addressFields = [
+    { title: 'name', placeholder: 'Navn' },
+    { title: 'phoneNumber', placeholder: 'Telefon Nummer' },
+    { title: 'email', placeholder: 'E-mail' },
+    { title: 'address', placeholder: 'Adresse' },
+    { title: 'city', placeholder: 'By' },
+    { title: 'country', placeholder: 'Land' }
+  ];
   goToPayment():void{
-    console.log("Hello Uniconta, please help :(");
+    console.log('Hello Uniconta, please help :(');
   }
   createCheckout():void{
     console.log(this.checkoutForm.value);

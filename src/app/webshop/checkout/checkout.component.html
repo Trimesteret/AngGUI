@@ -1,40 +1,28 @@
 <app-front-basic-layout>
   <div fxLayout = "row" fxFlexFill>
-    <form fxFlex = "45" fxLayout="column" class="left-section" [formGroup]="checkoutForm" (ngSubmit)="createCheckout()">
+    <form fxFlex = "60" fxLayout="column" class="left-section" [formGroup]="checkoutForm" (ngSubmit)="createCheckout()">
       <div class="form-container">
         <h2>Dine Oplysninger</h2>
         <div fxLayout="column">
-          <mat-form-field appearance="outline">
-            <input matInput formControlName="name" placeholder="Navn" required>
-          </mat-form-field>
-
-          <mat-form-field appearance="outline">
-            <input matInput formControlName="phoneNumber" placeholder="Telefon" required>
-          </mat-form-field>
-
-          <mat-form-field appearance="outline">
-            <input matInput formControlName="email" placeholder="Email" required>
-          </mat-form-field>
-
-          <mat-form-field appearance="outline">
-            <input matInput formControlName="address" placeholder="Adresse" required>
-          </mat-form-field>
-
-          <div fxLayout="row" fxLayoutGap="10px">
-            <mat-form-field fxFlex = "85" appearance="outline">
-              <input matInput formControlName="city" placeholder="By" required>
-            </mat-form-field>
-            <mat-form-field appearance="outline">
-              <input matInput formControlName="postcode" placeholder="Postnummer" required>
-            </mat-form-field>
-          </div>
-
-          <mat-form-field appearance="outline">
-            <input matInput formControlName="country" placeholder="Land"  required>
-          </mat-form-field>
+          <ng-container *ngFor="let field of addressFields">
+            <ng-container *ngIf="field.title !== 'city'; else elseCase">
+              <mat-form-field appearance="outline">
+                <input matInput [formControlName]="field.title" [placeholder]="field.placeholder" [required]="true">
+              </mat-form-field>
+            </ng-container>
+            <ng-template #elseCase>
+              <div fxLayout="row" fxLayoutGap="10px">
+                <mat-form-field fxFlex="85" appearance="outline">
+                  <input matInput formControlName="city" placeholder="By" required>
+                </mat-form-field>
+                <mat-form-field appearance="outline">
+                  <input matInput formControlName="postcode" placeholder="Postnummer" required>
+                </mat-form-field>
+              </div>
+            </ng-template>
+          </ng-container>
         </div>
       </div>
-
       <div class="form-container">
         <h2>Leveringsmuligheder</h2>
         <mat-radio-group formControlName="deliveryMethod" required>
@@ -45,7 +33,6 @@
             </mat-card>
           </div>
         </mat-radio-group>
-
         <div class="go-to-payment-box" fxLayout = "column" >
           <div fxLayout = "column">
             <mat-checkbox formControlName="termsCheckbox" required>Jeg accepterer handelsbetingelserne</mat-checkbox>
@@ -57,7 +44,6 @@
         </div>
       </div>
     </form>
-
     <div fxFlex = "20" class="basket-box">
       <p>Snooty Grape Snickerdoodle Delight - 1x</p>
       <p>Figminty Pigminty Crosser Tosser - 1x</p>
@@ -65,5 +51,3 @@
     </div>
   </div>
 </app-front-basic-layout>
-
-
