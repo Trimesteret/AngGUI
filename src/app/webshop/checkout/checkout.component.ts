@@ -13,9 +13,13 @@ export class CheckoutComponent {
     city: new FormControl(''),
     country: new FormControl(''),
     email: new FormControl(''),
-    deliveryMethod: new FormControl('')
+    deliveryMethod: new FormControl(''),
+    postcode: new FormControl('')
   });
 
+  goToPayment():void{
+    console.log("Hello Uniconta, please help :(");
+  }
   createCheckout():void{
     console.log(this.checkoutForm.value);
   }

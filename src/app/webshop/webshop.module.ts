@@ -12,6 +12,7 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { FlexLayoutModule } from '@angular/flex-layout';
 import { MatButtonModule } from '@angular/material/button';
 import { MatRadioModule } from '@angular/material/radio';
+import {MatCheckboxModule} from "@angular/material/checkbox";
 
 
 @NgModule({
@@ -19,19 +20,20 @@ import { MatRadioModule } from '@angular/material/radio';
     HomePageComponent,
     CheckoutComponent
   ],
-  imports: [
-    CommonModule,
-    WebshopRoutingModule,
-    MatInputModule,
-    ReactiveFormsModule,
-    MatIconModule,
-    MatToolbarModule,
-    MatToolbarModule,
-    FrontModuleModule,
-    MatProgressSpinnerModule,
-    FlexLayoutModule,
-    MatButtonModule,
-    MatRadioModule
-  ]
+    imports: [
+        CommonModule,
+        WebshopRoutingModule,
+        MatInputModule,
+        ReactiveFormsModule,
+        MatIconModule,
+        MatToolbarModule,
+        MatToolbarModule,
+        FrontModuleModule,
+        MatProgressSpinnerModule,
+        FlexLayoutModule,
+        MatButtonModule,
+        MatRadioModule,
+        MatCheckboxModule
+    ]
 })
 export class WebshopModule { }

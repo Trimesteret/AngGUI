@@ -1,7 +1,7 @@
 <app-front-basic-layout></app-front-basic-layout>
  <div fxLayout = "row" fxFlexFill>
 
-  <form fxFlex = "60" fxLayout="column" class="left-section" [formGroup]="checkoutForm" (ngSubmit)="createCheckout()">
+  <form fxFlex = "45" fxLayout="column" class="left-section" [formGroup]="checkoutForm" (ngSubmit)="createCheckout()">
     <div class="form-container">
       <h2>Dine Oplysninger</h2>
       <div fxLayout="column">
@@ -21,9 +21,15 @@
           <input matInput formControlName="address" placeholder="Adresse" required>
         </mat-form-field>
 
-        <mat-form-field>
-          <input matInput formControlName="city" placeholder="By" required>
-        </mat-form-field>
+        <div fxLayout="row" fxLayoutGap="10px">
+          <mat-form-field fxFlex = "85">
+            <input matInput formControlName="city" placeholder="By" required>
+          </mat-form-field>
+
+          <mat-form-field>
+            <input matInput formControlName="postcode" placeholder="Postnummer" required>
+          </mat-form-field>
+        </div>
 
         <mat-form-field>
           <input matInput formControlName="country" placeholder="Land" required>
@@ -40,15 +46,22 @@
           <mat-radio-button value="dao">DAO</mat-radio-button>
         </div>
       </mat-radio-group>
-
-      <div class="go-to-payment-box">
-
+      <div class="go-to-payment-box" fxLayout = "column" >
+        <div fxLayout = "column">
+          <mat-checkbox formControlName="termsCheckbox" required>Jeg accepterer handelsbetingelserne</mat-checkbox>
+          <mat-checkbox formControlName="newsletterCheckbox">Jeg vil gerne have gode tilbud og nyheder fra Budolfi Vin i indbakken</mat-checkbox>
+        </div>
+        <button fxFlex="50" mat-raised-button color="primary" class="go-to-payment-button" (click)="goToPayment()">
+          Gå til betaling
+        </button>
       </div>
-
     </div>
   </form>
+
   <div fxFlex = "20" class="basket-box">
     <p>Snooty Grape Snickerdoodle Delight - 1x</p>
+    <p>Figminty Pigminty Crosser Tosser - 1x</p>
+    <p>Vodka - 1x</p>
   </div>
   </div>
 
