@@ -19,6 +19,12 @@ export class CheckoutComponent {
     newsletterCheckbox: new FormControl('')
   });
 
+  deliveryMethods = [
+    { value: 'pickup', cost: 0, label: 'Afhentning i Butik' },
+    { value: 'postnord', cost: 59, label: 'Postnord Hjemmelevering' },
+    { value: 'gls', cost: 59, label: 'GLS' },
+    { value: 'dao', cost: 59, label: 'DAO' }
+  ];
   goToPayment():void{
     console.log("Hello Uniconta, please help :(");
   }

@@ -34,28 +34,18 @@
           </mat-form-field>
         </div>
       </div>
+
       <div class="form-container">
         <h2>Leveringsmuligheder</h2>
-        <mat-radio-group formControlName="deliveryMethod" required> <!--Replace with ngFor -->
+        <mat-radio-group formControlName="deliveryMethod" required>
           <div fxLayout="column" fxLayoutGap="5px">
-            <mat-card fxLayoutAlign = "space-between center" class =  "delivery-checkboxes">
-              <mat-radio-button value="pickup">Afhentning i Butik</mat-radio-button>
-              <span>0 kr</span>
-            </mat-card>
-            <mat-card fxLayoutAlign = "space-between center" class = "delivery-checkboxes">
-              <mat-radio-button value="postnord">Postnord Hjemmelevering</mat-radio-button>
-              <span>59 kr</span>
-            </mat-card>
-            <mat-card fxLayoutAlign = "space-between center" class = "delivery-checkboxes">
-              <mat-radio-button value="gls">GLS</mat-radio-button>
-              <span>59 kr</span>
-            </mat-card>
-            <mat-card fxLayoutAlign = "space-between center" class = delivery-checkboxes>
-              <mat-radio-button value="dao">DAO</mat-radio-button>
-              <span>59 kr</span>
+            <mat-card *ngFor="let method of deliveryMethods" fxLayoutAlign="space-between center" class="delivery-checkboxes">
+              <mat-radio-button [value]="method.value">{{ method.label }}</mat-radio-button>
+              <span>{{ method.cost }} kr</span>
             </mat-card>
           </div>
         </mat-radio-group>
+
         <div class="go-to-payment-box" fxLayout = "column" >
           <div fxLayout = "column">
             <mat-checkbox formControlName="termsCheckbox" required>Jeg accepterer handelsbetingelserne</mat-checkbox>
@@ -67,6 +57,7 @@
         </div>
       </div>
     </form>
+
     <div fxFlex = "20" class="basket-box">
       <p>Snooty Grape Snickerdoodle Delight - 1x</p>
       <p>Figminty Pigminty Crosser Tosser - 1x</p>
