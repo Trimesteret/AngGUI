@@ -27,3 +27,19 @@ html, body {
   background-color: rgba(255, 255, 255, 0.4);
   z-index: 3;
 }
+
+.no-padding{
+  padding: 0 !important;
+}
+
+.no-margin {
+  margin: 0 !important;
+}
+
+.padding-inline-10{
+  padding-inline: 10px
+}
+
+.padding-top-20{
+  padding-top: 20px;
+}

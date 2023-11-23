@@ -1,0 +1,76 @@
+<app-front-basic-layout [loggedIn]="loggedIn" (logOutEvent)="logout()">
+  <div fxFlex fxLayoutAlign="center start" fxLayout="row" *ngIf="!loading" style="background-color: lightgray">
+    <form *ngIf="profileForm" fxLayout="column" class="document" fxLayoutGap="5" [formGroup]="profileForm" (ngSubmit)="submitProfile()">
+      <span fxLayout="row" fxLayoutGap="15" fxLayoutAlign="start center">
+        <mat-icon>person</mat-icon>
+        <h1 class="no-margin no-padding">Min profil</h1>
+      </span>
+      <mat-form-field fxFlex>
+        <mat-label>Fornavn</mat-label>
+        <input matInput type="text" formControlName="firstName">
+        <mat-icon matIconSuffix>person</mat-icon>
+      </mat-form-field>
+      <mat-form-field fxFlex>
+        <mat-label>Efternavn</mat-label>
+        <input matInput type="text" formControlName="lastName">
+        <mat-icon matIconSuffix>person</mat-icon>
+      </mat-form-field>
+      <mat-form-field fxFlex>
+        <mat-label>Telefon</mat-label>
+        <input matInput type="phone" formControlName="phone">
+        <mat-icon matIconSuffix>phone</mat-icon>
+      </mat-form-field>
+      <mat-form-field fxFlex>
+        <mat-label>Email</mat-label>
+        <input matInput type="text" formControlName="email">
+        <mat-icon matIconSuffix>email</mat-icon>
+      </mat-form-field>
+      <mat-form-field fxFlex>
+        <mat-label>Adgangskode</mat-label>
+        <input matInput [type]="hide ? 'password' : 'text'" formControlName="password">
+        <button mat-icon-button type="button" matSuffix (click)="hide = !hide" [attr.aria-label]="'Hide password'" [attr.aria-pressed]="hide">
+          <mat-icon>{{hide ? 'visibility_off' : 'visibility'}}</mat-icon>
+        </button>
+      </mat-form-field>
+
+      <div fxFlex fxLayout="row" fxLayoutAlign="end center" fxLayoutGap="20">
+        <button color="accent" type="button" [disabled]="!profileForm.dirty" (click)="getUserAndBuildForm()" mat-raised-button>
+          <mat-icon>restart_alt</mat-icon>
+          Nulstil
+        </button>
+        <button color="primary" type="submit" mat-raised-button>
+          <mat-icon>save</mat-icon>
+          Gem
+        </button>
+      </div>
+
+      <span style="padding-top: 30px" fxLayout="row" fxLayoutGap="15" fxLayoutAlign="start center">
+        <mat-icon>description</mat-icon>
+        <h1 class="no-margin no-padding">Mine ordre</h1>
+      </span>
+
+      <table mat-table [dataSource]="customerPurchaseOrders" (matSortChange)="sortData($event)"matSort class="mat-elevation-z8">
+        <ng-container matColumnDef="id">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header sortActionDescription="Sort by id">
+            Id
+          </th>
+          <td mat-cell *matCellDef="let order"> {{order.id}} </td>
+        </ng-container>
+
+        <ng-container matColumnDef="status">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header sortActionDescription="Sort by status">
+            Status
+          </th>
+          <td mat-cell *matCellDef="let order"> {{order.status}} </td>
+        </ng-container>
+
+        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+        <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+      </table>
+    </form>
+  </div>
+
+  <div fxFlexFill *ngIf="loading" fxLayoutAlign="center center" class="spinner">
+    <mat-spinner></mat-spinner>
+  </div>
+</app-front-basic-layout>

@@ -1,0 +1,29 @@
+<app-login-basic-layout title="Sign up" [loading]="loading" page="signup" (submitAuth)="signup()">
+  <form fxFlex class="full-width" fxLayout="column" fxLayoutGap="9" [formGroup]="signupForm" (ngSubmit)="signup()">
+    <mat-form-field>
+      <mat-label>Fornavn</mat-label>
+      <input matInput type="text" formControlName="firstName">
+      <mat-icon matIconSuffix>person</mat-icon>
+    </mat-form-field>
+    <mat-form-field>
+      <mat-label>Efternavn</mat-label>
+      <input matInput type="text" formControlName="lastName">
+      <mat-icon matIconSuffix>person</mat-icon>
+    </mat-form-field>
+    <mat-form-field>
+      <mat-label>Telefon</mat-label>
+      <input matInput type="tel" formControlName="phone">
+      <mat-icon matIconSuffix>phone</mat-icon>
+    </mat-form-field>
+    <mat-form-field>
+      <mat-label>Din email</mat-label>
+      <input matInput type="email" formControlName="email">
+      <mat-icon matIconSuffix>mail</mat-icon>
+    </mat-form-field>
+    <mat-form-field>
+      <mat-label>Din adgangskode</mat-label>
+      <input matInput type="text" formControlName="password">
+      <mat-icon matIconSuffix>lock</mat-icon>
+    </mat-form-field>
+  </form>
+</app-login-basic-layout>

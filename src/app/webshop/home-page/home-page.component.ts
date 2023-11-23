@@ -1,8 +1,8 @@
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
-import { AuthenticationService } from '../../services/authentication/authentication.service';
-import { ItemsService } from '../../services/items/items.service';
 import { Item } from '../../warehouse/create-item/item';
+import { AuthenticationService } from '../../shared/services/authentication/authentication.service';
+import { ItemsService } from '../../shared/services/items/items.service';
 
 @Component({
   selector: 'app-home-page',
