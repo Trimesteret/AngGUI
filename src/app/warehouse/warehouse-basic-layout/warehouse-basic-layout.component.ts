@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, EventEmitter, Output } from '@angular/core';
 
 @Component({
   selector: 'app-warehouse-basic-layout',
@@ -6,5 +6,10 @@ import { Component } from '@angular/core';
   styleUrls: ['./warehouse-basic-layout.component.scss']
 })
 export class WarehouseBasicLayoutComponent {
+  @Output() logOutEvent = new EventEmitter();
 
+
+  public logout(): void{
+    this.logOutEvent.emit();
+  }
 }
