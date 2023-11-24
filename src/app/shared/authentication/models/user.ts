@@ -4,7 +4,7 @@ export interface User {
   lastName: string
   email: string
   password?: string
-  phone: number
+  phone: string
   role?: number
   token?: string
   tokenExpiration?: Date
