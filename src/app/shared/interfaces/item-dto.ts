@@ -1,11 +1,18 @@
 import { ItemType } from '../enums/item-type';
 
 export interface ItemDto {
-  id: number,
+  id?: number,
   name: string,
   ean: string,
-  quantity: number,
+  description?: string,
   price: number,
+  quantity: number,
+  year?: number,
+  volume?: number,
+  alcohol?: number,
+  country?: string,
+  grapesort?: string,
+  suitables?: string,
   imageUrl: string,
   expirationDate?: Date,
   type?: ItemType

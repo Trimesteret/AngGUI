@@ -2,32 +2,37 @@
   <div fxFlex fxLayoutAlign="center start" fxLayout="row">
     <form *ngIf="itemForm" fxLayout="column" class="document" fxLayoutGap="5" [formGroup]="itemForm" (ngSubmit)="submitItem()">
       <mat-form-field>
-        <mat-label>item Name:</mat-label>
+        <mat-label>Varenavn</mat-label>
         <input matInput type="text" formControlName="itemName">
       </mat-form-field>
 
       <mat-form-field>
-        <mat-label>item Description:</mat-label>
+        <mat-label>Varenummer</mat-label>
+        <input matInput type="text" formControlName="EAN">
+      </mat-form-field>
+
+      <mat-form-field>
+        <mat-label>Varebeskrivelse</mat-label>
         <input matInput type="text" formControlName="itemDescription">
       </mat-form-field>
 
       <mat-form-field>
-        <mat-label>Price:</mat-label>
+        <mat-label>Pris</mat-label>
         <input matInput type="text" formControlName="itemPrice">
       </mat-form-field>
 
       <mat-form-field>
-        <mat-label>Quantity:</mat-label>
+        <mat-label>Antal</mat-label>
         <input matInput type="text" formControlName="itemQuantity">
       </mat-form-field>
 
       <mat-form-field>
         <mat-label>Vælg type af produkt</mat-label>
         <mat-select [(value)]="selected">
-          <mat-option>None</mat-option>
-          <mat-option value="wine">Wine</mat-option>
-          <mat-option value="liquor">Liquor</mat-option>
-          <mat-option value="option3">yes</mat-option>
+<!--          <mat-option>None</mat-option>-->
+          <mat-option value="wine">Vin</mat-option>
+          <mat-option value="liquor">Likør</mat-option>
+          <mat-option value="other">Anden</mat-option>
         </mat-select>
       </mat-form-field>
 
@@ -35,17 +40,17 @@
       <ng-container *ngIf="selected === 'wine' || selected === 'liquor'">
         <mat-form-field>
           <mat-label>Fra år:</mat-label>
-          <input matInput type="text" formControlName="yearField">
+          <input matInput type="text" formControlName="year">
         </mat-form-field>
 
         <mat-form-field>
           <mat-label>Produkt volume:</mat-label>
-          <input matInput type="text" formControlName="volumeField">
+          <input matInput type="text" formControlName="volume">
         </mat-form-field>
 
         <mat-form-field>
           <mat-label>Alkohol Procent:</mat-label>
-          <input matInput type="text" formControlName="alcoholPercentageField">
+          <input matInput type="text" formControlName="alcoholPercentage">
         </mat-form-field>
       </ng-container>
 
@@ -53,12 +58,12 @@
       <ng-container *ngIf="selected === 'wine'">
         <mat-form-field>
           <mat-label>Oprindelsesland:</mat-label>
-          <input matInput type="text" formControlName="countryField">
+          <input matInput type="text" formControlName="country">
         </mat-form-field>
 
         <mat-form-field>
           <mat-label>Druesort:</mat-label>
-          <input matInput type="text" formControlName="grapesortField">
+          <input matInput type="text" formControlName="grapesort">
         </mat-form-field>
 
         <mat-form-field>
@@ -72,14 +77,34 @@
           <mat-label>Vintype</mat-label>
           <mat-select [(value)]="wineType">
             <mat-option>None</mat-option>
-            <mat-option value="vin1">vin1</mat-option>
-            <mat-option value="vin2">vin2</mat-option>
-            <mat-option value="yes">yes</mat-option>
+            <mat-option value="vintype1">vin1</mat-option>
+            <mat-option value="vintype2">vin2</mat-option>
+            <mat-option value="vintype-anden">other</mat-option>
           </mat-select>
         </mat-form-field>
       </ng-container>
 
-      <button (click)="submitItem()" mat-raised-button color="primary">Submit</button>
+<!--      Liquor-->
+      <ng-container *ngIf="selected === 'liquor'">
+        <mat-form-field>
+          <mat-label>Likørtype</mat-label>
+          <mat-select [(value)]="wineType">
+            <mat-option value="likør1">L1</mat-option>
+            <mat-option value="likør2">l2</mat-option>
+            <mat-option value="likør3">l3</mat-option>
+          </mat-select>
+        </mat-form-field>
+      </ng-container>
+
+<!--      Other-->
+      <ng-container *ngIf="selected === 'other'">
+        <mat-form-field>
+          <mat-label>Udløbsdato</mat-label>
+          <input matInput type="date" formControlName="expirationDate">
+        </mat-form-field>
+      </ng-container>
+
+      <button mat-raised-button color="primary">Submit</button>
 
     </form>
   </div>

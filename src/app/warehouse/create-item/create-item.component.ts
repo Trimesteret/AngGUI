@@ -1,54 +1,48 @@
-import { Component } from '@angular/core';
-import { FormControl, FormGroup } from '@angular/forms';
+import { Component, OnInit } from '@angular/core';
+import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { Item } from './item';
 import { HttpClient } from '@angular/common/http';
+import { User } from '../../shared/authentication/models/user';
+import { ItemDto } from '../../shared/interfaces/item-dto';
 
 @Component({
   selector: 'app-create-item',
   templateUrl: './create-item.component.html',
   styleUrls: ['./create-item.component.scss']
 })
-export class CreateItemComponent {
+export class CreateItemComponent implements OnInit {
   selected = 'something';
   wineType = 'something';
   suitables = new FormControl('');
   suitablesList: string[] = ['Dessert', 'Fisk', 'Havregrød'];
 
+  itemForm: FormGroup | undefined;
 
-  itemForm = new FormGroup({
-    itemName: new FormControl(''),
-    itemDescription: new FormControl(''),
-    itemPrice: new FormControl(),
-    itemQuantity: new FormControl(),
-    yearField: new FormControl(),
-    volumeField: new FormControl(),
-    alcoholPercentageField: new FormControl(),
-    countryField: new FormControl(),
-    grapesortField: new FormControl(),
-    suitables: new FormControl(),
-    wineType: new FormControl()
-  });
-  constructor(private http: HttpClient) {}
-  fileName = '';
+  public buildItemForm(item?: ItemDto): void {
+    this.itemForm = this.formBuilder.group({
+      itemName: [item?.name ? item.name : '', Validators.required],
+      EAN: [item?.ean ? item.ean : '', Validators.required],
+      itemDescription: [item?.description ? item.description : '', Validators.required],
+      itemPrice: [item?.price ? item.price : '', [Validators.required]],
+      itemQuantity: [item?.quantity ? item.quantity : '', [Validators.required]],
+      year: [item?.year ? item.year : '', [Validators.required]],
+      volume: [item?.volume ? item.volume : '', [Validators.required]],
+      alcoholPercentage: [item?.alcohol ? item.alcohol : '', [Validators.required]],
+      country: [item?.country ? item.country : '', [Validators.required]],
+      grapesort: [item?.grapesort ? item.grapesort : '', [Validators.required]],
+      suitables: [item?.suitables ? item.suitables : '', [Validators.required]],
+      expirationDate: [item?.expirationDate ? item.expirationDate : '', [Validators.required]],
+      wineType: [item?.type ? item.type : '', [Validators.required]]
+    });
+  }
 
-  // eslint-disable-next-line @typescript-eslint/typedef
-  // onFileSelected(event):void{
-  //
-  //   const file:File = event.target.files[0];
-  //
-  //   if (file) {
-  //     this.fileName = file.name;
-  //     const formData = new FormData();
-  //     formData.append('thumbnail', file);
-  //     const upload$ = this.http.post('/api/thumbnail-upload', formData);
-  //     upload$.subscribe();
-  //   }
-  // }
+  ngOnInit(): void {
+    this.buildItemForm();
+  }
 
-
+  constructor(private http: HttpClient, private formBuilder: FormBuilder) {}
 
   submitItem(): void {
-    const req = this.http.post<Item>('http://localhost:5169/api/item', { item: this.itemForm.value as Item } );
-    req.subscribe(items => console.log(items));
+    console.log('Form values:', this.formBuilder);
   }
 }
