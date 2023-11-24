@@ -2,13 +2,13 @@
   <form fxFlex class="full-width" fxLayout="column" fxLayoutGap="9" [formGroup]="loginForm" (ngSubmit)="login()">
     <mat-form-field>
       <mat-label>Enter your email</mat-label>
-      <input matInput type="email" formControlName="email">
+      <input matInput id="email" type="email" formControlName="email">
       <mat-icon matIconSuffix>mail</mat-icon>
     </mat-form-field>
     <mat-form-field>
       <mat-label>Enter your password</mat-label>
-      <input matInput [type]="hide ? 'password' : 'text'" formControlName="password">
-      <button mat-icon-button matSuffix (click)="hide = !hide" [attr.aria-label]="'Hide password'" [attr.aria-pressed]="hide">
+      <input matInput id="password" [type]="hide ? 'password' : 'text'" formControlName="password">
+      <button mat-icon-button matSuffix type="button" (click)="hide = !hide">
         <mat-icon>{{hide ? 'visibility_off' : 'visibility'}}</mat-icon>
       </button>
     </mat-form-field>
