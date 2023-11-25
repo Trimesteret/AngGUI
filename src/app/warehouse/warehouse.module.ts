@@ -16,13 +16,10 @@ import { CreateItemComponent } from './create-item/create-item.component';
 import { WarehouseBasicLayoutComponent } from './warehouse-basic-layout/warehouse-basic-layout.component';
 import { WarehouseHeaderComponent } from './warehouse-header/warehouse-header.component';
 import { MatToolbarModule } from '@angular/material/toolbar';
+import { CreateEditUsersComponent } from './create-edit-users/create-edit-users.component';
 import { MatIconModule } from '@angular/material/icon';
-import { MatSelectModule } from '@angular/material/select';
-import { MatGridListModule } from '@angular/material/grid-list';
-import { FrontModule } from '../webshop/front-pages/front.module';
+import { MatMenuModule } from '@angular/material/menu';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
-import { MatSortModule } from '@angular/material/sort';
-import { MatTableModule } from '@angular/material/table';
 
 
 
@@ -32,7 +29,8 @@ import { MatTableModule } from '@angular/material/table';
     CreateInboundOrderComponent,
     CreateItemComponent,
     WarehouseBasicLayoutComponent,
-    WarehouseHeaderComponent
+    WarehouseHeaderComponent,
+    CreateEditUsersComponent
   ],
   imports: [
     CommonModule,
@@ -48,12 +46,8 @@ import { MatTableModule } from '@angular/material/table';
     MatNativeDateModule,
     MatToolbarModule,
     MatIconModule,
-    MatSelectModule,
-    MatGridListModule,
-    FrontModule,
-    MatProgressSpinnerModule,
-    MatSortModule,
-    MatTableModule
+    MatMenuModule,
+    MatProgressSpinnerModule
   ],
   providers: [{ provide: MAT_DATE_LOCALE, useValue: 'es-Es' }]
 })
