@@ -45,9 +45,18 @@
       </div>
     </form>
     <div fxFlex = "20" class="basket-box">
-      <p>Snooty Grape Snickerdoodle Delight - 1x</p>
-      <p>Figminty Pigminty Crosser Tosser - 1x</p>
-      <p>Vodka - 1x</p>
+      <ng-container *ngFor="let field of basketContent">
+      <mat-card>
+        <div fxLayout = "row" fxLayoutAlign = "space-between center">
+          <p>{{field.name}}</p>
+          <p>{{field.price}}</p>
+        </div>
+      </mat-card>
+        </ng-container>
+      <div fxLayout = "row" fxLayoutAlign = "space-between center">
+        <p>Total:</p>
+        <p>200 kr</p>
+      </div>
     </div>
   </div>
 </app-front-basic-layout>

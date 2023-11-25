@@ -34,8 +34,36 @@ export class CheckoutComponent {
     { title: 'city', placeholder: 'By' },
     { title: 'country', placeholder: 'Land' }
   ];
+
+
+  // Example. This must be fetched from the actual basket, which will probably need a service.
+  basketContent = [
+    {name: 'Inshallah', price: '200'},
+    {name: 'God Gammeldags Rødvin', price: '300'},
+    {name: 'God Gammeldags Rødvin', price: '300'},
+    {name: 'God Gammeldags Rødvin', price: '300'},
+    {name: 'God Gammeldags Rødvin', price: '300'},
+    {name: 'God Gammeldags Rødvin', price: '300'},
+    {name: 'Viktor Special', price: '30'}
+    ];
   goToPayment():void{
     console.log('Hello Uniconta, please help :(');
+  }
+
+  // Should probably be in a basket/item service
+  calculateTotalPrice(basketContent: { name: string, price: string }[]): number {
+    let totalPrice = 0;
+
+    for (const item of basketContent) {
+      const itemPrice = parseFloat(item.price);
+
+      if (!isNaN(itemPrice)) {
+        totalPrice += itemPrice;
+      } else {
+        console.error(`Invalid price for item '${item.name}': ${item.price}`);
+      }
+    }
+    return totalPrice;
   }
   createCheckout():void{
     console.log(this.checkoutForm.value);
