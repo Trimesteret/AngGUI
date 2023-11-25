@@ -11,7 +11,7 @@ import { MatInputModule } from '@angular/material/input';
 import { MatButtonModule } from '@angular/material/button';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { FlexModule } from '@angular/flex-layout';
-import { MAT_DATE_LOCALE, MatNativeDateModule } from '@angular/material/core';
+import { MAT_DATE_LOCALE, MatNativeDateModule, MatOptionModule } from '@angular/material/core';
 import { CreateItemComponent } from './create-item/create-item.component';
 import { WarehouseBasicLayoutComponent } from './warehouse-basic-layout/warehouse-basic-layout.component';
 import { WarehouseHeaderComponent } from './warehouse-header/warehouse-header.component';
@@ -20,6 +20,7 @@ import { CreateEditUsersComponent } from './create-edit-users/create-edit-users.
 import { MatIconModule } from '@angular/material/icon';
 import { MatMenuModule } from '@angular/material/menu';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { MatSelectModule } from '@angular/material/select';
 
 
 
@@ -47,7 +48,9 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
     MatToolbarModule,
     MatIconModule,
     MatMenuModule,
-    MatProgressSpinnerModule
+    MatProgressSpinnerModule,
+    MatOptionModule,
+    MatSelectModule
   ],
   providers: [{ provide: MAT_DATE_LOCALE, useValue: 'es-Es' }]
 })
