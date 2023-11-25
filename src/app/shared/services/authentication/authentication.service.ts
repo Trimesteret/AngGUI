@@ -31,7 +31,7 @@ export class AuthenticationService {
    * @param user
    */
   public signup(user: User): Observable<boolean>{
-    return this.http.post<boolean>(this.url, user);
+    return this.http.post<boolean>(this.url + '/Signup', user);
   }
 
   /**
