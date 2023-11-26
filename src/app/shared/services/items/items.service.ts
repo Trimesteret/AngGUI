@@ -5,13 +5,14 @@ import { environment } from '../../../../environments/environment';
 import { ItemDto } from '../../interfaces/item-dto';
 import { SortByPrice } from '../../enums/sort-by-price';
 import { ItemType } from '../../enums/item-type';
+import { User } from '../../authentication/models/user';
 
 @Injectable({
   providedIn: 'root'
 })
 export class ItemsService {
 
-  url = environment.apiUrl + '/item';
+  url = environment.apiUrl + '/Item';
 
   constructor(private http: HttpClient) {
   }
@@ -41,4 +42,24 @@ export class ItemsService {
     return this.http.get<ItemDto[]>(this.url, { params: params });
   }
 
+  createItem(item: ItemDto) : void {
+    console.log(this.url);
+    const params = new HttpParams()
+      .set('id', item.id ?? '')
+      .set('name', item.name)
+      .set('ean', item.ean)
+      .set('description', item.description ?? '')
+      .set('price', item.price)
+      .set('quantity', item.quantity)
+      .set('year', item.year ?? '')
+      .set('volume', item.volume ?? '')
+      .set('alcohol', item.alcohol ?? '')
+      .set('country', item.country ?? '')
+      .set('grapesort', item.grapesort ?? '')
+      .set('suitables', item.suitables ?? '')
+      .set('imageUrl', item.imageUrl)
+      .set('type', item.type ?? '');
+
+    this.http.post(this.url + '/Item', null, { params: params });
+  }
 }

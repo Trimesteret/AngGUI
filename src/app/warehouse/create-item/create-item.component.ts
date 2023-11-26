@@ -4,6 +4,7 @@ import { Item } from './item';
 import { HttpClient } from '@angular/common/http';
 import { User } from '../../shared/authentication/models/user';
 import { ItemDto } from '../../shared/interfaces/item-dto';
+import { ItemsService } from '../../shared/services/items/items.service';
 
 @Component({
   selector: 'app-create-item',
@@ -40,9 +41,10 @@ export class CreateItemComponent implements OnInit {
     this.buildItemForm();
   }
 
-  constructor(private http: HttpClient, private formBuilder: FormBuilder) {}
+  constructor(private http: HttpClient, private formBuilder: FormBuilder, private itemService: ItemsService) {}
 
   submitItem(): void {
-    console.log('Form values:', this.formBuilder);
+    console.log('Something maybe happened');
+    this.itemService.createItem(this.itemForm?.value);
   }
 }
