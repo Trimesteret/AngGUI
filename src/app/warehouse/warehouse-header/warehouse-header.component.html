@@ -10,13 +10,13 @@
           <img height="100%" alt="Budolfi Vin logo" src="assets/budolfiGrapes.svg">
         </mat-icon>
       </button>
-      <button mat-button routerLink="/warehouse/create-edit-items">
+      <button mat-button *ngIf="isAdmin" routerLink="/warehouse/create-edit-items">
         Create-Edit-Items
         <mat-icon>
           inventory_2
         </mat-icon>
       </button>
-      <button mat-button routerLink="/warehouse/create-edit-users">
+      <button mat-button *ngIf="isAdmin" routerLink="/warehouse/create-edit-users">
         Create-Edit-Users
         <mat-icon>
           person
