@@ -38,7 +38,7 @@ export class CheckoutComponent {
 
   // Placeholder. This must be fetched from the actual basket, so a service should probably be made to get that information
   basketContent = [
-    {name: 'Inshallah', price: '200', imageUrl: "assets/PeanutNoar.jfif"},
+    {name: 'Ugandisk Vin', price: '200', imageUrl: "assets/PeanutNoar.jfif"},
     {name: 'God Gammeldags Rødvin', price: '300', imageUrl: "assets/PeanutNoar.jfif"},
     {name: 'God Gammeldags Rødvin', price: '300', imageUrl: "assets/PeanutNoar.jfif"},
     {name: 'God Gammeldags Rødvin', price: '300', imageUrl: "assets/PeanutNoar.jfif"},
