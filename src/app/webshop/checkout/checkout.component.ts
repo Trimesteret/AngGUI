@@ -36,15 +36,15 @@ export class CheckoutComponent {
   ];
 
 
-  // Example. This must be fetched from the actual basket, which will probably need a service.
+  // Placeholder. This must be fetched from the actual basket, so a service should probably be made to get that information
   basketContent = [
-    {name: 'Inshallah', price: '200'},
-    {name: 'God Gammeldags Rødvin', price: '300'},
-    {name: 'God Gammeldags Rødvin', price: '300'},
-    {name: 'God Gammeldags Rødvin', price: '300'},
-    {name: 'God Gammeldags Rødvin', price: '300'},
-    {name: 'God Gammeldags Rødvin', price: '300'},
-    {name: 'Viktor Special', price: '30'}
+    {name: 'Inshallah', price: '200', imageUrl: "assets/PeanutNoar.jfif"},
+    {name: 'God Gammeldags Rødvin', price: '300', imageUrl: "assets/PeanutNoar.jfif"},
+    {name: 'God Gammeldags Rødvin', price: '300', imageUrl: "assets/PeanutNoar.jfif"},
+    {name: 'God Gammeldags Rødvin', price: '300', imageUrl: "assets/PeanutNoar.jfif"},
+    {name: 'God Gammeldags Rødvin', price: '300', imageUrl: "assets/PeanutNoar.jfif"},
+    {name: 'God Gammeldags Rødvin', price: '300', imageUrl: "assets/PeanutNoar.jfif"},
+    {name: 'Viktor Special', price: '15', imageUrl: "assets/PeanutNoar.jfif"}
     ];
   goToPayment():void{
     console.log('Hello Uniconta, please help :(');

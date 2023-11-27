@@ -7,14 +7,17 @@
   width: 10%;
 }
 
+
+/* There should probably only be a scrollwheel for the items in the basket, the total should be excluded*/
 .basket-box {
   background-color: #ffffff;
   border-radius: 10px;
   padding: 15px;
   box-shadow: 2px 2px 8px rgba(0, 0, 0, 0.5);
-  height: 40%;
   margin-left: 7%;
   margin-top: 7%;
+  max-height: 40vh;
+  overflow-y: auto;
 }
 
 .go-to-payment-box{
@@ -37,5 +40,9 @@
   padding-right: 20px;
 }
 
-.basket-cards {
+.basket-wine-picture{
+  padding-left: 10px;
+  width: 10%;
+  height: 10%;
+  object-fit: contain;
 }
