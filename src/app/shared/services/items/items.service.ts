@@ -17,6 +17,8 @@ export class ItemsService {
   constructor(private http: HttpClient) {
   }
 
+
+
   getItemCount(search?: string, sortByPrice?: SortByPrice, itemType?: ItemType): Observable<number> {
     search = search?.trim();
 
@@ -42,8 +44,7 @@ export class ItemsService {
     return this.http.get<ItemDto[]>(this.url, { params: params });
   }
 
-  createItem(item: ItemDto) : void {
-    console.log(this.url);
+  createItem(item: ItemDto):Observable<boolean>  {
     const params = new HttpParams()
       .set('id', item.id ?? '')
       .set('name', item.name)
@@ -59,7 +60,8 @@ export class ItemsService {
       .set('suitables', item.suitables ?? '')
       .set('imageUrl', item.imageUrl)
       .set('type', item.type ?? '');
+    return this.http.post<boolean>(this.url, item, { params: params });
 
-    this.http.post(this.url + '/Item', null, { params: params });
   }
 }
+

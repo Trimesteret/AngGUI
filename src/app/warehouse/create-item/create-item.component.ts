@@ -44,7 +44,12 @@ export class CreateItemComponent implements OnInit {
   constructor(private http: HttpClient, private formBuilder: FormBuilder, private itemService: ItemsService) {}
 
   submitItem(): void {
-    console.log('Something maybe happened');
-    this.itemService.createItem(this.itemForm?.value);
+    console.log(this.itemForm?.value);
+    this.itemService.createItem(this.itemForm?.value).subscribe(value => {
+      console.log(value);
+    }, error => {
+      console.log('error');
+
+    });
   }
 }
