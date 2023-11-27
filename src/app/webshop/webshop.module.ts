@@ -16,12 +16,14 @@ import { MatSelectModule } from '@angular/material/select';
 import { MatCardModule } from '@angular/material/card';
 import { ItemDisplayComponent } from './item-display/item-display.component';
 import { MatButtonModule } from '@angular/material/button';
+import { BasketComponent } from './basket/basket.component';
 
 @NgModule({
   declarations: [
     CheckoutComponent,
     CatalogueComponent,
-    ItemDisplayComponent
+    ItemDisplayComponent,
+    BasketComponent
   ],
   imports: [
     CommonModule,
