@@ -17,10 +17,18 @@ export class ItemsService {
   }
 
   /**
+   * Get item by id
+   * @param id id of item
+   */
+  public getItemById(id: number): Observable<ItemDto> {
+    return this.http.get<ItemDto>(this.url + '/' + id);
+  }
+
+  /**
    * Gets the amount of total items that matches a search
-   * @param search
-   * @param sortByPrice
-   * @param itemType
+   * @param search search string
+   * @param sortByPrice sort by price
+   * @param itemType item type
    */
   public getItemCount(search?: string, sortByPrice?: SortByPrice, itemType?: ItemType): Observable<number> {
     search = search?.trim();
@@ -36,10 +44,10 @@ export class ItemsService {
 
   /**
    * Gets the items that matches a search
-   * @param amountOfItemsShown
-   * @param search
-   * @param sortByPrice
-   * @param itemType
+   * @param amountOfItemsShown amount of items shown
+   * @param search search string
+   * @param sortByPrice sort by price
+   * @param itemType item type
    */
   public getItemsBySearch(amountOfItemsShown: number, search?: string, sortByPrice?: SortByPrice, itemType?: ItemType): Observable<ItemDto[]> {
     search = search?.trim();

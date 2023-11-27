@@ -1,6 +1,5 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { HomePageComponent } from './home-page/home-page.component';
 import { WebshopRoutingModule } from './webshop-routing.module';
 import { CheckoutComponent } from './checkout/checkout.component';
 import { MatInputModule } from '@angular/material/input';
@@ -15,13 +14,14 @@ import { CatalogueComponent } from './catalogue/catalogue.component';
 import { MatGridListModule } from '@angular/material/grid-list';
 import { MatSelectModule } from '@angular/material/select';
 import { MatCardModule } from '@angular/material/card';
+import { ItemDisplayComponent } from './item-display/item-display.component';
 import { MatButtonModule } from '@angular/material/button';
 
 @NgModule({
   declarations: [
-    HomePageComponent,
     CheckoutComponent,
-    CatalogueComponent
+    CatalogueComponent,
+    ItemDisplayComponent
   ],
   imports: [
     CommonModule,

@@ -1,0 +1,69 @@
+<app-front-basic-layout [loggedIn]="loggedIn" (logOutEvent)="logout()">
+  <ng-container *ngIf="item && !loading">
+    <div fxFlex fxLayout.gt-md="row" fxLayout.lt-md="column" class="padding-20" fxLayoutGap="40" ngStyle.gt-md="height: 85vh">
+      <div fxFlex fxLayoutAlign="center center" class="image-tile">
+        <img [src]="item.imageUrl" alt="{{ item.name }}" class="wine-image" style="margin-bottom: 10px">
+      </div>
+      <div fxFlex fxLayout="column">
+        <div fxFlex="25">
+          <h1 class="header">{{ item.name }}</h1>
+          <p style="font-size: 1.1rem">{{ item.description }}</p>
+        </div>
+        <div fxFlex fxLayoutAlign="flex-end" fxLayout="column" style="font-size: 1.2rem">
+          <span *ngIf="item.type" fxLayout="row" fxLayoutAlign="space-between">
+            <p>Type: </p>
+            <p>{{ ItemType[item.type] }}</p>
+          </span>
+          <span *ngIf="item.mass" fxLayout="row" fxLayoutAlign="space-between">
+            <p>Vægt: </p>
+            <p>{{ item.mass }} g</p>
+          </span>
+          <span *ngIf="item.volume" fxLayout="row" fxLayoutAlign="space-between">
+            <p>Volume: </p>
+            <p>{{ item.volume }} L</p>
+          </span>
+          <span *ngIf="item.year" fxLayout="row" fxLayoutAlign="space-between">
+            <p>Årgang: </p>
+            <p>{{ item.year }}</p>
+          </span>
+          <span *ngIf="item.country" fxLayout="row" fxLayoutAlign="space-between">
+            <p>Land: </p>
+            <p>{{ item.country }}</p>
+          </span>
+          <span *ngIf="item.region" fxLayout="row" fxLayoutAlign="space-between">
+            <p>Region: </p>
+            <p>{{ item.region }}</p>
+          </span>
+          <span *ngIf="item.grapeSort" fxLayout="row" fxLayoutAlign="space-between">
+            <p>Druer: </p>
+            <p>{{ item.grapeSort }}</p>
+          </span>
+          <span *ngIf="item.alcoholPercentage" fxLayout="row" fxLayoutAlign="space-between">
+            <p>Alkohol: </p>
+            <p>{{ item.alcoholPercentage }} %</p>
+          </span>
+          <span *ngIf="item.servingTemperature" fxLayout="row" fxLayoutAlign="space-between">
+            <p>Serverings temperatur: </p>
+            <p>{{ item.servingTemperature }}°</p>
+          </span>
+        </div>
+        <div fxFlex="35" fxLayout="row" style="padding-left: 0; margin-top: 20px; background-color: #EFEFEF" class="image-tile padding-20">
+          <div fxFlex fxLayout="column" fxLayoutAlign="center center">
+            <h3 *ngIf="item.price && item.volume" >{{ getVolumePrice() }},- / L</h3>
+            <h1 style="font-size: 4rem; color:#673ab7">{{ item.price }},-</h1>
+          </div>
+          <div fxFlex fxLayoutAlign="center center" fxLayout="column">
+            <mat-form-field class="full-width">
+              <mat-label>Antal</mat-label>
+              <input matInput type="number" value="1">
+            </mat-form-field>
+            <button class="full-width" mat-raised-button color="primary">Føj til kurv</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </ng-container>
+  <div fxFlexFill *ngIf="loading" fxLayoutAlign="center center" class="spinner">
+    <mat-spinner></mat-spinner>
+  </div>
+</app-front-basic-layout>

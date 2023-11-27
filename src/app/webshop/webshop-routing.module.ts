@@ -2,9 +2,11 @@ import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { CheckoutComponent } from './checkout/checkout.component';
 import { CatalogueComponent } from './catalogue/catalogue.component';
+import { ItemDisplayComponent } from './item-display/item-display.component';
 
 const routes: Routes = [
   { path: 'checkout', component: CheckoutComponent },
+  { path: 'item/:id', component: ItemDisplayComponent },
   { path: '', component: CatalogueComponent }
 ];
 
