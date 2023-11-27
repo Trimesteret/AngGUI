@@ -1,5 +1,6 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
+import { AuthenticationService } from '../../../shared/services/authentication/authentication.service';
 
 @Component({
   selector: 'app-front-header',
@@ -9,18 +10,21 @@ import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
 export class FrontHeaderComponent {
   @Input() loggedIn = false;
 
+  isEmployee = false;
   isTablet: boolean;
 
   @Output() logOutEvent = new EventEmitter();
 
-  constructor(private breakpointObserver: BreakpointObserver) {
+  constructor(private breakpointObserver: BreakpointObserver, private authenticationService: AuthenticationService) {
     this.isTablet = breakpointObserver.isMatched(Breakpoints.Handset);
 
-    // Subscribe to the changes in screen size
     this.breakpointObserver.observe([Breakpoints.XSmall, Breakpoints.Small])
       .subscribe(result => {
         this.isTablet = result.matches;
-      });  }
+      });
+
+    this.isEmployee = this.authenticationService.isEmployee();
+  }
 
 
   public logout(): void{

@@ -1,5 +1,5 @@
 <div fxFlexFill fxLayout="column">
-  <app-front-header></app-front-header>
+  <app-front-header [loggedIn]="loggedIn" (logOutEvent)="logout()"></app-front-header>
   <div fxFlex>
     <div fxFlex="100" style="background-color: #673ab7">
       <div fxFlex fxLayoutAlign="center center" class="full-height" fxLayout="row" style="padding: 30px">

@@ -22,7 +22,7 @@
           person
         </mat-icon>
       </button>
-      <button *ngIf="loggedIn" mat-button routerLink="/warehouse">
+      <button *ngIf="isEmployee && loggedIn" mat-button routerLink="/warehouse">
         Varehus
         <mat-icon>
           warehouse
