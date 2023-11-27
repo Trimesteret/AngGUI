@@ -1,1 +1,34 @@
-<p>basket works!</p>
+<script src="../../app-routing.module.ts"></script>
+<app-front-basic-layout [loggedIn]="loggedIn" (logOutEvent)="logout()">
+  <div fxFlex = "80" class="basket-box" >
+    <ng-container *ngFor="let field of basketContent">
+      <div style="padding: 10px">
+        <mat-card >
+          <div fxLayout = "row" fxLayoutAlign = "space-between center">
+            <img [src] = "field.imageUrl" class = "basket-wine-picture" alt = "Vin :)">
+            <p>{{field.name}}</p>
+            <p>{{field.price}}</p>
+          </div>
+        </mat-card>
+      </div>
+    </ng-container>
+    <div fxLayout = "column" style="padding-top: 15px">
+      <div fxLayout = "row" fxLayoutAlign = "space-between center">
+        <p>Total:</p>
+        <p>200 kr</p>
+      </div>
+      <div fxLayout = "row" fxLayoutAlign = "space-between center">
+        <p>Levering:</p>
+        <p>200 kr</p>
+      </div>
+      <div fxLayout = "row" fxLayoutAlign = "space-between center">
+        <p>Total incl. levering:</p>
+        <p>200 kr</p>
+      </div>
+      <div fxLayout = "row" fxLayoutAlign = "space-between center">
+        <p>Heraf moms:</p>
+        <p>200 kr</p>
+      </div>
+    </div>
+  </div>
+</app-front-basic-layout>
