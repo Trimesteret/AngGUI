@@ -1,5 +1,5 @@
 <app-front-basic-layout [loggedIn]="loggedIn" (logOutEvent)="logout()">
-  <div fxFlex fxLayoutAlign="center start" fxLayout="row" *ngIf="!loading" style="background-color: lightgray">
+  <div fxFlex fxLayoutAlign="center start" fxLayout="row" *ngIf="!loading" style="background-color: #EFEFEF">
     <form *ngIf="profileForm" fxLayout="column" class="document" fxLayoutGap="5" [formGroup]="profileForm" (ngSubmit)="submitProfile()">
       <span fxLayout="row" fxLayoutGap="15" fxLayoutAlign="start center">
         <mat-icon>person</mat-icon>
@@ -69,8 +69,7 @@
       </table>
     </form>
   </div>
-
-  <div fxFlexFill *ngIf="loading" fxLayoutAlign="center center" class="spinner">
-    <mat-spinner></mat-spinner>
-  </div>
 </app-front-basic-layout>
+<div fxFlexFill *ngIf="loading" fxLayoutAlign="center center" class="spinner">
+  <mat-spinner></mat-spinner>
+</div>

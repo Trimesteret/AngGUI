@@ -1,4 +1,4 @@
-<app-warehouse-basic-layout>
+<app-warehouse-basic-layout (logOutEvent)="logout()">
   <form [formGroup]="itemForm">
     <mat-form-field appearance="fill">
       <mat-label for="wine-quantity">Wine Quantity: </mat-label>

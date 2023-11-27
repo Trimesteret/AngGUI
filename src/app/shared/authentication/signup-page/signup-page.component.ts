@@ -1,8 +1,9 @@
 import { Component } from '@angular/core';
-import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import { FormBuilder, Validators } from '@angular/forms';
 import { User } from '../models/user';
 import { MessageService } from '../../services/message.service';
 import { AuthenticationService } from '../../services/authentication/authentication.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-signup-page',
@@ -11,6 +12,8 @@ import { AuthenticationService } from '../../services/authentication/authenticat
 })
 export class SignupPageComponent {
 
+  public repeatHide = true;
+  public hide = true;
   public loading = false;
 
   signupForm = this.formBuilder.group({
@@ -18,20 +21,24 @@ export class SignupPageComponent {
     lastName: ['', Validators.required],
     phone: ['', Validators.required],
     email: ['', [Validators.required, Validators.email]],
-    password: ['', [Validators.required, Validators.minLength(7)]]
+    password: ['', [Validators.required, Validators.minLength(7)]],
+    repeatPassword: ['', [Validators.required, Validators.minLength(7)]]
   });
 
   constructor(private authenticationService: AuthenticationService, private messageService: MessageService,
-    private formBuilder: FormBuilder) {
+    private formBuilder: FormBuilder, private router: Router) {
   }
 
+  /**
+   * The submit signup function
+   */
   public signup(): void{
-    if(!this.signupForm.valid){
+    if(!this.signupForm.valid && this.signupForm.get('password')?.value !== this.signupForm.get('repeatPassword')?.value){
       this.messageService.show('Sign up form invalid');
       return;
     }
 
-    const signUpUser = this.mapFormToUser();
+    const signUpUser = this.signupForm.getRawValue() as User;
     if(!signUpUser){
       this.messageService.show('Sign up form invalid');
       return;
@@ -39,31 +46,13 @@ export class SignupPageComponent {
 
     this.loading = true;
     this.authenticationService.signup(signUpUser).subscribe(authRes => {
-      console.log(authRes);
+      this.messageService.show('Sign up successful');
+      this.loading = false;
+      this.router.navigate(['/login']);
     }, error => {
       this.loading = false;
       this.messageService.showError(error);
     });
   }
 
-  private mapFormToUser(): User | null{
-    let user = null;
-    try {
-      const formValue = this.signupForm.value;
-      user = {
-        firstName: String(formValue.firstName),
-        lastName: String(formValue.lastName),
-        email: String(formValue.email),
-        password: String(formValue.password),
-        phone: formValue.phone ? Number.parseInt(formValue.phone) : null, // Convert phone to a number or null
-      } as User;
-
-      if(!user.phone){
-        user = null;
-      }
-    }catch (e){
-      this.messageService.show(e as string);
-    }
-    return user;
-  }
 }

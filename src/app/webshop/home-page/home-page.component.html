@@ -1,9 +1,0 @@
-<app-front-basic-layout [loggedIn]="loggedIn" (logOutEvent)="logout()">
-  <ng-container *ngIf="!loading">
-    <p>home-page works!</p>
-  </ng-container>
-
-  <div fxFlexFill *ngIf="loading" fxLayoutAlign="center center" class="spinner">
-    <mat-spinner></mat-spinner>
-  </div>
-</app-front-basic-layout>

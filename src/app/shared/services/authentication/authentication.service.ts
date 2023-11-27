@@ -1,11 +1,12 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { Observable, tap } from 'rxjs';
 import { CookieService } from 'ngx-cookie-service';
 import { environment } from '../../../../environments/environment';
 import { LoginDto } from '../../authentication/models/login-dto';
 import { AuthPas } from '../../authentication/models/authPas';
 import { User } from '../../authentication/models/user';
+import { Roles } from '../../enums/roles';
 
 @Injectable({
   providedIn: 'root'
@@ -22,8 +23,24 @@ export class AuthenticationService {
    */
   public login(loginDto: LoginDto): Observable<AuthPas>{
     return this.http.post<AuthPas>(this.url + '/Login', loginDto).pipe(
-      tap(authRes => this.cookieService.set('jwtToken', authRes.token ))
-    );
+      tap(authRes => {
+        this.cookieService.set('jwtToken', authRes.token);
+        this.cookieService.set('role', authRes.role ? authRes.role.toString() : '');
+      }));
+  }
+
+  /**
+   * Gets the role
+   */
+  public isEmployee(): boolean {
+    return parseInt(this.cookieService.get('role')) ? parseInt(this.cookieService.get('role')) >= Roles.Employee : false;
+  }
+
+  /**
+   * Gets the role
+   */
+  public isAdmin(): boolean {
+    return parseInt(this.cookieService.get('role')) ? parseInt(this.cookieService.get('role')) >= Roles.Admin : false;
   }
 
   /**
@@ -31,7 +48,7 @@ export class AuthenticationService {
    * @param user
    */
   public signup(user: User): Observable<boolean>{
-    return this.http.post<boolean>(this.url, user);
+    return this.http.post<boolean>(this.url + '/Signup', user);
   }
 
   /**
@@ -51,8 +68,21 @@ export class AuthenticationService {
   /**
    * Verify token
    */
-  public verifyToken(token: string): Observable<boolean>{
-    return this.http.post<boolean>(this.url + '/verify', { token: token } as AuthPas);
+  public verifyAuthToken(token: string): Observable<boolean>{
+    let params = new HttpParams();
+    params = params.set('token', token);
+
+    return this.http.get<boolean>(this.url + '/verify', { params: params });
+  }
+
+  /**
+   * Verify role
+   */
+  public verifyRole(token: string, expectedRole: Roles): Observable<Roles>{
+    let params = new HttpParams();
+    params = params.set('expectedRole', expectedRole);
+    params = params.set('token', token);
+    return this.http.get<Roles>(this.url + '/verifyRole', { params: params });
   }
 
   /**
@@ -61,7 +91,6 @@ export class AuthenticationService {
   public logOut(): Observable<boolean> {
     const token = this.cookieService.get('jwtToken');
     this.cookieService.deleteAll();
-    window.location.reload();
     return this.http.post<boolean>(this.url + '/LogOut', { token: token } as AuthPas);
   }
 }

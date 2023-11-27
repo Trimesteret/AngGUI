@@ -21,6 +21,14 @@ export class UserService {
   }
 
   /**
+   * The get all users function
+   */
+  public getAllUsers(): Observable<User[]>{
+    return this.http.get<User[]>(this.url);
+  }
+
+
+  /**
    * Update the user currently logged in
    * @param user the update values
    */

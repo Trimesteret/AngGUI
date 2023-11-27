@@ -1,4 +1,4 @@
-import { WineType } from '../enums/wine-type';
+import { ItemType } from '../enums/item-type';
 
 export interface ItemDto {
   id: number,
@@ -7,6 +7,18 @@ export interface ItemDto {
   quantity: number,
   price: number,
   imageUrl: string,
+  description: string,
+  mass: number,
+  year?: number,
+  volume?: number,
+  alcoholPercentage?: number,
+  country?: string,
+  region?: string,
+  grapeSort?: string,
+  winery?: string,
+  tastingNotes?: string,
+  suitableFor?: string,
+  servingTemperature?: string,
   expirationDate?: Date,
-  type?: WineType
+  type?: ItemType
 }

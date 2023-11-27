@@ -1,11 +1,72 @@
-<mat-toolbar class="background-color-white" fxFlex fxLayoutGap="20px">
-  <button mat-fab routerLink="" style="height: 45px; width: 45px;" color="primary">
-    <img style="display: flex" height="29px" alt="Budolfi Vin logo" src="assets/LogoIHvid.png">
-  </button>
-  <button mat-button routerLink="/warehouse/createInboundOrder">
-    Create inbound order
-  </button>
-  <button mat-button routerLink="/warehouse/create-item">
-    Create item
-  </button>
+<mat-toolbar fxFlex fxLayoutAlign="center center" class="background-color-white">
+  <div style="width: 96%; display: flex" fxLayoutAlign="space-between center">
+    <a fxFlex="25" routerLink="">
+      <img style="display: flex" height="30px" alt="Budolfi Vin logo" src="assets/budolfilogo.svg">
+    </a>
+    <div *ngIf="!isTablet" fxFlex="70" fxLayoutAlign="center center" fxLayoutGap="20px">
+      <button mat-button routerLink="">
+        Forside
+        <mat-icon>
+          <img height="100%" alt="Budolfi Vin logo" src="assets/budolfiGrapes.svg">
+        </mat-icon>
+      </button>
+      <button mat-button *ngIf="isAdmin" routerLink="/warehouse/create-edit-items">
+        Create-Edit-Items
+        <mat-icon>
+          inventory_2
+        </mat-icon>
+      </button>
+      <button mat-button *ngIf="isAdmin" routerLink="/warehouse/create-edit-users">
+        Create-Edit-Users
+        <mat-icon>
+          person
+        </mat-icon>
+      </button>
+      <button (click)="logout()" mat-button>
+        Log ud
+        <mat-icon>logout</mat-icon>
+      </button>
+    </div>
+    <div fxFlex.lt-md="70" fxFlex.gt-md="25" fxLayoutGap.gt-md="20" fxLayoutGap.lt-md="0" fxLayoutAlign="end center">
+      <ng-container *ngIf="!isTablet">
+        <button mat-raised-button color="primary" routerLink="/webshop">
+          Kasse
+          <mat-icon>
+            shopping_cart
+          </mat-icon>
+        </button>
+      </ng-container>
+
+      <!-- Tablet -->
+      <ng-container *ngIf="isTablet">
+        <button mat-icon-button color="none" [matMenuTriggerFor]="menu">
+          <mat-icon>menu</mat-icon>
+        </button>
+      </ng-container>
+    </div>
+  </div>
 </mat-toolbar>
+
+<mat-menu #menu="matMenu">
+  <button mat-menu-item routerLink="">
+    Forside
+    <mat-icon>
+      <img height="100%" alt="Budolfi Vin logo" src="assets/budolfiGrapes.svg">
+    </mat-icon>
+  </button>
+  <button mat-menu-item routerLink="/webshop/catalogue">
+    Webshop
+    <mat-icon>
+      webshop
+    </mat-icon></button>
+  <button mat-menu-item routerLink="">
+    Vinsmagning
+    <mat-icon>
+      wine_bar
+    </mat-icon>
+  </button>
+  <button (click)="logout()" mat-menu-item>
+    Log ud
+    <mat-icon>logout</mat-icon>
+  </button>
+</mat-menu>
