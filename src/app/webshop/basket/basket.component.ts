@@ -13,13 +13,13 @@ export class BasketComponent {
   loading = false;
 
   basketContent = [
-    {name: 'Ugandisk Vin', price: '200', imageUrl: "assets/PeanutNoar.jfif"},
-    {name: 'God Gammeldags Rødvin', price: '300', imageUrl: "assets/PeanutNoar.jfif"},
-    {name: 'God Gammeldags Rødvin', price: '300', imageUrl: "assets/PeanutNoar.jfif"},
-    {name: 'God Gammeldags Rødvin', price: '300', imageUrl: "assets/PeanutNoar.jfif"},
-    {name: 'God Gammeldags Rødvin', price: '300', imageUrl: "assets/PeanutNoar.jfif"},
-    {name: 'God Gammeldags Rødvin', price: '300', imageUrl: "assets/PeanutNoar.jfif"},
-    {name: 'Viktor Special', price: '15', imageUrl: "assets/PeanutNoar.jfif"}
+    { name: 'Ugandisk Vin', price: '200', imageUrl: 'assets/PeanutNoar.jfif' },
+    { name: 'God Gammeldags Rødvin', price: '300', imageUrl: 'assets/PeanutNoar.jfif' },
+    { name: 'God Gammeldags Rødvin', price: '300', imageUrl: 'assets/PeanutNoar.jfif' },
+    { name: 'God Gammeldags Rødvin', price: '300', imageUrl: 'assets/PeanutNoar.jfif' },
+    { name: 'God Gammeldags Rødvin', price: '300', imageUrl: 'assets/PeanutNoar.jfif' },
+    { name: 'God Gammeldags Rødvin', price: '300', imageUrl: 'assets/PeanutNoar.jfif' },
+    { name: 'Viktor Special', price: '15', imageUrl: 'assets/PeanutNoar.jfif' }
   ];
   constructor(public router: Router, private authenticationService: AuthenticationService, private messageService: MessageService) {
     this.loggedIn = this.authenticationService.getLoggedIn();
