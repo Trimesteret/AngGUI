@@ -5,7 +5,6 @@ import { environment } from '../../../../environments/environment';
 import { ItemDto } from '../../interfaces/item-dto';
 import { SortByPrice } from '../../enums/sort-by-price';
 import { WineType } from '../../enums/wine-type';
-import { User } from '../../authentication/models/user';
 
 @Injectable({
   providedIn: 'root'
@@ -19,7 +18,7 @@ export class ItemsService {
 
 
 
-  getItemCount(search?: string, sortByPrice?: SortByPrice, itemType?: WineType): Observable<number> {
+  public getItemCount(search?: string, sortByPrice?: SortByPrice, itemType?: WineType): Observable<number> {
     search = search?.trim();
 
     let params = new HttpParams();
@@ -31,7 +30,7 @@ export class ItemsService {
     return this.http.get<number>(this.url + '/itemCount', { params: params });
   }
 
-  getItemsBySearch(amountOfItemsShown: number, search?: string, sortByPrice?: SortByPrice, itemType?: WineType): Observable<ItemDto[]> {
+  public getItemsBySearch(amountOfItemsShown: number, search?: string, sortByPrice?: SortByPrice, itemType?: WineType): Observable<ItemDto[]> {
     search = search?.trim();
 
     let params = new HttpParams();

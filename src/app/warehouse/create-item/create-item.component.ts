@@ -1,19 +1,17 @@
-import { Component, OnInit } from '@angular/core';
+import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
-import { Item } from './item';
-import { HttpClient } from '@angular/common/http';
-import { User } from '../../shared/authentication/models/user';
 import { ItemDto } from '../../shared/interfaces/item-dto';
 import { ItemsService } from '../../shared/services/items/items.service';
 import { ItemType } from '../../shared/enums/item-type';
+import { WineType } from '../../shared/enums/wine-type';
 
 @Component({
   selector: 'app-create-item',
   templateUrl: './create-item.component.html',
   styleUrls: ['./create-item.component.scss']
 })
-export class CreateItemComponent implements OnInit {
-  selected = 'something';
+export class CreateItemComponent {
+  selectedItemType: ItemType = ItemType.DefaultItem;
   wineType = 'something';
   suitables = new FormControl('');
   suitablesList: string[] = ['Dessert', 'Fisk', 'Havregrød'];
@@ -27,39 +25,41 @@ export class CreateItemComponent implements OnInit {
       itemDescription: [item?.description ? item.description : '', Validators.required],
       itemPrice: [item?.price ? item.price : '', [Validators.required]],
       itemQuantity: [item?.quantity ? item.quantity : '', [Validators.required]],
-      year: [item?.year ? item.year : null, [Validators.required]],
-      volume: [item?.volume ? item.volume : null, [Validators.required]],
-      alcoholPercentage: [item?.alcohol ? item.alcohol : null, [Validators.required]],
-      country: [item?.country ? item.country : '', [Validators.required]],
-      grapesort: [item?.grapesort ? item.grapesort : '', [Validators.required]],
-      suitables: [item?.suitables ? item.suitables : '', [Validators.required]],
-      wineType: [item?.wineType ? item.wineType : null, [Validators.required]],
-      itemType: [item?.itemType ? item.itemType : null, [Validators.required]]
+      year: [item?.year ? item.year : null],
+      volume: [item?.volume ? item.volume : null],
+      alcoholPercentage: [item?.alcohol ? item.alcohol : null],
+      country: [item?.country ? item.country : ''],
+      grapesort: [item?.grapesort ? item.grapesort : ''],
+      suitables: [item?.suitables ? item.suitables : ''],
+      itemType: [item?.itemType ? item.itemType : ItemType.DefaultItem],
+      liqourType: [item?.liqourType ? item.liqourType : '']
+    });
+
+    this.itemForm.controls['itemType'].valueChanges.subscribe(value => {
+      this.selectedItemType = value;
     });
   }
 
-  ngOnInit(): void {
+  constructor(private formBuilder: FormBuilder, private itemService: ItemsService) {
     this.buildItemForm();
-    this.itemForm?.controls['itemType'].valueChanges.subscribe(value => {
-      console.log(ItemType[value]);
-      this.selected = ItemType[value];
-    });
   }
 
+  public submitItem(): void {
+    const item = this.itemForm?.value as ItemDto;
 
+    if(item == null && this.selectedItemType == null && this.itemForm?.valid == false){
+      return;
+    }
 
-
-  constructor(private http: HttpClient, private formBuilder: FormBuilder, private itemService: ItemsService) {}
-
-  submitItem(): void {
-    console.log(this.itemForm?.value);
-    this.itemService.createItem(this.itemForm?.value).subscribe(value => {
+    item.itemType = this.selectedItemType;
+    this.itemService.createItem(item).subscribe(value => {
       console.log(value);
-    }, error => {
+    }, () => {
       console.log('error');
 
     });
   }
 
   protected readonly ItemType = ItemType;
+  protected readonly WineType = WineType;
 }

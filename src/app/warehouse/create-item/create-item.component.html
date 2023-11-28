@@ -1,6 +1,17 @@
 <app-warehouse-basic-layout>
-  <div fxFlex fxLayoutAlign="center start" fxLayout="row">
+  <div fxFlex fxLayoutAlign="center start" fxLayout="row" style="background-color: lightgray">
     <form *ngIf="itemForm" fxLayout="column" class="document" fxLayoutGap="5" [formGroup]="itemForm" (ngSubmit)="submitItem()">
+      <span fxLayout="row" fxLayoutGap="15" fxLayoutAlign="start center">
+        <mat-icon>category</mat-icon>
+        <h1 class="no-margin no-padding">Opret Item</h1>
+      </span>
+      <mat-form-field>
+        <mat-label>Vælg type af produkt</mat-label>
+        <mat-select formControlName="itemType">
+          <mat-option [value]="item.key" *ngFor="let item of ItemType | keyValue">{{item.value}}</mat-option>
+        </mat-select>
+      </mat-form-field>
+
       <mat-form-field>
         <mat-label>Varenavn</mat-label>
         <input matInput type="text" formControlName="itemName">
@@ -26,15 +37,8 @@
         <input matInput type="text" formControlName="itemQuantity">
       </mat-form-field>
 
-      <mat-form-field>
-        <mat-label>Vælg type af produkt</mat-label>
-        <mat-select [(value)]="selected" formControlName="itemType">
-          <mat-option [value]="item.key" *ngFor="let item of ItemType | keyValue">{{item.value}}</mat-option>
-        </mat-select>
-      </mat-form-field>
-
 <!--      wine or liquor-->
-      <ng-container *ngIf="selected === 'wine' || selected === 'liquor'">
+      <ng-container *ngIf="selectedItemType === ItemType.Liquor || selectedItemType === ItemType.Wine">
         <mat-form-field>
           <mat-label>Fra år:</mat-label>
           <input matInput type="phone" formControlName="year">
@@ -52,7 +56,7 @@
       </ng-container>
 
 <!--      wine specific-->
-      <ng-container *ngIf="selected === 'wine'">
+      <ng-container *ngIf="selectedItemType === ItemType.Wine">
         <mat-form-field>
           <mat-label>Oprindelsesland:</mat-label>
           <input matInput type="text" formControlName="country">
@@ -72,23 +76,19 @@
 
         <mat-form-field>
           <mat-label>Vintype</mat-label>
-          <mat-select [(value)]="wineType">
+          <mat-select formControlName="wineType">
             <mat-option>None</mat-option>
-            <mat-option value="vintype1">vin1</mat-option>
-            <mat-option value="vintype2">vin2</mat-option>
-            <mat-option value="vintype-anden">other</mat-option>
+            <mat-option *ngFor="let wineType of WineType | keyValue" [value]="wineType.key">{{wineType.value}}</mat-option>
           </mat-select>
         </mat-form-field>
       </ng-container>
 
 <!--      Liquor-->
-      <ng-container *ngIf="selected === 'liquor'">
+      <ng-container *ngIf="selectedItemType === ItemType.Liquor">
         <mat-form-field>
           <mat-label>Likørtype</mat-label>
-          <mat-select [(value)]="wineType">
-            <mat-option value="likør1">L1</mat-option>
-            <mat-option value="likør2">l2</mat-option>
-            <mat-option value="likør3">l3</mat-option>
+          <mat-select formControlName="liqourType">
+            <mat-option  value="likør1">L1</mat-option>
           </mat-select>
         </mat-form-field>
       </ng-container>

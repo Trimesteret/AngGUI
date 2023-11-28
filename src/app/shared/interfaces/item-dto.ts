@@ -17,5 +17,6 @@ export interface ItemDto {
   imageUrl: string,
   expirationDate?: Date,
   wineType?: WineType,
+  liqourType?: string,
   itemType: ItemType
 }
