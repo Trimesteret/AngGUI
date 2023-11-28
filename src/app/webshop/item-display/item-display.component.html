@@ -10,9 +10,9 @@
           <p style="font-size: 1.1rem">{{ item.description }}</p>
         </div>
         <div fxFlex fxLayoutAlign="flex-end" fxLayout="column" style="font-size: 1.2rem">
-          <span *ngIf="item.type" fxLayout="row" fxLayoutAlign="space-between">
+          <span *ngIf="item.itemType" fxLayout="row" fxLayoutAlign="space-between">
             <p>Type: </p>
-            <p>{{ ItemType[item.type] }}</p>
+            <p>{{ ItemType[item.itemType] }}</p>
           </span>
           <span *ngIf="item.mass" fxLayout="row" fxLayoutAlign="space-between">
             <p>Vægt: </p>

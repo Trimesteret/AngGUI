@@ -1,4 +1,4 @@
-import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { ItemDto } from '../../shared/interfaces/item-dto';
 import { ItemsService } from '../../shared/services/items/items.service';
@@ -32,10 +32,11 @@ export class CreateItemComponent {
       volume: [item?.volume ? item.volume : null],
       alcoholPercentage: [item?.alcohol ? item.alcohol : null],
       country: [item?.country ? item.country : ''],
-      grapesort: [item?.grapesort ? item.grapesort : ''],
-      suitables: [item?.suitables ? item.suitables : ''],
+      grapeSort: [item?.grapeSort ? item.grapeSort : ''],
+      suitableFor: [item?.suitableFor ? item.suitableFor : ''],
       itemType: [item?.itemType ? item.itemType : ItemType.DefaultItem],
-      liqourType: [item?.liqourType ? item.liqourType : '']
+      wineType: [item?.wineType ? item.wineType : WineType.RedWine],
+      liquorType: [item?.liquorType ? item.liquorType : '']
     });
 
     this.itemForm.controls['itemType'].valueChanges.subscribe(value => {

@@ -5,15 +5,9 @@ export interface ItemDto {
   id?: number,
   name: string,
   ean: string,
-  description?: string,
   price: number,
   quantity: number,
-  year?: number,
-  volume?: number,
   alcohol?: number,
-  country?: string,
-  grapesort?: string,
-  suitables?: string,
   imageUrl: string,
   description: string,
   mass: number,
@@ -29,6 +23,6 @@ export interface ItemDto {
   servingTemperature?: string,
   expirationDate?: Date,
   wineType?: WineType,
-  liqourType?: string,
+  liquorType?: string,
   itemType: ItemType
 }

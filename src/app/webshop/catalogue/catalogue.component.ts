@@ -7,6 +7,7 @@ import { WineType } from '../../shared/enums/wine-type';
 import { SortByPrice } from '../../shared/enums/sort-by-price';
 import { AuthenticationService } from '../../shared/services/authentication/authentication.service';
 import { MessageService } from '../../shared/services/message.service';
+import { ItemType } from '../../shared/enums/item-type';
 
 @Component({
   selector: 'app-catalogue',
@@ -18,7 +19,7 @@ export class CatalogueComponent implements OnInit {
   loggedIn = false;
 
   search  = '';
-  typeFilter: WineType | undefined;
+  typeFilter: ItemType | undefined;
   priceSort: SortByPrice | undefined;
   itemCount= 0;
 
@@ -48,17 +49,12 @@ export class CatalogueComponent implements OnInit {
     });
   }
 
-  getItemText(): string {
+  public getItemText(): string {
     return ` Viser ${this.displayItems.length} ud af ${this.itemCount} varer`;
   }
 
-  getItemTypeValues(): string[] {
+  public getItemTypeValues(): string[] {
     return Object.keys(WineType)
-      .filter(key => isNaN(Number(key)));
-  }
-
-  getSortFilterValues(): string[] {
-    return Object.keys(SortByPrice)
       .filter(key => isNaN(Number(key)));
   }
 
@@ -113,4 +109,8 @@ export class CatalogueComponent implements OnInit {
       window.location.reload();
     });
   }
+
+  protected readonly SortByPrice = SortByPrice;
+  protected readonly WineType = WineType;
+  protected readonly ItemType = ItemType;
 }

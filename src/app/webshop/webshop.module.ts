@@ -16,6 +16,7 @@ import { MatSelectModule } from '@angular/material/select';
 import { MatCardModule } from '@angular/material/card';
 import { ItemDisplayComponent } from './item-display/item-display.component';
 import { MatButtonModule } from '@angular/material/button';
+import { SharedModule } from '../shared/shared.module';
 
 @NgModule({
   declarations: [
@@ -39,7 +40,8 @@ import { MatButtonModule } from '@angular/material/button';
     MatSelectModule,
     MatCardModule,
     FormsModule,
-    MatButtonModule
+    MatButtonModule,
+    SharedModule
   ]
 })
 export class WebshopModule { }
