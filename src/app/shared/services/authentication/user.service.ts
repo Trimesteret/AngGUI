@@ -38,10 +38,17 @@ export class UserService {
   /**
    * The get all users function
    */
-  public editUser(user: UserStandardDto): Observable<UserStandardDto[]>{
-    return this.http.put<UserStandardDto[]>(this.url, user);
+  public editUser(user: UserStandardDto): Observable<UserStandardDto>{
+    return this.http.put<UserStandardDto>(this.url, user);
   }
 
+  /**
+   * Delete a user with a given id
+   * @param id the id of the user to delete
+   */
+  public deleteUser(id: number): Observable<boolean>{
+    return this.http.delete<boolean>(this.url + `/${id}`);
+  }
 
   /**
    * Update the user currently logged in

@@ -6,6 +6,8 @@ import { UserService } from '../../shared/services/authentication/user.service';
 import { UserStandardDto } from '../../shared/authentication/models/user-standard-dto';
 import { ActivatedRoute } from '@angular/router';
 import { Role } from '../../shared/enums/role';
+import { Location } from '@angular/common';
+
 
 @Component({
   selector: 'app-edit-user',
@@ -18,7 +20,7 @@ export class EditUserComponent {
   userForm: FormGroup | undefined;
 
   constructor(private authenticationService: AuthenticationService, private messageService: MessageService, private userService: UserService,
-              private formBuilder: FormBuilder, private route: ActivatedRoute)
+              private formBuilder: FormBuilder, private route: ActivatedRoute, private location: Location)
   {
     this.getUserAndBuildForm();
   }
@@ -31,8 +33,20 @@ export class EditUserComponent {
     });
   }
 
-  public getRoles(): string[] {
-    return Object.keys(Role).filter(key => isNaN(Number(key)));
+  public deleteUser(): void {
+    const id = this.route.snapshot.params['id'];
+    this.loading = true;
+    this.userService.deleteUser(id).subscribe(res => {
+      if(!res) {
+        this.messageService.show('Something went wrong deleting this user');
+        this.loading = false;
+        return;
+      }
+
+      this.messageService.show('User deleted');
+      this.location.back();
+      this.loading = false;
+    });
   }
 
   /**
@@ -46,7 +60,7 @@ export class EditUserComponent {
       lastName: [user.lastName, Validators.required],
       phone: [user.phone, Validators.required],
       email: [user.email, [Validators.required, Validators.email]],
-      role: [Role[user.role], Validators.required],
+      role: [user.role, Validators.required],
     });
   }
 
@@ -67,6 +81,7 @@ export class EditUserComponent {
 
     this.userService.editUser(user).subscribe(() => {
       this.loading = false;
+      this.buildUserForm(user);
       this.messageService.show('User updated');
     },
     error => {
@@ -82,4 +97,6 @@ export class EditUserComponent {
       window.location.reload();
     });
   }
+
+  protected readonly Role = Role;
 }

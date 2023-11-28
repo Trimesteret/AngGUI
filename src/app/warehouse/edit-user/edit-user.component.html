@@ -8,32 +8,36 @@
       <mat-form-field>
         <mat-label>Role</mat-label>
         <mat-select formControlName="role">
-          <mat-option *ngFor="let role of getRoles()" [value]="role">{{role}}</mat-option>
+          <mat-option *ngFor="let role of Role | keyValue" [value]="role.key">{{role.value}}</mat-option>
         </mat-select>
       </mat-form-field>
 
       <mat-form-field>
         <mat-label>Fornavn</mat-label>
-        <input matInput type="text" formControlName="firstName">
+        <input matInput id="first-name" type="text" formControlName="firstName">
         <mat-icon matIconSuffix>person</mat-icon>
       </mat-form-field>
       <mat-form-field>
         <mat-label>Efternavn</mat-label>
-        <input matInput type="text" formControlName="lastName">
+        <input matInput id="last-name" type="text" formControlName="lastName">
         <mat-icon matIconSuffix>person</mat-icon>
       </mat-form-field>
       <mat-form-field>
         <mat-label>Telefon</mat-label>
-        <input matInput type="phone" formControlName="phone">
+        <input matInput id="phone" type="phone" formControlName="phone">
         <mat-icon matIconSuffix>phone</mat-icon>
       </mat-form-field>
       <mat-form-field>
         <mat-label>Email</mat-label>
-        <input matInput type="text" formControlName="email">
+        <input matInput id="email" type="text" formControlName="email">
         <mat-icon matIconSuffix>email</mat-icon>
       </mat-form-field>
 
       <div fxFlex fxLayout="row" fxLayoutAlign="end center" fxLayoutGap="20">
+        <button color="warn" type="button" [disabled]="userForm.dirty" (click)="deleteUser()" mat-raised-button>
+          <mat-icon>delete</mat-icon>
+          Slet
+        </button>
         <button color="accent" type="button" [disabled]="!userForm.dirty" (click)="getUserAndBuildForm()" mat-raised-button>
           <mat-icon>restart_alt</mat-icon>
           Nulstil

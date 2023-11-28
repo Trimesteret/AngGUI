@@ -25,6 +25,7 @@ import { MatTableModule } from '@angular/material/table';
 import { EditUserComponent } from './edit-user/edit-user.component';
 import { FrontModule } from '../webshop/front-pages/front.module';
 import { MatSelectModule } from '@angular/material/select';
+import { SharedModule } from '../shared/shared.module';
 
 
 @NgModule({
@@ -56,7 +57,8 @@ import { MatSelectModule } from '@angular/material/select';
     MatSortModule,
     MatTableModule,
     FrontModule,
-    MatSelectModule
+    MatSelectModule,
+    SharedModule
   ],
   providers: [{ provide: MAT_DATE_LOCALE, useValue: 'es-Es' }]
 })

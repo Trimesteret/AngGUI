@@ -5,6 +5,7 @@ import { AuthenticationService } from '../../shared/services/authentication/auth
 import { MatTableDataSource } from '@angular/material/table';
 import { UserStandardDto } from '../../shared/authentication/models/user-standard-dto';
 import { Router } from '@angular/router';
+import { Role } from '../../shared/enums/role';
 
 @Component({
   selector: 'app-create-edit-users',
@@ -71,4 +72,6 @@ export class CreateEditUsersComponent {
       window.location.reload();
     });
   }
+
+  protected readonly Role = Role;
 }
