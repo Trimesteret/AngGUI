@@ -1,4 +1,4 @@
-<app-warehouse-basic-layout>
+<app-warehouse-basic-layout (logOutEvent)="logout()">
   <div fxFlex fxLayoutAlign="center start" fxLayout="row" style="background-color: lightgray">
     <form *ngIf="itemForm" fxLayout="column" class="document" fxLayoutGap="5" [formGroup]="itemForm" (ngSubmit)="submitItem()">
       <span fxLayout="row" fxLayoutGap="15" fxLayoutAlign="start center">

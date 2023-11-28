@@ -4,6 +4,8 @@ import { ItemDto } from '../../shared/interfaces/item-dto';
 import { ItemsService } from '../../shared/services/items/items.service';
 import { ItemType } from '../../shared/enums/item-type';
 import { WineType } from '../../shared/enums/wine-type';
+import { MessageService } from 'src/app/shared/services/message.service';
+import { AuthenticationService } from 'src/app/shared/services/authentication/authentication.service';
 
 @Component({
   selector: 'app-create-item',
@@ -15,6 +17,7 @@ export class CreateItemComponent {
   wineType = 'something';
   suitables = new FormControl('');
   suitablesList: string[] = ['Dessert', 'Fisk', 'Havregrød'];
+  loading = true;
 
   itemForm: FormGroup | undefined;
 
@@ -40,7 +43,7 @@ export class CreateItemComponent {
     });
   }
 
-  constructor(private formBuilder: FormBuilder, private itemService: ItemsService) {
+  constructor(private formBuilder: FormBuilder, private itemService: ItemsService, private messageService: MessageService, private authenticationService: AuthenticationService) {
     this.buildItemForm();
   }
 
@@ -57,6 +60,14 @@ export class CreateItemComponent {
     }, () => {
       console.log('error');
 
+    });
+  }
+
+  public logout(): void{
+    this.loading = true;
+    this.messageService.show('Logging out...');
+    this.authenticationService.logOut().subscribe(() => {
+      window.location.reload();
     });
   }
 

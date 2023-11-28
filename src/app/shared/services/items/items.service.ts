@@ -4,7 +4,7 @@ import { Observable } from 'rxjs';
 import { environment } from '../../../../environments/environment';
 import { ItemDto } from '../../interfaces/item-dto';
 import { SortByPrice } from '../../enums/sort-by-price';
-import { WineType } from '../../enums/wine-type';
+import { ItemType } from '../../enums/item-type';
 
 @Injectable({
   providedIn: 'root'
@@ -16,9 +16,21 @@ export class ItemsService {
   constructor(private http: HttpClient) {
   }
 
+  /**
+   * Get item by id
+   * @param id id of item
+   */
+  public getItemById(id: number): Observable<ItemDto> {
+    return this.http.get<ItemDto>(this.url + '/' + id);
+  }
 
-
-  public getItemCount(search?: string, sortByPrice?: SortByPrice, itemType?: WineType): Observable<number> {
+  /**
+   * Gets the amount of total items that matches a search
+   * @param search search string
+   * @param sortByPrice sort by price
+   * @param itemType item type
+   */
+  public getItemCount(search?: string, sortByPrice?: SortByPrice, itemType?: ItemType): Observable<number> {
     search = search?.trim();
 
     let params = new HttpParams();
@@ -30,7 +42,14 @@ export class ItemsService {
     return this.http.get<number>(this.url + '/itemCount', { params: params });
   }
 
-  public getItemsBySearch(amountOfItemsShown: number, search?: string, sortByPrice?: SortByPrice, itemType?: WineType): Observable<ItemDto[]> {
+  /**
+   * Gets the items that matches a search
+   * @param amountOfItemsShown amount of items shown
+   * @param search search string
+   * @param sortByPrice sort by price
+   * @param itemType item type
+   */
+  public getItemsBySearch(amountOfItemsShown: number, search?: string, sortByPrice?: SortByPrice, itemType?: ItemType): Observable<ItemDto[]> {
     search = search?.trim();
 
     let params = new HttpParams();

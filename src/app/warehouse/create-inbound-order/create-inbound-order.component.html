@@ -1,4 +1,4 @@
-<app-warehouse-basic-layout>
+<app-warehouse-basic-layout (logOutEvent)="logout()">
   <form [formGroup]="inboundOrderForm">
     <mat-form-field appearance="fill">
       <mat-label for="supplier">Supplier: </mat-label>

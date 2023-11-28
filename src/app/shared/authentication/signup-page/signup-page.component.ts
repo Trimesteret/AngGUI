@@ -29,6 +29,9 @@ export class SignupPageComponent {
     private formBuilder: FormBuilder, private router: Router) {
   }
 
+  /**
+   * The submit signup function
+   */
   public signup(): void{
     if(!this.signupForm.valid && this.signupForm.get('password')?.value !== this.signupForm.get('repeatPassword')?.value){
       this.messageService.show('Sign up form invalid');
