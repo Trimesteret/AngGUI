@@ -45,7 +45,7 @@ export class SignupPageComponent {
     }
 
     this.loading = true;
-    this.authenticationService.signup(signUpUser).subscribe(authRes => {
+    this.authenticationService.signup(signUpUser).subscribe(() => {
       this.messageService.show('Sign up successful');
       this.loading = false;
       this.router.navigate(['/login']);

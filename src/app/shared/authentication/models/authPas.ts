@@ -1,7 +1,7 @@
-import { Roles } from '../../enums/roles';
+import { Role } from '../../enums/role';
 
 export interface AuthPas {
   token: string
   tokenExpiration?: Date
-  role?: Roles
+  role?: Role
 }

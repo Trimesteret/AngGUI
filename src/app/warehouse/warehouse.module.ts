@@ -20,7 +20,11 @@ import { CreateEditUsersComponent } from './create-edit-users/create-edit-users.
 import { MatIconModule } from '@angular/material/icon';
 import { MatMenuModule } from '@angular/material/menu';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
-
+import { MatSortModule } from '@angular/material/sort';
+import { MatTableModule } from '@angular/material/table';
+import { EditUserComponent } from './edit-user/edit-user.component';
+import { FrontModule } from '../webshop/front-pages/front.module';
+import { MatSelectModule } from '@angular/material/select';
 
 
 @NgModule({
@@ -30,7 +34,8 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
     CreateItemComponent,
     WarehouseBasicLayoutComponent,
     WarehouseHeaderComponent,
-    CreateEditUsersComponent
+    CreateEditUsersComponent,
+    EditUserComponent
   ],
   imports: [
     CommonModule,
@@ -47,7 +52,11 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
     MatToolbarModule,
     MatIconModule,
     MatMenuModule,
-    MatProgressSpinnerModule
+    MatProgressSpinnerModule,
+    MatSortModule,
+    MatTableModule,
+    FrontModule,
+    MatSelectModule
   ],
   providers: [{ provide: MAT_DATE_LOCALE, useValue: 'es-Es' }]
 })

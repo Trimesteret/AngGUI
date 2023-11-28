@@ -53,8 +53,7 @@ export class CatalogueComponent implements OnInit {
   }
 
   getItemTypeValues(): string[] {
-    return Object.keys(ItemType)
-      .filter(key => isNaN(Number(key)));
+    return Object.keys(ItemType).filter(key => isNaN(Number(key)));
   }
 
   getSortFilterValues(): string[] {
