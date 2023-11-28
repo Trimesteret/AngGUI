@@ -28,11 +28,8 @@
 
       <mat-form-field>
         <mat-label>Vælg type af produkt</mat-label>
-        <mat-select [(value)]="selected">
-<!--          <mat-option>None</mat-option>-->
-          <mat-option value="wine">Vin</mat-option>
-          <mat-option value="liquor">Likør</mat-option>
-          <mat-option value="other">Anden</mat-option>
+        <mat-select [(value)]="selected" formControlName="itemType">
+          <mat-option [value]="item.key" *ngFor="let item of ItemType | keyValue">{{item.value}}</mat-option>
         </mat-select>
       </mat-form-field>
 
@@ -40,7 +37,7 @@
       <ng-container *ngIf="selected === 'wine' || selected === 'liquor'">
         <mat-form-field>
           <mat-label>Fra år:</mat-label>
-          <input matInput type="text" formControlName="year">
+          <input matInput type="phone" formControlName="year">
         </mat-form-field>
 
         <mat-form-field>

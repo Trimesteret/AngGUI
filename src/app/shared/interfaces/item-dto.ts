@@ -1,3 +1,4 @@
+import { WineType } from '../enums/wine-type';
 import { ItemType } from '../enums/item-type';
 
 export interface ItemDto {
@@ -15,5 +16,6 @@ export interface ItemDto {
   suitables?: string,
   imageUrl: string,
   expirationDate?: Date,
-  type?: ItemType
+  wineType?: WineType,
+  itemType: ItemType
 }

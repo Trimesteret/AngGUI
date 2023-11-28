@@ -4,7 +4,7 @@ import { Observable } from 'rxjs';
 import { environment } from '../../../../environments/environment';
 import { ItemDto } from '../../interfaces/item-dto';
 import { SortByPrice } from '../../enums/sort-by-price';
-import { ItemType } from '../../enums/item-type';
+import { WineType } from '../../enums/wine-type';
 import { User } from '../../authentication/models/user';
 
 @Injectable({
@@ -19,7 +19,7 @@ export class ItemsService {
 
 
 
-  getItemCount(search?: string, sortByPrice?: SortByPrice, itemType?: ItemType): Observable<number> {
+  getItemCount(search?: string, sortByPrice?: SortByPrice, itemType?: WineType): Observable<number> {
     search = search?.trim();
 
     let params = new HttpParams();
@@ -31,7 +31,7 @@ export class ItemsService {
     return this.http.get<number>(this.url + '/itemCount', { params: params });
   }
 
-  getItemsBySearch(amountOfItemsShown: number, search?: string, sortByPrice?: SortByPrice, itemType?: ItemType): Observable<ItemDto[]> {
+  getItemsBySearch(amountOfItemsShown: number, search?: string, sortByPrice?: SortByPrice, itemType?: WineType): Observable<ItemDto[]> {
     search = search?.trim();
 
     let params = new HttpParams();
@@ -44,24 +44,8 @@ export class ItemsService {
     return this.http.get<ItemDto[]>(this.url, { params: params });
   }
 
-  createItem(item: ItemDto):Observable<boolean>  {
-    const params = new HttpParams()
-      .set('id', item.id ?? '')
-      .set('name', item.name)
-      .set('ean', item.ean)
-      .set('description', item.description ?? '')
-      .set('price', item.price)
-      .set('quantity', item.quantity)
-      .set('year', item.year ?? '')
-      .set('volume', item.volume ?? '')
-      .set('alcohol', item.alcohol ?? '')
-      .set('country', item.country ?? '')
-      .set('grapesort', item.grapesort ?? '')
-      .set('suitables', item.suitables ?? '')
-      .set('imageUrl', item.imageUrl)
-      .set('type', item.type ?? '');
-    return this.http.post<boolean>(this.url, item, { params: params });
-
+  public createItem(item: ItemDto):Observable<boolean>  {
+    return this.http.post<boolean>(this.url, item);
   }
 }
 

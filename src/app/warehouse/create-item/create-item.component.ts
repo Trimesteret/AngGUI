@@ -5,6 +5,7 @@ import { HttpClient } from '@angular/common/http';
 import { User } from '../../shared/authentication/models/user';
 import { ItemDto } from '../../shared/interfaces/item-dto';
 import { ItemsService } from '../../shared/services/items/items.service';
+import { ItemType } from '../../shared/enums/item-type';
 
 @Component({
   selector: 'app-create-item',
@@ -26,20 +27,27 @@ export class CreateItemComponent implements OnInit {
       itemDescription: [item?.description ? item.description : '', Validators.required],
       itemPrice: [item?.price ? item.price : '', [Validators.required]],
       itemQuantity: [item?.quantity ? item.quantity : '', [Validators.required]],
-      year: [item?.year ? item.year : '', [Validators.required]],
-      volume: [item?.volume ? item.volume : '', [Validators.required]],
-      alcoholPercentage: [item?.alcohol ? item.alcohol : '', [Validators.required]],
+      year: [item?.year ? item.year : null, [Validators.required]],
+      volume: [item?.volume ? item.volume : null, [Validators.required]],
+      alcoholPercentage: [item?.alcohol ? item.alcohol : null, [Validators.required]],
       country: [item?.country ? item.country : '', [Validators.required]],
       grapesort: [item?.grapesort ? item.grapesort : '', [Validators.required]],
       suitables: [item?.suitables ? item.suitables : '', [Validators.required]],
-      expirationDate: [item?.expirationDate ? item.expirationDate : '', [Validators.required]],
-      wineType: [item?.type ? item.type : '', [Validators.required]]
+      wineType: [item?.wineType ? item.wineType : null, [Validators.required]],
+      itemType: [item?.itemType ? item.itemType : null, [Validators.required]]
     });
   }
 
   ngOnInit(): void {
     this.buildItemForm();
+    this.itemForm?.controls['itemType'].valueChanges.subscribe(value => {
+      console.log(ItemType[value]);
+      this.selected = ItemType[value];
+    });
   }
+
+
+
 
   constructor(private http: HttpClient, private formBuilder: FormBuilder, private itemService: ItemsService) {}
 
@@ -52,4 +60,6 @@ export class CreateItemComponent implements OnInit {
 
     });
   }
+
+  protected readonly ItemType = ItemType;
 }

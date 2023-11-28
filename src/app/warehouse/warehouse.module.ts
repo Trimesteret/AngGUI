@@ -21,6 +21,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatMenuModule } from '@angular/material/menu';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatSelectModule } from '@angular/material/select';
+import { SharedModule } from '../shared/shared.module';
 
 
 
@@ -50,7 +51,8 @@ import { MatSelectModule } from '@angular/material/select';
     MatMenuModule,
     MatProgressSpinnerModule,
     MatOptionModule,
-    MatSelectModule
+    MatSelectModule,
+    SharedModule
   ],
   providers: [{ provide: MAT_DATE_LOCALE, useValue: 'es-Es' }]
 })
