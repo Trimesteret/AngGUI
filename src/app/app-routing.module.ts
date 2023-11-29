@@ -17,7 +17,7 @@ const routes: Routes = [
   { path: 'my-profile', component: MyProfileComponent, canActivate: [authGuard] },
   { path: 'warehouse',
     loadChildren: () => import('./warehouse/warehouse.module').then(m => m.WarehouseModule),
-    canActivate: [roleGuard], data: { expectedRole: Role.Employee }
+    canActivate: [authGuard, roleGuard], data: { expectedRole: Role.Employee }
   },
   { path: 'webshop', loadChildren: () => import('./webshop/webshop.module').then(m => m.WebshopModule) }
 ];
