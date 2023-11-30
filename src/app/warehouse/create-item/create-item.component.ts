@@ -26,7 +26,7 @@ export class CreateItemComponent {
       itemName: [item?.name ? item.name : '', Validators.required],
       EAN: [item?.ean ? item.ean : '', Validators.required],
       itemDescription: [item?.description ? item.description : '', Validators.required],
-      itemPrice: [item?.price ? item.price : '', [Validators.required]],
+      itemPrice: [item?.price ? item.price : null, [Validators.required]],
       itemQuantity: [item?.quantity ? item.quantity : '', [Validators.required]],
       year: [item?.year ? item.year : null],
       volume: [item?.volume ? item.volume : null],
@@ -57,7 +57,8 @@ export class CreateItemComponent {
 
     item.itemType = this.selectedItemType;
     this.itemService.createItem(item).subscribe(value => {
-      console.log(value);
+      console.log(item);
+      this.messageService.show('Item created');
     }, () => {
       console.log('error');
 
