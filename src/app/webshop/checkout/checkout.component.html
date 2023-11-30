@@ -1,25 +1,33 @@
 <app-front-basic-layout>
-  <div fxLayout = "row" fxFlexFill>
-    <form fxFlex = "60" fxLayout="column" class="left-section" [formGroup]="checkoutForm" (ngSubmit)="createCheckout()">
+  <div fxLayout="row" fxFlexFill>
+    <form *ngIf="checkoutForm" fxFlex="60" fxLayout="column" class="left-section" [formGroup]="checkoutForm" (ngSubmit)="createCheckout()">
       <div class="form-container">
         <h2>Dine Oplysninger</h2>
         <div fxLayout="column">
-          <ng-container *ngFor="let field of addressFields">
-            <ng-container *ngIf="field.title !== 'city'; else elseCase">
-              <mat-form-field appearance="outline">
-                <input matInput [formControlName]="field.title" [placeholder]="field.placeholder" [required]="true">
-              </mat-form-field>
-            </ng-container>
-            <ng-template #elseCase>
-              <div fxLayout="row" fxLayoutGap="10px">
+          <ng-container>
+            <mat-form-field fxFlex="85" appearance="outline">
+              <input matInput formControlName="name" placeholder="Navn" required>
+            </mat-form-field>
+            <mat-form-field fxFlex="85" appearance="outline">
+              <input matInput formControlName="phoneNumber" placeholder="Telefon Nummer" required>
+            </mat-form-field>
+            <mat-form-field fxFlex="85" appearance="outline">
+              <input matInput formControlName="email" placeholder="Email" required>
+            </mat-form-field>
+            <mat-form-field fxFlex="85" appearance="outline">
+              <input matInput formControlName="adress" placeholder="Addresse" required>
+            </mat-form-field>
+            <mat-form-field fxFlex="85" appearance="outline">
+              <input matInput formControlName="country" placeholder="Land" required>
+            </mat-form-field>
+            <div fxLayout="row" fxLayoutGap="10px">
                 <mat-form-field fxFlex="85" appearance="outline">
                   <input matInput formControlName="city" placeholder="By" required>
                 </mat-form-field>
                 <mat-form-field appearance="outline">
                   <input matInput formControlName="postcode" placeholder="Postnummer" required>
                 </mat-form-field>
-              </div>
-            </ng-template>
+            </div>
           </ng-container>
         </div>
       </div>
@@ -27,14 +35,26 @@
         <h2>Leveringsmuligheder</h2>
         <mat-radio-group formControlName="deliveryMethod" required>
           <div fxLayout="column" fxLayoutGap="5px">
-            <mat-card *ngFor="let method of deliveryMethods" fxLayoutAlign="space-between center" class="delivery-checkboxes">
-              <mat-radio-button [value]="method.value">{{ method.label }}</mat-radio-button>
-              <span>{{ method.cost }} kr</span>
+            <mat-card fxLayoutAlign="space-between center" class="delivery-checkboxes">
+              <mat-radio-button>Afhenting i Butik</mat-radio-button>
+              <span>0 kr</span>
+            </mat-card>
+            <mat-card fxLayoutAlign="space-between center" class="delivery-checkboxes">
+              <mat-radio-button>Postnord Hjemmelevering</mat-radio-button>
+              <span>59 kr</span>
+            </mat-card>
+            <mat-card fxLayoutAlign="space-between center" class="delivery-checkboxes">
+              <mat-radio-button>GLS</mat-radio-button>
+              <span>59 kr</span>
+            </mat-card>
+            <mat-card fxLayoutAlign="space-between center" class="delivery-checkboxes">
+              <mat-radio-button>DAO</mat-radio-button>
+              <span>59 kr</span>
             </mat-card>
           </div>
         </mat-radio-group>
-        <div class="go-to-payment-box" fxLayout = "column" >
-          <div fxLayout = "column">
+        <div class="go-to-payment-box" fxLayout="column" >
+          <div fxLayout="column">
             <mat-checkbox formControlName="termsCheckbox" required>Jeg accepterer handelsbetingelserne</mat-checkbox>
             <mat-checkbox formControlName="newsletterCheckbox">Jeg vil gerne have gode tilbud og nyheder fra Budolfi Vin i indbakken</mat-checkbox>
           </div>
@@ -45,30 +65,30 @@
       </div>
     </form>
 
-    <div fxFlex = "20" class="basket-box">
+    <div fxFlex="20" class="basket-box">
       <ng-container *ngFor="let field of basketContent">
       <mat-card>
-        <div fxLayout = "row" fxLayoutAlign = "space-between center">
-          <img [src] = "field.imageUrl" class = "basket-wine-picture">
+        <div fxLayout="row" fxLayoutAlign="space-between center">
+          <img [src]="field.imageUrl" class="basket-wine-picture" alt="Billede">
           <p>{{field.name}}</p>
           <p>{{field.price}}</p>
         </div>
       </mat-card>
         </ng-container>
-      <div fxLayout = "column" style="padding-top: 15px">
-        <div fxLayout = "row" fxLayoutAlign = "space-between center">
+      <div fxLayout="column" style="padding-top: 15px">
+        <div fxLayout="row" fxLayoutAlign="space-between center">
           <p>Total:</p>
           <p>200 kr</p>
         </div>
-        <div fxLayout = "row" fxLayoutAlign = "space-between center">
+        <div fxLayout="row" fxLayoutAlign="space-between center">
           <p>Levering:</p>
           <p>200 kr</p>
         </div>
-        <div fxLayout = "row" fxLayoutAlign = "space-between center">
+        <div fxLayout="row" fxLayoutAlign="space-between center">
           <p>Total incl. levering:</p>
           <p>200 kr</p>
         </div>
-        <div fxLayout = "row" fxLayoutAlign = "space-between center">
+        <div fxLayout="row" fxLayoutAlign="space-between center">
           <p>Heraf moms:</p>
           <p>200 kr</p>
         </div>
