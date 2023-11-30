@@ -4,14 +4,14 @@ import { AuthenticationService } from '../shared/services/authentication/authent
 import { MessageService } from '../shared/services/message.service';
 import { catchError, of, switchMap } from 'rxjs';
 import { CookieService } from 'ngx-cookie-service';
-import { Roles } from '../shared/enums/roles';
+import { Role } from '../shared/enums/role';
 
 export const roleGuard: CanActivateFn = (route, state) => {
   const authService = inject(AuthenticationService);
   const messageService = inject(MessageService);
   const cookieService = inject(CookieService);
   const router = inject(Router);
-  const expectedRole: Roles =route.data['expectedRole'];
+  const expectedRole: Role =route.data['expectedRole'];
 
   if(expectedRole == null){
     messageService.show('No role specified for this route');
@@ -39,6 +39,8 @@ export const roleGuard: CanActivateFn = (route, state) => {
     }),
     catchError(error => {
       messageService.show(error);
+      authService.logOut();
+      router.navigate(['/login']);
       return of(false);
     })
   );

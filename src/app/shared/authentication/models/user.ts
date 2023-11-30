@@ -1,3 +1,5 @@
+import { Role } from '../../enums/role';
+
 export interface User {
   id?: number
   firstName: string
@@ -5,7 +7,7 @@ export interface User {
   email: string
   password?: string
   phone: string
-  role?: number
+  role?: Role
   token?: string
   tokenExpiration?: Date
 }

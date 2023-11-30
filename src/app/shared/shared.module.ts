@@ -7,6 +7,9 @@ import { KeyValuePipe } from './pipes/key-value.pipe';
   declarations: [
     KeyValuePipe
   ],
+  exports: [
+    KeyValuePipe
+  ],
   imports: [
     CommonModule,
   ]
