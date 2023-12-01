@@ -6,12 +6,14 @@ import { CreateInboundOrderComponent } from './create-inbound-order/create-inbou
 import { CreateEditUsersComponent } from './create-edit-users/create-edit-users.component';
 import { authGuard } from '../guards/auth.guard';
 import { roleGuard } from '../guards/role.guard';
-import { Roles } from '../shared/enums/roles';
+import { Role } from '../shared/enums/role';
+import { EditUserComponent } from './edit-user/edit-user.component';
 
 const routes: Routes = [
-  { path: 'createInboundOrder', component: CreateInboundOrderComponent, canActivate: [authGuard, roleGuard], data: { expectedRole: Roles.Admin } },
-  { path: 'create-edit-items', component: CreateItemComponent, canActivate: [authGuard, roleGuard], data: { expectedRole: Roles.Admin } },
-  { path: 'create-edit-users', component: CreateEditUsersComponent, canActivate: [authGuard, roleGuard], data: { expectedRole: Roles.Admin } },
+  { path: 'createInboundOrder', component: CreateInboundOrderComponent, canActivate: [authGuard, roleGuard], data: { expectedRole: Role.Admin } },
+  { path: 'create-edit-items', component: CreateItemComponent, canActivate: [authGuard, roleGuard], data: { expectedRole: Role.Admin } },
+  { path: 'create-edit-users', component: CreateEditUsersComponent, canActivate: [authGuard, roleGuard], data: { expectedRole: Role.Admin } },
+  { path: 'user/:id', component: EditUserComponent, canActivate: [authGuard, roleGuard], data: { expectedRole: Role.Admin } },
   { path: 'home', component: HomePageComponent },
   { path: '', redirectTo: 'home', pathMatch: 'full' }
 ];

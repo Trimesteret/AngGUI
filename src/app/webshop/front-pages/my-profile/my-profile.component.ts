@@ -17,8 +17,6 @@ export class MyProfileComponent implements OnInit{
   loggedIn = false;
   loading = true;
 
-  hide = true;
-
   profileForm: FormGroup | undefined;
 
   public customerPurchaseOrders = new MatTableDataSource([{
@@ -112,7 +110,7 @@ export class MyProfileComponent implements OnInit{
     }
 
     this.loading = true;
-    console.log(this.profileForm?.value);
+
     this.userService.updateCurrentUser(this.profileForm.value as User).subscribe(() => {
       this.loading = false;
       this.messageService.show('Profile updated');
