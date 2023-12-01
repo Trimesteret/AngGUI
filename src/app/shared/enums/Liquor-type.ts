@@ -1,4 +1,4 @@
-﻿export enum LiqourType {
+﻿export enum LiquorType {
   Whiskey ,
   Rum,
   Vodka

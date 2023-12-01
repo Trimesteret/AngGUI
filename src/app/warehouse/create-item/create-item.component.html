@@ -1,9 +1,13 @@
 <app-warehouse-basic-layout (logOutEvent)="logout()">
   <div fxFlex fxLayoutAlign="center start" fxLayout="row" style="background-color: lightgray">
     <form *ngIf="itemForm" fxLayout="column" class="document" fxLayoutGap="5" [formGroup]="itemForm" (ngSubmit)="submitItem()">
-      <span fxLayout="row" fxLayoutGap="15" fxLayoutAlign="start center">
+      <span *ngIf="!editingItem" fxLayout="row" fxLayoutGap="15" fxLayoutAlign="start center">
         <mat-icon>category</mat-icon>
-        <h1 class="no-margin no-padding">Opret Produkt</h1>
+        <mat-label class="no-margin no-padding">Opret Produkt</mat-label>
+      </span>
+      <span *ngIf="editingItem" fxLayout="row" fxLayoutGap="15" fxLayoutAlign="start center">
+        <mat-icon>category</mat-icon>
+        <mat-label class="no-margin no-padding">Rediger Produkt</mat-label>
       </span>
       <mat-form-field>
         <mat-label>Vælg type af produkt</mat-label>
@@ -103,7 +107,7 @@
         <mat-form-field>
           <mat-label>Likørtype</mat-label>
           <mat-select formControlName="liquorType">
-            <mat-option *ngFor="let liqourType of LiqourType | keyValue" [value]="liqourType.key">{{liqourType.value}}</mat-option>
+            <mat-option *ngFor="let liquorType of LiquorType | keyValue" [value]="liquorType.key">{{liquorType.value}}</mat-option>
           </mat-select>
         </mat-form-field>
       </ng-container>

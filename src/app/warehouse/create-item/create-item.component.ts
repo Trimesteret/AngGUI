@@ -7,7 +7,7 @@ import { WineType } from '../../shared/enums/wine-type';
 import { MessageService } from 'src/app/shared/services/message.service';
 import { AuthenticationService } from 'src/app/shared/services/authentication/authentication.service';
 import { SuitableFor } from '../../shared/enums/Suitable-for';
-import { LiqourType } from '../../shared/enums/Liqour-type';
+import { LiquorType } from '../../shared/enums/Liquor-type';
 
 @Component({
   selector: 'app-create-item',
@@ -16,11 +16,9 @@ import { LiqourType } from '../../shared/enums/Liqour-type';
 })
 export class CreateItemComponent {
   selectedItemType: ItemType = ItemType.DefaultItem;
-  wineType = 'something';
   suitables = new FormControl('');
-  suitablesList: string[] = ['Dessert', 'Fisk', 'Havregrød'];
   loading = true;
-
+  editingItem = false;
   itemForm: FormGroup | undefined;
 
   public buildItemForm(item?: ItemDto): void {
@@ -49,7 +47,16 @@ export class CreateItemComponent {
     });
   }
 
+  //  public buildItemFromId(item: ItemDto){
+
+  //}
+
   constructor(private formBuilder: FormBuilder, private itemService: ItemsService, private messageService: MessageService, private authenticationService: AuthenticationService) {
+  //  if(hasIdintitle){
+  //     this.buildItemFromId();
+  //  } else {
+  //  this.buildItemForm();
+  //  }
     this.buildItemForm();
   }
 
@@ -87,6 +94,6 @@ export class CreateItemComponent {
 
   protected readonly ItemType = ItemType;
   protected readonly WineType = WineType;
-  protected readonly LiqourType = LiqourType;
+  protected readonly LiquorType = LiquorType;
   protected readonly SuitableFor = SuitableFor;
 }
