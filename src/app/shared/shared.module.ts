@@ -5,8 +5,6 @@ import { KeyValuePipe } from './pipes/key-value.pipe';
 
 @NgModule({
   declarations: [
-
-
     KeyValuePipe
   ],
   exports: [

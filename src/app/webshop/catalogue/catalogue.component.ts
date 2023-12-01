@@ -54,11 +54,15 @@ export class CatalogueComponent implements OnInit {
   }
 
   public getItemTypeValues(): string[] {
-    return Object.keys(WineType)
+    return Object.keys(ItemType).filter(key => isNaN(Number(key)));
+  }
+
+  public getSortFilterValues(): string[] {
+    return Object.keys(SortByPrice)
       .filter(key => isNaN(Number(key)));
   }
 
-  ngOnInit(): void {
+  public ngOnInit(): void {
     this.breakPoints.subscribe(() =>
       this.breakpointChanged()
     );

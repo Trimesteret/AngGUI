@@ -6,7 +6,7 @@ import { environment } from '../../../../environments/environment';
 import { LoginDto } from '../../authentication/models/login-dto';
 import { AuthPas } from '../../authentication/models/authPas';
 import { User } from '../../authentication/models/user';
-import { Roles } from '../../enums/roles';
+import { Role } from '../../enums/role';
 
 @Injectable({
   providedIn: 'root'
@@ -33,14 +33,14 @@ export class AuthenticationService {
    * Gets the role
    */
   public isEmployee(): boolean {
-    return parseInt(this.cookieService.get('role')) ? parseInt(this.cookieService.get('role')) >= Roles.Employee : false;
+    return parseInt(this.cookieService.get('role')) ? parseInt(this.cookieService.get('role')) >= Role.Employee : false;
   }
 
   /**
    * Gets the role
    */
   public isAdmin(): boolean {
-    return parseInt(this.cookieService.get('role')) ? parseInt(this.cookieService.get('role')) >= Roles.Admin : false;
+    return parseInt(this.cookieService.get('role')) ? parseInt(this.cookieService.get('role')) >= Role.Admin : false;
   }
 
   /**
@@ -78,11 +78,11 @@ export class AuthenticationService {
   /**
    * Verify role
    */
-  public verifyRole(token: string, expectedRole: Roles): Observable<Roles>{
+  public verifyRole(token: string, expectedRole: Role): Observable<Role>{
     let params = new HttpParams();
     params = params.set('expectedRole', expectedRole);
     params = params.set('token', token);
-    return this.http.get<Roles>(this.url + '/verifyRole', { params: params });
+    return this.http.get<Role>(this.url + '/verifyRole', { params: params });
   }
 
   /**

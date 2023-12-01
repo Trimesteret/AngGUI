@@ -23,10 +23,6 @@
       </mat-form-field>
     </div>
 
-    <div fxFlexFill *ngIf="loading" fxLayoutAlign="center top" class="spinner">
-      <mat-spinner></mat-spinner>
-    </div>
-
     <mat-grid-list *ngIf="!loading"  fxFlex="100%" gutterSize="20" cols="6">
       <mat-grid-tile [colspan]="columnAmount" [rowspan]="columnAmount" *ngFor="let item of displayItems">
         <div [routerLink]="'/webshop/item/' + item.id " style="padding: 10px" class="shop-card full-width full-height" fxFlex fxLayout="column" fxLayoutAlign="center center">
@@ -52,3 +48,6 @@
     </div>
   </div>
 </app-front-basic-layout>
+<div fxFlexFill *ngIf="loading" fxLayoutAlign="center top" class="spinner">
+  <mat-spinner></mat-spinner>
+</div>

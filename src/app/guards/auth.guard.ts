@@ -1,6 +1,6 @@
 import { CanActivateFn, Router } from '@angular/router';
 import { inject } from '@angular/core';
-import { of, tap } from 'rxjs';
+import { catchError, of, switchMap, tap } from 'rxjs';
 import { AuthenticationService } from '../shared/services/authentication/authentication.service';
 import { MessageService } from '../shared/services/message.service';
 
@@ -17,12 +17,21 @@ export const authGuard: CanActivateFn = (route, state) => {
   }
 
   return authService.verifyAuthToken(token).pipe(
-    tap(isValid => {
-      if (!isValid) {
+    switchMap(isLoggedIn => {
+      if (isLoggedIn) {
+        return of(true);
+      } else {
+        messageService.show('Your session has expired');
         authService.logOut();
         router.navigate(['/login']);
-        messageService.show('Your session has expired');
+        return of(false);
       }
+    }),
+    catchError(() => {
+      messageService.show('Your session has expired');
+      authService.logOut();
+      router.navigate(['']);
+      return of(false);
     })
   );
 };
