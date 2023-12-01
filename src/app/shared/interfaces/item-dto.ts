@@ -7,7 +7,6 @@ export interface ItemDto {
   ean: string,
   price: number,
   quantity: number,
-  alcohol?: number,
   imageUrl: string,
   description: string,
   mass: number,

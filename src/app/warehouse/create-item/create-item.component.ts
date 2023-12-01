@@ -6,6 +6,8 @@ import { ItemType } from '../../shared/enums/item-type';
 import { WineType } from '../../shared/enums/wine-type';
 import { MessageService } from 'src/app/shared/services/message.service';
 import { AuthenticationService } from 'src/app/shared/services/authentication/authentication.service';
+import { SuitableFor } from '../../shared/enums/Suitable-for';
+import { LiqourType } from '../../shared/enums/Liqour-type';
 
 @Component({
   selector: 'app-create-item',
@@ -30,9 +32,12 @@ export class CreateItemComponent {
       itemQuantity: [item?.quantity ? item.quantity : '', [Validators.required]],
       year: [item?.year ? item.year : null],
       volume: [item?.volume ? item.volume : null],
-      alcoholPercentage: [item?.alcohol ? item.alcohol : null],
+      alcoholPercentage: [item?.alcoholPercentage ? item.alcoholPercentage : null],
       country: [item?.country ? item.country : ''],
+      region: [item?.region ? item.region : ''],
       grapeSort: [item?.grapeSort ? item.grapeSort : ''],
+      winery: [item?.winery ? item.winery : ''],
+      tastingNotes: [item?.tastingNotes ? item.tastingNotes : ''],
       suitableFor: [item?.suitableFor ? item.suitableFor : ''],
       itemType: [item?.itemType ? item.itemType : ItemType.DefaultItem],
       wineType: [item?.wineType ? item.wineType : WineType.RedWine],
@@ -82,4 +87,6 @@ export class CreateItemComponent {
 
   protected readonly ItemType = ItemType;
   protected readonly WineType = WineType;
+  protected readonly LiqourType = LiqourType;
+  protected readonly SuitableFor = SuitableFor;
 }
