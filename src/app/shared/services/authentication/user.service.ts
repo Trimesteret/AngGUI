@@ -57,4 +57,7 @@ export class UserService {
   public updateCurrentUser(user: User): Observable<User> {
     return this.http.put<User>(this.url + '/edit', user);
   }
+  public updateCurrentUserPassword(user: User): Observable<User> {
+    return this.http.put<User>(this.url + '/password', user);
+  }
 }

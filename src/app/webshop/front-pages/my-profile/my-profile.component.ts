@@ -14,6 +14,14 @@ import { AuthenticationService } from '../../../shared/services/authentication/a
 })
 export class MyProfileComponent implements OnInit{
 
+  showFormFields = false;
+  showChangePasswordButton = true;
+  // eslint-disable-next-line @typescript-eslint/explicit-function-return-type
+  toggleFormFields() {
+    this.showFormFields = !this.showFormFields;
+    this.showChangePasswordButton = !this.showChangePasswordButton;
+  }
+
   loggedIn = false;
   loading = true;
 
@@ -68,7 +76,9 @@ export class MyProfileComponent implements OnInit{
       lastName: [user.lastName, Validators.required],
       phone: [user.phone, Validators.required],
       email: [user.email, [Validators.required, Validators.email]],
-      password: [user.password, [Validators.required, Validators.minLength(7)]],
+      password: ['', Validators.minLength(7)],
+      newPasswordOne: ['', Validators.minLength(7)],
+      newPasswordTwo: ['', Validators.minLength(7)],
     });
   }
 
@@ -95,7 +105,6 @@ export class MyProfileComponent implements OnInit{
       }
     });
   }
-
   private compare(a: number | string, b: number | string, isAsc: boolean): number {
     return (a < b ? -1 : 1) * (isAsc ? 1 : -1);
   }
@@ -114,6 +123,14 @@ export class MyProfileComponent implements OnInit{
     this.userService.updateCurrentUser(this.profileForm.value as User).subscribe(() => {
       this.loading = false;
       this.messageService.show('Profile updated');
+    },
+    error => {
+      this.loading = false;
+      this.messageService.showError(error);
+    });
+    this.userService.updateCurrentUserPassword(this.profileForm.value as User).subscribe(() => {
+      this.loading = false;
+      this.messageService.show('Password updated');
     },
     error => {
       this.loading = false;

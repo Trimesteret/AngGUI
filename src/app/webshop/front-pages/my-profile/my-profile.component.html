@@ -26,7 +26,41 @@
         <mat-icon matIconSuffix>email</mat-icon>
       </mat-form-field>
 
-      <div fxLayout="row" fxLayoutAlign="end center" fxLayoutGap="20">
+      <div fxLayout="row" fxLayoutAlign="end center" fxLayoutGap="20" *ngIf="showChangePasswordButton">
+        <button color="warn" type="button" mat-raised-button (click)="toggleFormFields()">
+          <mat-icon>delete</mat-icon>
+          Skift adganskode
+        </button>
+        <button color="accent" type="button" [disabled]="!profileForm.dirty" (click)="getUserAndBuildForm()" mat-raised-button>
+          <mat-icon>restart_alt</mat-icon>
+          Nulstil
+        </button>
+        <button color="primary" type="submit" mat-raised-button>
+          <mat-icon>save</mat-icon>
+          Gem
+        </button>
+      </div>
+      <div *ngIf="showFormFields" fxLayout="column" fxLayoutAlign="start" fxLayoutGap="5">
+        <mat-form-field appearance="fill" fxFlex="20">
+          <mat-label>Nuværende adgangskode</mat-label>
+          <input type="password" matInput placeholder="Indtast nuværende adgangskode">
+        </mat-form-field>
+
+        <mat-form-field appearance="fill">
+          <mat-label>Ny adgangskode</mat-label>
+          <input type="password" matInput placeholder="Indtast nye adgangskode">
+        </mat-form-field>
+
+        <mat-form-field appearance="fill">
+          <mat-label>Gentag ny adgangskode</mat-label>
+          <input type="password" matInput placeholder="Gentag ny adgangskode">
+        </mat-form-field>
+      </div>
+      <div *ngIf="showFormFields" fxLayout="row" fxLayoutAlign="end center" fxLayoutGap="20">
+        <button color="warn" type="button" mat-raised-button (click)="toggleFormFields()">
+          <mat-icon>delete</mat-icon>
+          Annuller
+        </button>
         <button color="accent" type="button" [disabled]="!profileForm.dirty" (click)="getUserAndBuildForm()" mat-raised-button>
           <mat-icon>restart_alt</mat-icon>
           Nulstil
