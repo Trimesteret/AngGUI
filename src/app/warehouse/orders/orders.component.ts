@@ -8,7 +8,7 @@ import { PurchaseOrderDto } from '../../shared/interfaces/purchase-order-dto';
 import { OrderService } from '../../shared/services/order/order.service';
 
 @Component({
-  selector: 'app-order',
+  selector: 'app-orders',
   templateUrl: './orders.component.html',
   styleUrls: ['./orders.component.scss']
 })

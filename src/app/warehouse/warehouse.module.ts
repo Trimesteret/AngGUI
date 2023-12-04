@@ -28,6 +28,8 @@ import { MatSelectModule } from '@angular/material/select';
 import { SharedModule } from '../shared/shared.module';
 import { EditItemComponent } from './edit-item/edit-item.component';
 import { OrdersComponent } from './orders/orders.component';
+import { PackingComponent } from './packing/packing.component';
+import { PickingComponent } from './picking/picking.component';
 
 
 @NgModule({
@@ -40,7 +42,9 @@ import { OrdersComponent } from './orders/orders.component';
     CreateEditUsersComponent,
     EditUserComponent,
     EditItemComponent,
-    OrdersComponent
+    OrdersComponent,
+    PackingComponent,
+    PickingComponent
   ],
   imports: [
     CommonModule,

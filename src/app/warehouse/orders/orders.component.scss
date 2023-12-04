@@ -1,0 +1,8 @@
+.order-item {
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.order-item:hover {
+  background-color: #f0f0f0;
+}

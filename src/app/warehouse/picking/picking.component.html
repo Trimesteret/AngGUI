@@ -1,0 +1,59 @@
+<app-warehouse-basic-layout (logOutEvent)="logout()">
+  <div fxFlex fxLayoutAlign="center center" fxLayout="row" *ngIf="!loading" style="background-color: #EFEFEF" fxLayoutGap="50%">
+    <div fxLayout="column" class="document" fxLayoutGap="5">
+      <div fxLayout="row" class="centered-container" fxLayoutAlign="center center">
+        <!-- Top left box -->
+        <div class="box">
+          <h1 class="box-title">Ordre nummer: <b>1</b></h1>
+        </div>
+
+        <!-- Top right box -->
+        <div class="box">
+          <h1 class="box-title">Leverandør: <b>David</b></h1>
+        </div>
+      </div>
+
+      <div fxLayout="row" class="centered-container" fxLayoutAlign="center center">
+        <!-- Bottom left box -->
+        <div class="box">
+          <h1 class="box-title">Forventet levering: <b>6/12/2023</b></h1>
+        </div>
+
+        <!-- Bottom right box -->
+        <div class="box">
+          <h1 class="box-title">Forventet håndtering: <b>6/12/2023</b></h1>
+        </div>
+      </div>
+
+      <mat-form-field>
+        <mat-label>Søg efter vare</mat-label>
+        <input matInput type="search">
+      </mat-form-field>
+
+      <span fxLayout="row" fxLayoutGap="15" fxLayoutAlign="start center">
+        <mat-icon>list</mat-icon>
+        <h1 class="no-margin no-padding">Vareliste</h1>
+      </span>
+
+      <table class="mat-elevation-z8" fxLayoutAlign="center center" fxLayout="column">
+        <tr *ngFor="let item of items">
+          <td>{{ item.id }}</td>
+          <td>{{ item.type }}</td>
+          <!-- Add more columns as needed -->
+        </tr>
+      </table>
+    </div>
+  </div>
+  <div fxLayoutAlign="end center">
+    <button mat-raised-button color="warn" routerLink="/warehouse/orders">
+      <mat-icon>
+        arrow_back
+      </mat-icon>
+      Tilbage
+    </button>
+  </div>
+</app-warehouse-basic-layout>
+
+<div fxFlexFill *ngIf="loading" fxLayoutAlign="center center" class="spinner">
+  <mat-spinner></mat-spinner>
+</div>
