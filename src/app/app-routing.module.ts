@@ -10,7 +10,7 @@ import { roleGuard } from './guards/role.guard';
 import { Role } from './shared/enums/role';
 
 const routes: Routes = [
-  { path: '', component: FrontPageComponent },
+  { path: '', component: FrontPageComponent, pathMatch: 'full' },
   { path: 'login', component: LoginPageComponent },
   { path: 'signup', component: SignupPageComponent },
   { path: 'forgot-password', component: ForgotPasswordComponent },

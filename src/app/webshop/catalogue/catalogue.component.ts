@@ -58,7 +58,6 @@ export class CatalogueComponent implements OnInit {
     return ` Viser ${this.displayItems.length} ud af ${this.itemCount} varer`;
   }
 
-
   private breakpointChanged(): void {
     if (this.breakpointObserver.isMatched(Breakpoints.XLarge)) {
       this.columnAmount = 1;
@@ -104,6 +103,6 @@ export class CatalogueComponent implements OnInit {
     });
   }
 
-  protected readonly SortByPrice = SortByPrice;
   protected readonly ItemType = ItemType;
+  protected readonly SortByPrice = SortByPrice;
 }

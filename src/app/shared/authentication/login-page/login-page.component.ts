@@ -1,9 +1,9 @@
 import { Component } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
-import { LoginDto } from '../models/login-dto';
 import { MessageService } from '../../services/message.service';
 import { AuthenticationService } from '../../services/authentication/authentication.service';
+import { LoginDto } from '../../models/login-dto';
 
 @Component({
   selector: 'app-login-page',
