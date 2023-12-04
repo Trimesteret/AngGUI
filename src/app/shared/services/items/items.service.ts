@@ -5,6 +5,8 @@ import { environment } from '../../../../environments/environment';
 import { ItemDto } from '../../interfaces/item-dto';
 import { SortByPrice } from '../../enums/sort-by-price';
 import { ItemType } from '../../enums/item-type';
+import { User } from '../../authentication/models/user';
+import { Item } from '../../../warehouse/create-item/item';
 
 @Injectable({
   providedIn: 'root'
@@ -64,6 +66,11 @@ export class ItemsService {
 
   public createItem(item: ItemDto):Observable<boolean>  {
     return this.http.post<boolean>(this.url, item);
+  }
+
+  public editItem(item: ItemDto): Observable<ItemDto> {
+    console.log(item.id);
+    return this.http.put<ItemDto>(this.url, item);
   }
 }
 
