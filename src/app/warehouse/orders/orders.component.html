@@ -1,0 +1,40 @@
+<app-warehouse-basic-layout (logOutEvent)="logout()">
+  <div fxFlex fxLayoutAlign="center center" fxLayout="row" *ngIf="!loading" style="background-color: #EFEFEF" fxLayoutGap="50%">
+    <div fxLayout="column" class="document" fxLayoutGap="5">
+      <span fxLayout="row" fxLayoutGap="15" fxLayoutAlign="start center">
+        <mat-icon>group</mat-icon>
+        <h1 class="no-margin no-padding">Alle ordrer</h1>
+      </span>
+      <mat-form-field>
+        <mat-label>Søg efter ordre</mat-label>
+        <input matInput type="search">
+      </mat-form-field>
+      <table class="mat-elevation-z8" fxLayoutAlign="center center" fxLayout="column">
+        <!--Table probably should be a mat-table, but adding that now breaks the page-->
+        <!--Needs to be updated with orders from database-->
+        <ng-container>
+          <p>Ordre 1 - er en inbound order</p>
+        </ng-container>
+        <ng-container>
+          <p>Ordre 2 - er en outbound order</p>
+        </ng-container>
+        <ng-container>
+          <p>Ordre 3</p>
+        </ng-container>
+        <ng-container>
+          <p>Ordre 4</p>
+        </ng-container>
+        <ng-container>
+          <p>Ordre 5</p>
+        </ng-container>
+        <ng-container>
+          <p>Ordre 6</p>
+        </ng-container>
+      </table>
+    </div>
+  </div>
+</app-warehouse-basic-layout>
+
+<div fxFlexFill *ngIf="loading" fxLayoutAlign="center center" class="spinner">
+  <mat-spinner></mat-spinner>
+</div>
