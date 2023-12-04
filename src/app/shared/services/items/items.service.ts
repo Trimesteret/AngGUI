@@ -5,8 +5,6 @@ import { environment } from '../../../../environments/environment';
 import { ItemDto } from '../../interfaces/item-dto';
 import { SortByPrice } from '../../enums/sort-by-price';
 import { ItemType } from '../../enums/item-type';
-import { User } from '../../authentication/models/user';
-import { Item } from '../../../warehouse/create-item/item';
 
 @Injectable({
   providedIn: 'root'
