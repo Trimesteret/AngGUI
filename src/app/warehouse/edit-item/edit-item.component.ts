@@ -5,6 +5,7 @@ import { AuthenticationService } from 'src/app/shared/services/authentication/au
 import { ItemsService } from '../../shared/services/items/items.service';
 import { ItemDto } from '../../shared/interfaces/item-dto';
 import { MatTableDataSource } from '@angular/material/table';
+import { debounceTime } from 'rxjs';
 import { ItemType } from '../../shared/enums/item-type';
 
 @Component({
@@ -27,18 +28,16 @@ export class EditItemComponent {
       this.loading = false;
     });
   }
-
   public editItem(itemId: number): void {
     this.router.navigate([`/warehouse/create-edit-items/${itemId}`]);
   }
-
   public createItem(): void{
     this.router.navigate(['/warehouse/create-edit-items/']);
   }
-
   public searchChange(): void {
     this.loading = true;
     this.itemService.getItemsBySearch(this.amountOfItemsShown, this.search)
+      .pipe(debounceTime(20000))
       .subscribe(items => {
         this.item = new MatTableDataSource(items);
         this.loading = false;

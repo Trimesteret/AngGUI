@@ -71,7 +71,6 @@ export class CreateItemComponent {
       liquorType: [item?.liquorType]
     });
     this.selectedItemType = item.itemType;
-
     this.itemForm.controls['itemType'].valueChanges.subscribe(value => {
       this.selectedItemType = value;
     });
@@ -99,17 +98,21 @@ export class CreateItemComponent {
     if (getItemPrice) {
       item.price = Number(getItemPrice.value);
     }
-
-
     item.itemType = this.selectedItemType;
-
-    this.itemService.createItem(item).subscribe(value => {
-      console.log(item);
-      this.messageService.show('Item created');
-    }, () => {
-      console.log('error');
-
-    });
+    if (this.editingItem) {
+      item.id = parseInt(this.route.snapshot.params['id']);
+      this.itemService.editItem(item).subscribe(value => {
+        this.messageService.show('Item edited');
+      }, () => {
+        console.log('error');
+      });
+    } else {
+      this.itemService.createItem(item).subscribe(value => {
+        this.messageService.show('Item created');
+      }, () => {
+        console.log('error');
+      });
+    }
   }
 
   public logout(): void{

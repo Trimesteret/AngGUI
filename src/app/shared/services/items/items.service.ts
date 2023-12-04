@@ -65,5 +65,9 @@ export class ItemsService {
   public createItem(item: ItemDto):Observable<boolean>  {
     return this.http.post<boolean>(this.url, item);
   }
+
+  public editItem(item: ItemDto): Observable<ItemDto> {
+    return this.http.put<ItemDto>(this.url, item);
+  }
 }
 
