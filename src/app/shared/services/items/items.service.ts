@@ -11,7 +11,7 @@ import { ItemType } from '../../enums/item-type';
 })
 export class ItemsService {
 
-  url = environment.apiUrl + '/item';
+  url = environment.apiUrl + '/Item';
 
   constructor(private http: HttpClient) {
   }
@@ -62,4 +62,8 @@ export class ItemsService {
     return this.http.get<ItemDto[]>(this.url, { params: params });
   }
 
+  public createItem(item: ItemDto):Observable<boolean>  {
+    return this.http.post<boolean>(this.url, item);
+  }
 }
+

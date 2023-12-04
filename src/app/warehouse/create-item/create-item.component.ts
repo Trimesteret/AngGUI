@@ -1,9 +1,15 @@
 import { Component } from '@angular/core';
-import { FormControl, FormGroup } from '@angular/forms';
-import { Item } from './item';
-import { HttpClient } from '@angular/common/http';
-import { MessageService } from '../../shared/services/message.service';
-import { AuthenticationService } from '../../shared/services/authentication/authentication.service';
+import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import { ItemDto } from '../../shared/interfaces/item-dto';
+import { ItemsService } from '../../shared/services/items/items.service';
+import { ItemType } from '../../shared/enums/item-type';
+import { WineType } from '../../shared/enums/wine-type';
+import { MessageService } from 'src/app/shared/services/message.service';
+import { AuthenticationService } from 'src/app/shared/services/authentication/authentication.service';
+import { SuitableFor } from '../../shared/enums/Suitable-for';
+import { LiquorType } from '../../shared/enums/Liquor-type';
+import { ActivatedRoute } from '@angular/router';
+
 
 @Component({
   selector: 'app-create-item',
@@ -11,20 +17,99 @@ import { AuthenticationService } from '../../shared/services/authentication/auth
   styleUrls: ['./create-item.component.scss']
 })
 export class CreateItemComponent {
-  loading = false;
+  selectedItemType: ItemType = ItemType.DefaultItem;
+  suitables = new FormControl('');
+  loading = true;
+  editingItem = false;
+  itemForm: FormGroup | undefined;
 
-  itemForm = new FormGroup({
-    wineQuantity: new FormControl(),
-    wineType: new FormControl(''),
-    name: new FormControl(''),
-    id: new FormControl()
-  });
+  public buildItemForm(item?: ItemDto): void {
+    this.itemForm = this.formBuilder.group({
+      itemName: [item?.name ? item.name : '', Validators.required],
+      EAN: [item?.ean ? item.ean : '', Validators.required],
+      itemDescription: [item?.description ? item.description : '', Validators.required],
+      itemPrice: [item?.price ? item.price : '', [Validators.required]],
+      itemQuantity: [item?.quantity ? item.quantity : '', [Validators.required]],
+      year: [item?.year ? item.year : null],
+      volume: [item?.volume ? item.volume : null],
+      alcoholPercentage: [item?.alcoholPercentage ? item.alcoholPercentage : null],
+      country: [item?.country ? item.country : ''],
+      region: [item?.region ? item.region : ''],
+      grapeSort: [item?.grapeSort ? item.grapeSort : ''],
+      winery: [item?.winery ? item.winery : ''],
+      tastingNotes: [item?.tastingNotes ? item.tastingNotes : ''],
+      suitableFor: [item?.suitableFor ? item.suitableFor : ''],
+      itemType: [item?.itemType ? item.itemType : ItemType.DefaultItem],
+      wineType: [item?.wineType ? item.wineType : WineType.RedWine],
+      liquorType: [item?.liquorType ? item.liquorType : '']
+    });
 
-  constructor(private http: HttpClient, private messageService: MessageService, private authenticationService: AuthenticationService) {}
+    this.itemForm.controls['itemType'].valueChanges.subscribe(value => {
+      this.selectedItemType = value;
+    });
+  }
 
-  submitItem(): void {
-    const req = this.http.post<Item>('http://localhost:5169/api/item', { item: this.itemForm.value as Item } );
-    req.subscribe(items => console.log(items));
+  public getItemAndBuildForm(id : number): void {
+    this.itemService.getItemById(id).subscribe((item) => {
+      this.buildItemFormFromId(item);
+    });
+  }
+  public buildItemFormFromId(item: ItemDto) : void {
+    this.itemForm = this.formBuilder.group({
+      itemName: [item.name, Validators.required],
+      EAN: [item.ean, Validators.required],
+      itemDescription: [item.description, Validators.required],
+      itemPrice: [item.price, [Validators.required]],
+      itemQuantity: [item.quantity, [Validators.required]],
+      year: [item?.year], volume: [item?.volume],
+      alcoholPercentage: [item?.alcoholPercentage], country: [item?.country],
+      region: [item?.region], grapeSort: [item?.grapeSort],
+      winery: [item?.winery], tastingNotes: [item?.tastingNotes],
+      suitableFor: [item?.suitableFor],
+      itemType: [item?.itemType],
+      wineType: [item?.wineType],
+      liquorType: [item?.liquorType]
+    });
+    this.selectedItemType = item.itemType;
+
+    this.itemForm.controls['itemType'].valueChanges.subscribe(value => {
+      this.selectedItemType = value;
+    });
+  }
+  constructor(private formBuilder: FormBuilder, private itemService: ItemsService, private messageService: MessageService, private authenticationService: AuthenticationService, private route: ActivatedRoute) {
+    let itemId = this.route.snapshot.params['id'];
+    itemId = parseInt(itemId);
+    if(Number.isInteger(itemId)) {
+      this.editingItem = true;
+      this.getItemAndBuildForm(itemId);
+    } else {
+      this.buildItemForm();
+    }
+    this.loading = false;
+  }
+
+  public submitItem(): void {
+    const item = this.itemForm?.value as ItemDto;
+
+    if(item == null && this.selectedItemType == null && this.itemForm?.valid == false){
+      return;
+    }
+
+    const getItemPrice= this.itemForm?.get('itemPrice');
+    if (getItemPrice) {
+      item.price = Number(getItemPrice.value);
+    }
+
+
+    item.itemType = this.selectedItemType;
+
+    this.itemService.createItem(item).subscribe(value => {
+      console.log(item);
+      this.messageService.show('Item created');
+    }, () => {
+      console.log('error');
+
+    });
   }
 
   public logout(): void{
@@ -34,4 +119,9 @@ export class CreateItemComponent {
       window.location.reload();
     });
   }
+
+  protected readonly ItemType = ItemType;
+  protected readonly WineType = WineType;
+  protected readonly LiquorType = LiquorType;
+  protected readonly SuitableFor = SuitableFor;
 }
