@@ -3,10 +3,10 @@ import { AuthenticationService } from '../../shared/services/authentication/auth
 import { MessageService } from '../../shared/services/message.service';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { UserService } from '../../shared/services/authentication/user.service';
-import { UserStandardDto } from '../../shared/authentication/models/user-standard-dto';
 import { ActivatedRoute } from '@angular/router';
 import { Role } from '../../shared/enums/role';
 import { Location } from '@angular/common';
+import { UserStandardDto } from '../../shared/models/user-standard-dto';
 
 
 @Component({

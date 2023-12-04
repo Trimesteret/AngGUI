@@ -43,6 +43,7 @@ export class EditItemComponent {
         this.loading = false;
       });
   }
+
   public logout(): void {
     this.loading = true;
     this.messageService.show('Logging out...');

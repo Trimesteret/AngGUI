@@ -3,9 +3,9 @@ import { UserService } from '../../shared/services/authentication/user.service';
 import { MessageService } from '../../shared/services/message.service';
 import { AuthenticationService } from '../../shared/services/authentication/authentication.service';
 import { MatTableDataSource } from '@angular/material/table';
-import { UserStandardDto } from '../../shared/authentication/models/user-standard-dto';
 import { Router } from '@angular/router';
 import { Role } from '../../shared/enums/role';
+import { UserStandardDto } from '../../shared/models/user-standard-dto';
 
 @Component({
   selector: 'app-create-edit-users',

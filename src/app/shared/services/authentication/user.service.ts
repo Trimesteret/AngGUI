@@ -1,9 +1,9 @@
 import { Injectable } from '@angular/core';
-import { User } from '../../authentication/models/user';
 import { Observable } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
 import { environment } from '../../../../environments/environment';
-import { UserStandardDto } from '../../authentication/models/user-standard-dto';
+import { UserStandardDto } from '../../models/user-standard-dto';
+import { User } from '../../models/user';
 
 @Injectable({
   providedIn: 'root'

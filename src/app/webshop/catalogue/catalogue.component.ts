@@ -49,10 +49,6 @@ export class CatalogueComponent implements OnInit {
     });
   }
 
-  public getItemText(): string {
-    return ` Viser ${this.displayItems.length} ud af ${this.itemCount} varer`;
-  }
-
   public getItemTypeValues(): string[] {
     return Object.keys(ItemType).filter(key => isNaN(Number(key)));
   }
@@ -68,6 +64,9 @@ export class CatalogueComponent implements OnInit {
     );
   }
 
+  public getItemText(): string {
+    return ` Viser ${this.displayItems.length} ud af ${this.itemCount} varer`;
+  }
 
   private breakpointChanged(): void {
     if (this.breakpointObserver.isMatched(Breakpoints.XLarge)) {
