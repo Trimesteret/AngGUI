@@ -3,7 +3,6 @@ import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
 import { debounceTime, distinctUntilChanged } from 'rxjs';
 import { ItemDto } from '../../shared/interfaces/item-dto';
 import { ItemsService } from '../../shared/services/items/items.service';
-import { WineType } from '../../shared/enums/wine-type';
 import { SortByPrice } from '../../shared/enums/sort-by-price';
 import { AuthenticationService } from '../../shared/services/authentication/authentication.service';
 import { MessageService } from '../../shared/services/message.service';
@@ -49,23 +48,14 @@ export class CatalogueComponent implements OnInit {
     });
   }
 
-  public getItemText(): string {
-    return ` Viser ${this.displayItems.length} ud af ${this.itemCount} varer`;
-  }
-
-  public getItemTypeValues(): string[] {
-    return Object.keys(ItemType).filter(key => isNaN(Number(key)));
-  }
-
-  public getSortFilterValues(): string[] {
-    return Object.keys(SortByPrice)
-      .filter(key => isNaN(Number(key)));
-  }
-
   public ngOnInit(): void {
     this.breakPoints.subscribe(() =>
       this.breakpointChanged()
     );
+  }
+
+  public getItemText(): string {
+    return ` Viser ${this.displayItems.length} ud af ${this.itemCount} varer`;
   }
 
 
@@ -115,6 +105,5 @@ export class CatalogueComponent implements OnInit {
   }
 
   protected readonly SortByPrice = SortByPrice;
-  protected readonly WineType = WineType;
   protected readonly ItemType = ItemType;
 }
