@@ -48,25 +48,15 @@ export class CatalogueComponent implements OnInit {
     });
   }
 
-  getItemText(): string {
-    return ` Viser ${this.displayItems.length} ud af ${this.itemCount} varer`;
-  }
-
-  getItemTypeValues(): string[] {
-    return Object.keys(ItemType).filter(key => isNaN(Number(key)));
-  }
-
-  getSortFilterValues(): string[] {
-    return Object.keys(SortByPrice)
-      .filter(key => isNaN(Number(key)));
-  }
-
   ngOnInit(): void {
     this.breakPoints.subscribe(() =>
       this.breakpointChanged()
     );
   }
 
+  public getItemText(): string {
+    return ` Viser ${this.displayItems.length} ud af ${this.itemCount} varer`;
+  }
 
   private breakpointChanged(): void {
     if (this.breakpointObserver.isMatched(Breakpoints.XLarge)) {
@@ -112,4 +102,7 @@ export class CatalogueComponent implements OnInit {
       window.location.reload();
     });
   }
+
+  protected readonly ItemType = ItemType;
+  protected readonly SortByPrice = SortByPrice;
 }

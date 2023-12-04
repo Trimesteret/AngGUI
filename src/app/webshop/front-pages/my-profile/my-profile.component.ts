@@ -3,9 +3,9 @@ import { Router } from '@angular/router';
 import { MessageService } from '../../../shared/services/message.service';
 import { MatTableDataSource } from '@angular/material/table';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { User } from '../../../shared/authentication/models/user';
 import { UserService } from '../../../shared/services/authentication/user.service';
 import { AuthenticationService } from '../../../shared/services/authentication/authentication.service';
+import { User } from '../../../shared/models/user';
 
 @Component({
   selector: 'app-my-profile',

@@ -10,7 +10,7 @@
         <mat-label>Filtrer efter vin type</mat-label>
         <mat-select [(value)]="typeFilter" [(ngModel)]="typeFilter" (ngModelChange)="searchChange()">
           <mat-option>None</mat-option>
-          <mat-option *ngFor="let itemType of getItemTypeValues()" [value]="itemType">{{itemType}}</mat-option>
+          <mat-option *ngFor="let itemType of ItemType | keyValue" [value]="itemType.key">{{itemType.value}}</mat-option>
         </mat-select>
       </mat-form-field>
 
@@ -18,7 +18,7 @@
         <mat-label> Sortér efter pris </mat-label>
         <mat-select [(ngModel)]="priceSort" (ngModelChange)="searchChange()">
           <mat-option>None</mat-option>
-          <mat-option *ngFor="let sortFilter of getSortFilterValues()" [value]="sortFilter">{{sortFilter}}</mat-option>
+          <mat-option *ngFor="let sortFilter of SortByPrice | keyValue" [value]="sortFilter.key">{{sortFilter.value}}</mat-option>
         </mat-select>
       </mat-form-field>
     </div>

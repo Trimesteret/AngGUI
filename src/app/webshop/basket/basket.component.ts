@@ -1,7 +1,13 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { Router } from '@angular/router';
 import { MessageService } from '../../shared/services/message.service';
 import { AuthenticationService } from '../../shared/services/authentication/authentication.service';
+import { OrderService } from '../../shared/services/order/order.service';
+import { PurchaseOrder } from '../../shared/models/purchase-order';
+import { Role } from '../../shared/enums/role';
+import { MatTableDataSource } from '@angular/material/table';
+import { OrderLine } from '../../shared/models/order-line';
+
 @Component({
   selector: 'app-basket',
   templateUrl: './basket.component.html',
@@ -10,20 +16,58 @@ import { AuthenticationService } from '../../shared/services/authentication/auth
 export class BasketComponent {
 
   loggedIn = false;
-  loading = false;
+  loading = true;
 
-  basketContent = [
-    { name: 'Ugandisk Vin', price: '200', imageUrl: 'assets/PeanutNoar.jfif' },
-    { name: 'God Gammeldags Rødvin', price: '300', imageUrl: 'assets/PeanutNoar.jfif' },
-    { name: 'God Gammeldags Rødvin', price: '300', imageUrl: 'assets/PeanutNoar.jfif' },
-    { name: 'God Gammeldags Rødvin', price: '300', imageUrl: 'assets/PeanutNoar.jfif' },
-    { name: 'God Gammeldags Rødvin', price: '300', imageUrl: 'assets/PeanutNoar.jfif' },
-    { name: 'God Gammeldags Rødvin', price: '300', imageUrl: 'assets/PeanutNoar.jfif' },
-    { name: 'Viktor Special', price: '15', imageUrl: 'assets/PeanutNoar.jfif' }
-  ];
-  constructor(public router: Router, private authenticationService: AuthenticationService, private messageService: MessageService) {
+  currentPurchaseOrder: PurchaseOrder;
+  orderLines: MatTableDataSource<OrderLine> = new MatTableDataSource<OrderLine>();
+
+  public displayedColumns: string[] = ['imageUrl', 'name', 'itemPrice', 'quantity', 'price'];
+
+
+  constructor(public router: Router, private authenticationService: AuthenticationService, private messageService: MessageService,
+              private orderService: OrderService) {
     this.loggedIn = this.authenticationService.getLoggedIn();
+
+    this.currentPurchaseOrder = this.orderService.getCurrentPurchaseOrder();
+
+    this.orderLines = new MatTableDataSource(this.currentPurchaseOrder.orderLines);
+    this.loading = false;
   }
+
+  /**
+   * Sort table data given an event
+   * @param event the event
+   */
+  public sortData(event: any): void {
+    const data = this.orderLines.data.slice(); // Make a copy of the data array
+    if (!event.active || event.direction === '') {
+      this.orderLines.data = data; // Default to unsorted data
+      return;
+    }
+
+    this.orderLines.data = data.sort((a, b) => {
+      const isAsc = event.direction === 'asc';
+      switch (event.active) {
+        case 'id':
+          return this.compare(a.id ? a.id : 0, b.id ? b.id : 0, isAsc);
+        case 'quantity':
+          return this.compare(a.quantity, b.quantity, isAsc);
+        case 'name':
+          return this.compare(a.item.name, b.item.name, isAsc);
+        case 'itemPrice':
+          return this.compare(a.item.price, b.item.price, isAsc);
+        case 'price':
+          return this.compare(a.price, b.price, isAsc);
+        default:
+          return 0;
+      }
+    });
+  }
+
+  private compare(a: number | string, b: number | string, isAsc: boolean): number {
+    return (a < b ? -1 : 1) * (isAsc ? 1 : -1);
+  }
+
   public logout(): void{
     this.loading = true;
     this.messageService.show('Logging out...');
@@ -31,6 +75,8 @@ export class BasketComponent {
       window.location.reload();
     });
   }
+
+  protected readonly Role = Role;
 }
 
 
