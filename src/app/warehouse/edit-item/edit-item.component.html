@@ -1,6 +1,7 @@
 <app-warehouse-basic-layout (logOutEvent)="logout()">
   <div fxFlex fxLayoutAlign="center start" fxLayout="row" *ngIf="!loading" style="background-color: #EFEFEF">
     <div  fxLayout="column" class="document" fxLayoutGap="5">
+      <button mat-raised-button color="primary" (click)="createItem()">Opret nyt produkt</button>
       <mat-form-field fxFlex.gt-sm="40" fxFlex.sm="100">
         <mat-label>Søg</mat-label>
         <input matInput (keyup)="searchChange()" [(ngModel)]="search">
@@ -46,7 +47,7 @@
           <th mat-header-cell *matHeaderCellDef mat-sort-header sortActionDescription="Sort by status">
             Mængde
           </th>
-          <td mat-cell *matCellDef="let item"> {{ item.quantity }} </td>
+          <td mat-cell *matCellDef="let item"> {{item.quantity}} </td>
         </ng-container>
 
         <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>

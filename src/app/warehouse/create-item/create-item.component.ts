@@ -8,6 +8,8 @@ import { MessageService } from 'src/app/shared/services/message.service';
 import { AuthenticationService } from 'src/app/shared/services/authentication/authentication.service';
 import { SuitableFor } from '../../shared/enums/Suitable-for';
 import { LiquorType } from '../../shared/enums/Liquor-type';
+import { ActivatedRoute } from '@angular/router';
+
 
 @Component({
   selector: 'app-create-item',
@@ -47,17 +49,43 @@ export class CreateItemComponent {
     });
   }
 
-  //  public buildItemFromId(item: ItemDto){
+  public getItemAndBuildForm(id : number): void {
+    this.itemService.getItemById(id).subscribe((item) => {
+      this.buildItemFormFromId(item);
+    });
+  }
+  public buildItemFormFromId(item: ItemDto) : void {
+    this.itemForm = this.formBuilder.group({
+      itemName: [item.name, Validators.required],
+      EAN: [item.ean, Validators.required],
+      itemDescription: [item.description, Validators.required],
+      itemPrice: [item.price, [Validators.required]],
+      itemQuantity: [item.quantity, [Validators.required]],
+      year: [item?.year], volume: [item?.volume],
+      alcoholPercentage: [item?.alcoholPercentage], country: [item?.country],
+      region: [item?.region], grapeSort: [item?.grapeSort],
+      winery: [item?.winery], tastingNotes: [item?.tastingNotes],
+      suitableFor: [item?.suitableFor],
+      itemType: [item?.itemType],
+      wineType: [item?.wineType],
+      liquorType: [item?.liquorType]
+    });
+    this.selectedItemType = item.itemType;
 
-  //}
-
-  constructor(private formBuilder: FormBuilder, private itemService: ItemsService, private messageService: MessageService, private authenticationService: AuthenticationService) {
-  //  if(hasIdintitle){
-  //     this.buildItemFromId();
-  //  } else {
-  //  this.buildItemForm();
-  //  }
-    this.buildItemForm();
+    this.itemForm.controls['itemType'].valueChanges.subscribe(value => {
+      this.selectedItemType = value;
+    });
+  }
+  constructor(private formBuilder: FormBuilder, private itemService: ItemsService, private messageService: MessageService, private authenticationService: AuthenticationService, private route: ActivatedRoute) {
+    let itemId = this.route.snapshot.params['id'];
+    itemId = parseInt(itemId);
+    if(Number.isInteger(itemId)) {
+      this.editingItem = true;
+      this.getItemAndBuildForm(itemId);
+    } else {
+      this.buildItemForm();
+    }
+    this.loading = false;
   }
 
   public submitItem(): void {

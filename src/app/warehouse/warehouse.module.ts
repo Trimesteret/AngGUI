@@ -5,7 +5,7 @@ import { WarehouseRoutingModule } from './warehouse-routing.module';
 import { CreateInboundOrderComponent } from './create-inbound-order/create-inbound-order.component';
 import { MatTabsModule } from '@angular/material/tabs';
 import { MatFormFieldModule } from '@angular/material/form-field';
-import {FormsModule, ReactiveFormsModule} from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatInputModule } from '@angular/material/input';
 import { MatButtonModule } from '@angular/material/button';

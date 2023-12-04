@@ -31,6 +31,9 @@ export class EditItemComponent {
   public editItem(itemId: number): void {
     this.router.navigate([`/warehouse/create-edit-items/${itemId}`]);
   }
+  public createItem(): void{
+    this.router.navigate(['/warehouse/create-edit-items/']);
+  }
   public searchChange(): void {
     this.loading = true;
     this.itemService.getItemsBySearch(this.amountOfItemsShown, this.search)
