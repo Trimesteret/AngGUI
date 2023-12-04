@@ -13,7 +13,7 @@ import { OrderLine } from '../../shared/models/order-line';
   templateUrl: './basket.component.html',
   styleUrls: ['./basket.component.scss']
 })
-export class BasketComponent {
+export class BasketComponent{
 
   loggedIn = false;
   loading = true;
@@ -21,8 +21,7 @@ export class BasketComponent {
   currentPurchaseOrder: PurchaseOrder;
   orderLines: MatTableDataSource<OrderLine> = new MatTableDataSource<OrderLine>();
 
-  public displayedColumns: string[] = ['imageUrl', 'name', 'itemPrice', 'quantity', 'price'];
-
+  public displayedColumns: string[] = ['imageUrl', 'name', 'itemPrice', 'quantity', 'price', 'remove'];
 
   constructor(public router: Router, private authenticationService: AuthenticationService, private messageService: MessageService,
               private orderService: OrderService) {
@@ -66,6 +65,27 @@ export class BasketComponent {
 
   private compare(a: number | string, b: number | string, isAsc: boolean): number {
     return (a < b ? -1 : 1) * (isAsc ? 1 : -1);
+  }
+
+  public removeOrderLine(orderLine: OrderLine): void {
+    this.orderService.removeOrderLineFromCurrentPurchaseOrder(orderLine);
+    this.currentPurchaseOrder = this.orderService.getCurrentPurchaseOrder();
+    this.orderLines.data = this.currentPurchaseOrder.orderLines;
+  }
+
+  public resetPurchaseOrder(): void {
+    this.orderService.resetCurrentPurchaseOrder();
+    this.currentPurchaseOrder = this.orderService.getCurrentPurchaseOrder();
+    this.orderLines.data = this.currentPurchaseOrder.orderLines;
+  }
+
+  public goToPayment(): void {
+    this.router.navigate(['/webshop/payment']);
+  }
+
+  public updateLineQuantity(orderLine: OrderLine): void {
+    orderLine.price = Math.round(orderLine.item.price * orderLine.quantity*100)/100;
+    orderLine.quantity = Number(orderLine.quantity);
   }
 
   public logout(): void{
