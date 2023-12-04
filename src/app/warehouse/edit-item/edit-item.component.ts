@@ -37,7 +37,7 @@ export class EditItemComponent {
   public searchChange(): void {
     this.loading = true;
     this.itemService.getItemsBySearch(this.amountOfItemsShown, this.search)
-      .pipe(debounceTime(20000))
+      .pipe(debounceTime(2000))
       .subscribe(items => {
         this.item = new MatTableDataSource(items);
         this.loading = false;

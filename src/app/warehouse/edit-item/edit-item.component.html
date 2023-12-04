@@ -1,5 +1,5 @@
 <app-warehouse-basic-layout (logOutEvent)="logout()">
-  <div fxFlex fxLayoutAlign="center start" fxLayout="row" *ngIf="!loading" style="background-color: #EFEFEF">
+  <div fxFlex fxLayoutAlign="center start" fxLayout="row" style="background-color: #EFEFEF">
     <div  fxLayout="column" class="document" fxLayoutGap="5">
       <button mat-raised-button color="primary" (click)="createItem()">Opret nyt produkt</button>
       <mat-form-field fxFlex.gt-sm="40" fxFlex.sm="100">
@@ -7,7 +7,7 @@
         <input matInput (keyup)="searchChange()" [(ngModel)]="search">
       </mat-form-field>
 
-      <table mat-table [dataSource]="item" matSort class="mat-elevation-z8">
+      <table *ngIf="!loading" mat-table [dataSource]="item" matSort class="mat-elevation-z8">
         <ng-container matColumnDef="id">
           <th mat-header-cell *matHeaderCellDef mat-sort-header sortActionDescription="Sort by id">
             Id
@@ -55,3 +55,6 @@
       </table>
     </div>
   </div></app-warehouse-basic-layout>
+<div fxFlexFill *ngIf="loading" fxLayoutAlign="center center" class="spinner">
+  <mat-spinner></mat-spinner>
+</div>
