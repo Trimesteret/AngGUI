@@ -1,4 +1,6 @@
-import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { Component, Input } from '@angular/core';
+import { MessageService } from '../../../shared/services/message.service';
+import { AuthenticationService } from '../../../shared/services/authentication/authentication.service';
 
 @Component({
   selector: 'app-front-basic-layout',
@@ -8,9 +10,15 @@ import { Component, EventEmitter, Input, Output } from '@angular/core';
 export class FrontBasicLayoutComponent {
   @Input() loggedIn = false;
 
-  @Output() logOutEvent = new EventEmitter();
+  constructor(private messageService: MessageService, private authenticationService: AuthenticationService) { }
 
   public logout(): void{
-    this.logOutEvent.emit();
+    this.messageService.show('Logging out...');
+    this.authenticationService.logOut().subscribe(() => {
+      window.location.reload();
+    }, error => {
+      this.messageService.showError(error);
+      window.location.reload();
+    });
   }
 }

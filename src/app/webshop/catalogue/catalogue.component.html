@@ -1,4 +1,4 @@
-<app-front-basic-layout [loggedIn]="loggedIn" (logOutEvent)="logout()">
+<app-front-basic-layout [loggedIn]="loggedIn">
   <div fxLayout="column" class="padding-inline-10" fxLayoutGap="10">
     <div fxFlex fxLayout.lt-sm="column" fxLayout.gt-sm="row" fxLayoutGap="20" class="padding-top-20">
       <mat-form-field fxFlex.gt-sm="40" fxFlex.sm="100">
@@ -48,6 +48,6 @@
     </div>
   </div>
 </app-front-basic-layout>
-<div fxFlexFill *ngIf="loading" fxLayoutAlign="center top" class="spinner">
+<div fxFlexFill *ngIf="loading" fxLayoutAlign="center center" class="spinner">
   <mat-spinner></mat-spinner>
 </div>
