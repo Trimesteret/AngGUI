@@ -42,20 +42,16 @@ export class CatalogueComponent implements OnInit {
     itemService.getItemsBySearch(this.amountOfItemsShown).subscribe(items => {
       this.displayItems = items;
       this.loading = false;
+    }, error => {
+      this.messageService.showError(error);
+      this.loading = false;
     });
 
     this.itemService.getItemCount().subscribe(itemCount => {
       this.itemCount = itemCount;
+    }, error => {
+      this.messageService.showError(error);
     });
-  }
-
-  public getItemTypeValues(): string[] {
-    return Object.keys(ItemType).filter(key => isNaN(Number(key)));
-  }
-
-  public getSortFilterValues(): string[] {
-    return Object.keys(SortByPrice)
-      .filter(key => isNaN(Number(key)));
   }
 
   public ngOnInit(): void {

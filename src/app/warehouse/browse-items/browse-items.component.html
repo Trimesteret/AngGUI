@@ -1,13 +1,17 @@
-<app-warehouse-basic-layout (logOutEvent)="logout()">
-  <div fxFlex fxLayoutAlign="center start" fxLayout="row" *ngIf="!loading" style="background-color: #EFEFEF">
-    <div  fxLayout="column" class="document" fxLayoutGap="5">
-      <button mat-raised-button color="primary" (click)="createItem()">Opret nyt produkt</button>
-      <mat-form-field fxFlex.gt-sm="40" fxFlex.sm="100">
-        <mat-label>Søg</mat-label>
-        <input matInput (keyup)="searchChange()" [(ngModel)]="search">
+<app-warehouse-basic-layout>
+  <div fxFlex fxLayoutAlign="center start" fxLayout="row" style="background-color: #EFEFEF">
+    <div fxLayout="column" class="document" fxLayoutGap="5">
+      <span class="padding-bottom-10" fxLayout="row" fxLayoutGap="15" fxLayoutAlign="start center">
+        <mat-icon>inventory_2</mat-icon>
+        <h1 class="no-margin no-padding" >Alle produkter</h1>
+      </span>
+
+      <mat-form-field>
+        <mat-label>Search</mat-label>
+        <input matInput (keyup)="applySearch($event)" >
       </mat-form-field>
 
-      <table mat-table [dataSource]="item" matSort class="mat-elevation-z8">
+      <table mat-table [dataSource]="items" (matSortChange)="sortData($event)" matSort class="mat-elevation-z8">
         <ng-container matColumnDef="id">
           <th mat-header-cell *matHeaderCellDef mat-sort-header sortActionDescription="Sort by id">
             Id
@@ -36,7 +40,7 @@
           <td mat-cell *matCellDef="let item"> {{item.price}} </td>
         </ng-container>
 
-        <ng-container matColumnDef="type">
+        <ng-container matColumnDef="itemType">
           <th mat-header-cell *matHeaderCellDef mat-sort-header sortActionDescription="Sort by status">
             Type
           </th>
@@ -51,7 +55,17 @@
         </ng-container>
 
         <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-        <tr mat-row (click)="editItem(item.id)" *matRowDef="let item; columns: displayedColumns;"></tr>
+        <tr mat-row class="selectable-row" (click)="editItem(item.id)" *matRowDef="let item; columns: displayedColumns;"></tr>
       </table>
+
+      <mat-paginator [pageSizeOptions]="[10, 25, 50, 100]" aria-label="Select page of items"></mat-paginator>
+
+      <div class="padding-top-10" fxLayoutAlign="end center">
+        <button class="full-width" routerLink="/warehouse/create-item" mat-raised-button color="primary">
+          Opret nyt produkt
+          <mat-icon>add</mat-icon>
+        </button>
+      </div>
     </div>
-  </div></app-warehouse-basic-layout>
+  </div>
+</app-warehouse-basic-layout>

@@ -1,10 +1,16 @@
-<app-warehouse-basic-layout (logOutEvent)="logout()">
-  <div fxFlex fxLayoutAlign="center start" fxLayout="row" *ngIf="!loading" style="background-color: #EFEFEF">
-    <div  fxLayout="column" class="document" fxLayoutGap="5">
-      <span fxLayout="row" fxLayoutGap="15" fxLayoutAlign="start center">
+<app-warehouse-basic-layout>
+  <div fxFlex fxLayoutAlign="center start" fxLayout="row" style="background-color: #EFEFEF">
+    <div fxLayout="column" class="document" fxLayoutGap="5">
+      <span class="padding-bottom-10" fxLayout="row" fxLayoutGap="15" fxLayoutAlign="start center">
         <mat-icon>group</mat-icon>
         <h1 class="no-margin no-padding">Alle brugere</h1>
       </span>
+
+      <mat-form-field>
+        <mat-label>Search</mat-label>
+        <input matInput (keyup)="applySearch($event)" >
+      </mat-form-field>
+
       <table mat-table [dataSource]="users" (matSortChange)="sortData($event)" matSort class="mat-elevation-z8">
         <ng-container matColumnDef="id">
           <th mat-header-cell *matHeaderCellDef mat-sort-header sortActionDescription="Sort by id">
@@ -49,8 +55,17 @@
         </ng-container>
 
         <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-        <tr mat-row (click)="editUser(user.id)" *matRowDef="let user; columns: displayedColumns;"></tr>
+        <tr mat-row class="selectable-row" (click)="editUser(user.id)" *matRowDef="let user; columns: displayedColumns;"></tr>
       </table>
+
+      <mat-paginator [pageSizeOptions]="[10, 25, 50, 100]" aria-label="Select page of users"></mat-paginator>
+
+      <div class="padding-top-10" fxLayoutAlign="end center">
+        <button class="full-width" routerLink="/warehouse/create-user" mat-raised-button color="primary">
+          Opret ny bruger
+          <mat-icon>add</mat-icon>
+        </button>
+      </div>
     </div>
   </div>
 </app-warehouse-basic-layout>
