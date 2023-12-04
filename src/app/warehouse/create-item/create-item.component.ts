@@ -102,14 +102,12 @@ export class CreateItemComponent {
     if (this.editingItem) {
       item.id = parseInt(this.route.snapshot.params['id']);
       this.itemService.editItem(item).subscribe(value => {
-        console.log(item);
         this.messageService.show('Item edited');
       }, () => {
         console.log('error');
       });
     } else {
       this.itemService.createItem(item).subscribe(value => {
-        console.log(item);
         this.messageService.show('Item created');
       }, () => {
         console.log('error');

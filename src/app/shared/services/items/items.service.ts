@@ -67,7 +67,6 @@ export class ItemsService {
   }
 
   public editItem(item: ItemDto): Observable<ItemDto> {
-    console.log(item.id);
     return this.http.put<ItemDto>(this.url, item);
   }
 }
