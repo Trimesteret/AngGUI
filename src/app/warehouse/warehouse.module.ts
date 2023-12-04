@@ -5,13 +5,13 @@ import { WarehouseRoutingModule } from './warehouse-routing.module';
 import { CreateInboundOrderComponent } from './create-inbound-order/create-inbound-order.component';
 import { MatTabsModule } from '@angular/material/tabs';
 import { MatFormFieldModule } from '@angular/material/form-field';
-import { ReactiveFormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatInputModule } from '@angular/material/input';
 import { MatButtonModule } from '@angular/material/button';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { FlexModule } from '@angular/flex-layout';
-import { MAT_DATE_LOCALE, MatNativeDateModule } from '@angular/material/core';
+import { MAT_DATE_LOCALE, MatNativeDateModule, MatOptionModule } from '@angular/material/core';
 import { CreateItemComponent } from './create-item/create-item.component';
 import { WarehouseBasicLayoutComponent } from './warehouse-basic-layout/warehouse-basic-layout.component';
 import { WarehouseHeaderComponent } from './warehouse-header/warehouse-header.component';
@@ -26,6 +26,7 @@ import { EditUserComponent } from './edit-user/edit-user.component';
 import { FrontModule } from '../webshop/front-pages/front.module';
 import { MatSelectModule } from '@angular/material/select';
 import { SharedModule } from '../shared/shared.module';
+import { EditItemComponent } from './edit-item/edit-item.component';
 
 
 @NgModule({
@@ -36,7 +37,8 @@ import { SharedModule } from '../shared/shared.module';
     WarehouseBasicLayoutComponent,
     WarehouseHeaderComponent,
     CreateEditUsersComponent,
-    EditUserComponent
+    EditUserComponent,
+    EditItemComponent
   ],
   imports: [
     CommonModule,
@@ -58,7 +60,8 @@ import { SharedModule } from '../shared/shared.module';
     MatTableModule,
     FrontModule,
     MatSelectModule,
-    SharedModule
+    SharedModule,
+    FormsModule
   ],
   providers: [{ provide: MAT_DATE_LOCALE, useValue: 'es-Es' }]
 })

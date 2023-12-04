@@ -18,7 +18,7 @@
         <mat-label> Sortér efter pris </mat-label>
         <mat-select [(ngModel)]="priceSort" (ngModelChange)="searchChange()">
           <mat-option>None</mat-option>
-          <mat-option *ngFor="let sortFilter of SortByPrice | keyValue" [value]="sortFilter.key">{{sortFilter.value}}</mat-option>
+          <mat-option *ngFor="let sortByPrice of SortByPrice | keyValue" [value]="sortByPrice.key">{{sortByPrice.value}}</mat-option>
         </mat-select>
       </mat-form-field>
     </div>

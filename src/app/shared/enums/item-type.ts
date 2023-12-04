@@ -1,5 +1,5 @@
 export enum ItemType {
-  RedWine ,
-  WhiteWine,
-  RoseWine,
+  Wine = 0,
+  Liquor = 1,
+  DefaultItem = 2
 }
