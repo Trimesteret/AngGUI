@@ -5,6 +5,9 @@ import { CookieService } from 'ngx-cookie-service';
 import { PurchaseOrder } from '../../models/purchase-order';
 import { OrderLineDto } from '../../interfaces/order-line-dto';
 import { MessageService } from '../message.service';
+import { Observable } from 'rxjs';
+import { UserStandardDto } from '../../models/user-standard-dto';
+import { PurchaseOrderDto } from '../../interfaces/purchase-order-dto';
 
 @Injectable({
   providedIn: 'root'
@@ -16,6 +19,9 @@ export class OrderService {
 
   constructor(private http: HttpClient, private cookieService: CookieService, private messageService: MessageService) { }
 
+  public getAllOrders(): Observable<PurchaseOrderDto[]>{
+    return this.http.get<PurchaseOrderDto[]>(this.url);
+  }
   public getCurrentPurchaseOrder(): PurchaseOrder {
     if(this.currentPurchaseOrder != null) {
       return this.currentPurchaseOrder;

@@ -27,6 +27,7 @@ import { FrontModule } from '../webshop/front-pages/front.module';
 import { MatSelectModule } from '@angular/material/select';
 import { SharedModule } from '../shared/shared.module';
 import { EditItemComponent } from './edit-item/edit-item.component';
+import { OrdersComponent } from './orders/orders.component';
 
 
 @NgModule({
@@ -38,7 +39,8 @@ import { EditItemComponent } from './edit-item/edit-item.component';
     WarehouseHeaderComponent,
     CreateEditUsersComponent,
     EditUserComponent,
-    EditItemComponent
+    EditItemComponent,
+    OrdersComponent
   ],
   imports: [
     CommonModule,
