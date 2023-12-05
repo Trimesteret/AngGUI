@@ -73,5 +73,9 @@ export class ItemsService {
   public editItem(item: ItemDto): Observable<ItemDto> {
     return this.http.put<ItemDto>(this.url, item);
   }
+
+  public deleteItem(id: number): Observable<boolean> {
+    return this.http.delete<boolean>(this.url + '/' + id);
+  }
 }
 

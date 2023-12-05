@@ -26,11 +26,15 @@ export class CreateEditUserComponent {
   }
 
   public getUserAndBuildForm(): void {
-    const id = parseInt(this.route.snapshot.params['id']);
+    let id = null;
+    const idString = this.route.snapshot.params['id'];
 
-    if(!id) {
+    id = parseInt(idString);
+
+    if(!Number.isInteger(id)) {
       this.buildUserForm();
       this.editing = false;
+      this.loading = false;
       return;
     }
 
@@ -64,11 +68,11 @@ export class CreateEditUserComponent {
    */
   private buildUserForm(user?: UserStandardDto): void {
     this.userForm = this.formBuilder.group({
-      firstName: [user.firstName ? user.firstName : '', Validators.required],
-      lastName: [user.lastName ? user.lastName : '', Validators.required],
-      phone: [user.phone ? user.phone : '', Validators.required],
-      email: [user.email ? user.email : '', [Validators.required, Validators.email]],
-      role: [user.role ? user.role : Role.Customer, Validators.required],
+      firstName: [user?.firstName ? user?.firstName : '', Validators.required],
+      lastName: [user?.lastName ? user?.lastName : '', Validators.required],
+      phone: [user?.phone ? user?.phone : '', Validators.required],
+      email: [user?.email ? user?.email : '', [Validators.required, Validators.email]],
+      role: [Number.isInteger(user?.role) ? user?.role : Role.Customer, Validators.required],
     });
   }
 

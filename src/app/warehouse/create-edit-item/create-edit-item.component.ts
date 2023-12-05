@@ -9,6 +9,7 @@ import { WineType } from '../../shared/enums/wine-type';
 import { LiquorType } from '../../shared/enums/Liquor-type';
 import { SuitableFor } from '../../shared/enums/Suitable-for';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { Location } from '@angular/common';
 
 @Component({
   selector: 'app-create-edit-item',
@@ -20,48 +21,59 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 export class CreateEditItemComponent {
   selectedItemType: ItemType = ItemType.DefaultItem;
   loading = true;
-  editingItem = false;
+  editing = false;
   itemForm: FormGroup | undefined;
 
 
-  constructor(private formBuilder: FormBuilder, private itemService: ItemsService, private messageService: MessageService, private authenticationService: AuthenticationService, private route: ActivatedRoute) {
-    const id = parseInt(this.route.snapshot.params['id']);
-
-    if(id){
-      this.editingItem = true;
-      this.getItemAndBuildForm(id);
-    } else {
-      this.buildItemForm();
-    }
+  constructor(private formBuilder: FormBuilder, private itemService: ItemsService, private messageService: MessageService,
+              private authenticationService: AuthenticationService, private route: ActivatedRoute, private location: Location)
+  {
+    this.getItemAndBuildForm();
   }
 
 
-  public getItemAndBuildForm(id : number): void {
-    this.itemService.getItemById(id).subscribe((item) => {
-      this.buildItemForm(item);
+  public getItemAndBuildForm(): void {
+    let id = null;
+    const idString = this.route.snapshot.params['id'];
+
+    id = parseInt(idString);
+
+    if(!Number.isInteger(id)) {
+      this.buildItemForm();
+      this.editing = false;
+      this.loading = false;
+      return;
+    }
+
+    this.itemService.getItemById(id).subscribe((user) => {
+      this.buildItemForm(user);
+      this.editing = true;
+      this.loading = false;
     });
   }
 
   public buildItemForm(item?: ItemDto): void {
     this.itemForm = this.formBuilder.group({
-      itemName: [item?.name ? item.name : '', Validators.required],
-      EAN: [item?.ean ? item.ean : '', Validators.required],
-      itemDescription: [item?.description ? item.description : '', Validators.required],
-      itemPrice: [item?.price ? item.price : '', [Validators.required]],
-      itemQuantity: [item?.quantity ? item.quantity : '', [Validators.required]],
-      year: [item?.year ? item.year : null],
-      volume: [item?.volume ? item.volume : null],
-      alcoholPercentage: [item?.alcoholPercentage ? item.alcoholPercentage : null],
-      country: [item?.country ? item.country : ''],
-      region: [item?.region ? item.region : ''],
-      grapeSort: [item?.grapeSort ? item.grapeSort : ''],
-      winery: [item?.winery ? item.winery : ''],
-      tastingNotes: [item?.tastingNotes ? item.tastingNotes : ''],
-      suitableFor: [item?.suitableFor ? item.suitableFor : ''],
-      itemType: [item?.itemType ? item.itemType : ItemType.DefaultItem],
-      wineType: [item?.wineType ? item.wineType : WineType.RedWine],
-      liquorType: [item?.liquorType ? item.liquorType : '']
+      itemName: [item?.name ? item?.name : '', Validators.required],
+      EAN: [item?.ean ? item?.ean : '', Validators.required],
+      itemDescription: [item?.description ? item?.description : '', Validators.required],
+      itemPrice: [item?.price ? item?.price : '', [Validators.required]],
+      itemQuantity: [item?.quantity ? item?.quantity : '', [Validators.required]],
+      year: [item?.year ? item?.year : null],
+      volume: [item?.volume ? item?.volume : null],
+      alcoholPercentage: [item?.alcoholPercentage ? item?.alcoholPercentage : null],
+      country: [item?.country ? item?.country : ''],
+      region: [item?.region ? item?.region : ''],
+      grapeSort: [item?.grapeSort ? item?.grapeSort : ''],
+      winery: [item?.winery ? item?.winery : ''],
+      tastingNotes: [item?.tastingNotes ? item?.tastingNotes : ''],
+      suitableFor: [item?.suitableFor ? item?.suitableFor : ''],
+      itemType: [item ? Number.isInteger(item?.itemType) ? item?.itemType : ItemType.DefaultItem : ItemType.DefaultItem],
+      wineType: [item ? Number.isInteger(item?.wineType) ? item?.wineType : WineType.RedWine : WineType.RedWine],
+      liquorType: [item ? Number.isInteger(item?.liquorType) ? item?.liquorType : LiquorType.Rum : LiquorType.Rum]
     });
+
+    this.selectedItemType = item?.itemType;
 
     this.itemForm.controls['itemType'].valueChanges.subscribe(value => {
       this.selectedItemType = value;
@@ -80,7 +92,7 @@ export class CreateEditItemComponent {
       item.price = Number(getItemPrice.value);
     }
     item.itemType = this.selectedItemType;
-    if (this.editingItem) {
+    if (this.editing) {
       item.id = parseInt(this.route.snapshot.params['id']);
       this.itemService.editItem(item).subscribe(value => {
         this.messageService.show('Item edited');
@@ -94,6 +106,22 @@ export class CreateEditItemComponent {
         console.log('error');
       });
     }
+  }
+
+  public deleteItem(): void {
+    const id = this.route.snapshot.params['id'];
+    this.loading = true;
+    this.itemService.deleteItem(id).subscribe(res => {
+      if(!res) {
+        this.messageService.show('Something went wrong deleting this item');
+        this.loading = false;
+        return;
+      }
+
+      this.messageService.show('User deleted');
+      this.location.back();
+      this.loading = false;
+    });
   }
 
   public logout(): void{
