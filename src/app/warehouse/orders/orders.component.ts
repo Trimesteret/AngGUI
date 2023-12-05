@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { AfterViewInit, Component, ViewChild } from '@angular/core';
 import { MatTableDataSource } from '@angular/material/table';
 import { Router } from '@angular/router';
 import { MessageService } from '../../shared/services/message.service';
@@ -6,26 +6,31 @@ import { AuthenticationService } from '../../shared/services/authentication/auth
 import { Role } from '../../shared/enums/role';
 import { PurchaseOrderDto } from '../../shared/interfaces/purchase-order-dto';
 import { OrderService } from '../../shared/services/order/order.service';
+import { MatPaginator } from '@angular/material/paginator';
 
 @Component({
   selector: 'app-orders',
   templateUrl: './orders.component.html',
   styleUrls: ['./orders.component.scss']
 })
-export class OrdersComponent {
+export class OrdersComponent implements AfterViewInit{
   loading = false;
   orders: MatTableDataSource<PurchaseOrderDto> = new MatTableDataSource<PurchaseOrderDto>();
 
   public displayedColumns: string[] = ['id', 'purchaseOrderState', 'orderDate', 'deliveryDate', 'totalPrice', 'supplier'];
 
+  @ViewChild(MatPaginator) paginator: MatPaginator;
   constructor(
     private orderService: OrderService,
     private messageService: MessageService,
     private authenticationService: AuthenticationService,
-    private router: Router
-  ) {
+    private router: Router) {
+  }
+  public ngAfterViewInit():void{
     this.orderService.getAllOrders().subscribe(orders => {
       this.orders = new MatTableDataSource(orders);
+      this.loading = false;
+      this.orders.paginator = this.paginator;
     });
   }
 
@@ -33,15 +38,18 @@ export class OrdersComponent {
     this.router.navigate([`/warehouse/order/${orderId}`]);
   }
 
-  /**
-   * Sort table data given an event
-   * @param event the event
-   */
-  /*
+  public applySearch(event: Event): void {
+    const filterValue = (event.target as HTMLInputElement).value;
+    this.orders.filter = filterValue.trim().toLowerCase();
+
+    if (this.orders.paginator) {
+      this.orders.paginator.firstPage();
+    }
+  }
   public sortData(event: any): void {
-    const data = this.orders.data.slice();
+    const data = this.orders.data.slice(); // Make a copy of the data array
     if (!event.active || event.direction === '') {
-      this.orders.data = data;
+      this.orders.data = data; // Default to unsorted data
       return;
     }
 
@@ -50,33 +58,17 @@ export class OrdersComponent {
       switch (event.active) {
         case 'id':
           return this.compare(a.id ? a.id : 0, b.id ? b.id : 0, isAsc);
-        case 'customerName':
-          return this.compare(a.customerName, b.customerName, isAsc);
-        case 'orderDate':
-          return this.compare(a.orderDate, b.orderDate, isAsc);
-        case 'totalAmount':
-          return this.compare(a.totalAmount, b.totalAmount, isAsc);
-        case 'status':
-          return this.compare(a.status ? a.status.toString() : '', b.status ? b.status.toString() : '', isAsc);
+
         default:
           return 0;
       }
     });
-  }*/
-
-  /*
-  private compare(a: number | string | Date, b: number | string | Date, isAsc: boolean): number {
-    if (typeof a === 'number' && typeof b === 'number') {
-      return (a - b) * (isAsc ? 1 : -1);
-    } else if (typeof a === 'string' && typeof b === 'string') {
-      return (a.localeCompare(b)) * (isAsc ? 1 : -1);
-    } else if (a instanceof Date && b instanceof Date) {
-      return (a.getTime() - b.getTime()) * (isAsc ? 1 : -1);
-    } else {
-      return 0;
-    }
   }
-*/
+
+  private compare(a: number | string, b: number | string, isAsc: boolean): number {
+    return (a < b ? -1 : 1) * (isAsc ? 1 : -1);
+  }
+
   public logout(): void {
     this.loading = true;
     this.messageService.show('Logging out...');
