@@ -1,6 +1,6 @@
 <app-front-basic-layout>
   <div fxLayout="row" fxFlexFill>
-    <form *ngIf="checkoutForm" fxFlex="60" fxLayout="column" class="left-section" [formGroup]="checkoutForm" (ngSubmit)="createCheckout()">
+    <form *ngIf="checkoutForm" fxFlex="60" fxLayout="column" class="left-section" [formGroup]="checkoutForm" (ngSubmit)="goToPayment()">
       <div class="form-container">
         <h2>Dine Oplysninger</h2>
         <div fxLayout="column">
@@ -69,9 +69,9 @@
       <ng-container *ngFor="let field of basketContent">
       <mat-card>
         <div fxLayout="row" fxLayoutAlign="space-between center">
-          <img [src]="field.imageUrl" class="basket-wine-picture" alt="Billede">
-          <p>{{field.name}}</p>
-          <p>{{field.price}}</p>
+          <img [src]="field.item.imageUrl" class="basket-wine-picture" alt="Billede">
+          <p>{{field.item.name}}</p>
+          <p>{{field.item.price}}</p>
         </div>
       </mat-card>
         </ng-container>
@@ -86,7 +86,7 @@
         </div>
         <div fxLayout="row" fxLayoutAlign="space-between center">
           <p>Total incl. levering:</p>
-          <p>200 kr</p>
+          <p>{{getTotalPrice()}} kr</p>
         </div>
         <div fxLayout="row" fxLayoutAlign="space-between center">
           <p>Heraf moms:</p>

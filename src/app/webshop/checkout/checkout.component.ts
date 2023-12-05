@@ -1,5 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-import { FormGroup, FormControl, FormBuilder, Validators } from '@angular/forms';
+import { FormGroup, FormBuilder, Validators } from '@angular/forms';
+import { OrderLineDto } from '../../shared/interfaces/order-line-dto';
+import { OrderService } from '../../shared/services/order/order.service';
+
 @Component({
   selector: 'app-checkout',
   templateUrl: './checkout.component.html',
@@ -7,12 +10,9 @@ import { FormGroup, FormControl, FormBuilder, Validators } from '@angular/forms'
 })
 export class CheckoutComponent implements OnInit{
   checkoutForm: FormGroup | undefined;
-
-  constructor(private fb: FormBuilder) { }
+  constructor(private fb: FormBuilder, private orderService: OrderService) { }
   ngOnInit() : void {
     this.checkoutForm = this.fb.group({
-      // Define your form controls here using FormBuilder
-      // Example: 'name': [initialValue, [validators]]
       'name': ['', Validators.required],
       'phoneNumber': ['', Validators.required],
       'email': ['', Validators.required],
@@ -25,26 +25,14 @@ export class CheckoutComponent implements OnInit{
       'newsletterCheckbox': [false],
     });
   }
-  deliveryMethods = [
-    { value: 'pickup', cost: 0, label: 'Afhentning i Butik' },
-    { value: 'postnord', cost: 59, label: 'Postnord Hjemmelevering' },
-    { value: 'gls', cost: 59, label: 'GLS' },
-    { value: 'dao', cost: 59, label: 'DAO' }
-  ];
-  // Placeholder. This must be fetched from the actual basket, so a service should probably be made to get that information
-  basketContent = [
-    { name: 'Ugandisk Vin', price: '200', imageUrl: 'assets/PeanutNoar.jfif' },
-    { name: 'God Gammeldags Rødvin', price: '300', imageUrl: 'assets/PeanutNoar.jfif' },
-    { name: 'God Gammeldags Rødvin', price: '300', imageUrl: 'assets/PeanutNoar.jfif' },
-    { name: 'God Gammeldags Rødvin', price: '300', imageUrl: 'assets/PeanutNoar.jfif' },
-    { name: 'God Gammeldags Rødvin', price: '300', imageUrl: 'assets/PeanutNoar.jfif' },
-    { name: 'God Gammeldags Rødvin', price: '300', imageUrl: 'assets/PeanutNoar.jfif' },
-    { name: 'Viktor Special', price: '15', imageUrl: 'assets/PeanutNoar.jfif' }
-  ];
-  createCheckout():void{
-    console.log(this.checkoutForm);
+  getTotalPrice(): number {
+    return this.orderService.getCurrentPurchaseOrder().totalPrice;
   }
-  goToPayment():void{
-    console.log('Hello Uniconta, please help :(');
+  getBasketItems(): OrderLineDto[] {
+    return this.orderService.getCurrentPurchaseOrder().orderLines;
+  }
+  basketContent = this.getBasketItems();
+  public goToPayment(): void {
+    // Not implemented, should send the order to API
   }
 }
