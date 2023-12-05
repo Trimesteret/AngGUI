@@ -16,17 +16,9 @@ export class MyProfileComponent implements OnInit{
 
   showFormFields = false;
   showChangePasswordButton = true;
-  // eslint-disable-next-line @typescript-eslint/explicit-function-return-type
-  toggleFormFields() {
-    this.showFormFields = !this.showFormFields;
-    this.showChangePasswordButton = !this.showChangePasswordButton;
-  }
-
   loggedIn = false;
   loading = true;
-
   profileForm: FormGroup | undefined;
-
   public customerPurchaseOrders = new MatTableDataSource([{
     id: 1,
     status: 'received'
@@ -50,11 +42,13 @@ export class MyProfileComponent implements OnInit{
               private messageService: MessageService, private userService: UserService) {
     this.loggedIn = this.authenticationService.getLoggedIn();
   }
-
   ngOnInit(): void {
     this.getUserAndBuildForm();
   }
-
+  toggleFormFields(): void {
+    this.showFormFields = !this.showFormFields;
+    this.showChangePasswordButton = !this.showChangePasswordButton;
+  }
   /**
    * Gets the current user logged in and builds the profile form
    */
