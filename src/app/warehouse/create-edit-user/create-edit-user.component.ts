@@ -10,11 +10,11 @@ import { UserStandardDto } from '../../shared/models/user-standard-dto';
 
 
 @Component({
-  selector: 'app-edit-user',
-  templateUrl: './edit-user.component.html',
-  styleUrls: ['./edit-user.component.scss']
+  selector: 'app-create-edit-user',
+  templateUrl: './create-edit-user.component.html',
+  styleUrls: ['./create-edit-user.component.scss']
 })
-export class EditUserComponent {
+export class CreateEditUserComponent {
   loading = true;
 
   userForm: FormGroup | undefined;

@@ -59,11 +59,19 @@ export class ItemsService {
     params = params.set('itemType', itemType ? itemType : '');
     params = params.set('amountOfItemsShown', amountOfItemsShown);
 
-    return this.http.get<ItemDto[]>(this.url, { params: params });
+    return this.http.get<ItemDto[]>(this.url + '/search', { params: params });
+  }
+
+  public getAllItems(): Observable<ItemDto[]> {
+    return this.http.get<ItemDto[]>(this.url);
   }
 
   public createItem(item: ItemDto):Observable<boolean>  {
     return this.http.post<boolean>(this.url, item);
+  }
+
+  public editItem(item: ItemDto): Observable<ItemDto> {
+    return this.http.put<ItemDto>(this.url, item);
   }
 }
 

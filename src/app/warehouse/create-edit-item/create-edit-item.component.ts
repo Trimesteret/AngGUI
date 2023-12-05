@@ -1,24 +1,24 @@
 import { Component } from '@angular/core';
-import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
-import { ItemDto } from '../../shared/interfaces/item-dto';
-import { ItemsService } from '../../shared/services/items/items.service';
-import { ItemType } from '../../shared/enums/item-type';
-import { WineType } from '../../shared/enums/wine-type';
+import { ActivatedRoute } from '@angular/router';
 import { MessageService } from 'src/app/shared/services/message.service';
 import { AuthenticationService } from 'src/app/shared/services/authentication/authentication.service';
-import { SuitableFor } from '../../shared/enums/Suitable-for';
+import { ItemsService } from '../../shared/services/items/items.service';
+import { ItemDto } from '../../shared/interfaces/item-dto';
+import { ItemType } from '../../shared/enums/item-type';
+import { WineType } from '../../shared/enums/wine-type';
 import { LiquorType } from '../../shared/enums/Liquor-type';
-import { ActivatedRoute } from '@angular/router';
-
+import { SuitableFor } from '../../shared/enums/Suitable-for';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 
 @Component({
-  selector: 'app-create-item',
-  templateUrl: './create-item.component.html',
-  styleUrls: ['./create-item.component.scss']
+  selector: 'app-create-edit-item',
+  templateUrl: './create-edit-item.component.html',
+  styleUrls: ['./create-edit-item.component.scss']
 })
-export class CreateItemComponent {
+
+
+export class CreateEditItemComponent {
   selectedItemType: ItemType = ItemType.DefaultItem;
-  suitables = new FormControl('');
   loading = true;
   editingItem = false;
   itemForm: FormGroup | undefined;
@@ -71,7 +71,6 @@ export class CreateItemComponent {
       liquorType: [item?.liquorType]
     });
     this.selectedItemType = item.itemType;
-
     this.itemForm.controls['itemType'].valueChanges.subscribe(value => {
       this.selectedItemType = value;
     });
@@ -99,17 +98,21 @@ export class CreateItemComponent {
     if (getItemPrice) {
       item.price = Number(getItemPrice.value);
     }
-
-
     item.itemType = this.selectedItemType;
-
-    this.itemService.createItem(item).subscribe(value => {
-      console.log(item);
-      this.messageService.show('Item created');
-    }, () => {
-      console.log('error');
-
-    });
+    if (this.editingItem) {
+      item.id = parseInt(this.route.snapshot.params['id']);
+      this.itemService.editItem(item).subscribe(value => {
+        this.messageService.show('Item edited');
+      }, () => {
+        console.log('error');
+      });
+    } else {
+      this.itemService.createItem(item).subscribe(value => {
+        this.messageService.show('Item created');
+      }, () => {
+        console.log('error');
+      });
+    }
   }
 
   public logout(): void{
@@ -125,3 +128,5 @@ export class CreateItemComponent {
   protected readonly LiquorType = LiquorType;
   protected readonly SuitableFor = SuitableFor;
 }
+
+

@@ -11,22 +11,23 @@ import { MatInputModule } from '@angular/material/input';
 import { MatButtonModule } from '@angular/material/button';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { FlexModule } from '@angular/flex-layout';
-import { MAT_DATE_LOCALE, MatNativeDateModule, MatOptionModule } from '@angular/material/core';
-import { CreateItemComponent } from './create-item/create-item.component';
+import { MAT_DATE_LOCALE, MatNativeDateModule } from '@angular/material/core';
 import { WarehouseBasicLayoutComponent } from './warehouse-basic-layout/warehouse-basic-layout.component';
 import { WarehouseHeaderComponent } from './warehouse-header/warehouse-header.component';
 import { MatToolbarModule } from '@angular/material/toolbar';
-import { CreateEditUsersComponent } from './create-edit-users/create-edit-users.component';
 import { MatIconModule } from '@angular/material/icon';
 import { MatMenuModule } from '@angular/material/menu';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatSortModule } from '@angular/material/sort';
 import { MatTableModule } from '@angular/material/table';
-import { EditUserComponent } from './edit-user/edit-user.component';
 import { FrontModule } from '../webshop/front-pages/front.module';
 import { MatSelectModule } from '@angular/material/select';
 import { SharedModule } from '../shared/shared.module';
-import { EditItemComponent } from './edit-item/edit-item.component';
+import { BrowseUsersComponent } from './browse-users/browse-users.component';
+import { BrowseItemsComponent } from './browse-items/browse-items.component';
+import { CreateEditUserComponent } from './create-edit-user/create-edit-user.component';
+import { CreateEditItemComponent } from './create-edit-item/create-edit-item.component';
+import { MatPaginatorModule } from '@angular/material/paginator';
 import { OrdersComponent } from './orders/orders.component';
 import { PackingComponent } from './packing/packing.component';
 import { PickingComponent } from './picking/picking.component';
@@ -36,12 +37,12 @@ import { PickingComponent } from './picking/picking.component';
   declarations: [
     HomePageComponent,
     CreateInboundOrderComponent,
-    CreateItemComponent,
+    BrowseItemsComponent,
     WarehouseBasicLayoutComponent,
     WarehouseHeaderComponent,
-    CreateEditUsersComponent,
-    EditUserComponent,
-    EditItemComponent,
+    BrowseUsersComponent,
+    CreateEditUserComponent,
+    CreateEditItemComponent,
     OrdersComponent,
     PackingComponent,
     PickingComponent
@@ -67,7 +68,8 @@ import { PickingComponent } from './picking/picking.component';
     FrontModule,
     MatSelectModule,
     SharedModule,
-    FormsModule
+    FormsModule,
+    MatPaginatorModule
   ],
   providers: [{ provide: MAT_DATE_LOCALE, useValue: 'es-Es' }]
 })
