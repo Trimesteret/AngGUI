@@ -7,9 +7,11 @@ import { ItemDto } from '../../shared/interfaces/item-dto';
 import { ItemType } from '../../shared/enums/item-type';
 import { WineType } from '../../shared/enums/wine-type';
 import { LiquorType } from '../../shared/enums/Liquor-type';
-import { SuitableFor } from '../../shared/enums/Suitable-for';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Location } from '@angular/common';
+import { CustomEnum } from '../../shared/enums/custom-enum';
+import { EnumService } from '../../shared/services/enum.service';
+import { EnumType } from '../../shared/enums/enum-type';
 
 @Component({
   selector: 'app-create-edit-item',
@@ -23,12 +25,17 @@ export class CreateEditItemComponent {
   loading = true;
   editing = false;
   itemForm: FormGroup | undefined;
+  suitableForEnums: CustomEnum[] = [];
 
 
   constructor(private formBuilder: FormBuilder, private itemService: ItemsService, private messageService: MessageService,
-              private authenticationService: AuthenticationService, private route: ActivatedRoute, private location: Location)
+              private authenticationService: AuthenticationService, private route: ActivatedRoute, private location: Location,
+              private enumService: EnumService)
   {
     this.getItemAndBuildForm();
+    this.enumService.getSuitableForEnums().subscribe(customEnums => {
+      this.suitableForEnums = customEnums;
+    });
   }
 
 
@@ -67,7 +74,8 @@ export class CreateEditItemComponent {
       grapeSort: [item?.grapeSort ? item?.grapeSort : ''],
       winery: [item?.winery ? item?.winery : ''],
       tastingNotes: [item?.tastingNotes ? item?.tastingNotes : ''],
-      suitableFor: [item?.suitableFor ? item?.suitableFor : ''],
+      suitableForEnumIds: [null],
+      suitableForEnum: [EnumType.suitableFor],
       itemType: [item ? Number.isInteger(item?.itemType) ? item?.itemType : ItemType.DefaultItem : ItemType.DefaultItem],
       wineType: [item ? Number.isInteger(item?.wineType) ? item?.wineType : WineType.RedWine : WineType.RedWine],
       liquorType: [item ? Number.isInteger(item?.liquorType) ? item?.liquorType : LiquorType.Rum : LiquorType.Rum]
@@ -135,7 +143,6 @@ export class CreateEditItemComponent {
   protected readonly ItemType = ItemType;
   protected readonly WineType = WineType;
   protected readonly LiquorType = LiquorType;
-  protected readonly SuitableFor = SuitableFor;
 }
 
 

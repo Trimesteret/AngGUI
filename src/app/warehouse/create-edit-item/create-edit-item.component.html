@@ -88,8 +88,8 @@
 
         <mat-form-field>
           <mat-label>Passer til:</mat-label>
-          <mat-select multiple formControlName="suitableFor">
-            <mat-option *ngFor="let suitableFor of SuitableFor | keyValue" [value]="suitableFor.key">{{suitableFor.value}}</mat-option>
+          <mat-select multiple formControlName="suitableForEnumIds">
+            <mat-option *ngFor="let suitableFor of suitableForEnums" [value]="suitableFor.id">{{suitableFor.value}}</mat-option>
           </mat-select>
         </mat-form-field>
 

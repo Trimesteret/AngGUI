@@ -1,6 +1,7 @@
 import { WineType } from '../enums/wine-type';
 import { ItemType } from '../enums/item-type';
-import { SuitableFor } from '../enums/Suitable-for';
+import { CustomEnum } from '../enums/custom-enum';
+import { EnumType } from '../enums/enum-type';
 
 export interface ItemDto {
   id?: number,
@@ -19,7 +20,8 @@ export interface ItemDto {
   grapeSort?: string,
   winery?: string,
   tastingNotes?: string,
-  suitableFor?: SuitableFor[],
+  suitableForEnum?: EnumType,
+  suitableForEnumIds?: number[],
   servingTemperature?: string,
   expirationDate?: Date,
   wineType?: WineType,
