@@ -21,6 +21,8 @@ import { FrontModule } from './webshop/front-pages/front.module';
 import { MatTableModule } from '@angular/material/table';
 import { MatSortModule } from '@angular/material/sort';
 import { AuthenticationInterceptor } from './shared/services/authentication/authentication.interceptor';
+import { MatPaginatorIntl } from '@angular/material/paginator';
+import { CustomPaginator } from './shared/paginator-translations/CustomPaginator';
 
 @NgModule({
   declarations: [
@@ -52,7 +54,7 @@ import { AuthenticationInterceptor } from './shared/services/authentication/auth
     provide: HTTP_INTERCEPTORS,
     useClass: AuthenticationInterceptor,
     multi: true
-  }],
+  }, { provide: MatPaginatorIntl, useValue: CustomPaginator() }],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

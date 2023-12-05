@@ -6,12 +6,16 @@ import { MatTableDataSource } from '@angular/material/table';
 import { Router } from '@angular/router';
 import { Role } from '../../shared/enums/role';
 import { UserStandardDto } from '../../shared/models/user-standard-dto';
-import { MatPaginator } from '@angular/material/paginator';
+import { MatPaginator, MatPaginatorIntl } from '@angular/material/paginator';
+import { CustomPaginator } from '../../shared/paginator-translations/CustomPaginator';
 
 @Component({
   selector: 'app-browse-users',
   templateUrl: './browse-users.component.html',
-  styleUrls: ['./browse-users.component.scss']
+  styleUrls: ['./browse-users.component.scss'],
+  providers: [
+    { provide: MatPaginatorIntl, useValue: CustomPaginator() }
+  ]
 })
 export class BrowseUsersComponent implements AfterViewInit{
   loading = true;

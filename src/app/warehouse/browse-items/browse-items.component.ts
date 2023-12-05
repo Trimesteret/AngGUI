@@ -6,13 +6,17 @@ import { MessageService } from 'src/app/shared/services/message.service';
 import { AuthenticationService } from 'src/app/shared/services/authentication/authentication.service';
 import { Router } from '@angular/router';
 import { MatTableDataSource } from '@angular/material/table';
-import { MatPaginator } from '@angular/material/paginator';
+import { MatPaginator, MatPaginatorIntl } from '@angular/material/paginator';
+import { CustomPaginator } from '../../shared/paginator-translations/CustomPaginator';
 
 
 @Component({
   selector: 'app-browse-items',
   templateUrl: './browse-items.component.html',
-  styleUrls: ['./browse-items.component.scss']
+  styleUrls: ['./browse-items.component.scss'],
+  providers: [
+    { provide: MatPaginatorIntl, useValue: CustomPaginator() }
+  ]
 })
 export class BrowseItemsComponent implements AfterViewInit{
 
