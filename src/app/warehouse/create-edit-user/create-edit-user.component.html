@@ -1,0 +1,55 @@
+<app-warehouse-basic-layout>
+  <div fxFlex fxLayoutAlign="center start" fxLayout="row" *ngIf="!loading" style="background-color: #EFEFEF">
+    <form *ngIf="userForm" fxLayout="column" class="document" fxLayoutGap="5" [formGroup]="userForm" (ngSubmit)="submitUser()">
+      <span fxLayout="row" fxLayoutGap="15" fxLayoutAlign="start center">
+        <mat-icon>person</mat-icon>
+        <h1 class="no-margin no-padding">Rediger bruger</h1>
+      </span>
+      <mat-form-field>
+        <mat-label>Role</mat-label>
+        <mat-select formControlName="role">
+          <mat-option *ngFor="let role of Role | keyValue" [value]="role.key">{{role.value}}</mat-option>
+        </mat-select>
+      </mat-form-field>
+
+      <mat-form-field>
+        <mat-label>Fornavn</mat-label>
+        <input matInput id="first-name" type="text" formControlName="firstName">
+        <mat-icon matIconSuffix>person</mat-icon>
+      </mat-form-field>
+      <mat-form-field>
+        <mat-label>Efternavn</mat-label>
+        <input matInput id="last-name" type="text" formControlName="lastName">
+        <mat-icon matIconSuffix>person</mat-icon>
+      </mat-form-field>
+      <mat-form-field>
+        <mat-label>Telefon</mat-label>
+        <input matInput id="phone" type="phone" formControlName="phone">
+        <mat-icon matIconSuffix>phone</mat-icon>
+      </mat-form-field>
+      <mat-form-field>
+        <mat-label>Email</mat-label>
+        <input matInput id="email" type="text" formControlName="email">
+        <mat-icon matIconSuffix>email</mat-icon>
+      </mat-form-field>
+
+      <div fxFlex fxLayout="row" fxLayoutAlign="end center" fxLayoutGap="20">
+        <button color="warn" type="button" [disabled]="userForm.dirty" (click)="deleteUser()" mat-raised-button>
+          <mat-icon>delete</mat-icon>
+          Slet
+        </button>
+        <button color="accent" type="button" [disabled]="!userForm.dirty" (click)="getUserAndBuildForm()" mat-raised-button>
+          <mat-icon>restart_alt</mat-icon>
+          Nulstil
+        </button>
+        <button color="primary" type="submit" mat-raised-button>
+          <mat-icon>save</mat-icon>
+          Gem
+        </button>
+      </div>
+    </form>
+  </div>
+</app-warehouse-basic-layout>
+<div fxFlexFill *ngIf="loading" fxLayoutAlign="center center" class="spinner">
+  <mat-spinner></mat-spinner>
+</div>

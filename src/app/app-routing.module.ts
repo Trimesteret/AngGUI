@@ -7,17 +7,17 @@ import { ForgotPasswordComponent } from './shared/authentication/forgot-password
 import { MyProfileComponent } from './webshop/front-pages/my-profile/my-profile.component';
 import { authGuard } from './guards/auth.guard';
 import { roleGuard } from './guards/role.guard';
-import { Roles } from './shared/enums/roles';
+import { Role } from './shared/enums/role';
 
 const routes: Routes = [
-  { path: '', component: FrontPageComponent },
+  { path: '', component: FrontPageComponent, pathMatch: 'full' },
   { path: 'login', component: LoginPageComponent },
   { path: 'signup', component: SignupPageComponent },
   { path: 'forgot-password', component: ForgotPasswordComponent },
   { path: 'my-profile', component: MyProfileComponent, canActivate: [authGuard] },
   { path: 'warehouse',
     loadChildren: () => import('./warehouse/warehouse.module').then(m => m.WarehouseModule),
-    canActivate: [roleGuard], data: { expectedRole: Roles.Employee }
+    canActivate: [authGuard, roleGuard], data: { expectedRole: Role.Employee }
   },
   { path: 'webshop', loadChildren: () => import('./webshop/webshop.module').then(m => m.WebshopModule) }
 ];

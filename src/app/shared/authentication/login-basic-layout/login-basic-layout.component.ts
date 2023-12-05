@@ -1,5 +1,4 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
-import { FormGroup } from '@angular/forms';
 import { MessageService } from '../../services/message.service';
 import { AuthenticationService } from '../../services/authentication/authentication.service';
 
@@ -25,6 +24,9 @@ export class LoginBasicLayoutComponent {
     this.loading = true;
     this.messageService.show('Logging out...');
     this.authenticationService.logOut().subscribe(() => {
+      window.location.reload();
+    }, error => {
+      this.messageService.showError(error);
       window.location.reload();
     });
   }

@@ -1,4 +1,4 @@
-<app-front-basic-layout [loggedIn]="loggedIn" (logOutEvent)="logout()">
+<app-front-basic-layout [loggedIn]="loggedIn">
   <div fxLayout="column" class="padding-inline-10" fxLayoutGap="10">
     <div fxFlex fxLayout.lt-sm="column" fxLayout.gt-sm="row" fxLayoutGap="20" class="padding-top-20">
       <mat-form-field fxFlex.gt-sm="40" fxFlex.sm="100">
@@ -10,7 +10,7 @@
         <mat-label>Filtrer efter vin type</mat-label>
         <mat-select [(value)]="typeFilter" [(ngModel)]="typeFilter" (ngModelChange)="searchChange()">
           <mat-option>None</mat-option>
-          <mat-option *ngFor="let itemType of getItemTypeValues()" [value]="itemType">{{itemType}}</mat-option>
+          <mat-option *ngFor="let itemType of ItemType | keyValue" [value]="itemType.key">{{itemType.value}}</mat-option>
         </mat-select>
       </mat-form-field>
 
@@ -18,13 +18,9 @@
         <mat-label> Sortér efter pris </mat-label>
         <mat-select [(ngModel)]="priceSort" (ngModelChange)="searchChange()">
           <mat-option>None</mat-option>
-          <mat-option *ngFor="let sortFilter of getSortFilterValues()" [value]="sortFilter">{{sortFilter}}</mat-option>
+          <mat-option *ngFor="let sortByPrice of SortByPrice | keyValue" [value]="sortByPrice.key">{{sortByPrice.value}}</mat-option>
         </mat-select>
       </mat-form-field>
-    </div>
-
-    <div fxFlexFill *ngIf="loading" fxLayoutAlign="center top" class="spinner">
-      <mat-spinner></mat-spinner>
     </div>
 
     <mat-grid-list *ngIf="!loading"  fxFlex="100%" gutterSize="20" cols="6">
@@ -52,3 +48,6 @@
     </div>
   </div>
 </app-front-basic-layout>
+<div fxFlexFill *ngIf="loading" fxLayoutAlign="center center" class="spinner">
+  <mat-spinner></mat-spinner>
+</div>

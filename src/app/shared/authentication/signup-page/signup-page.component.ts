@@ -1,9 +1,9 @@
 import { Component } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
-import { User } from '../models/user';
 import { MessageService } from '../../services/message.service';
 import { AuthenticationService } from '../../services/authentication/authentication.service';
 import { Router } from '@angular/router';
+import { User } from '../../models/user';
 
 @Component({
   selector: 'app-signup-page',
@@ -45,7 +45,7 @@ export class SignupPageComponent {
     }
 
     this.loading = true;
-    this.authenticationService.signup(signUpUser).subscribe(authRes => {
+    this.authenticationService.signup(signUpUser).subscribe(() => {
       this.messageService.show('Sign up successful');
       this.loading = false;
       this.router.navigate(['/login']);

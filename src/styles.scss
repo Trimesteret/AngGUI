@@ -45,10 +45,35 @@ html, body {
   padding-inline: 10px
 }
 
+.padding-top-10{
+  padding-top: 10px;
+}
+
 .padding-top-20{
   padding-top: 20px;
 }
 
 .padding-20{
   padding: 20px;
+}
+
+.padding-bottom-10{
+  padding-bottom: 10px;
+}
+
+.document{
+  background-color: white;
+  max-width: 960px;
+  width: 100%;
+  padding: 30px;
+}
+
+
+.selectable-row:hover {
+  background: whitesmoke;
+  cursor: pointer;
+}
+
+.selectable-row:active {
+  background: #efefef;
 }
