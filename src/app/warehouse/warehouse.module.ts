@@ -28,6 +28,8 @@ import { BrowseItemsComponent } from './browse-items/browse-items.component';
 import { CreateEditUserComponent } from './create-edit-user/create-edit-user.component';
 import { CreateEditItemComponent } from './create-edit-item/create-edit-item.component';
 import { MatPaginatorModule } from '@angular/material/paginator';
+import { BrowseSuppliersComponent } from './browse-suppliers/browse-suppliers.component';
+import { CreateEditSupplierComponent } from './create-edit-supplier/create-edit-supplier.component';
 
 
 @NgModule({
@@ -39,7 +41,9 @@ import { MatPaginatorModule } from '@angular/material/paginator';
     WarehouseHeaderComponent,
     BrowseUsersComponent,
     CreateEditUserComponent,
-    CreateEditItemComponent
+    CreateEditItemComponent,
+    BrowseSuppliersComponent,
+    CreateEditSupplierComponent
   ],
   imports: [
     CommonModule,

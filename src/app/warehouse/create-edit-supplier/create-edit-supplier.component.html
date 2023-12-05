@@ -1,0 +1,124 @@
+<app-warehouse-basic-layout (logOutEvent)="logout()">
+  <div fxFlex fxLayoutAlign="center start" fxLayout="row" style="background-color: lightgray">
+    <form *ngIf="supplierForm" fxLayout="column" class="document" fxLayoutGap="5" [formGroup]="supplierForm" (ngSubmit)="submitSupplier()">
+      <span fxLayout="row" fxLayoutGap="15" fxLayoutAlign="start center">
+        <mat-icon>category</mat-icon>
+        <h1 class="no-margin no-padding">Opret leverandør</h1>
+      </span>
+
+      <mat-form-field>
+        <mat-label>Leverandørnavn</mat-label>
+        <input matInput type="text" formControlName="supplierName">
+      </mat-form-field>
+
+      <button mat-raised-button color="primary" type="button" (click)="enableSearch()">Tilføj produkt</button>
+
+      <ng-container *ngIf="searchField === true">
+        <mat-form-field>
+          <mat-label>Search</mat-label>
+          <input matInput (keyup)="applySearch($event)" >
+        </mat-form-field>
+
+        <table mat-table [dataSource]="browseItems" (matSortChange)="sortData($event)" matSort class="mat-elevation-z8">
+          <ng-container matColumnDef="id">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header sortActionDescription="Sort by id">
+              Id
+            </th>
+            <td mat-cell *matCellDef="let item"> {{item.id}} </td>
+          </ng-container>
+
+          <ng-container matColumnDef="ean">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header sortActionDescription="Sort by status">
+              EAN
+            </th>
+            <td mat-cell *matCellDef="let item"> {{item.ean}} </td>
+          </ng-container>
+
+          <ng-container matColumnDef="name">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header sortActionDescription="Sort by status">
+              Navn
+            </th>
+            <td mat-cell *matCellDef="let item"> {{item.name}} </td>
+          </ng-container>
+
+          <ng-container matColumnDef="price">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header sortActionDescription="Sort by status">
+              Pris
+            </th>
+            <td mat-cell *matCellDef="let item"> {{item.price}} </td>
+          </ng-container>
+
+          <ng-container matColumnDef="itemType">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header sortActionDescription="Sort by status">
+              Type
+            </th>
+            <td mat-cell *matCellDef="let item"> {{ItemType[item.itemType]}} </td>
+          </ng-container>
+
+          <ng-container matColumnDef="quantity">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header sortActionDescription="Sort by status">
+              Mængde
+            </th>
+            <td mat-cell *matCellDef="let item"> {{item.quantity}} </td>
+          </ng-container>
+
+          <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+          <tr mat-row class="selectable-row" (click)="addItem(item.id)" *matRowDef="let item; columns: displayedColumns;"></tr>
+        </table>
+        <mat-paginator [pageSizeOptions]="[10, 25, 50, 100]" aria-label="Select page of items"></mat-paginator>
+      </ng-container>
+
+      <h3 class="no-margin no-padding">Tilknyt produkter</h3>
+
+      <table mat-table [dataSource]="associatedItems" (matSortChange)="sortData($event)" matSort class="mat-elevation-z8">
+        <ng-container matColumnDef="id">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header sortActionDescription="Sort by id">
+            Id
+          </th>
+          <td mat-cell *matCellDef="let item"> {{item.id}} </td>
+        </ng-container>
+
+        <ng-container matColumnDef="ean">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header sortActionDescription="Sort by status">
+            EAN
+          </th>
+          <td mat-cell *matCellDef="let item"> {{item.ean}} </td>
+        </ng-container>
+
+        <ng-container matColumnDef="name">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header sortActionDescription="Sort by status">
+            Navn
+          </th>
+          <td mat-cell *matCellDef="let item"> {{item.name}} </td>
+        </ng-container>
+
+        <ng-container matColumnDef="price">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header sortActionDescription="Sort by status">
+            Pris
+          </th>
+          <td mat-cell *matCellDef="let item"> {{item.price}} </td>
+        </ng-container>
+
+        <ng-container matColumnDef="itemType">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header sortActionDescription="Sort by status">
+            Type
+          </th>
+          <td mat-cell *matCellDef="let item"> {{ItemType[item.itemType]}} </td>
+        </ng-container>
+
+        <ng-container matColumnDef="quantity">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header sortActionDescription="Sort by status">
+            Mængde
+          </th>
+          <td mat-cell *matCellDef="let item"> {{item.quantity}} </td>
+        </ng-container>
+
+        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+        <tr mat-row class="selectable-row" (click)="addItem(item.id)" *matRowDef="let item; columns: displayedColumns;"></tr>
+      </table>
+
+      <button mat-raised-button color="primary">Submit</button>
+
+    </form>
+  </div>
+</app-warehouse-basic-layout>

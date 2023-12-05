@@ -16,6 +16,12 @@
           inventory_2
         </mat-icon>
       </button>
+      <button mat-button *ngIf="isAdmin" routerLink="/warehouse/browse-suppliers">
+        Leverandører
+        <mat-icon>
+          inventory_2
+        </mat-icon>
+      </button>
       <button mat-button *ngIf="isAdmin" routerLink="/warehouse/browse-users">
         Brugere
         <mat-icon>
