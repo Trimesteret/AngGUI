@@ -10,5 +10,5 @@ export interface PurchaseOrderDto {
   totalPrice: number;
   status: string;
   orderLines: OrderLineDto[];
-  Supplier: string;
+  supplier: string;
 }

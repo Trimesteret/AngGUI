@@ -29,6 +29,8 @@ export class OrdersComponent implements AfterViewInit{
   public ngAfterViewInit():void{
     this.orderService.getAllOrders().subscribe(orders => {
       this.orders = new MatTableDataSource(orders);
+      console.log(orders);
+      console.log(orders[0].purchaseOrderState);
       this.loading = false;
       this.orders.paginator = this.paginator;
     });

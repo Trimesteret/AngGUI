@@ -22,22 +22,23 @@ export class OrderService {
   constructor(private http: HttpClient, private cookieService: CookieService, private messageService: MessageService) { }
 
   public getAllOrders(): Observable<PurchaseOrderDto[]>{
-    /*
-    let purchaseOrders:PurchaseOrderDto[] = [{
+
+    const purchaseOrders:PurchaseOrderDto[] = [{
       purchaseOrderState: PurchaseOrderState.Open,
       id: 0,
-      deliveryAddress: 'diller',
+      deliveryAddress: 'Lige der',
       deliveryDate: new Date(),
       orderDate: new Date(),
       totalPrice: 100,
       status: 'nej',
       orderLines: [],
-      Supplier: 'Jens hans'},
-    ]
+      supplier: 'Jens hans' },
+    ];
+    console.log(purchaseOrders);
     return of(purchaseOrders);
-    */
 
-    return this.http.get<PurchaseOrderDto[]>(this.url);
+
+    //return this.http.get<PurchaseOrderDto[]>(this.url);
   }
   public getCurrentPurchaseOrder(): PurchaseOrder {
     if(this.currentPurchaseOrder != null) {
