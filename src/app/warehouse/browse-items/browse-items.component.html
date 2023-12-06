@@ -7,7 +7,7 @@
       </span>
 
       <mat-form-field>
-        <mat-label>Search</mat-label>
+        <mat-label>Søg</mat-label>
         <input matInput (keyup)="applySearch($event)" >
       </mat-form-field>
 
@@ -58,7 +58,7 @@
         <tr mat-row class="selectable-row" (click)="editItem(item.id)" *matRowDef="let item; columns: displayedColumns;"></tr>
       </table>
 
-      <mat-paginator [pageSizeOptions]="[10, 25, 50, 100]" aria-label="Select page of items"></mat-paginator>
+      <mat-paginator [pageSizeOptions]="[10, 25, 50, 100]" aria-label="Vælg side med produkter"></mat-paginator>
 
       <div class="padding-top-10" fxLayoutAlign="end center">
         <button class="full-width" routerLink="/warehouse/create-item" mat-raised-button color="primary">
