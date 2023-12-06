@@ -19,6 +19,7 @@ const routes: Routes = [
   { path: 'browse-users', component: BrowseUsersComponent, canActivate: [authGuard, roleGuard], data: { expectedRole: Role.Admin } },
   { path: 'edit-user/:id', component: CreateEditUserComponent, canActivate: [authGuard, roleGuard], data: { expectedRole: Role.Admin } },
   { path: 'create-supplier', component: CreateEditSupplierComponent, canActivate: [authGuard, roleGuard], data: { expectedRole: Role.Admin } },
+  { path: 'edit-supplier/:id', component: CreateEditSupplierComponent, canActivate: [authGuard, roleGuard], data: { expectedRole: Role.Admin } },
   { path: 'create-user', component: CreateEditUserComponent, canActivate: [authGuard, roleGuard], data: { expectedRole: Role.Admin } },
   { path: 'edit-item/:id', component: CreateEditItemComponent, canActivate: [authGuard, roleGuard], data: { expectedRole: Role.Admin } },
   { path: 'create-item', component: CreateEditItemComponent, canActivate: [authGuard, roleGuard], data: { expectedRole: Role.Admin } },
