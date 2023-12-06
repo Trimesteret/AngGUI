@@ -1,13 +1,13 @@
 <app-warehouse-basic-layout>
   <div fxFlex fxLayoutAlign="center start" fxLayout="row" style="background-color: #EFEFEF">
     <form *ngIf="itemForm && !loading"  fxLayout="column" class="document" fxLayoutGap="5" [formGroup]="itemForm" (ngSubmit)="submitItem()">
-      <span *ngIf="!editingItem" fxLayout="row" fxLayoutGap="15" fxLayoutAlign="start center">
+      <span *ngIf="!editing" fxLayout="row" fxLayoutGap="15" fxLayoutAlign="start center">
         <mat-icon>category</mat-icon>
-        <mat-label class="no-margin no-padding">Opret Produkt</mat-label>
+        <h1 class="no-margin no-padding">Opret produkt</h1>
       </span>
-      <span *ngIf="editingItem" fxLayout="row" fxLayoutGap="15" fxLayoutAlign="start center">
+      <span *ngIf="editing" fxLayout="row" fxLayoutGap="15" fxLayoutAlign="start center">
         <mat-icon>category</mat-icon>
-        <mat-label class="no-margin no-padding">Rediger Produkt</mat-label>
+        <h1 class="no-margin no-padding">Rediger produkt</h1>
       </span>
       <mat-form-field>
         <mat-label>Vælg type af produkt</mat-label>
@@ -18,7 +18,7 @@
 
       <mat-form-field>
         <mat-label>Varenavn</mat-label>
-        <input matInput type="text" formControlName="itemName">
+        <input matInput type="text" formControlName="name">
       </mat-form-field>
 
       <mat-form-field>
@@ -28,17 +28,17 @@
 
       <mat-form-field>
         <mat-label>Varebeskrivelse</mat-label>
-        <input matInput type="text" formControlName="itemDescription">
+        <textarea matInput type="text" formControlName="description"></textarea>
       </mat-form-field>
 
       <mat-form-field>
         <mat-label>Pris</mat-label>
-        <input matInput type="text" formControlName="itemPrice">
+        <input matInput type="text" formControlName="price">
       </mat-form-field>
 
       <mat-form-field>
         <mat-label>Antal</mat-label>
-        <input matInput type="phone" formControlName="itemQuantity">
+        <input matInput type="phone" formControlName="quantity">
       </mat-form-field>
 
       <!--      wine or liquor-->
@@ -88,8 +88,8 @@
 
         <mat-form-field>
           <mat-label>Passer til:</mat-label>
-          <mat-select multiple formControlName="suitableFor">
-            <mat-option *ngFor="let SuitableFor of SuitableFor | keyValue" [value]="SuitableFor.key">{{SuitableFor.value}}</mat-option>
+          <mat-select multiple formControlName="suitableForEnumIds">
+            <mat-option *ngFor="let suitableFor of suitableForEnums" [value]="suitableFor.id">{{suitableFor.value}}</mat-option>
           </mat-select>
         </mat-form-field>
 
@@ -112,8 +112,24 @@
         </mat-form-field>
       </ng-container>
 
-      <button mat-raised-button color="primary">Submit</button>
-
+      <div fxFlex fxLayout="row" fxLayoutAlign="end center" fxLayoutGap="20">
+        <button *ngIf="editing" color="warn" type="button" [disabled]="itemForm.dirty" (click)="deleteItem()" mat-raised-button>
+          <mat-icon>delete</mat-icon>
+          Slet
+        </button>
+        <button color="accent" type="button" [disabled]="!itemForm.dirty" (click)="getItemAndBuildForm()" mat-raised-button>
+          <mat-icon>restart_alt</mat-icon>
+          Nulstil
+        </button>
+        <button *ngIf="editing" color="primary" type="submit" mat-raised-button>
+          <mat-icon>save</mat-icon>
+          Gem
+        </button>
+        <button *ngIf="!editing" color="primary" type="submit" mat-raised-button>
+          <mat-icon>add</mat-icon>
+          Opret
+        </button>
+      </div>
     </form>
   </div>
 </app-warehouse-basic-layout>

@@ -16,7 +16,7 @@ import { UserStandardDto } from '../../shared/models/user-standard-dto';
 })
 export class CreateEditUserComponent {
   loading = true;
-
+  editing = false;
   userForm: FormGroup | undefined;
 
   constructor(private authenticationService: AuthenticationService, private messageService: MessageService, private userService: UserService,
@@ -26,9 +26,21 @@ export class CreateEditUserComponent {
   }
 
   public getUserAndBuildForm(): void {
-    const id = this.route.snapshot.params['id'];
+    let id = null;
+    const idString = this.route.snapshot.params['id'];
+
+    id = parseInt(idString);
+
+    if(!Number.isInteger(id)) {
+      this.buildUserForm();
+      this.editing = false;
+      this.loading = false;
+      return;
+    }
+
     this.userService.getUserById(id).subscribe((user) => {
       this.buildUserForm(user);
+      this.editing = true;
       this.loading = false;
     });
   }
@@ -54,13 +66,13 @@ export class CreateEditUserComponent {
    * @param user the start values of the form
    * @private
    */
-  private buildUserForm(user: UserStandardDto): void {
+  private buildUserForm(user?: UserStandardDto): void {
     this.userForm = this.formBuilder.group({
-      firstName: [user.firstName, Validators.required],
-      lastName: [user.lastName, Validators.required],
-      phone: [user.phone, Validators.required],
-      email: [user.email, [Validators.required, Validators.email]],
-      role: [user.role, Validators.required],
+      firstName: [user?.firstName ? user?.firstName : '', Validators.required],
+      lastName: [user?.lastName ? user?.lastName : '', Validators.required],
+      phone: [user?.phone ? user?.phone : '', Validators.required],
+      email: [user?.email ? user?.email : '', [Validators.required, Validators.email]],
+      role: [Number.isInteger(user?.role) ? user?.role : Role.Customer, Validators.required],
     });
   }
 
