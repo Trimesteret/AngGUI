@@ -11,7 +11,7 @@
           </ng-content>
           <div fxLayout="row" fxLayoutAlign="space-between" fxLayoutGap="10">
             <div fxFlex *ngIf="page === 'login'" fxLayoutGap="10">
-              <button mat-raised-button routerLink="/signup" type="button">Sign up</button>
+              <button color="accent" mat-raised-button routerLink="/signup" type="button">Sign up</button>
               <button mat-raised-button routerLink="/forgot-password" type="button">Forgot password</button>
             </div>
             <div fxFlex *ngIf="page === 'signup'" fxLayoutGap="10">
@@ -20,9 +20,9 @@
             </div>
             <div fxFlex *ngIf="page === 'forgot'" fxLayoutGap="10">
               <button mat-raised-button routerLink="/login" type="button">Sign in</button>
-              <button mat-raised-button routerLink="/signup" type="button">Sign up</button>
+              <button color="accent" mat-raised-button routerLink="/signup" type="button">Sign up</button>
             </div>
-            <button mat-raised-button color="accent" (click)="this.submitAuth.emit()" type="submit">Submit</button>
+            <button mat-raised-button color="primary" (click)="this.submitAuth.emit()" type="submit">Submit</button>
           </div>
         </div>
       </div>

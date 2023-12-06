@@ -84,7 +84,7 @@ html, body {
 @include mat.core();
 $my-primary: mat.define-palette($custom-red-palette);
 $my-accent: mat.define-palette($custom-blue-palette);
-$my-warn: mat.define-palette(mat.$red-palette, 900);
+$my-warn: mat.define-palette($custom-warn-palette);
 
 $my-theme: mat.define-light-theme((
   color: (
