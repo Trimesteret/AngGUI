@@ -52,9 +52,8 @@ export class CreateEditItemComponent {
     }
 
     this.itemService.getItemById(id).subscribe((item) => {
-      item.suitableForEnumIds = item.suitableForEnums.flatMap(x => item.suitableForEnums?.includes(x) ? [x.id] : []);
-      this.buildItemForm(item);
       this.editing = true;
+      this.buildItemForm(item);
       this.loading = false;
     });
   }
@@ -82,6 +81,10 @@ export class CreateEditItemComponent {
 
     this.selectedItemType = item?.itemType;
 
+    if(this.editing) {
+      this.itemForm.controls['itemType'].disable();
+    }
+
     this.itemForm.controls['itemType'].valueChanges.subscribe(value => {
       this.selectedItemType = value;
     });
@@ -101,9 +104,7 @@ export class CreateEditItemComponent {
 
     if (this.editing) {
       item.id = parseInt(this.route.snapshot.params['id']);
-      console.log(item);
       this.itemService.editItem(item).subscribe(item => {
-        item.suitableForEnumIds = item.suitableForEnums.flatMap(x => item.suitableForEnums?.includes(x) ? [x.id] : []);
         this.buildItemForm(item);
         this.messageService.show('Item edited');
       }, error => {
