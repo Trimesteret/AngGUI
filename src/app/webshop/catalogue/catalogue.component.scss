@@ -1,3 +1,6 @@
+@use '@angular/material' as mat;
+@import '../../../../src/styles.scss';
+
 .wine-image{
   width: 80%;
   height: 80%;
@@ -14,3 +17,6 @@ mat-grid-tile {
   cursor: pointer;
 }
 
+.itemPriceCatalogue{
+  color: mat.get-color-from-palette($my-primary);
+}

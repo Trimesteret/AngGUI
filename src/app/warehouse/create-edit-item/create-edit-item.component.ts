@@ -52,6 +52,7 @@ export class CreateEditItemComponent {
   public getItemAndBuildForm(id : number): void {
     this.itemService.getItemById(id).subscribe((item) => {
       this.buildItemFormFromId(item);
+      console.log(Number.isInteger(item?.itemType));
     });
   }
   public buildItemFormFromId(item: ItemDto) : void {

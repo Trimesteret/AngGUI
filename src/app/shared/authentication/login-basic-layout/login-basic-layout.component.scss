@@ -1,3 +1,6 @@
+@use '@angular/material' as mat;
+@import '../../../../../src/styles.scss';
+
 .auth-h1 {
   color: white;
   font-size: 2rem;
@@ -13,6 +16,6 @@
   display: none;
 }
 
-.background-color-purple{
-  background-color: #673ab7;
+.loginBackground{
+  background-color: mat.get-color-from-palette($my-primary);
 }
