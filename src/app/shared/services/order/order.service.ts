@@ -6,10 +6,7 @@ import { PurchaseOrder } from '../../models/purchase-order';
 import { OrderLineDto } from '../../interfaces/order-line-dto';
 import { MessageService } from '../message.service';
 import { Observable, of } from 'rxjs';
-import { UserStandardDto } from '../../models/user-standard-dto';
-import { PurchaseOrderDto } from '../../interfaces/purchase-order-dto';
-import { PurchaseOrderState } from '../../enums/purchase-order-state';
-import { OrderLine } from '../../models/order-line';
+import { OrderDto } from '../../interfaces/order-dto';
 
 @Injectable({
   providedIn: 'root'
@@ -21,24 +18,8 @@ export class OrderService {
 
   constructor(private http: HttpClient, private cookieService: CookieService, private messageService: MessageService) { }
 
-  public getAllOrders(): Observable<PurchaseOrderDto[]>{
-
-    const purchaseOrders:PurchaseOrderDto[] = [{
-      purchaseOrderState: PurchaseOrderState.Open,
-      id: 0,
-      deliveryAddress: 'Lige der',
-      deliveryDate: new Date(),
-      orderDate: new Date(),
-      totalPrice: 100,
-      status: 'nej',
-      orderLines: [],
-      supplier: 'Jens hans' },
-    ];
-    console.log(purchaseOrders);
-    return of(purchaseOrders);
-
-
-    //return this.http.get<PurchaseOrderDto[]>(this.url);
+  public getAllOrders(): Observable<OrderDto[]>{
+    return this.http.get<OrderDto[]>(this.url);
   }
   public getCurrentPurchaseOrder(): PurchaseOrder {
     if(this.currentPurchaseOrder != null) {

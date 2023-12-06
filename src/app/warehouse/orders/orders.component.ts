@@ -4,7 +4,7 @@ import { Router } from '@angular/router';
 import { MessageService } from '../../shared/services/message.service';
 import { AuthenticationService } from '../../shared/services/authentication/authentication.service';
 import { Role } from '../../shared/enums/role';
-import { PurchaseOrderDto } from '../../shared/interfaces/purchase-order-dto';
+import { OrderDto } from '../../shared/interfaces/order-dto';
 import { OrderService } from '../../shared/services/order/order.service';
 import { MatPaginator } from '@angular/material/paginator';
 
@@ -14,8 +14,8 @@ import { MatPaginator } from '@angular/material/paginator';
   styleUrls: ['./orders.component.scss']
 })
 export class OrdersComponent implements AfterViewInit{
-  loading = false;
-  orders: MatTableDataSource<PurchaseOrderDto> = new MatTableDataSource<PurchaseOrderDto>();
+  loading = true;
+  orders: MatTableDataSource<OrderDto> = new MatTableDataSource<OrderDto>();
 
   public displayedColumns: string[] = ['id', 'purchaseOrderState', 'orderDate', 'deliveryDate', 'totalPrice', 'supplier'];
 
@@ -29,8 +29,8 @@ export class OrdersComponent implements AfterViewInit{
   public ngAfterViewInit():void{
     this.orderService.getAllOrders().subscribe(orders => {
       this.orders = new MatTableDataSource(orders);
+      orders[0].deliveryDate = Date();
       console.log(orders);
-      console.log(orders[0].purchaseOrderState);
       this.loading = false;
       this.orders.paginator = this.paginator;
     });
