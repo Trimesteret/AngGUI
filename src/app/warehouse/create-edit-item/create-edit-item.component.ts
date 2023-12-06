@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { MessageService } from 'src/app/shared/services/message.service';
 import { AuthenticationService } from 'src/app/shared/services/authentication/authentication.service';
 import { ItemsService } from '../../shared/services/items/items.service';
@@ -11,7 +11,6 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Location } from '@angular/common';
 import { CustomEnum } from '../../shared/enums/custom-enum';
 import { EnumService } from '../../shared/services/enum.service';
-import { EnumType } from '../../shared/enums/enum-type';
 
 @Component({
   selector: 'app-create-edit-item',
@@ -30,7 +29,7 @@ export class CreateEditItemComponent {
 
   constructor(private formBuilder: FormBuilder, private itemService: ItemsService, private messageService: MessageService,
               private authenticationService: AuthenticationService, private route: ActivatedRoute, private location: Location,
-              private enumService: EnumService)
+              private enumService: EnumService, private router: Router)
   {
     this.getItemAndBuildForm();
     this.enumService.getSuitableForEnums().subscribe(customEnums => {
@@ -52,8 +51,9 @@ export class CreateEditItemComponent {
       return;
     }
 
-    this.itemService.getItemById(id).subscribe((user) => {
-      this.buildItemForm(user);
+    this.itemService.getItemById(id).subscribe((item) => {
+      item.suitableForEnumIds = item.suitableForEnums.flatMap(x => item.suitableForEnums?.includes(x) ? [x.id] : []);
+      this.buildItemForm(item);
       this.editing = true;
       this.loading = false;
     });
@@ -61,11 +61,11 @@ export class CreateEditItemComponent {
 
   public buildItemForm(item?: ItemDto): void {
     this.itemForm = this.formBuilder.group({
-      itemName: [item?.name ? item?.name : '', Validators.required],
+      name: [item?.name ? item?.name : '', Validators.required],
       EAN: [item?.ean ? item?.ean : '', Validators.required],
-      itemDescription: [item?.description ? item?.description : '', Validators.required],
-      itemPrice: [item?.price ? item?.price : '', [Validators.required]],
-      itemQuantity: [item?.quantity ? item?.quantity : '', [Validators.required]],
+      description: [item?.description ? item?.description : '', Validators.required],
+      price: [item?.price ? item?.price : '', [Validators.required]],
+      quantity: [item?.quantity ? item?.quantity : '', [Validators.required]],
       year: [item?.year ? item?.year : null],
       volume: [item?.volume ? item?.volume : null],
       alcoholPercentage: [item?.alcoholPercentage ? item?.alcoholPercentage : null],
@@ -74,8 +74,7 @@ export class CreateEditItemComponent {
       grapeSort: [item?.grapeSort ? item?.grapeSort : ''],
       winery: [item?.winery ? item?.winery : ''],
       tastingNotes: [item?.tastingNotes ? item?.tastingNotes : ''],
-      suitableForEnumIds: [null],
-      suitableForEnum: [EnumType.suitableFor],
+      suitableForEnumIds: [item?.suitableForEnumIds ? item?.suitableForEnumIds : []],
       itemType: [item ? Number.isInteger(item?.itemType) ? item?.itemType : ItemType.DefaultItem : ItemType.DefaultItem],
       wineType: [item ? Number.isInteger(item?.wineType) ? item?.wineType : WineType.RedWine : WineType.RedWine],
       liquorType: [item ? Number.isInteger(item?.liquorType) ? item?.liquorType : LiquorType.Rum : LiquorType.Rum]
@@ -95,23 +94,27 @@ export class CreateEditItemComponent {
       return;
     }
 
-    const getItemPrice= this.itemForm?.get('itemPrice');
-    if (getItemPrice) {
-      item.price = Number(getItemPrice.value);
+    const itemPriceString= this.itemForm?.get('itemPrice');
+    if (itemPriceString) {
+      item.price = Number(itemPriceString.value);
     }
-    item.itemType = this.selectedItemType;
+
     if (this.editing) {
       item.id = parseInt(this.route.snapshot.params['id']);
-      this.itemService.editItem(item).subscribe(value => {
+      console.log(item);
+      this.itemService.editItem(item).subscribe(item => {
+        item.suitableForEnumIds = item.suitableForEnums.flatMap(x => item.suitableForEnums?.includes(x) ? [x.id] : []);
+        this.buildItemForm(item);
         this.messageService.show('Item edited');
-      }, () => {
-        console.log('error');
+      }, error => {
+        this.messageService.showError(error);
       });
     } else {
-      this.itemService.createItem(item).subscribe(value => {
+      this.itemService.createItem(item).subscribe(item => {
+        this.router.navigate(['/warehouse/edit-item/' + item.id]);
         this.messageService.show('Item created');
-      }, () => {
-        console.log('error');
+      }, error => {
+        this.messageService.showError(error);
       });
     }
   }
