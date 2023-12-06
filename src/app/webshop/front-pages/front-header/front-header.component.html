@@ -38,8 +38,8 @@
       </button>
     </div>
     <div fxFlex.lt-md="70" fxFlex.gt-md="25" fxLayoutGap.gt-md="20" fxLayoutGap.lt-md="0" fxLayoutAlign="end center">
-      <button mat-button routerLink="/webshop">
-        {{'100'}}
+      <button mat-button routerLink="/webshop/basket">
+        {{currentPurchaseOrder.orderLines.length ? currentPurchaseOrder.orderLines.length : 0}}
         <mat-icon>
           shopping_cart
         </mat-icon>
@@ -70,7 +70,7 @@
       <img height="100%" alt="Budolfi Vin logo" src="assets/budolfiGrapes.svg">
     </mat-icon>
   </button>
-  <button mat-menu-item routerLink="/webshop/catalogue">
+  <button mat-menu-item routerLink="/webshop">
     Webshop
     <mat-icon>
       webshop

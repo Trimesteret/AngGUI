@@ -3,10 +3,11 @@ import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
 import { debounceTime, distinctUntilChanged } from 'rxjs';
 import { ItemDto } from '../../shared/interfaces/item-dto';
 import { ItemsService } from '../../shared/services/items/items.service';
-import { ItemType } from '../../shared/enums/item-type';
+import { WineType } from '../../shared/enums/wine-type';
 import { SortByPrice } from '../../shared/enums/sort-by-price';
 import { AuthenticationService } from '../../shared/services/authentication/authentication.service';
 import { MessageService } from '../../shared/services/message.service';
+import { ItemType } from '../../shared/enums/item-type';
 
 @Component({
   selector: 'app-catalogue',
@@ -41,32 +42,27 @@ export class CatalogueComponent implements OnInit {
     itemService.getItemsBySearch(this.amountOfItemsShown).subscribe(items => {
       this.displayItems = items;
       this.loading = false;
+    }, error => {
+      this.messageService.showError(error);
+      this.loading = false;
     });
 
     this.itemService.getItemCount().subscribe(itemCount => {
       this.itemCount = itemCount;
+    }, error => {
+      this.messageService.showError(error);
     });
   }
 
-  getItemText(): string {
-    return ` Viser ${this.displayItems.length} ud af ${this.itemCount} varer`;
-  }
-
-  getItemTypeValues(): string[] {
-    return Object.keys(ItemType).filter(key => isNaN(Number(key)));
-  }
-
-  getSortFilterValues(): string[] {
-    return Object.keys(SortByPrice)
-      .filter(key => isNaN(Number(key)));
-  }
-
-  ngOnInit(): void {
+  public ngOnInit(): void {
     this.breakPoints.subscribe(() =>
       this.breakpointChanged()
     );
   }
 
+  public getItemText(): string {
+    return ` Viser ${this.displayItems.length} ud af ${this.itemCount} varer`;
+  }
 
   private breakpointChanged(): void {
     if (this.breakpointObserver.isMatched(Breakpoints.XLarge)) {
@@ -112,4 +108,8 @@ export class CatalogueComponent implements OnInit {
       window.location.reload();
     });
   }
+
+  protected readonly SortByPrice = SortByPrice;
+  protected readonly WineType = WineType;
+  protected readonly ItemType = ItemType;
 }

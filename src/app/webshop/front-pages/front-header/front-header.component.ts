@@ -1,6 +1,8 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
 import { AuthenticationService } from '../../../shared/services/authentication/authentication.service';
+import { OrderService } from '../../../shared/services/order/order.service';
+import { PurchaseOrder } from '../../../shared/models/purchase-order';
 
 @Component({
   selector: 'app-front-header',
@@ -12,10 +14,12 @@ export class FrontHeaderComponent {
 
   isEmployee = false;
   isTablet: boolean;
+  currentPurchaseOrder: PurchaseOrder;
 
   @Output() logOutEvent = new EventEmitter();
 
-  constructor(private breakpointObserver: BreakpointObserver, private authenticationService: AuthenticationService) {
+  constructor(private breakpointObserver: BreakpointObserver, private authenticationService: AuthenticationService,
+              private orderService: OrderService) {
     this.isTablet = breakpointObserver.isMatched(Breakpoints.Handset);
 
     this.breakpointObserver.observe([Breakpoints.XSmall, Breakpoints.Small])
@@ -24,6 +28,8 @@ export class FrontHeaderComponent {
       });
 
     this.isEmployee = this.authenticationService.isEmployee();
+
+    this.currentPurchaseOrder = this.orderService.getCurrentPurchaseOrder();
   }
 
 

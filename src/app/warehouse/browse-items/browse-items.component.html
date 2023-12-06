@@ -1,0 +1,71 @@
+<app-warehouse-basic-layout>
+  <div fxFlex fxLayoutAlign="center start" fxLayout="row" style="background-color: #EFEFEF">
+    <div fxLayout="column" class="document" fxLayoutGap="5">
+      <span class="padding-bottom-10" fxLayout="row" fxLayoutGap="15" fxLayoutAlign="start center">
+        <mat-icon>inventory_2</mat-icon>
+        <h1 class="no-margin no-padding" >Alle produkter</h1>
+      </span>
+
+      <mat-form-field>
+        <mat-label>Søg</mat-label>
+        <input matInput (keyup)="applySearch($event)" >
+      </mat-form-field>
+
+      <table mat-table [dataSource]="items" (matSortChange)="sortData($event)" matSort class="mat-elevation-z8">
+        <ng-container matColumnDef="id">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header sortActionDescription="Sort by id">
+            Id
+          </th>
+          <td mat-cell *matCellDef="let item"> {{item.id}} </td>
+        </ng-container>
+
+        <ng-container matColumnDef="ean">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header sortActionDescription="Sort by status">
+            EAN
+          </th>
+          <td mat-cell *matCellDef="let item"> {{item.ean}} </td>
+        </ng-container>
+
+        <ng-container matColumnDef="name">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header sortActionDescription="Sort by status">
+            Navn
+          </th>
+          <td mat-cell *matCellDef="let item"> {{item.name}} </td>
+        </ng-container>
+
+        <ng-container matColumnDef="price">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header sortActionDescription="Sort by status">
+            Pris
+          </th>
+          <td mat-cell *matCellDef="let item"> {{item.price}} </td>
+        </ng-container>
+
+        <ng-container matColumnDef="itemType">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header sortActionDescription="Sort by status">
+            Type
+          </th>
+          <td mat-cell *matCellDef="let item"> {{ItemType[item.itemType]}} </td>
+        </ng-container>
+
+        <ng-container matColumnDef="quantity">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header sortActionDescription="Sort by status">
+            Mængde
+          </th>
+          <td mat-cell *matCellDef="let item"> {{item.quantity}} </td>
+        </ng-container>
+
+        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+        <tr mat-row class="selectable-row" (click)="editItem(item.id)" *matRowDef="let item; columns: displayedColumns;"></tr>
+      </table>
+
+      <mat-paginator [pageSizeOptions]="[10, 25, 50, 100]" aria-label="Vælg side med produkter"></mat-paginator>
+
+      <div class="padding-top-10" fxLayoutAlign="end center">
+        <button class="full-width" routerLink="/warehouse/create-item" mat-raised-button color="primary">
+          Opret nyt produkt
+          <mat-icon>add</mat-icon>
+        </button>
+      </div>
+    </div>
+  </div>
+</app-warehouse-basic-layout>

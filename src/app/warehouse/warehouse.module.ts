@@ -5,38 +5,41 @@ import { WarehouseRoutingModule } from './warehouse-routing.module';
 import { CreateInboundOrderComponent } from './create-inbound-order/create-inbound-order.component';
 import { MatTabsModule } from '@angular/material/tabs';
 import { MatFormFieldModule } from '@angular/material/form-field';
-import { ReactiveFormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatInputModule } from '@angular/material/input';
 import { MatButtonModule } from '@angular/material/button';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { FlexModule } from '@angular/flex-layout';
 import { MAT_DATE_LOCALE, MatNativeDateModule } from '@angular/material/core';
-import { CreateItemComponent } from './create-item/create-item.component';
 import { WarehouseBasicLayoutComponent } from './warehouse-basic-layout/warehouse-basic-layout.component';
 import { WarehouseHeaderComponent } from './warehouse-header/warehouse-header.component';
 import { MatToolbarModule } from '@angular/material/toolbar';
-import { CreateEditUsersComponent } from './create-edit-users/create-edit-users.component';
 import { MatIconModule } from '@angular/material/icon';
 import { MatMenuModule } from '@angular/material/menu';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatSortModule } from '@angular/material/sort';
 import { MatTableModule } from '@angular/material/table';
-import { EditUserComponent } from './edit-user/edit-user.component';
 import { FrontModule } from '../webshop/front-pages/front.module';
 import { MatSelectModule } from '@angular/material/select';
 import { SharedModule } from '../shared/shared.module';
+import { BrowseUsersComponent } from './browse-users/browse-users.component';
+import { BrowseItemsComponent } from './browse-items/browse-items.component';
+import { CreateEditUserComponent } from './create-edit-user/create-edit-user.component';
+import { CreateEditItemComponent } from './create-edit-item/create-edit-item.component';
+import { MatPaginatorModule } from '@angular/material/paginator';
 
 
 @NgModule({
   declarations: [
     HomePageComponent,
     CreateInboundOrderComponent,
-    CreateItemComponent,
+    BrowseItemsComponent,
     WarehouseBasicLayoutComponent,
     WarehouseHeaderComponent,
-    CreateEditUsersComponent,
-    EditUserComponent
+    BrowseUsersComponent,
+    CreateEditUserComponent,
+    CreateEditItemComponent
   ],
   imports: [
     CommonModule,
@@ -58,7 +61,9 @@ import { SharedModule } from '../shared/shared.module';
     MatTableModule,
     FrontModule,
     MatSelectModule,
-    SharedModule
+    SharedModule,
+    FormsModule,
+    MatPaginatorModule
   ],
   providers: [{ provide: MAT_DATE_LOCALE, useValue: 'es-Es' }]
 })

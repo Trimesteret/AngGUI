@@ -10,14 +10,14 @@
           <img height="100%" alt="Budolfi Vin logo" src="assets/budolfiGrapes.svg">
         </mat-icon>
       </button>
-      <button mat-button *ngIf="isAdmin" routerLink="/warehouse/create-edit-items">
-        Create-Edit-Items
+      <button mat-button *ngIf="isAdmin" routerLink="/warehouse/browse-items">
+        Produkter
         <mat-icon>
           inventory_2
         </mat-icon>
       </button>
-      <button mat-button *ngIf="isAdmin" routerLink="/warehouse/create-edit-users">
-        Create-Edit-Users
+      <button mat-button *ngIf="isAdmin" routerLink="/warehouse/browse-users">
+        Brugere
         <mat-icon>
           person
         </mat-icon>
@@ -30,7 +30,7 @@
     <div fxFlex.lt-md="70" fxFlex.gt-md="25" fxLayoutGap.gt-md="20" fxLayoutGap.lt-md="0" fxLayoutAlign="end center">
       <ng-container *ngIf="!isTablet">
         <button mat-raised-button color="primary" routerLink="/webshop">
-          Kasse
+          Webshop
           <mat-icon>
             shopping_cart
           </mat-icon>

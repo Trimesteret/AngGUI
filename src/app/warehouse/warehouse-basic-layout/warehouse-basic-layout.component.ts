@@ -1,4 +1,6 @@
 import { Component, EventEmitter, Output } from '@angular/core';
+import { MessageService } from '../../shared/services/message.service';
+import { AuthenticationService } from '../../shared/services/authentication/authentication.service';
 
 @Component({
   selector: 'app-warehouse-basic-layout',
@@ -6,10 +8,18 @@ import { Component, EventEmitter, Output } from '@angular/core';
   styleUrls: ['./warehouse-basic-layout.component.scss']
 })
 export class WarehouseBasicLayoutComponent {
-  @Output() logOutEvent = new EventEmitter();
+  @Output() loading = new EventEmitter();
 
+  constructor(private messageService: MessageService, private authenticationService: AuthenticationService) { }
 
   public logout(): void{
-    this.logOutEvent.emit();
+    this.loading.emit(true);
+    this.messageService.show('Logging out...');
+    this.authenticationService.logOut().subscribe(() => {
+      window.location.reload();
+    }, error => {
+      this.messageService.showError(error);
+      window.location.reload();
+    });
   }
 }

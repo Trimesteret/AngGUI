@@ -3,10 +3,10 @@ import { HttpClient, HttpParams } from '@angular/common/http';
 import { Observable, tap } from 'rxjs';
 import { CookieService } from 'ngx-cookie-service';
 import { environment } from '../../../../environments/environment';
-import { LoginDto } from '../../authentication/models/login-dto';
-import { AuthPas } from '../../authentication/models/authPas';
-import { User } from '../../authentication/models/user';
 import { Role } from '../../enums/role';
+import { LoginDto } from '../../models/login-dto';
+import { AuthPas } from '../../models/auth-pas';
+import { User } from '../../models/user';
 
 @Injectable({
   providedIn: 'root'
