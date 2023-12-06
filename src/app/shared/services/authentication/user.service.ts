@@ -4,6 +4,7 @@ import { HttpClient } from '@angular/common/http';
 import { environment } from '../../../../environments/environment';
 import { UserStandardDto } from '../../models/user-standard-dto';
 import { User } from '../../models/user';
+import { LoginDto } from '../../models/login-dto';
 
 @Injectable({
   providedIn: 'root'
@@ -57,7 +58,7 @@ export class UserService {
   public updateCurrentUser(user: User): Observable<User> {
     return this.http.put<User>(this.url + '/edit', user);
   }
-  public updateCurrentUserPassword(user: User): Observable<User> {
-    return this.http.put<User>(this.url + '/password', user);
+  public updateCurrentUserPassword(loginDto: LoginDto): Observable<boolean> {
+    return this.http.put<boolean>(this.url + '/password', loginDto);
   }
 }

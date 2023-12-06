@@ -1,4 +1,4 @@
-<app-front-basic-layout [loggedIn]="loggedIn" (logOutEvent)="logout()">
+<app-front-basic-layout [loggedIn]="loggedIn">
   <div fxFlex fxLayoutAlign="center start" fxLayout="row" *ngIf="!loading" style="background-color: #EFEFEF">
     <form *ngIf="profileForm" fxLayout="column" class="document" fxLayoutGap="5" [formGroup]="profileForm" (ngSubmit)="submitProfile()">
       <span fxLayout="row" fxLayoutGap="15" fxLayoutAlign="start center">
@@ -22,50 +22,52 @@
       </mat-form-field>
       <mat-form-field>
         <mat-label>Email</mat-label>
-        <input matInput type="text" formControlName="email">
+        <input id="email" matInput type="text" formControlName="email">
         <mat-icon matIconSuffix>email</mat-icon>
       </mat-form-field>
-
-      <div fxLayout="row" fxLayoutAlign="end center" fxLayoutGap="20" *ngIf="showChangePasswordButton">
-        <button color="warn" type="button" mat-raised-button (click)="toggleFormFields()">
-          <mat-icon>delete</mat-icon>
-          Skift adganskode
-        </button>
-        <button color="accent" type="button" [disabled]="!profileForm.dirty" (click)="getUserAndBuildForm()" mat-raised-button>
-          <mat-icon>restart_alt</mat-icon>
-          Nulstil
-        </button>
-        <button color="primary" type="submit" mat-raised-button>
-          <mat-icon>save</mat-icon>
-          Gem
-        </button>
-      </div>
-      <div *ngIf="showFormFields" fxLayout="column" fxLayoutAlign="start" fxLayoutGap="5">
+      <div *ngIf="showChangePasswordFields" fxLayout="column" fxLayoutAlign="start" fxLayoutGap="5">
         <mat-form-field appearance="fill" fxFlex="20">
           <mat-label>Nuværende adgangskode</mat-label>
-          <input type="password" matInput placeholder="Indtast nuværende adgangskode">
+          <input id="password" [type]="hide ? 'password' : 'text'" matInput formControlName="password">
+          <button mat-icon-button matSuffix type="button" (click)="hide = !hide">
+            <mat-icon>{{hide ? 'visibility_off' : 'visibility'}}</mat-icon>
+          </button>
         </mat-form-field>
 
         <mat-form-field appearance="fill">
           <mat-label>Ny adgangskode</mat-label>
-          <input type="password" matInput placeholder="Indtast nye adgangskode">
+          <input [type]="hideNew ? 'password' : 'text'" matInput formControlName="newPasswordOne">
+          <button mat-icon-button matSuffix type="button" (click)="hideNew = !hideNew">
+            <mat-icon>{{hideNew ? 'visibility_off' : 'visibility'}}</mat-icon>
+          </button>
         </mat-form-field>
 
         <mat-form-field appearance="fill">
           <mat-label>Gentag ny adgangskode</mat-label>
-          <input type="password" matInput placeholder="Gentag ny adgangskode">
+          <input [type]="hideNew ? 'password' : 'text'" matInput formControlName="newPasswordTwo">
+          <button mat-icon-button matSuffix type="button" (click)="hideNew = !hideNew">
+            <mat-icon>{{hideNew ? 'visibility_off' : 'visibility'}}</mat-icon>
+          </button>
         </mat-form-field>
       </div>
-      <div *ngIf="showFormFields" fxLayout="row" fxLayoutAlign="end center" fxLayoutGap="20">
-        <button color="warn" type="button" mat-raised-button (click)="toggleFormFields()">
+      <div fxLayout="row" fxLayoutAlign="end center" fxLayoutGap="20">
+        <button *ngIf="!showChangePasswordFields" color="warn" type="button" mat-raised-button (click)="toggleChangePasswordFields()">
+          <mat-icon>lock</mat-icon>
+          Skift adganskode
+        </button>
+        <button *ngIf="showChangePasswordFields" color="warn" type="button" mat-raised-button (click)="toggleChangePasswordFields()">
           <mat-icon>delete</mat-icon>
           Annuller
         </button>
-        <button color="accent" type="button" [disabled]="!profileForm.dirty" (click)="getUserAndBuildForm()" mat-raised-button>
+        <button *ngIf="!showChangePasswordFields" color="accent" type="button" [disabled]="!profileForm.dirty" (click)="getUserAndBuildForm()" mat-raised-button>
           <mat-icon>restart_alt</mat-icon>
           Nulstil
         </button>
-        <button color="primary" type="submit" mat-raised-button>
+        <button *ngIf="showChangePasswordFields" (click)="changePassword()" color="primary" type="button" mat-raised-button>
+          <mat-icon>save</mat-icon>
+          Ændre adgangskode
+        </button>
+        <button *ngIf="!showChangePasswordFields" color="primary" type="submit" mat-raised-button>
           <mat-icon>save</mat-icon>
           Gem
         </button>
