@@ -1,3 +1,6 @@
+@use '@angular/material' as mat;
+@import '../../../../src/styles.scss';
+
 .wine-image{
   width: 80%;
   height: 80%;
@@ -12,4 +15,8 @@
 
 .header {
   font-size: 2.5rem;
+}
+
+.itemPrice{
+  color: mat.get-color-from-palette($my-primary);
 }
