@@ -7,7 +7,7 @@
       </span>
 
       <mat-form-field>
-        <mat-label>Search</mat-label>
+        <mat-label>Søg</mat-label>
         <input matInput (keyup)="applySearch($event)" >
       </mat-form-field>
 
@@ -42,14 +42,14 @@
 
         <ng-container matColumnDef="phone">
           <th mat-header-cell *matHeaderCellDef mat-sort-header sortActionDescription="Sort by status">
-            Phone
+            Telefonnummer
           </th>
           <td mat-cell *matCellDef="let user"> {{user.phone}} </td>
         </ng-container>
 
         <ng-container matColumnDef="role">
           <th mat-header-cell *matHeaderCellDef mat-sort-header sortActionDescription="Sort by status">
-            Role
+            Rolle
           </th>
           <td mat-cell *matCellDef="let user"> {{ Role[user.role] }} </td>
         </ng-container>
@@ -58,7 +58,7 @@
         <tr mat-row class="selectable-row" (click)="editUser(user.id)" *matRowDef="let user; columns: displayedColumns;"></tr>
       </table>
 
-      <mat-paginator [pageSizeOptions]="[10, 25, 50, 100]" aria-label="Select page of users"></mat-paginator>
+      <mat-paginator [pageSizeOptions]="[10, 25, 50, 100]" aria-label="Vælg side med produkter"></mat-paginator>
 
       <div class="padding-top-10" fxLayoutAlign="end center">
         <button class="full-width" routerLink="/warehouse/create-user" mat-raised-button color="primary">
