@@ -1,7 +1,11 @@
 <app-warehouse-basic-layout>
   <div fxFlex fxLayoutAlign="center start" fxLayout="row" *ngIf="!loading" style="background-color: #EFEFEF">
     <form *ngIf="userForm" fxLayout="column" class="document" fxLayoutGap="5" [formGroup]="userForm" (ngSubmit)="submitUser()">
-      <span fxLayout="row" fxLayoutGap="15" fxLayoutAlign="start center">
+      <span *ngIf="!editing" fxLayout="row" fxLayoutGap="15" fxLayoutAlign="start center">
+        <mat-icon>person</mat-icon>
+        <h1 class="no-margin no-padding">Opret bruger</h1>
+      </span>
+      <span *ngIf="editing" fxLayout="row" fxLayoutGap="15" fxLayoutAlign="start center">
         <mat-icon>person</mat-icon>
         <h1 class="no-margin no-padding">Rediger bruger</h1>
       </span>
@@ -34,7 +38,7 @@
       </mat-form-field>
 
       <div fxFlex fxLayout="row" fxLayoutAlign="end center" fxLayoutGap="20">
-        <button color="warn" type="button" [disabled]="userForm.dirty" (click)="deleteUser()" mat-raised-button>
+        <button *ngIf="editing" color="warn" type="button" [disabled]="userForm.dirty" (click)="deleteUser()" mat-raised-button>
           <mat-icon>delete</mat-icon>
           Slet
         </button>
@@ -42,9 +46,13 @@
           <mat-icon>restart_alt</mat-icon>
           Nulstil
         </button>
-        <button color="primary" type="submit" mat-raised-button>
+        <button *ngIf="editing" color="primary" type="submit" mat-raised-button>
           <mat-icon>save</mat-icon>
           Gem
+        </button>
+        <button *ngIf="!editing" color="primary" type="submit" mat-raised-button>
+          <mat-icon>add</mat-icon>
+          Opret
         </button>
       </div>
     </form>
