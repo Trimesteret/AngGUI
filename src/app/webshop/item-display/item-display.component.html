@@ -1,4 +1,4 @@
-<app-front-basic-layout [loggedIn]="loggedIn" (logOutEvent)="logout()">
+<app-front-basic-layout [loggedIn]="loggedIn">
   <ng-container *ngIf="item && !loading">
     <div fxFlex fxLayout.gt-md="row" fxLayout.lt-md="column" class="padding-20" fxLayoutGap="40" ngStyle.gt-md="height: 85vh">
       <div fxFlex fxLayoutAlign="center center" class="image-tile">

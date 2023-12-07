@@ -1,4 +1,4 @@
-<app-login-basic-layout title="Sign up" [loading]="loading" page="signup" (submitAuth)="signup()">
+<app-login-basic-layout title="Opret bruger" [loading]="loading" page="signup" (submitAuth)="signup()">
   <form fxFlex class="full-width" fxLayout="column" fxLayoutGap="9" [formGroup]="signupForm" (ngSubmit)="signup()">
     <mat-form-field>
       <mat-label>Fornavn</mat-label>
@@ -11,7 +11,7 @@
       <mat-icon matIconSuffix>person</mat-icon>
     </mat-form-field>
     <mat-form-field>
-      <mat-label>Telefon</mat-label>
+      <mat-label>Telefonnummer</mat-label>
       <input matInput id="phone" type="tel" formControlName="phone">
       <mat-icon matIconSuffix>phone</mat-icon>
     </mat-form-field>
