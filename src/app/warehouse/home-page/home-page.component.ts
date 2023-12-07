@@ -15,7 +15,7 @@ export class HomePageComponent {
 
   public logout(): void{
     this.loading = true;
-    this.messageService.show('Logging out...');
+    this.messageService.show('Logger ud...');
     this.authenticationService.logOut().subscribe(() => {
       window.location.reload();
     });
