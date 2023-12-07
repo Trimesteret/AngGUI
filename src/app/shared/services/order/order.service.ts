@@ -37,25 +37,25 @@ export class OrderService {
     if(existingOrderLine != null) {
       existingOrderLine.quantity += orderLine.quantity;
       existingOrderLine.price = existingOrderLine.item.price * existingOrderLine.quantity;
-      this.messageService.show('Added quantity: ' + orderLine.quantity + ' of product: ' + orderLine.item.name + ' to cart');
+      this.messageService.show('Tilføjet antal: ' + orderLine.quantity + ' af produkt: ' + orderLine.item.name + ' til kurven');
       return;
     }
     orderLine.price = orderLine.item.price * orderLine.quantity;
     this.currentPurchaseOrder.orderLines.push(orderLine);
-    this.messageService.show('Added quantity: ' + orderLine.quantity + ' of product: ' + orderLine.item.name + ' to cart');
+    this.messageService.show('Tilføjet antal: ' + orderLine.quantity + ' af produkt: ' + orderLine.item.name + ' til kurven');
     this.cookieService.set('purchaseOrder', JSON.stringify(this.currentPurchaseOrder));
   }
 
   public removeOrderLineFromCurrentPurchaseOrder(orderLine: OrderLineDto): void {
     this.currentPurchaseOrder = this.getCurrentPurchaseOrder();
     this.currentPurchaseOrder.orderLines = this.currentPurchaseOrder.orderLines.filter(old => old.productId != orderLine.productId);
-    this.messageService.show('Removed product: ' + orderLine.item.name + ' from cart');
+    this.messageService.show('Fjernede produkt: ' + orderLine.item.name + ' fra kurven');
     this.cookieService.set('purchaseOrder', JSON.stringify(this.currentPurchaseOrder));
   }
 
   public resetCurrentPurchaseOrder(): void {
     this.currentPurchaseOrder = new PurchaseOrder();
     this.cookieService.set('purchaseOrder', JSON.stringify(this.currentPurchaseOrder));
-    this.messageService.show('Cart cleared');
+    this.messageService.show('Kurv ryddet');
   }
 }

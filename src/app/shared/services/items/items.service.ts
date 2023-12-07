@@ -66,12 +66,16 @@ export class ItemsService {
     return this.http.get<ItemDto[]>(this.url);
   }
 
-  public createItem(item: ItemDto):Observable<boolean>  {
-    return this.http.post<boolean>(this.url, item);
+  public createItem(item: ItemDto):Observable<ItemDto>  {
+    return this.http.post<ItemDto>(this.url, item);
   }
 
   public editItem(item: ItemDto): Observable<ItemDto> {
     return this.http.put<ItemDto>(this.url, item);
+  }
+
+  public deleteItem(id: number): Observable<boolean> {
+    return this.http.delete<boolean>(this.url + '/' + id);
   }
 }
 

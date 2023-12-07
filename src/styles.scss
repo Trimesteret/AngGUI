@@ -1,6 +1,8 @@
 /* You can add global styles to this file, and also import other style files */
-
+@use '@angular/material' as mat;
 @import 'https://fonts.googleapis.com/icon?family=Material+Icons';
+@import 'customPallet.scss';
+
 
 body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
 html, body {
@@ -77,3 +79,20 @@ html, body {
 .selectable-row:active {
   background: #efefef;
 }
+
+// This overrides the color pallets from the original theme, whilst still keeping padding
+@include mat.core();
+$my-primary: mat.define-palette($custom-red-palette);
+$my-accent: mat.define-palette($custom-blue-palette);
+$my-warn: mat.define-palette($custom-warn-palette);
+
+$my-theme: mat.define-light-theme((
+  color: (
+    primary: $my-primary,
+    accent: $my-accent,
+    warn: $my-warn
+  )
+));
+@include mat.core-theme($my-theme);
+@include mat.button-theme($my-theme);
+@include mat.progress-spinner-color($my-theme);
