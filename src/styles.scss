@@ -82,17 +82,17 @@ html, body {
 
 // This overrides the color pallets from the original theme, whilst still keeping padding
 @include mat.core();
-$my-primary: mat.define-palette($custom-red-palette);
-$my-accent: mat.define-palette($custom-blue-palette);
-$my-warn: mat.define-palette($custom-warn-palette);
+$custom_primary: mat.define-palette($custom-red-palette);
+$custom_accent: mat.define-palette($custom-blue-palette);
+$custom_warn: mat.define-palette($custom-warn-palette);
 
-$my-theme: mat.define-light-theme((
+$custom_theme: mat.define-light-theme((
   color: (
-    primary: $my-primary,
-    accent: $my-accent,
-    warn: $my-warn
+    primary: $custom_primary,
+    accent: $custom_accent,
+    warn: $custom_warn
   )
 ));
-@include mat.core-theme($my-theme);
-@include mat.button-theme($my-theme);
-@include mat.progress-spinner-color($my-theme);
+@include mat.core-theme($custom-theme);
+@include mat.button-theme($custom-theme);
+@include mat.progress-spinner-color($custom-theme);

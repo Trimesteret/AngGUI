@@ -33,7 +33,8 @@
               Antal
             </th>
             <td mat-cell *matCellDef="let line">
-                <input matInput [(ngModel)]="line.quantity" (ngModelChange)="updateLineQuantity(line)" class="table-input" type="number" [value]="line.quantity">
+                <input matInput [(ngModel)]="line.quantity" (ngModelChange)="updateLineQuantity(line)" class="table-input" type="number" min="1"
+                       [value]="line.quantity" oninput="this.value = !!this.value ? Math.abs(this.value) : 1">
             </td>
           </ng-container>
 
