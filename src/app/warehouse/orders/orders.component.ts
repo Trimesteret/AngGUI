@@ -7,6 +7,7 @@ import { Role } from '../../shared/enums/role';
 import { OrderDto } from '../../shared/interfaces/order-dto';
 import { OrderService } from '../../shared/services/order/order.service';
 import { MatPaginator } from '@angular/material/paginator';
+import {C} from "@angular/cdk/keycodes";
 
 @Component({
   selector: 'app-orders',
@@ -17,7 +18,7 @@ export class OrdersComponent implements AfterViewInit{
   loading = true;
   orders: MatTableDataSource<OrderDto> = new MatTableDataSource<OrderDto>();
 
-  public displayedColumns: string[] = ['id', 'purchaseOrderState', 'orderDate', 'deliveryDate', 'totalPrice', 'supplier'];
+  public displayedColumns: string[] = ['id', 'orderState', 'orderDate', 'deliveryDate', 'totalPrice', 'supplier'];
 
   @ViewChild(MatPaginator) paginator: MatPaginator;
   constructor(
@@ -26,11 +27,10 @@ export class OrdersComponent implements AfterViewInit{
     private authenticationService: AuthenticationService,
     private router: Router) {
   }
+
   public ngAfterViewInit():void{
     this.orderService.getAllOrders().subscribe(orders => {
       this.orders = new MatTableDataSource(orders);
-      orders[0].deliveryDate = Date();
-      console.log(orders);
       this.loading = false;
       this.orders.paginator = this.paginator;
     });
@@ -48,6 +48,7 @@ export class OrdersComponent implements AfterViewInit{
       this.orders.paginator.firstPage();
     }
   }
+
   public sortData(event: any): void {
     const data = this.orders.data.slice(); // Make a copy of the data array
     if (!event.active || event.direction === '') {
@@ -60,13 +61,22 @@ export class OrdersComponent implements AfterViewInit{
       switch (event.active) {
         case 'id':
           return this.compare(a.id ? a.id : 0, b.id ? b.id : 0, isAsc);
-
+        case 'orderState':
+          return this.compare(a.orderState, b.orderState, isAsc);
+        case 'orderDate':
+          return this.compare(a.orderDate, b.orderDate, isAsc);
+        case 'deliveryDate':
+          return this.compare(a.deliveryDate, b.deliveryDate, isAsc);
+        case 'totalPrice':
+          return this.compare(a.totalPrice, b.totalPrice, isAsc)
+        case 'supplier':
+          return this.compare(a.supplier, b.supplier, isAsc);
         default:
           return 0;
       }
     });
   }
-
+  
   private compare(a: number | string, b: number | string, isAsc: boolean): number {
     return (a < b ? -1 : 1) * (isAsc ? 1 : -1);
   }

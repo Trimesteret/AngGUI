@@ -10,8 +10,6 @@ import { BrowseUsersComponent } from './browse-users/browse-users.component';
 import { CreateEditItemComponent } from './create-edit-item/create-edit-item.component';
 import { CreateEditUserComponent } from './create-edit-user/create-edit-user.component';
 import { OrdersComponent } from './orders/orders.component';
-import { PickingComponent } from './picking/picking.component';
-import { PackingComponent } from './packing/packing.component';
 
 const routes: Routes = [
   { path: 'createInboundOrder', component: CreateInboundOrderComponent, canActivate: [authGuard, roleGuard], data: { expectedRole: Role.Admin } },
@@ -22,8 +20,6 @@ const routes: Routes = [
   { path: 'edit-item/:id', component: CreateEditItemComponent, canActivate: [authGuard, roleGuard], data: { expectedRole: Role.Admin } },
   { path: 'create-item', component: CreateEditItemComponent, canActivate: [authGuard, roleGuard], data: { expectedRole: Role.Admin } },
   { path: 'orders', component: OrdersComponent, canActivate: [authGuard, roleGuard], data: { expectedRole: Role.Admin } },
-  { path: 'picking', component: PickingComponent, canActivate: [authGuard, roleGuard], data: { expectedRole: Role.Admin } },
-  { path: 'packing', component: PackingComponent, canActivate: [authGuard, roleGuard], data: { expectedRole: Role.Admin } },
   { path: 'home', component: HomePageComponent },
   { path: '', redirectTo: 'home', pathMatch: 'full' }
 ];

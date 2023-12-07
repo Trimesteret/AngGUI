@@ -21,6 +21,7 @@ export class OrderService {
   public getAllOrders(): Observable<OrderDto[]>{
     return this.http.get<OrderDto[]>(this.url);
   }
+
   public getCurrentPurchaseOrder(): PurchaseOrder {
     if(this.currentPurchaseOrder != null) {
       return this.currentPurchaseOrder;

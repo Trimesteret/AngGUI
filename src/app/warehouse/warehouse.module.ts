@@ -29,9 +29,6 @@ import { CreateEditUserComponent } from './create-edit-user/create-edit-user.com
 import { CreateEditItemComponent } from './create-edit-item/create-edit-item.component';
 import { MatPaginatorModule } from '@angular/material/paginator';
 import { OrdersComponent } from './orders/orders.component';
-import { PackingComponent } from './packing/packing.component';
-import { PickingComponent } from './picking/picking.component';
-
 
 @NgModule({
   declarations: [
@@ -44,8 +41,6 @@ import { PickingComponent } from './picking/picking.component';
     CreateEditUserComponent,
     CreateEditItemComponent,
     OrdersComponent,
-    PackingComponent,
-    PickingComponent
   ],
   imports: [
     CommonModule,
