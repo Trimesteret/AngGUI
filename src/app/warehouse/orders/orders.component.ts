@@ -7,7 +7,7 @@ import { Role } from '../../shared/enums/role';
 import { OrderDto } from '../../shared/interfaces/order-dto';
 import { OrderService } from '../../shared/services/order/order.service';
 import { MatPaginator } from '@angular/material/paginator';
-import {C} from "@angular/cdk/keycodes";
+import { C } from '@angular/cdk/keycodes';
 
 @Component({
   selector: 'app-orders',
@@ -68,7 +68,7 @@ export class OrdersComponent implements AfterViewInit{
         case 'deliveryDate':
           return this.compare(a.deliveryDate, b.deliveryDate, isAsc);
         case 'totalPrice':
-          return this.compare(a.totalPrice, b.totalPrice, isAsc)
+          return this.compare(a.totalPrice, b.totalPrice, isAsc);
         case 'supplier':
           return this.compare(a.supplier, b.supplier, isAsc);
         default:
@@ -80,14 +80,6 @@ export class OrdersComponent implements AfterViewInit{
   private compare(a: number | string, b: number | string, isAsc: boolean): number {
     return (a < b ? -1 : 1) * (isAsc ? 1 : -1);
   }
-
-  public logout(): void {
-    this.loading = true;
-    this.messageService.show('Logging out...');
-    this.authenticationService.logOut().subscribe(() => {
-      window.location.reload();
-    });
-  }
-
+  
   protected readonly Role = Role;
 }
