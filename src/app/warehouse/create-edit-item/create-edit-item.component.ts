@@ -65,6 +65,7 @@ export class CreateEditItemComponent {
       description: [item?.description ? item?.description : '', Validators.required],
       price: [item?.price ? item?.price : '', [Validators.required]],
       quantity: [item?.quantity ? item?.quantity : '', [Validators.required]],
+      imageUrl: [item?.imageUrl ? item?.imageUrl : '', [Validators.required]],
       year: [item?.year ? item?.year : null],
       volume: [item?.volume ? item?.volume : null],
       alcoholPercentage: [item?.alcoholPercentage ? item?.alcoholPercentage : null],
