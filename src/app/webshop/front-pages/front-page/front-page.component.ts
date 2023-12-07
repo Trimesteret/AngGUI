@@ -42,12 +42,4 @@ export class FrontPageComponent {
   constructor(public router: Router, private authenticationService: AuthenticationService, private messageService: MessageService) {
     this.loggedIn = this.authenticationService.getLoggedIn();
   }
-
-  public logout(): void{
-    this.loading = true;
-    this.messageService.show('Logger ud...');
-    this.authenticationService.logOut().subscribe(() => {
-      window.location.reload();
-    });
-  }
 }

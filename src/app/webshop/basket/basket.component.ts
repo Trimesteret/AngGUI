@@ -88,14 +88,6 @@ export class BasketComponent{
     orderLine.quantity = Number(orderLine.quantity);
   }
 
-  public logout(): void{
-    this.loading = true;
-    this.messageService.show('Logger ud...');
-    this.authenticationService.logOut().subscribe(() => {
-      window.location.reload();
-    });
-  }
-
   protected readonly Role = Role;
 }
 

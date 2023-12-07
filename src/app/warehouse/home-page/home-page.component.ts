@@ -12,12 +12,4 @@ export class HomePageComponent {
 
   constructor(private messageService: MessageService, private authenticationService: AuthenticationService) {
   }
-
-  public logout(): void{
-    this.loading = true;
-    this.messageService.show('Logger ud...');
-    this.authenticationService.logOut().subscribe(() => {
-      window.location.reload();
-    });
-  }
 }

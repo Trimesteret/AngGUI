@@ -101,15 +101,6 @@ export class CatalogueComponent implements OnInit {
     return this.amountOfItemsShown < this.itemCount;
   }
 
-  public logout(): void{
-    this.loading = true;
-    this.messageService.show('Logger ud...');
-    this.authenticationService.logOut().subscribe(() => {
-      window.location.reload();
-    });
-  }
-
   protected readonly SortByPrice = SortByPrice;
-  protected readonly WineType = WineType;
   protected readonly ItemType = ItemType;
 }

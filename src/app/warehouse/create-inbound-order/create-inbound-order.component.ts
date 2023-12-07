@@ -23,12 +23,4 @@ export class CreateInboundOrderComponent {
   public createInboundOrder () :void {
     console.log(this.inboundOrderForm.value);
   }
-
-  public logout(): void{
-    this.loading = true;
-    this.messageService.show('Logger ud...');
-    this.authenticationService.logOut().subscribe(() => {
-      window.location.reload();
-    });
-  }
 }

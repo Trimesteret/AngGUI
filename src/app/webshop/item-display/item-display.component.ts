@@ -50,13 +50,5 @@ export class ItemDisplayComponent {
     return Math.round((this.item.price / this.item.volume)*100)/100;
   }
 
-  public logout(): void{
-    this.loading = true;
-    this.messageService.show('Logger ud...');
-    this.authenticationService.logOut().subscribe(() => {
-      window.location.reload();
-    });
-  }
-
   protected readonly ItemType = ItemType;
 }

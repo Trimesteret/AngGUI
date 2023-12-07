@@ -82,13 +82,5 @@ export class BrowseUsersComponent implements AfterViewInit{
     return (a < b ? -1 : 1) * (isAsc ? 1 : -1);
   }
 
-  public logout(): void{
-    this.loading = true;
-    this.messageService.show('Logger ud...');
-    this.authenticationService.logOut().subscribe(() => {
-      window.location.reload();
-    });
-  }
-
   protected readonly Role = Role;
 }

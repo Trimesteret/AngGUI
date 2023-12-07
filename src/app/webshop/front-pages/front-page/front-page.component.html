@@ -1,4 +1,4 @@
-<app-front-basic-layout [loggedIn]="loggedIn" (logOutEvent)="logout()">
+<app-front-basic-layout [loggedIn]="loggedIn">
   <div fxFlex fxLayout="column" fxLayoutGap="50">
     <div fxFlex fxLayout.gt-md="row" fxLayout.lt-md="column" fxLayoutGap="30" style="padding-inline: 30px">
       <div *ngFor="let card of cards" fxFlex>
