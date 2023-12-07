@@ -1,6 +1,5 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { HomePageComponent } from './home-page/home-page.component';
 import { WarehouseRoutingModule } from './warehouse-routing.module';
 import { CreateInboundOrderComponent } from './create-inbound-order/create-inbound-order.component';
 import { MatTabsModule } from '@angular/material/tabs';
@@ -28,18 +27,21 @@ import { BrowseItemsComponent } from './browse-items/browse-items.component';
 import { CreateEditUserComponent } from './create-edit-user/create-edit-user.component';
 import { CreateEditItemComponent } from './create-edit-item/create-edit-item.component';
 import { MatPaginatorModule } from '@angular/material/paginator';
+import { SettingsComponent } from './settings/settings.component';
+import { CreateEditEnumComponent } from './create-edit-enum/create-edit-enum.component';
 
 
 @NgModule({
   declarations: [
-    HomePageComponent,
     CreateInboundOrderComponent,
     BrowseItemsComponent,
     WarehouseBasicLayoutComponent,
     WarehouseHeaderComponent,
     BrowseUsersComponent,
     CreateEditUserComponent,
-    CreateEditItemComponent
+    CreateEditItemComponent,
+    SettingsComponent,
+    CreateEditEnumComponent
   ],
   imports: [
     CommonModule,
