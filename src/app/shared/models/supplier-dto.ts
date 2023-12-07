@@ -1,4 +1,3 @@
-import { ItemDto } from '../interfaces/item-dto';
 import { ItemRelationDto } from '../interfaces/item-relation-dto';
 
 export interface SuppliersDTO {

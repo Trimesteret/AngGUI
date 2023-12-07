@@ -19,12 +19,12 @@ export class SupplierService {
   public getAllSuppliers(): Observable<SuppliersDTO[]>{
     return this.http.get<SuppliersDTO[]>(this.url + '/' + 'AllSuppliers');
   }
-  public createItem(supplier: SuppliersDTO):Observable<SuppliersDTO>  {
-    console.log(supplier);
+  public createSupplier(supplier: SuppliersDTO):Observable<SuppliersDTO>  {
     return this.http.post<SuppliersDTO>(this.url, supplier);
   }
 
-  public getAssocations(id: number): Observable<ItemDto[]>{
-    return this.http.get<ItemDto[]>(this.url + '/Associated/' + id);
+  public editSupplier(supplier: SuppliersDTO):Observable<SuppliersDTO>  {
+    console.log(supplier);
+    return this.http.put<SuppliersDTO>(this.url, supplier);
   }
 }
