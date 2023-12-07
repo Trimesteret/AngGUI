@@ -2,6 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { OrderLineDto } from '../../shared/interfaces/order-line-dto';
 import { OrderService } from '../../shared/services/order/order.service';
+import { OrderLine } from '../../shared/models/order-line';
+import { MatTableDataSource } from '@angular/material/table';
 
 @Component({
   selector: 'app-checkout',
@@ -10,8 +12,13 @@ import { OrderService } from '../../shared/services/order/order.service';
 })
 export class CheckoutComponent implements OnInit{
   checkoutForm: FormGroup | undefined;
-  constructor(private fb: FormBuilder, private orderService: OrderService) { }
   basketContent: OrderLineDto[];
+  orderLines: MatTableDataSource<OrderLine> = new MatTableDataSource<OrderLine>();
+  constructor(private fb: FormBuilder, private orderService: OrderService) {
+    this.orderLines = new MatTableDataSource(this.orderService.getCurrentPurchaseOrder().orderLines);
+    this.basketContent = this.getBasketItems();
+    this.calculateTotalPrice(this.basketContent);
+  }
   ngOnInit() : void {
     this.checkoutForm = this.fb.group({
       'name': ['', Validators.required],
@@ -25,9 +32,8 @@ export class CheckoutComponent implements OnInit{
       'termsCheckbox': [false, Validators.required],
       'newsletterCheckbox': [false],
     });
-    this.basketContent = this.getBasketItems();
-    this.calculateTotalPrice(this.basketContent);
   }
+
   calculateTotalPrice(orderLines: OrderLineDto[]): number {
     let total = 0;
     orderLines.forEach(function (value : OrderLineDto){
@@ -41,6 +47,10 @@ export class CheckoutComponent implements OnInit{
   }
   getBasketItems(): OrderLineDto[] {
     return this.orderService.getCurrentPurchaseOrder().orderLines;
+  }
+  public updateLineQuantity(orderLine: OrderLine): void {
+    orderLine.price = Math.round(orderLine.item.price * orderLine.quantity*100)/100;
+    orderLine.quantity = Number(orderLine.quantity);
   }
   public goToPayment(): void {
     // Not implemented, should send the order to API
