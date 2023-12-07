@@ -21,12 +21,12 @@
               <input matInput formControlName="country" placeholder="Land" required>
             </mat-form-field>
             <div fxLayout="row" fxLayoutGap="15px">
-                <mat-form-field fxFlex="85" appearance="outline">
-                  <input matInput formControlName="city" placeholder="By" required>
-                </mat-form-field>
-                <mat-form-field fxFlex="25" appearance="outline">
-                  <input matInput formControlName="postcode" placeholder="Postnummer" required>
-                </mat-form-field>
+              <mat-form-field fxFlex="85" appearance="outline">
+                <input matInput formControlName="city" placeholder="By" required>
+              </mat-form-field>
+              <mat-form-field fxFlex="25" appearance="outline">
+                <input matInput formControlName="postcode" placeholder="Postnummer" required>
+              </mat-form-field>
             </div>
           </ng-container>
         </div>
@@ -53,29 +53,26 @@
             </mat-card>
           </div>
         </mat-radio-group>
-        <div class="go-to-payment-box" fxLayout="column" >
+        <div class="go-to-payment-box" fxLayout="column">
           <div fxLayout="column">
             <mat-checkbox formControlName="termsCheckbox" required>Jeg accepterer handelsbetingelserne</mat-checkbox>
             <mat-checkbox formControlName="newsletterCheckbox">Jeg vil gerne have gode tilbud og nyheder fra Budolfi Vin i indbakken</mat-checkbox>
           </div>
-          <button fxFlex="50" mat-raised-button color="primary" class="go-to-payment-button" (click)="goToPayment()">
-            Gå til betaling
-          </button>
+          <button fxFlex="50" mat-raised-button color="primary" class="go-to-payment-button" (click)="goToPayment()"> Gå til betaling </button>
         </div>
       </div>
     </form>
-
     <div fxFlex="20" class="basket-box">
       <ng-container *ngFor="let field of basketContent">
-      <mat-card>
-        <div fxLayout="row" fxLayoutAlign="space-between center">
-          <img [src]="field.item.imageUrl" class="basket-wine-picture" alt="Billede">
-          <p>{{field.item.name}}</p>
-          <p>{{field.item.price}}</p>
-          <input fxFlex ="20" style="border: none" matInput [(ngModel)]="field.quantity" (ngModelChange)="updateLineQuantity(field)" type="number" >
-        </div>
-      </mat-card>
-        </ng-container>
+        <mat-card>
+          <div fxLayout="row" fxLayoutAlign="space-between center">
+            <img [src]="field.item.imageUrl" class="basket-wine-picture" alt="Billede">
+            <p>{{field.item.name}}</p>
+            <p>{{field.item.price}}</p>
+            <input fxFlex="20" style="border: none" matInput [(ngModel)]="field.quantity" (ngModelChange)="updateLineQuantity(field)" type="number">
+          </div>
+        </mat-card>
+      </ng-container>
       <div fxLayout="column" style="padding-top: 15px">
         <div fxLayout="row" fxLayoutAlign="space-between center">
           <p>Total:</p>
@@ -86,7 +83,6 @@
           <p>{{getTotalPrice()}} kr</p>
         </div>
       </div>
-
     </div>
   </div>
 </app-front-basic-layout>
