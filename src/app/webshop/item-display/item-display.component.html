@@ -1,4 +1,4 @@
-<app-front-basic-layout [loggedIn]="loggedIn" (logOutEvent)="logout()">
+<app-front-basic-layout [loggedIn]="loggedIn">
   <ng-container *ngIf="item && !loading">
     <div fxFlex fxLayout.gt-md="row" fxLayout.lt-md="column" class="padding-20" fxLayoutGap="40" ngStyle.gt-md="height: 85vh">
       <div fxFlex fxLayoutAlign="center center" class="image-tile">
@@ -50,7 +50,7 @@
         <div fxFlex="35" fxLayout="row" style="padding-left: 0; margin-top: 20px; background-color: #EFEFEF" class="image-tile padding-20">
           <div fxFlex fxLayout="column" fxLayoutAlign="center center">
             <h3 *ngIf="item.price && item.volume" >{{ getVolumePrice() }},- / L</h3>
-            <h1 style="font-size: 4rem; color:#673ab7">{{ item.price }},-</h1>
+            <h1 class="itemPrice" style="font-size: 4rem; ">{{ item.price }},-</h1>
           </div>
           <div fxFlex fxLayoutAlign="center center" fxLayout="column">
             <mat-form-field class="full-width">

@@ -9,28 +9,28 @@
         <table mat-table [dataSource]="orderLines" (matSortChange)="sortData($event)" matSort class="mat-elevation-z8">
           <ng-container matColumnDef="imageUrl">
             <th mat-header-cell *matHeaderCellDef mat-sort-header sortActionDescription="Sort by status">
-              Image
+              Billede
             </th>
             <td mat-cell *matCellDef="let line"><img class="table-img" [src]="line.item.imageUrl" [alt]="line.item.name"></td>
           </ng-container>
 
           <ng-container matColumnDef="name">
             <th mat-header-cell *matHeaderCellDef mat-sort-header sortActionDescription="Sort by status">
-              Name
+              Navn
             </th>
             <td mat-cell *matCellDef="let line"> {{line.item.name}} </td>
           </ng-container>
 
           <ng-container matColumnDef="itemPrice">
             <th mat-header-cell *matHeaderCellDef mat-sort-header sortActionDescription="Sort by status">
-              Item price
+              Stykpris
             </th>
             <td mat-cell *matCellDef="let line"> {{line.item.price}} kr</td>
           </ng-container>
 
           <ng-container matColumnDef="quantity">
             <th mat-header-cell *matHeaderCellDef mat-sort-header sortActionDescription="Sort by status">
-              Quantity
+              Antal
             </th>
             <td mat-cell *matCellDef="let line">
                 <input matInput [(ngModel)]="line.quantity" (ngModelChange)="updateLineQuantity(line)" class="table-input" type="number" [value]="line.quantity">
@@ -39,7 +39,7 @@
 
           <ng-container matColumnDef="price">
             <th mat-header-cell *matHeaderCellDef mat-sort-header sortActionDescription="Sort by status">
-              Price
+              Pris
             </th>
             <td mat-cell *matCellDef="let line"> {{line.price}} kr</td>
           </ng-container>

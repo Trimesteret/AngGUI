@@ -6,6 +6,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { UserService } from '../../../shared/services/authentication/user.service';
 import { AuthenticationService } from '../../../shared/services/authentication/authentication.service';
 import { User } from '../../../shared/models/user';
+import { LoginDto } from '../../../shared/models/login-dto';
 
 @Component({
   selector: 'app-my-profile',
@@ -13,28 +14,13 @@ import { User } from '../../../shared/models/user';
   styleUrls: ['./my-profile.component.scss']
 })
 export class MyProfileComponent implements OnInit{
-
+  hide = true;
+  hideNew = true;
+  showChangePasswordFields = false;
   loggedIn = false;
   loading = true;
-
   profileForm: FormGroup | undefined;
-
-  public customerPurchaseOrders = new MatTableDataSource([{
-    id: 1,
-    status: 'received'
-  },
-  {
-    id: 2,
-    status: 'send'
-  },
-  {
-    id: 3,
-    status: 'abe'
-  },
-  {
-    id: 0,
-    status: 'kat'
-  }]);
+  public customerPurchaseOrders = new MatTableDataSource<any>();
 
   public displayedColumns: string[] = ['id', 'status'];
 
@@ -47,13 +33,17 @@ export class MyProfileComponent implements OnInit{
     this.getUserAndBuildForm();
   }
 
+  public toggleChangePasswordFields(): void {
+    this.showChangePasswordFields = !this.showChangePasswordFields;
+  }
+
   /**
    * Gets the current user logged in and builds the profile form
    */
   public getUserAndBuildForm(): void{
     this.userService.getCurrentUser().subscribe(user => {
       this.buildProfileForm(user);
-      this.loading= false;
+      this.loading = false;
     });
   }
 
@@ -68,8 +58,33 @@ export class MyProfileComponent implements OnInit{
       lastName: [user.lastName, Validators.required],
       phone: [user.phone, Validators.required],
       email: [user.email, [Validators.required, Validators.email]],
-      password: [user.password, [Validators.required, Validators.minLength(7)]],
+      password: [''],
+      newPasswordOne: [''],
+      newPasswordTwo: [''],
     });
+  }
+
+  /**
+   * Is run when the user clicks the change password button
+   */
+  public changePassword(): void{
+    const changePasswordDto: LoginDto = {
+      email: this.profileForm.get('email').value,
+      password: this.profileForm.get('password').value,
+      newPasswordOne: this.profileForm.get('newPasswordOne').value,
+      newPasswordTwo: this.profileForm.get('newPasswordTwo').value
+    };
+
+    this.userService.updateCurrentUserPassword(changePasswordDto).subscribe(() => {
+      this.loading = false;
+      this.messageService.show('Password updated');
+      this.showChangePasswordFields = !this.showChangePasswordFields;
+    },
+    error => {
+      this.loading = false;
+      this.messageService.showError(error);
+    });
+
   }
 
   /**
@@ -95,7 +110,6 @@ export class MyProfileComponent implements OnInit{
       }
     });
   }
-
   private compare(a: number | string, b: number | string, isAsc: boolean): number {
     return (a < b ? -1 : 1) * (isAsc ? 1 : -1);
   }
@@ -104,11 +118,6 @@ export class MyProfileComponent implements OnInit{
    * Is run when the user submits the profileForm
    */
   public submitProfile(): void{
-    if(!this.profileForm?.valid){
-      this.messageService.show('Please fill in all required fields');
-      return;
-    }
-
     this.loading = true;
 
     this.userService.updateCurrentUser(this.profileForm.value as User).subscribe(() => {
@@ -118,17 +127,6 @@ export class MyProfileComponent implements OnInit{
     error => {
       this.loading = false;
       this.messageService.showError(error);
-    });
-  }
-
-  /**
-   * Logs out the user
-   */
-  public logout(): void{
-    this.loading = true;
-    this.messageService.show('Logging out...');
-    this.authenticationService.logOut().subscribe(() => {
-      window.location.reload();
     });
   }
 }

@@ -34,19 +34,19 @@ export class SignupPageComponent {
    */
   public signup(): void{
     if(!this.signupForm.valid && this.signupForm.get('password')?.value !== this.signupForm.get('repeatPassword')?.value){
-      this.messageService.show('Sign up form invalid');
+      this.messageService.show('Invalidt forsøg på at oprette bruger');
       return;
     }
 
     const signUpUser = this.signupForm.getRawValue() as User;
     if(!signUpUser){
-      this.messageService.show('Sign up form invalid');
+      this.messageService.show('Invalidt forsøg på at oprette bruger');
       return;
     }
 
     this.loading = true;
     this.authenticationService.signup(signUpUser).subscribe(() => {
-      this.messageService.show('Sign up successful');
+      this.messageService.show('Bruger succesfuldt oprettet');
       this.loading = false;
       this.router.navigate(['/login']);
     }, error => {
