@@ -28,7 +28,6 @@ export class BrowseSuppliersComponent implements AfterViewInit{
 
   public ngAfterViewInit(): void {
     this.supplerService.getAllSuppliers().subscribe(suppliers => {
-      console.log(suppliers);
       this.suppliers = new MatTableDataSource(suppliers);
       this.loading = false;
       this.suppliers.paginator = this.paginator;
@@ -38,8 +37,6 @@ export class BrowseSuppliersComponent implements AfterViewInit{
   public editSupplier(itemId: number): void {
     this.router.navigate([`/warehouse/edit-supplier/${itemId}`]);
   }
-
-
 
   public sortData(event: any): void {
     const data = this.suppliers.data.slice(); // Make a copy of the data array

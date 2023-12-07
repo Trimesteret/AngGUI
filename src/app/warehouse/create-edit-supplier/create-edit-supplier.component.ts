@@ -9,8 +9,8 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { SuppliersDTO } from '../../shared/models/supplier-dto';
 import { ItemType } from '../../shared/enums/item-type';
 import { ItemDto } from '../../shared/interfaces/item-dto';
+import { ItemRelationDto } from '../../shared/interfaces/item-relation-dto';
 import { MatPaginator } from '@angular/material/paginator';
-import { Observable } from 'rxjs';
 
 @Component({
   selector: 'app-create-edit-supplier',
@@ -21,6 +21,7 @@ export class CreateEditSupplierComponent implements AfterViewInit{
   supplierForm: FormGroup | undefined;
   loading = true;
   associatedItems:  MatTableDataSource<ItemDto>;
+  associatedItemsDto: ItemRelationDto[] = [];
   browseItems:  MatTableDataSource<ItemDto>;
   editingSupplier = false;
   public displayedColumns: string[] =  ['id', 'ean', 'name', 'price', 'itemType', 'quantity'];
@@ -30,35 +31,31 @@ export class CreateEditSupplierComponent implements AfterViewInit{
 
   constructor(private itemService: ItemsService, private formBuilder: FormBuilder, private supplierService: SupplierService, private messageService: MessageService, private authenticationService: AuthenticationService, private router: Router, private route: ActivatedRoute) {
     this.buildItemForm();
+    this.displayRelatedItems();
+    this.buildMatTable();
+  }
+
+  public displayRelatedItems():void{
     let supplierId = this.route.snapshot.params['id'];
     supplierId = parseInt(supplierId);
     if (Number.isInteger(supplierId)) {
       this.editingSupplier = true;
       this.supplierService.getSupplierByID(supplierId).subscribe(supplier => {
         this.supplier = supplier;
-        console.log(this.supplier);
-        // this.supplierService.getAssocations(supplierId).subscribe();
-        // if(supplier.items != null){
-        //   this.associatedItems = new MatTableDataSource(this.supplier.items);
-        // } else {
-        //   const items: ItemDto[] = [];
-        //   this.associatedItems = new MatTableDataSource(items);
-        // }
 
-        /*
-        *
-        * Add functionality for retrieving items associated with given supplier
-        *
-         */
-
-
-
-
+        this.supplier.items.forEach(item => {
+          this.itemService.getItemById(item.itemId).subscribe(getItem => {
+            this.associatedItems.data.push(getItem);
+            this.associatedItems._updateChangeSubscription();
+          });
+        });
       });
-    } else {
-      const items: ItemDto[] = [];
-      this.associatedItems = new MatTableDataSource(items);
     }
+  }
+
+  public buildMatTable():void{
+    const items: ItemDto[] = [];
+    this.associatedItems = new MatTableDataSource(items);
   }
 
   public buildItemForm(supplier?: SuppliersDTO): void {
@@ -75,10 +72,14 @@ export class CreateEditSupplierComponent implements AfterViewInit{
     });
   }
 
-  public addItem(itemId: number): void {
-    this.itemService.getItemById(itemId).subscribe(item=>{
-      if(this.associatedItems.data.find(x => x.id == itemId) === undefined){
+  public addItem(id: number): void {
+    this.itemService.getItemById(id).subscribe(item=>{
+      if(this.associatedItems.data.find(x => x.id == id) === undefined){
         this.associatedItems.data.push(item);
+        const itemA: ItemRelationDto = {
+          itemId: id
+        };
+        this.associatedItemsDto.push(itemA);
         this.associatedItems._updateChangeSubscription();
       } else {
         this.messageService.show('Vare er allerede tilknyttet');
@@ -94,22 +95,18 @@ export class CreateEditSupplierComponent implements AfterViewInit{
     }
   }
 
-  public clearValues():void{
-    this.associatedItems.data.pop();
-    this.associatedItems._updateChangeSubscription();
-    this.supplierForm.reset();
-    this.searchField = false;
-  }
-
   public submitSupplier(): void {
     const newSupplier = this.supplierForm?.value as SuppliersDTO;
-    newSupplier.items = this.associatedItems.data;
-    this.supplierService.createItem(newSupplier).subscribe(value => {
-      this.clearValues();
-      this.messageService.show('Supplier created');
-    }, () => {
-      console.log('error');
-    });
+    newSupplier.items = this.associatedItemsDto;
+    this.supplierService.createItem(newSupplier).subscribe(
+      value => {
+        this.messageService.show('Supplier created');
+        this.router.navigate(['/warehouse/browse-suppliers']);
+      },
+      (error) => {
+        console.log(error);
+      }
+    );
   }
 
   private compare(a: number | string, b: number | string, isAsc: boolean): number {
