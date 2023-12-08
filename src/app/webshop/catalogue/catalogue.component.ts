@@ -19,8 +19,8 @@ export class CatalogueComponent implements OnInit {
   loggedIn = false;
 
   search  = '';
-  typeFilter: ItemType | undefined;
-  priceSort: SortByPrice | undefined;
+  typeFilter: ItemType;
+  priceSort: SortByPrice;
   itemCount= 0;
 
   loading = true;
@@ -101,15 +101,6 @@ export class CatalogueComponent implements OnInit {
     return this.amountOfItemsShown < this.itemCount;
   }
 
-  public logout(): void{
-    this.loading = true;
-    this.messageService.show('Logging out...');
-    this.authenticationService.logOut().subscribe(() => {
-      window.location.reload();
-    });
-  }
-
   protected readonly SortByPrice = SortByPrice;
-  protected readonly WineType = WineType;
   protected readonly ItemType = ItemType;
 }
