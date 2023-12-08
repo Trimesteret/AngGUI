@@ -11,6 +11,7 @@ import { ItemType } from '../../shared/enums/item-type';
 import { ItemDto } from '../../shared/interfaces/item-dto';
 import { ItemRelationDto } from '../../shared/interfaces/item-relation-dto';
 import { MatPaginator } from '@angular/material/paginator';
+import { OrderLine } from '../../shared/models/order-line';
 
 
 @Component({
@@ -27,6 +28,7 @@ export class CreateEditSupplierComponent implements AfterViewInit{
   browseItems:  MatTableDataSource<ItemDto>;
   editingSupplier = false;
   public displayedColumns: string[] =  ['id', 'ean', 'name', 'price', 'itemType', 'quantity'];
+  public associatedColumns: string[] =  ['id', 'ean', 'name', 'price', 'itemType', 'quantity', 'remove'];
   public searchField = false;
   supplier:SuppliersDTO;
   @ViewChild(MatPaginator) paginator: MatPaginator;
@@ -38,6 +40,13 @@ export class CreateEditSupplierComponent implements AfterViewInit{
     this.checkIfEditing();
   }
 
+  public ngAfterViewInit(): void {
+    this.itemService.getAllItems().subscribe(items => {
+      this.browseItems = new MatTableDataSource(items);
+      this.loading = false;
+      this.browseItems.paginator = this.paginator;
+    });
+  }
 
   public buildMatTable(): void {
     const items: ItemDto[] = [];
@@ -45,16 +54,27 @@ export class CreateEditSupplierComponent implements AfterViewInit{
     this.associatedItemsObjects.paginator = this.paginator; // Add this line
   }
 
+  public buildItemForm(supplier?: SuppliersDTO): void {
+    this.supplierForm = this.formBuilder.group({
+      Name: [supplier?.name ? supplier.name : '', Validators.required],
+    });
+  }
+
+  public getFormName(): string {
+    const nameControl = this.supplierForm.get('Name');
+    return nameControl ? nameControl.value : '';
+  }
+
   public checkIfEditing():void{
     let supplierId = this.route.snapshot.params['id'];
     supplierId = parseInt(supplierId);
     if (Number.isInteger(supplierId)) {
-      this.retrieveSupplierItems(supplierId);
-      this.editingAttributes(supplierId);
+      this.retrieveSupplierItemsIfEditing(supplierId);
+      this.setFormNameIfEditing(supplierId);
     }
   }
 
-  public editingAttributes(supplierId:number):void{
+  public setFormNameIfEditing(supplierId:number):void{
     this.title = 'Rediger Leverandør';
     this.supplierService.getSupplierByID(supplierId).subscribe(supplier=>{
       const name = supplier.name;
@@ -62,7 +82,7 @@ export class CreateEditSupplierComponent implements AfterViewInit{
     });
   }
 
-  public retrieveSupplierItems(supplierId:number):void{
+  public retrieveSupplierItemsIfEditing(supplierId:number):void{
     this.editingSupplier = true;
     this.supplierService.getSupplierByID(supplierId).subscribe(supplier => {
       supplier.items.forEach(item=>{
@@ -78,23 +98,14 @@ export class CreateEditSupplierComponent implements AfterViewInit{
     });
   }
 
-  public buildItemForm(supplier?: SuppliersDTO): void {
-    this.supplierForm = this.formBuilder.group({
-      Name: [supplier?.name ? supplier.name : '', Validators.required],
-    });
-  }
-
-  public getFormName(): string {
-    const nameControl = this.supplierForm.get('Name');
-    return nameControl ? nameControl.value : '';
-  }
-
-  public ngAfterViewInit(): void {
-    this.itemService.getAllItems().subscribe(items => {
-      this.browseItems = new MatTableDataSource(items);
-      this.loading = false;
-      this.browseItems.paginator = this.paginator;
-    });
+  public removeItemFromTable(item: OrderLine): void {
+    console.log(typeof(item));
+    const foundIndex = this.associatedItemsObjects.data.findIndex(obj => obj.id == item.id);
+    console.log(foundIndex);
+    if (foundIndex !== -1) {
+      this.associatedItemsObjects.data = this.associatedItemsObjects.data.filter(obj => obj.id !== item.id);
+      this.associatedItemsDto = this.associatedItemsDto.filter(obj => obj.id !== item.id);
+    }
   }
 
   public addItemToTable(id: number): void {
@@ -122,28 +133,57 @@ export class CreateEditSupplierComponent implements AfterViewInit{
 
   public submitSupplier(): void {
     if(this.editingSupplier){
-      this.supplier as SuppliersDTO;
-      this.supplier.items = this.associatedItemsDto;
-      this.supplier.name = this.getFormName();
-      this.supplierService.editSupplier(this.supplier).subscribe(
-        value=> {
-          this.messageService.show('Leverandør redigeret');
-          this.router.navigate(['/warehouse/browse-suppliers']);
-        }
-      );
+      this.submitEdit();
     }else {
-      const supplier = this.supplierForm?.value as SuppliersDTO;
-      supplier.items = this.associatedItemsDto;
-      this.supplierService.createSupplier(supplier).subscribe(
-        value => {
-          this.messageService.show('Leverandør oprettet');
-          this.router.navigate(['/warehouse/browse-suppliers']);
-        },
-        (error) => {
-          console.log(error);
-        }
-      );
+      this.submitCreate();
     }
+  }
+
+  public submitEdit():void{
+    this.supplier as SuppliersDTO;
+    this.supplier.items = this.associatedItemsDto;
+    this.supplier.name = this.getFormName();
+    this.supplierService.editSupplier(this.supplier).subscribe(
+      value=> {
+        this.onSubmit('Leverandør redigeret');
+      },
+      (error) => {
+        console.log(error);
+      }
+    );
+  }
+
+  public submitDelete():void{
+    this.supplier as SuppliersDTO;
+    this.supplierService.deletesSupplier(this.supplier.id).subscribe(
+      value=> {
+        this.onSubmit('Leverandør slettet');
+      },
+      (error) => {
+        console.log(error);
+      }
+    );
+
+  }
+
+  public submitCreate():void{
+    const supplier = this.supplierForm?.value as SuppliersDTO;
+    supplier.items = this.associatedItemsDto;
+    this.supplierService.createSupplier(supplier).subscribe(
+      value => {
+        this.onSubmit('Leverandør oprettet');
+      },
+      (error) => {
+        console.log(error);
+      }
+    );
+  }
+
+
+
+  public onSubmit(message:string):void{
+    this.messageService.show(message);
+    this.router.navigate(['/warehouse/browse-suppliers']);
   }
 
   private compare(a: number | string, b: number | string, isAsc: boolean): number {
@@ -178,7 +218,6 @@ export class CreateEditSupplierComponent implements AfterViewInit{
       }
     });
   }
-
 
   public logout(): void{
     this.loading = true;

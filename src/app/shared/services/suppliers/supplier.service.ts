@@ -24,7 +24,10 @@ export class SupplierService {
   }
 
   public editSupplier(supplier: SuppliersDTO):Observable<SuppliersDTO>  {
-    console.log(supplier);
     return this.http.put<SuppliersDTO>(this.url, supplier);
+  }
+
+  public deletesSupplier(id: number): Observable<boolean> {
+    return this.http.delete<boolean>(this.url + '/' + id);
   }
 }
