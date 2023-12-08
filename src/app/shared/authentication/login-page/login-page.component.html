@@ -4,6 +4,7 @@
       <mat-label>Indtast e-mailadresse</mat-label>
       <input matInput id="email" type="email" formControlName="email">
       <mat-icon matIconSuffix>mail</mat-icon>
+      <mat-error *ngIf="loginForm.get('email').hasError('required')">Email skal udfyldes</mat-error>
     </mat-form-field>
     <mat-form-field>
       <mat-label>Indtast adgangskode</mat-label>
@@ -11,6 +12,8 @@
       <button mat-icon-button matSuffix type="button" (click)="hide = !hide">
         <mat-icon>{{hide ? 'visibility_off' : 'visibility'}}</mat-icon>
       </button>
+      <mat-error *ngIf="loginForm.get('password').hasError('required')">Adgangskode skal udfyldes</mat-error>
+      <mat-error *ngIf="loginForm.get('password').hasError('minlength')">Adgangskode minimum have 7 tegn</mat-error>
     </mat-form-field>
   </form>
 </app-login-basic-layout>
