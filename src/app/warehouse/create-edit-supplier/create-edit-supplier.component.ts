@@ -12,6 +12,7 @@ import { ItemDto } from '../../shared/interfaces/item-dto';
 import { ItemRelationDto } from '../../shared/interfaces/item-relation-dto';
 import { MatPaginator } from '@angular/material/paginator';
 
+
 @Component({
   selector: 'app-create-edit-supplier',
   templateUrl: './create-edit-supplier.component.html',
@@ -30,15 +31,18 @@ export class CreateEditSupplierComponent implements AfterViewInit{
   supplier:SuppliersDTO;
   @ViewChild(MatPaginator) paginator: MatPaginator;
 
+
   constructor(private itemService: ItemsService, private formBuilder: FormBuilder, private supplierService: SupplierService, private messageService: MessageService, private authenticationService: AuthenticationService, private router: Router, private route: ActivatedRoute) {
     this.buildMatTable();
     this.buildItemForm();
     this.checkIfEditing();
   }
 
-  public buildMatTable():void{
+
+  public buildMatTable(): void {
     const items: ItemDto[] = [];
     this.associatedItemsObjects = new MatTableDataSource(items);
+    this.associatedItemsObjects.paginator = this.paginator; // Add this line
   }
 
   public checkIfEditing():void{
@@ -80,6 +84,11 @@ export class CreateEditSupplierComponent implements AfterViewInit{
     });
   }
 
+  public getFormName(): string {
+    const nameControl = this.supplierForm.get('Name');
+    return nameControl ? nameControl.value : '';
+  }
+
   public ngAfterViewInit(): void {
     this.itemService.getAllItems().subscribe(items => {
       this.browseItems = new MatTableDataSource(items);
@@ -115,6 +124,7 @@ export class CreateEditSupplierComponent implements AfterViewInit{
     if(this.editingSupplier){
       this.supplier as SuppliersDTO;
       this.supplier.items = this.associatedItemsDto;
+      this.supplier.name = this.getFormName();
       this.supplierService.editSupplier(this.supplier).subscribe(
         value=> {
           this.messageService.show('Leverandør redigeret');

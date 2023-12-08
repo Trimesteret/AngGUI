@@ -68,7 +68,7 @@
         <mat-paginator [pageSizeOptions]="[10, 25, 50, 100]" aria-label="Select page of items"></mat-paginator>
       </ng-container>
 
-      <h3 class="no-margin no-padding">Tilknyt produkter</h3>
+      <h3 class="no-margin no-padding">Tilknyttede produkter</h3>
 
       <table mat-table [dataSource]="associatedItemsObjects" (matSortChange)="sortData($event)" matSort class="mat-elevation-z8">
         <ng-container matColumnDef="id">
