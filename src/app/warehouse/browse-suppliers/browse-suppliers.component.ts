@@ -36,6 +36,15 @@ export class BrowseSuppliersComponent implements AfterViewInit{
     this.router.navigate([`/warehouse/edit-supplier/${itemId}`]);
   }
 
+  public applySearch(event: Event): void {
+    const filterValue = (event.target as HTMLInputElement).value;
+    this.suppliers.filter = filterValue.trim().toLowerCase();
+
+    if (this.suppliers.paginator) {
+      this.suppliers.paginator.firstPage();
+    }
+  }
+
   public sortData(event: any): void {
     const data = this.suppliers.data.slice(); // Make a copy of the data array
     if (!event.active || event.direction === '') {

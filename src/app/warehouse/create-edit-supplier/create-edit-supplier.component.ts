@@ -1,16 +1,12 @@
-import { AfterViewInit, Component, ViewChild } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { AfterViewInit, ChangeDetectorRef, Component } from '@angular/core';
 import { ItemsService } from '../../shared/services/items/items.service';
 import { SupplierService } from '../../shared/services/suppliers/supplier.service';
 import { MessageService } from '../../shared/services/message.service';
-import { AuthenticationService } from '../../shared/services/authentication/authentication.service';
 import { MatTableDataSource } from '@angular/material/table';
 import { ActivatedRoute, Router } from '@angular/router';
 import { SupplierDto } from '../../shared/models/supplier-dto';
 import { ItemType } from '../../shared/enums/item-type';
 import { ItemDto } from '../../shared/interfaces/item-dto';
-import { MatPaginator } from '@angular/material/paginator';
-
 
 @Component({
   selector: 'app-create-edit-supplier',
@@ -18,18 +14,17 @@ import { MatPaginator } from '@angular/material/paginator';
   styleUrls: ['./create-edit-supplier.component.scss']
 })
 export class CreateEditSupplierComponent implements AfterViewInit{
-  supplierForm: FormGroup;
   loading = true;
   associatedItems:  MatTableDataSource<ItemDto>;
-  browseItems:  MatTableDataSource<ItemDto>;
+  filteredItems: ItemDto[];
+  allItems: ItemDto[];
+  search = '';
+  supplierName: string;
   editing = false;
-  public displayedColumns: string[] =  ['id', 'ean', 'name', 'price', 'itemType', 'quantity'];
-  public associatedColumns: string[] =  ['id', 'ean', 'name', 'price', 'itemType', 'quantity', 'remove'];
-  public searchField = false;
-  @ViewChild(MatPaginator) paginator: MatPaginator;
+  associatedColumns: string[] =  ['id', 'ean', 'name', 'price', 'itemType', 'quantity', 'remove'];
 
-
-  constructor(private itemService: ItemsService, private formBuilder: FormBuilder, private supplierService: SupplierService, private messageService: MessageService, private authenticationService: AuthenticationService, private router: Router, private route: ActivatedRoute) {}
+  constructor(private itemService: ItemsService, private supplierService: SupplierService, private messageService: MessageService,
+              private router: Router, private route: ActivatedRoute, private changeDetectorRef: ChangeDetectorRef) {}
 
   /**
    *
@@ -38,11 +33,13 @@ export class CreateEditSupplierComponent implements AfterViewInit{
     this.getSupplierAndBuildForm();
   }
 
+  /**
+   * Gets all items and builds the table
+   */
   public getAllItemsAndBuildTable(): void {
     this.itemService.getAllItems().subscribe(items => {
-      this.browseItems = new MatTableDataSource(items);
+      this.allItems = items;
       this.loading = false;
-      this.browseItems.paginator = this.paginator;
     });
   }
 
@@ -57,7 +54,6 @@ export class CreateEditSupplierComponent implements AfterViewInit{
     id = parseInt(idString);
 
     if(!Number.isInteger(id)) {
-      this.buildSupplierForm();
       this.editing = false;
       this.loading = false;
       return;
@@ -65,30 +61,11 @@ export class CreateEditSupplierComponent implements AfterViewInit{
 
     this.supplierService.getSupplierById(id).subscribe(supplier => {
       this.editing = true;
-      this.buildSupplierForm(supplier);
-      supplier?.items.forEach(item => {
-        this.associatedItems.data.push(item);
-        this.associatedItems._updateChangeSubscription();
-      });
-
+      this.associatedItems = new MatTableDataSource(supplier.items);
+      this.supplierName = supplier.name;
       this.getAllItemsAndBuildTable();
       this.loading = false;
     });
-  }
-
-  /**
-   * Builds the form given an optional supplier to build the form from
-   * @param supplier the optional supplier
-   */
-  public buildSupplierForm(supplier?: SupplierDto): void {
-    this.supplierForm = this.formBuilder.group({
-      name: [supplier?.name ? supplier?.name : '', Validators.required],
-      items: [supplier?.items ? supplier?.items : '', Validators.required],
-    });
-
-    if(this.editing) {
-      this.supplierForm.controls['name'].disable();
-    }
   }
 
   /**
@@ -100,51 +77,22 @@ export class CreateEditSupplierComponent implements AfterViewInit{
   }
 
   /**
-   * Adds an item to the table given an itemDto
-   * @param addItem the item to add to the list
-   */
-  public addItemToTable(addItem: ItemDto): void {
-    if(this.associatedItems.data.find(item => item.id === addItem.id) === null){
-      this.associatedItems.data.push(addItem);
-      this.associatedItems._updateChangeSubscription();
-    } else {
-      this.messageService.show('Vare er allerede tilknyttet');
-    }
-  }
-
-  /**
-   * Is run when the supplierForm is submitted and then either creates or edits the supplier
-   */
-  public submitSupplierForm(): void {
-    const supplier = this.supplierForm?.value as SupplierDto;
-
-    if(supplier == null){
-      this.messageService.show('Fejl: Leverandør må ikke være nul');
-      return;
-    }
-
-    if(this.supplierForm?.valid == false){
-      this.messageService.show('Fejl: Leverandør formen indeholder fejl');
-      return;
-    }
-
-    if(this.editing){
-      supplier.id = parseInt(this.route.snapshot.params['id']);
-      this.submitEdit(supplier);
-    }
-
-    this.submitCreate(supplier);
-  }
-
-  /**
    * The submit edit function for editing a supplier
-   * @param supplier the supplierDto with the new values for supplier
    */
-  public submitEdit(supplier: SupplierDto):void{
-    supplier.items = this.associatedItems.data;
+  public editSupplier():void{
+    const idString = this.route.snapshot.params['id'];
+
+    const id = parseInt(idString);
+    if(this.supplierName == '' || this.supplierName == null){
+      this.messageService.show('Fejl: Leverandør har intet navn');
+      return;
+    }
+
+    const supplier: SupplierDto = { id: id, name: this.supplierName, items: this.associatedItems.data };
     this.supplierService.editSupplier(supplier).subscribe(supplier=> {
       this.messageService.show('Leverandør redigeret');
-      this.buildSupplierForm(supplier);
+      this.supplierName = supplier.name;
+      this.associatedItems.data = supplier.items;
     },
     (error) => {
       this.messageService.showError(error);
@@ -152,8 +100,7 @@ export class CreateEditSupplierComponent implements AfterViewInit{
   }
 
   /**
-   * Deletes a supplier given the supplier to delete
-   * @param supplier
+   * Deletes a supplier
    */
   public submitDelete():void{
     const id = this.route.snapshot.params['id'];
@@ -175,13 +122,36 @@ export class CreateEditSupplierComponent implements AfterViewInit{
   }
 
   /**
-   * The submit function for creating a supplier given a supplierDto
-   * @param supplier the supplierDto to create
+   * Adds an item to the table given an itemDto
+   * @param event the event from the mat select
    */
-  public submitCreate(supplier: SupplierDto):void{
-    supplier.items = this.associatedItems.data;
+  public addItemToAssociatedItems(event: any): void {
+    const itemId = event.option.value.id;
+    const associatedItem = this.associatedItems.data.find(assItem => assItem.id === itemId);
+    if(!associatedItem){
+      this.associatedItems.data.push(this.allItems.find(item => item.id === itemId));
+      this.associatedItems.data = this.associatedItems.data;
+      this.messageService.show('Vare tilknyttet til leverandør');
+      this.search = '';
+    } else {
+      this.messageService.show('Vare er allerede tilknyttet');
+    }
+    this.search = '';
+  }
+
+  /**
+   * The submit function for creating a supplier given a supplierDto
+   */
+  public createSupplier(): void{
+    if(this.supplierName == '' || this.supplierName == null){
+      this.messageService.show('Fejl: Leverandør har intet navn');
+      return;
+    }
+
+    const supplier: SupplierDto = { 'name': this.supplierName };
     this.loading = true;
     this.supplierService.createSupplier(supplier).subscribe(supplier => {
+      this.messageService.show('Leverandør oprettet');
       this.router.navigate(['/warehouse/edit-supplier/' + supplier.id]);
     }, (error) => {
       this.messageService.showError(error);
@@ -189,16 +159,13 @@ export class CreateEditSupplierComponent implements AfterViewInit{
   }
 
   /**
-   * The search function for searching through tables
-   * @param event
+   * The search function for searching through all items
    */
-  public applySearch(event: Event): void {
-    const filterValue = (event.target as HTMLInputElement).value;
-    this.browseItems.filter = filterValue.trim().toLowerCase();
-
-    if (this.browseItems.paginator) {
-      this.browseItems.paginator.firstPage();
-    }
+  public applySearch(): void {
+    this.filteredItems = this.allItems.filter(item =>
+      item.name.toLowerCase().includes(this.search) || item.ean.toLowerCase().includes(this.search)
+      || item.id.toString().includes(this.search) || ItemType[item.itemType].toString().includes(this.search)
+    );
   }
 
   /**
@@ -206,13 +173,13 @@ export class CreateEditSupplierComponent implements AfterViewInit{
    * @param event the event from the table
    */
   public sortData(event: any): void {
-    const data = this.browseItems.data.slice(); // Make a copy of the data array
+    const data = this.associatedItems.data.slice(); // Make a copy of the data array
     if (!event.active || event.direction === '') {
-      this.browseItems.data = data; // Default to unsorted data
+      this.associatedItems.data = data; // Default to unsorted data
       return;
     }
 
-    this.browseItems.data = data.sort((a, b) => {
+    this.associatedItems.data = data.sort((a, b) => {
       const isAsc = event.direction === 'asc';
       switch (event.active) {
         case 'id':

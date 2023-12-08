@@ -24,7 +24,7 @@ export class SupplierService {
    * Get all suppliers
    */
   public getAllSuppliers(): Observable<SupplierDto[]>{
-    return this.http.get<SupplierDto[]>(this.url + '/' + 'AllSuppliers');
+    return this.http.get<SupplierDto[]>(this.url);
   }
 
   /**

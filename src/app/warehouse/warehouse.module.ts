@@ -30,6 +30,7 @@ import { CreateEditItemComponent } from './create-edit-item/create-edit-item.com
 import { MatPaginatorModule } from '@angular/material/paginator';
 import { BrowseSuppliersComponent } from './browse-suppliers/browse-suppliers.component';
 import { CreateEditSupplierComponent } from './create-edit-supplier/create-edit-supplier.component';
+import { MatAutocompleteModule } from '@angular/material/autocomplete';
 
 
 @NgModule({
@@ -67,7 +68,8 @@ import { CreateEditSupplierComponent } from './create-edit-supplier/create-edit-
     MatSelectModule,
     SharedModule,
     FormsModule,
-    MatPaginatorModule
+    MatPaginatorModule,
+    MatAutocompleteModule
   ],
   providers: [{ provide: MAT_DATE_LOCALE, useValue: 'es-Es' }]
 })
