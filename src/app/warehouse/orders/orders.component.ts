@@ -80,6 +80,6 @@ export class OrdersComponent implements AfterViewInit{
   private compare(a: number | string, b: number | string, isAsc: boolean): number {
     return (a < b ? -1 : 1) * (isAsc ? 1 : -1);
   }
-  
+
   protected readonly Role = Role;
 }
