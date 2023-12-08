@@ -129,15 +129,4 @@ export class MyProfileComponent implements OnInit{
       this.messageService.showError(error);
     });
   }
-
-  /**
-   * Logs out the user
-   */
-  public logout(): void{
-    this.loading = true;
-    this.messageService.show('Logging out...');
-    this.authenticationService.logOut().subscribe(() => {
-      window.location.reload();
-    });
-  }
 }

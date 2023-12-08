@@ -41,6 +41,11 @@
         <input matInput type="phone" formControlName="quantity">
       </mat-form-field>
 
+      <mat-form-field>
+        <mat-label>Billede url</mat-label>
+        <input matInput type="text" formControlName="imageUrl">
+      </mat-form-field>
+
       <!--      wine or liquor-->
       <ng-container *ngIf="selectedItemType === ItemType.Liquor || selectedItemType === ItemType.Wine">
         <mat-form-field>

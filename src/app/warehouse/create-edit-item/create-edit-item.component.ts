@@ -65,6 +65,7 @@ export class CreateEditItemComponent {
       description: [item?.description ? item?.description : '', Validators.required],
       price: [item?.price ? item?.price : '', [Validators.required]],
       quantity: [item?.quantity ? item?.quantity : '', [Validators.required]],
+      imageUrl: [item?.imageUrl ? item?.imageUrl : '', [Validators.required]],
       year: [item?.year ? item?.year : null],
       volume: [item?.volume ? item?.volume : null],
       alcoholPercentage: [item?.alcoholPercentage ? item?.alcoholPercentage : null],
@@ -135,15 +136,6 @@ export class CreateEditItemComponent {
       this.loading = false;
     });
   }
-
-  public logout(): void{
-    this.loading = true;
-    this.messageService.show('Logging out...');
-    this.authenticationService.logOut().subscribe(() => {
-      window.location.reload();
-    });
-  }
-
   protected readonly ItemType = ItemType;
   protected readonly WineType = WineType;
   protected readonly LiquorType = LiquorType;
