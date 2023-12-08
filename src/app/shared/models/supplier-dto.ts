@@ -1,7 +1,7 @@
-import { ItemRelationDto } from '../interfaces/item-relation-dto';
+import { ItemDto } from '../interfaces/item-dto';
 
-export interface SuppliersDTO {
-  id?:number,
+export interface SupplierDto {
+  id?: number,
   name: string
-  items?: ItemRelationDto[];
+  items?: ItemDto[];
 }

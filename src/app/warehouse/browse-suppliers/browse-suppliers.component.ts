@@ -1,13 +1,11 @@
 import { AfterViewInit, Component, ViewChild } from '@angular/core';
 import { MatTableDataSource } from '@angular/material/table';
-import { ItemDto } from '../../shared/interfaces/item-dto';
-import { ItemsService } from '../../shared/services/items/items.service';
 import { MessageService } from '../../shared/services/message.service';
 import { AuthenticationService } from '../../shared/services/authentication/authentication.service';
 import { Router } from '@angular/router';
-import { SuppliersDTO } from '../../shared/models/supplier-dto';
 import { SupplierService } from '../../shared/services/suppliers/supplier.service';
 import { MatPaginator } from '@angular/material/paginator';
+import { SupplierDto } from '../../shared/models/supplier-dto';
 
 @Component({
   selector: 'app-browse-suppliers',
@@ -15,7 +13,7 @@ import { MatPaginator } from '@angular/material/paginator';
   styleUrls: ['./browse-suppliers.component.scss']
 })
 export class BrowseSuppliersComponent implements AfterViewInit{
-  suppliers: MatTableDataSource<SuppliersDTO>;
+  suppliers: MatTableDataSource<SupplierDto>;
   loading = true;
 
   public displayedColumns: string[] = ['id', 'name'];
