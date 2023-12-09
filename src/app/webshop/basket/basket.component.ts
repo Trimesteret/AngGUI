@@ -80,7 +80,7 @@ export class BasketComponent{
   }
 
   public goToPayment(): void {
-    this.router.navigate(['/webshop/payment']);
+    this.router.navigate(['/webshop/checkout']);
   }
 
   public updateLineQuantity(orderLine: OrderLine): void {
