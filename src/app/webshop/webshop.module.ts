@@ -21,6 +21,7 @@ import { SharedModule } from '../shared/shared.module';
 import { MatSortModule } from '@angular/material/sort';
 import { MatRadioModule } from '@angular/material/radio';
 import { MatCheckboxModule } from '@angular/material/checkbox';
+import { MatListModule } from '@angular/material/list';
 
 @NgModule({
   declarations: [
@@ -50,7 +51,8 @@ import { MatCheckboxModule } from '@angular/material/checkbox';
     MatSortModule,
     NgOptimizedImage,
     MatRadioModule,
-    MatCheckboxModule
+    MatCheckboxModule,
+    MatListModule
   ]
 })
 export class WebshopModule { }

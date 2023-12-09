@@ -1,87 +1,87 @@
 <app-front-basic-layout>
-  <div fxLayout="row" fxFlexFill>
-    <form *ngIf="checkoutForm" fxFlex="60" fxLayout="column" class="left-section" [formGroup]="checkoutForm" (ngSubmit)="goToPayment()">
-      <div class="form-container">
-        <h2>Dine Oplysninger</h2>
-        <div fxLayout="column">
-          <ng-container>
-            <mat-form-field fxFlex="85" appearance="outline">
-              <input matInput formControlName="name" placeholder="Navn" required>
-            </mat-form-field>
-            <mat-form-field fxFlex="85" appearance="outline">
-              <input matInput formControlName="phoneNumber" placeholder="Telefon Nummer" required>
-            </mat-form-field>
-            <mat-form-field fxFlex="85" appearance="outline">
-              <input matInput formControlName="email" placeholder="Email" required>
-            </mat-form-field>
-            <mat-form-field fxFlex="85" appearance="outline">
-              <input matInput formControlName="address" placeholder="Addresse" required>
-            </mat-form-field>
-            <mat-form-field fxFlex="85" appearance="outline">
-              <input matInput formControlName="country" placeholder="Land" required>
-            </mat-form-field>
-            <div fxLayout="row" fxLayoutGap="15px">
-              <mat-form-field fxFlex="85" appearance="outline">
-                <input matInput formControlName="city" placeholder="By" required>
-              </mat-form-field>
-              <mat-form-field fxFlex="25" appearance="outline">
-                <input matInput formControlName="postcode" placeholder="Postnummer" required>
-              </mat-form-field>
-            </div>
-          </ng-container>
+  <div fxFlex class="padding-inline-60" fxLayoutAlign="center start" fxLayout="row" style="background-color: #EFEFEF" fxLayoutGap="30">
+    <form fxFlex *ngIf="checkoutForm" fxLayoutGap="5" fxLayout="column" class="document" [formGroup]="checkoutForm" (ngSubmit)="goToPayment()">
+      <span fxLayout="row" fxLayoutGap="15" fxLayoutAlign="start center">
+        <mat-icon>list_alt</mat-icon>
+        <h1 class="no-margin no-padding">Dine informationer</h1>
+      </span>
+      <ng-container>
+        <mat-form-field>
+          <mat-label>Fuldt navn</mat-label>
+          <input matInput formControlName="name">
+        </mat-form-field>
+        <mat-form-field>
+          <mat-label>Telefon Nummer</mat-label>
+          <input matInput formControlName="phoneNumber">
+        </mat-form-field>
+        <mat-form-field>
+          <mat-label>Email</mat-label>
+          <input matInput formControlName="email">
+        </mat-form-field>
+        <mat-form-field>
+          <mat-label>Adresse</mat-label>
+          <input matInput formControlName="address">
+        </mat-form-field>
+        <mat-form-field>
+          <mat-label>Land</mat-label>
+          <input matInput formControlName="country">
+        </mat-form-field>
+        <div fxLayout="row" fxLayoutGap="15px">
+          <mat-form-field fxFlex>
+            <mat-label>By</mat-label>
+            <input matInput formControlName="city">
+          </mat-form-field>
+          <mat-form-field fxFlex>
+            <mat-label>Postnummer</mat-label>
+            <input matInput formControlName="postcode">
+          </mat-form-field>
         </div>
-      </div>
-      <div class="form-container">
-        <h2>Leveringsmuligheder</h2>
-        <mat-radio-group formControlName="deliveryMethod" required>
-          <div fxLayout="column" fxLayoutGap="5px">
-            <mat-card fxLayoutAlign="space-between center" class="delivery-checkboxes">
-              <mat-radio-button>Afhenting i Butik</mat-radio-button>
-              <span>0 kr</span>
-            </mat-card>
-            <mat-card fxLayoutAlign="space-between center" class="delivery-checkboxes">
-              <mat-radio-button>Postnord Hjemmelevering</mat-radio-button>
-              <span>59 kr</span>
-            </mat-card>
-            <mat-card fxLayoutAlign="space-between center" class="delivery-checkboxes">
-              <mat-radio-button>GLS</mat-radio-button>
-              <span>59 kr</span>
-            </mat-card>
-            <mat-card fxLayoutAlign="space-between center" class="delivery-checkboxes">
-              <mat-radio-button>DAO</mat-radio-button>
-              <span>59 kr</span>
-            </mat-card>
-          </div>
-        </mat-radio-group>
-        <div class="go-to-payment-box" fxLayout="column">
-          <div fxLayout="column">
-            <mat-checkbox formControlName="termsCheckbox" required>Jeg accepterer handelsbetingelserne</mat-checkbox>
-            <mat-checkbox formControlName="newsletterCheckbox">Jeg vil gerne have gode tilbud og nyheder fra Budolfi Vin i indbakken</mat-checkbox>
-          </div>
-          <button fxFlex="50" mat-raised-button color="primary" class="go-to-payment-button" (click)="goToPayment()"> Gå til betaling </button>
-        </div>
+      </ng-container>
+      <span fxLayout="row" fxLayoutGap="15" fxLayoutAlign="start center">
+        <mat-icon>local_shipping</mat-icon>
+        <h1 class="no-margin no-padding">Leveringsmuligheder</h1>
+      </span>
+      <mat-selection-list formControlName="deliveryMethod" [multiple]="false">
+        <mat-list-option [value]="delivery" *ngFor="let delivery of deliveryMethods">{{delivery.name + ' ' + delivery.price + ' kr'}}</mat-list-option>
+      </mat-selection-list>
+      <div class="go-to-payment-box" fxLayout="column">
+        <mat-checkbox formControlName="termsCheckbox" required>Jeg accepterer handelsbetingelserne</mat-checkbox>
+        <mat-checkbox formControlName="newsletterCheckbox">Jeg vil gerne have gode tilbud og nyheder fra Budolfi Vin i indbakken</mat-checkbox>
+        <button fxFlex="50" mat-raised-button color="primary" (click)="goToPayment()"> Gå til betaling </button>
       </div>
     </form>
-    <div fxFlex="20" class="basket-box">
-      <ng-container *ngFor="let field of basketContent">
-        <mat-card>
-          <div fxLayout="row" fxLayoutAlign="space-between center">
-            <img [src]="field.item.imageUrl" class="basket-wine-picture" alt="Billede">
-            <p>{{field.item.name}}</p>
-            <p>{{field.item.price}}</p>
-            <input fxFlex="20" style="border: none" matInput [(ngModel)]="field.quantity" (ngModelChange)="updateLineQuantity(field)" type="number">
-          </div>
-        </mat-card>
-      </ng-container>
-      <div fxLayout="column" style="padding-top: 15px">
-        <div fxLayout="row" fxLayoutAlign="space-between center">
-          <p>Total:</p>
-          <p>{{getTotalPrice()}} kr</p>
+    <div fxFlex="30" fxLayout="column" class="margin-top-30 padding-20" style="background-color: white">
+      <span fxFlex class="padding-bottom-10" fxLayout="row" fxLayoutGap="10">
+        <mat-icon>shopping_cart</mat-icon>
+        <h1 class="no-margin no-padding">Indkøbskurv</h1>
+      </span>
+      <div fxFlex fxLayout="column">
+        <div fxFlex fxLayout="row" fxLayoutAlign="space-between center">
+          <h3 fxFlex="33" class="no-margin" style="text-align: start">Navn</h3>
+          <h3 fxFlex="34" class="no-margin" style="text-align: center">Pris</h3>
+          <h3 fxFlex="33" class="no-margin" style="text-align: end">Antal</h3>
         </div>
-        <div fxLayout="row" fxLayoutAlign="space-between center">
-          <p>Total incl. levering:</p>
-          <p>{{getTotalPrice()}} kr</p>
+        <mat-divider style="color: black; border: 1px dotted; margin-bottom: 10px"></mat-divider>
+      </div>
+      <div *ngFor="let orderLine of purchaseOrder.orderLines" fxFlex fxLayout="column">
+        <div fxFlex fxLayout="row" fxLayoutAlign="space-between center">
+          <p fxFlex="33" style="text-align: start">{{orderLine.item.name}}</p>
+          <p fxFlex="34" style="text-align: center">{{orderLine.item.price}} kr</p>
+          <p fxFlex="33" style="text-align: end">{{orderLine.quantity}}</p>
         </div>
+        <mat-divider style="color: black; border: 1px dotted; margin-bottom: 10px"></mat-divider>
+      </div>
+      <div fxLayout="row" fxLayoutAlign="space-between center">
+        <p>Total:</p>
+        <p>{{getCalculatedTotalPrice()}} kr</p>
+      </div>
+      <div fxLayout="row" fxLayoutAlign="space-between center">
+        <p>Levering:</p>
+        <p>{{deliveryPrice}} kr</p>
+      </div>
+      <div fxLayout="row" fxLayoutAlign="space-between center">
+        <p>Total incl. levering:</p>
+        <p>{{getCalculatedTotalPriceWithDelivery()}} kr</p>
       </div>
     </div>
   </div>

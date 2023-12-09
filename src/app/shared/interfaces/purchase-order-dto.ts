@@ -8,6 +8,6 @@ export interface PurchaseOrderDto {
   deliveryDate?: Date;
   deliveryAddress: string;
   totalPrice: number;
-  status: string;
+  status?: string;
   orderLines: OrderLineDto[];
 }
