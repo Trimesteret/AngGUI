@@ -135,6 +135,7 @@ export class CreateEditSupplierComponent implements AfterViewInit{
       this.search = '';
     } else {
       this.messageService.show('Vare er allerede tilknyttet');
+      this.search = '';
     }
     this.search = '';
   }
