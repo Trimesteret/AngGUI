@@ -21,7 +21,7 @@ export class SettingsComponent implements AfterViewInit{
 
   @ViewChild(MatPaginator) paginator: MatPaginator;
 
-  public selectedEnumType: EnumType;
+  public selectedEnumType: EnumType = EnumType.suitableFor;
 
 
   constructor(private enumService: EnumService, private messageService: MessageService, private router: Router) {
@@ -29,7 +29,7 @@ export class SettingsComponent implements AfterViewInit{
   }
 
   public ngAfterViewInit(): void {
-    this.enumService.getSuitableForEnums().subscribe(suitableForEnums => {
+    this.enumService.getAllCustomEnumsByType(this.selectedEnumType).subscribe(suitableForEnums => {
       this.customEnums = new MatTableDataSource(suitableForEnums);
       this.customEnums.paginator = this.paginator;
     });
@@ -44,6 +44,10 @@ export class SettingsComponent implements AfterViewInit{
     if (this.customEnums.paginator) {
       this.customEnums.paginator.firstPage();
     }
+  }
+
+  public editEnum(id: number): void {
+    this.router.navigate(['/warehouse/edit-enum', id]);
   }
 
   /**

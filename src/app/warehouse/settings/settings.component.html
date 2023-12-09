@@ -46,13 +46,13 @@
         </ng-container>
 
         <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-        <tr mat-row class="selectable-row" *matRowDef="let user; columns: displayedColumns;"></tr>
+        <tr mat-row  (click)="editEnum(enum.id)" class="selectable-row" *matRowDef="let enum; columns: displayedColumns;"></tr>
       </table>
 
       <mat-paginator [pageSizeOptions]="[10, 25, 50, 100]" aria-label="Vælg side med produkter"></mat-paginator>
 
       <div class="padding-top-10" fxLayoutAlign="end center">
-        <button class="full-width" routerLink="/warehouse/create-user" mat-raised-button color="primary">
+        <button class="full-width" routerLink="/warehouse/create-enum" mat-raised-button color="primary">
           Tilføj ny enum
           <mat-icon>add</mat-icon>
         </button>

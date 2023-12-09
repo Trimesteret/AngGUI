@@ -9,6 +9,7 @@ import { BrowseUsersComponent } from './browse-users/browse-users.component';
 import { CreateEditItemComponent } from './create-edit-item/create-edit-item.component';
 import { CreateEditUserComponent } from './create-edit-user/create-edit-user.component';
 import { SettingsComponent } from './settings/settings.component';
+import { CreateEditEnumComponent } from './create-edit-enum/create-edit-enum.component';
 
 const routes: Routes = [
   { path: 'createInboundOrder', component: CreateInboundOrderComponent, canActivate: [authGuard, roleGuard], data: { expectedRole: Role.Admin } },
@@ -16,8 +17,10 @@ const routes: Routes = [
   { path: 'browse-users', component: BrowseUsersComponent, canActivate: [authGuard, roleGuard], data: { expectedRole: Role.Admin } },
   { path: 'edit-user/:id', component: CreateEditUserComponent, canActivate: [authGuard, roleGuard], data: { expectedRole: Role.Admin } },
   { path: 'create-user', component: CreateEditUserComponent, canActivate: [authGuard, roleGuard], data: { expectedRole: Role.Admin } },
-  { path: 'edit-item/:id', component: CreateEditItemComponent, canActivate: [authGuard, roleGuard], data: { expectedRole: Role.Admin } },
   { path: 'create-item', component: CreateEditItemComponent, canActivate: [authGuard, roleGuard], data: { expectedRole: Role.Admin } },
+  { path: 'edit-item/:id', component: CreateEditItemComponent, canActivate: [authGuard, roleGuard], data: { expectedRole: Role.Admin } },
+  { path: 'edit-enum/:id', component: CreateEditEnumComponent, canActivate: [authGuard, roleGuard], data: { expectedRole: Role.Admin } },
+  { path: 'create-enum', component: CreateEditEnumComponent, canActivate: [authGuard, roleGuard], data: { expectedRole: Role.Admin } },
   { path: 'settings', component: SettingsComponent },
   { path: '', redirectTo: 'settings', pathMatch: 'full' }
 ];

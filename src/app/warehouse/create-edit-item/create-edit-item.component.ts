@@ -11,6 +11,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Location } from '@angular/common';
 import { CustomEnum } from '../../shared/enums/custom-enum';
 import { EnumService } from '../../shared/services/enum.service';
+import { EnumType } from '../../shared/enums/enum-type';
 
 @Component({
   selector: 'app-create-edit-item',
@@ -32,11 +33,10 @@ export class CreateEditItemComponent {
               private enumService: EnumService, private router: Router)
   {
     this.getItemAndBuildForm();
-    this.enumService.getSuitableForEnums().subscribe(customEnums => {
+    this.enumService.getAllCustomEnumsByType(EnumType.suitableFor).subscribe(customEnums => {
       this.suitableForEnums = customEnums;
     });
   }
-
 
   public getItemAndBuildForm(): void {
     let id = null;
