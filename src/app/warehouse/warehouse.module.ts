@@ -1,6 +1,5 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { HomePageComponent } from './home-page/home-page.component';
 import { WarehouseRoutingModule } from './warehouse-routing.module';
 import { CreateInboundOrderComponent } from './create-inbound-order/create-inbound-order.component';
 import { MatTabsModule } from '@angular/material/tabs';
@@ -28,6 +27,8 @@ import { BrowseItemsComponent } from './browse-items/browse-items.component';
 import { CreateEditUserComponent } from './create-edit-user/create-edit-user.component';
 import { CreateEditItemComponent } from './create-edit-item/create-edit-item.component';
 import { MatPaginatorModule } from '@angular/material/paginator';
+import { SettingsComponent } from './settings/settings.component';
+import { CreateEditEnumComponent } from './create-edit-enum/create-edit-enum.component';
 import { BrowseSuppliersComponent } from './browse-suppliers/browse-suppliers.component';
 import { CreateEditSupplierComponent } from './create-edit-supplier/create-edit-supplier.component';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
@@ -35,7 +36,6 @@ import { MatAutocompleteModule } from '@angular/material/autocomplete';
 
 @NgModule({
   declarations: [
-    HomePageComponent,
     CreateInboundOrderComponent,
     BrowseItemsComponent,
     WarehouseBasicLayoutComponent,
@@ -43,6 +43,8 @@ import { MatAutocompleteModule } from '@angular/material/autocomplete';
     BrowseUsersComponent,
     CreateEditUserComponent,
     CreateEditItemComponent,
+    SettingsComponent,
+    CreateEditEnumComponent,
     BrowseSuppliersComponent,
     CreateEditSupplierComponent
   ],
