@@ -52,9 +52,9 @@ export class BrowseItemsComponent implements AfterViewInit{
    * @param event the event
    */
   public sortData(event: any): void {
-    const data = this.items.data.slice(); // Make a copy of the data array
+    const data = this.items.data.slice();
     if (!event.active || event.direction === '') {
-      this.items.data = data; // Default to unsorted data
+      this.items.data = data;
       return;
     }
 
