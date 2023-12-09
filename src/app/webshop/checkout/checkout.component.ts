@@ -43,6 +43,9 @@ export class CheckoutComponent{
     this.buildCheckOutForm();
   }
 
+  /**
+   * Builds the checkout form
+   */
   public buildCheckOutForm(): void {
     this.checkoutForm = this.formBuilder.group({
       name: ['', Validators.required],
@@ -62,15 +65,21 @@ export class CheckoutComponent{
     });
   }
 
+  /**
+   * Gets the total price of the order by adding all the prices of the orderlines
+   */
   public getCalculatedTotalPrice(): number {
     let total = 0;
     this.purchaseOrder = this.orderService.getCurrentPurchaseOrder();
-    this.purchaseOrder.orderLines.forEach(function (value : OrderLineDto){
-      total += (value.price * value.quantity);
+    this.purchaseOrder.orderLines.forEach(function (orderLine : OrderLineDto){
+      total += orderLine.price;
     });
     return total;
   }
 
+  /**
+   * Gets the total price of the order by adding all the prices of the orderlines and the delivery price
+   */
   public getCalculatedTotalPriceWithDelivery(): number {
     return this.getCalculatedTotalPrice() + this.deliveryPrice;
   }
