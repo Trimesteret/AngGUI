@@ -38,9 +38,9 @@ export class BasketComponent{
    * @param event the event
    */
   public sortData(event: any): void {
-    const data = this.orderLines.data.slice(); // Make a copy of the data array
+    const data = this.orderLines.data.slice();
     if (!event.active || event.direction === '') {
-      this.orderLines.data = data; // Default to unsorted data
+      this.orderLines.data = data;
       return;
     }
 

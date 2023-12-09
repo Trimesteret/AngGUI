@@ -46,9 +46,9 @@ export class BrowseSuppliersComponent implements AfterViewInit{
   }
 
   public sortData(event: any): void {
-    const data = this.suppliers.data.slice(); // Make a copy of the data array
+    const data = this.suppliers.data.slice();
     if (!event.active || event.direction === '') {
-      this.suppliers.data = data; // Default to unsorted data
+      this.suppliers.data = data;
       return;
     }
 

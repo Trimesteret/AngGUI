@@ -130,7 +130,8 @@ export class CreateEditSupplierComponent implements AfterViewInit{
     const associatedItem = this.associatedItems.data.find(assItem => assItem.id === itemId);
     if(!associatedItem){
       this.associatedItems.data.push(this.allItems.find(item => item.id === itemId));
-      this.associatedItems.data = this.associatedItems.data;
+      const updatedData = this.associatedItems.data;
+      this.associatedItems.data = updatedData;
       this.messageService.show('Vare tilknyttet til leverandør');
       this.search = '';
     } else {
@@ -174,9 +175,9 @@ export class CreateEditSupplierComponent implements AfterViewInit{
    * @param event the event from the table
    */
   public sortData(event: any): void {
-    const data = this.associatedItems.data.slice(); // Make a copy of the data array
+    const data = this.associatedItems.data.slice();
     if (!event.active || event.direction === '') {
-      this.associatedItems.data = data; // Default to unsorted data
+      this.associatedItems.data = data;
       return;
     }
 
