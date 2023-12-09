@@ -18,8 +18,8 @@ export class CatalogueComponent implements OnInit {
   loggedIn = false;
 
   search  = '';
-  typeFilter: ItemType | undefined;
-  priceSort: SortByPrice | undefined;
+  typeFilter: ItemType;
+  priceSort: SortByPrice;
   itemCount= 0;
 
   loading = true;

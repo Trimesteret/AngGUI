@@ -38,9 +38,9 @@ export class BasketComponent{
    * @param event the event
    */
   public sortData(event: any): void {
-    const data = this.orderLines.data.slice(); // Make a copy of the data array
+    const data = this.orderLines.data.slice();
     if (!event.active || event.direction === '') {
-      this.orderLines.data = data; // Default to unsorted data
+      this.orderLines.data = data;
       return;
     }
 
@@ -80,7 +80,7 @@ export class BasketComponent{
   }
 
   public goToPayment(): void {
-    this.router.navigate(['/webshop/payment']);
+    this.router.navigate(['/webshop/checkout']);
   }
 
   public updateLineQuantity(orderLine: OrderLine): void {

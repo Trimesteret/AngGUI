@@ -19,6 +19,9 @@ import { MatButtonModule } from '@angular/material/button';
 import { BasketComponent } from './basket/basket.component';
 import { SharedModule } from '../shared/shared.module';
 import { MatSortModule } from '@angular/material/sort';
+import { MatRadioModule } from '@angular/material/radio';
+import { MatCheckboxModule } from '@angular/material/checkbox';
+import { MatListModule } from '@angular/material/list';
 
 @NgModule({
   declarations: [
@@ -46,7 +49,10 @@ import { MatSortModule } from '@angular/material/sort';
     MatButtonModule,
     SharedModule,
     MatSortModule,
-    NgOptimizedImage
+    NgOptimizedImage,
+    MatRadioModule,
+    MatCheckboxModule,
+    MatListModule
   ]
 })
 export class WebshopModule { }

@@ -92,9 +92,9 @@ export class MyProfileComponent implements OnInit{
    * @param event the event
    */
   public sortData(event: any): void {
-    const data = this.customerPurchaseOrders.data.slice(); // Make a copy of the data array
+    const data = this.customerPurchaseOrders.data.slice();
     if (!event.active || event.direction === '') {
-      this.customerPurchaseOrders.data = data; // Default to unsorted data
+      this.customerPurchaseOrders.data = data;
       return;
     }
 

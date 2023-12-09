@@ -38,6 +38,9 @@ export class CreateEditItemComponent {
     });
   }
 
+  /**
+   * Gets the item and builds the form
+   */
   public getItemAndBuildForm(): void {
     let id = null;
     const idString = this.route.snapshot.params['id'];
@@ -58,6 +61,10 @@ export class CreateEditItemComponent {
     });
   }
 
+  /**
+   * Builds the form given an optional item to build the form from
+   * @param item the optional item
+   */
   public buildItemForm(item?: ItemDto): void {
     this.itemForm = this.formBuilder.group({
       name: [item?.name ? item?.name : '', Validators.required],
@@ -91,10 +98,25 @@ export class CreateEditItemComponent {
     });
   }
 
+  /**
+   * The Submit of the item form
+   */
   public submitItem(): void {
     const item = this.itemForm?.value as ItemDto;
 
-    if(item == null && this.selectedItemType == null && this.itemForm?.valid == false){
+
+    if(this.selectedItemType == null){
+      this.messageService.show('Fejl: Valgte produkt type må ikke være nul');
+      return;
+    }
+
+    if(item == null){
+      this.messageService.show('Fejl: Produkt må ikke være nul');
+      return;
+    }
+
+    if(this.itemForm?.valid == false){
+      this.messageService.show('Fejl: Produkt formen indeholder fejl');
       return;
     }
 
@@ -105,37 +127,57 @@ export class CreateEditItemComponent {
 
     if (this.editing) {
       item.id = parseInt(this.route.snapshot.params['id']);
-      this.itemService.editItem(item).subscribe(item => {
-        this.buildItemForm(item);
-        this.messageService.show('Item edited');
-      }, error => {
-        this.messageService.showError(error);
-      });
-    } else {
-      this.itemService.createItem(item).subscribe(item => {
-        this.router.navigate(['/warehouse/edit-item/' + item.id]);
-        this.messageService.show('Item created');
-      }, error => {
-        this.messageService.showError(error);
-      });
+      return this.submitEditItem(item);
     }
+
+    return this.submitCreateItem(item);
   }
 
+  /**
+   * Edits an item given an itemDto
+   * @param item the new values of the item as an itemDto
+   */
+  public submitEditItem(item: ItemDto): void {
+    this.itemService.editItem(item).subscribe(item => {
+      this.buildItemForm(item);
+      this.messageService.show('Item edited');
+    }, error => {
+      this.messageService.showError(error);
+    });
+  }
+
+  /**
+   * Creates an item given an itemDto
+   * @param item the itemDto to create
+   */
+  public submitCreateItem(item: ItemDto): void{
+    this.itemService.createItem(item).subscribe(item => {
+      this.router.navigate(['/warehouse/edit-item/' + item.id]);
+      this.messageService.show('Produkt oprettet');
+    }, error => {
+      this.messageService.showError(error);
+    });
+  }
+
+  /**
+   * Deletes the item currently in editing
+   */
   public deleteItem(): void {
     const id = this.route.snapshot.params['id'];
     this.loading = true;
     this.itemService.deleteItem(id).subscribe(res => {
       if(!res) {
-        this.messageService.show('Something went wrong deleting this item');
+        this.messageService.show('Der gik noget galt da Produkt blev forsøgt slettet');
         this.loading = false;
         return;
       }
 
-      this.messageService.show('User deleted');
+      this.messageService.show('Produkt slettet');
       this.location.back();
       this.loading = false;
     });
   }
+
   protected readonly ItemType = ItemType;
   protected readonly WineType = WineType;
   protected readonly LiquorType = LiquorType;

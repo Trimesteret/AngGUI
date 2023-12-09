@@ -29,6 +29,9 @@ import { CreateEditItemComponent } from './create-edit-item/create-edit-item.com
 import { MatPaginatorModule } from '@angular/material/paginator';
 import { SettingsComponent } from './settings/settings.component';
 import { CreateEditEnumComponent } from './create-edit-enum/create-edit-enum.component';
+import { BrowseSuppliersComponent } from './browse-suppliers/browse-suppliers.component';
+import { CreateEditSupplierComponent } from './create-edit-supplier/create-edit-supplier.component';
+import { MatAutocompleteModule } from '@angular/material/autocomplete';
 
 
 @NgModule({
@@ -41,7 +44,9 @@ import { CreateEditEnumComponent } from './create-edit-enum/create-edit-enum.com
     CreateEditUserComponent,
     CreateEditItemComponent,
     SettingsComponent,
-    CreateEditEnumComponent
+    CreateEditEnumComponent,
+    BrowseSuppliersComponent,
+    CreateEditSupplierComponent
   ],
   imports: [
     CommonModule,
@@ -65,7 +70,8 @@ import { CreateEditEnumComponent } from './create-edit-enum/create-edit-enum.com
     MatSelectModule,
     SharedModule,
     FormsModule,
-    MatPaginatorModule
+    MatPaginatorModule,
+    MatAutocompleteModule
   ],
   providers: [{ provide: MAT_DATE_LOCALE, useValue: 'es-Es' }]
 })

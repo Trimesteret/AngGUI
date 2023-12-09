@@ -10,12 +10,17 @@ import { CreateEditItemComponent } from './create-edit-item/create-edit-item.com
 import { CreateEditUserComponent } from './create-edit-user/create-edit-user.component';
 import { SettingsComponent } from './settings/settings.component';
 import { CreateEditEnumComponent } from './create-edit-enum/create-edit-enum.component';
+import { BrowseSuppliersComponent } from './browse-suppliers/browse-suppliers.component';
+import { CreateEditSupplierComponent } from './create-edit-supplier/create-edit-supplier.component';
 
 const routes: Routes = [
   { path: 'createInboundOrder', component: CreateInboundOrderComponent, canActivate: [authGuard, roleGuard], data: { expectedRole: Role.Admin } },
   { path: 'browse-items', component: BrowseItemsComponent, canActivate: [authGuard, roleGuard], data: { expectedRole: Role.Admin } },
+  { path: 'browse-suppliers', component: BrowseSuppliersComponent, canActivate: [authGuard, roleGuard], data: { expectedRole: Role.Admin } },
   { path: 'browse-users', component: BrowseUsersComponent, canActivate: [authGuard, roleGuard], data: { expectedRole: Role.Admin } },
   { path: 'edit-user/:id', component: CreateEditUserComponent, canActivate: [authGuard, roleGuard], data: { expectedRole: Role.Admin } },
+  { path: 'create-supplier', component: CreateEditSupplierComponent, canActivate: [authGuard, roleGuard], data: { expectedRole: Role.Admin } },
+  { path: 'edit-supplier/:id', component: CreateEditSupplierComponent, canActivate: [authGuard, roleGuard], data: { expectedRole: Role.Admin } },
   { path: 'create-user', component: CreateEditUserComponent, canActivate: [authGuard, roleGuard], data: { expectedRole: Role.Admin } },
   { path: 'create-item', component: CreateEditItemComponent, canActivate: [authGuard, roleGuard], data: { expectedRole: Role.Admin } },
   { path: 'edit-item/:id', component: CreateEditItemComponent, canActivate: [authGuard, roleGuard], data: { expectedRole: Role.Admin } },
