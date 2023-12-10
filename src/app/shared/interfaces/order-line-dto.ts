@@ -1,10 +1,10 @@
 import { ItemDto } from './item-dto';
 
 export interface OrderLineDto {
-  id: number | null;
-  productId: number;
-  quantity: number;
-  price: number;
+  id?: number;
   item: ItemDto;
-  purchaseOrderId?: number;
+  itemId: number;
+  linePrice?: number;
+  itemPrice?: number;
+  quantity: number;
 }

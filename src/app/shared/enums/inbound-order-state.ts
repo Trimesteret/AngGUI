@@ -1,4 +1,4 @@
-export enum OrderState {
+export enum InboundOrderState {
   Open = 0,
   Payed = 1,
   Sent = 2,

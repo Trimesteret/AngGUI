@@ -1,12 +1,13 @@
 import { PurchaseOrderState } from '../enums/purchase-order-state';
 import { OrderLineDto } from '../interfaces/order-line-dto';
+import { Address } from './address';
 
 export class PurchaseOrder {
+  id?: number;
   purchaseOrderState: PurchaseOrderState;
-  id: number | null;
-  orderDate: Date | null;
-  deliveryDate: Date | null;
-  deliveryAddress: string | null;
+  orderDate: Date;
+  deliveryDate?: Date;
+  deliveryAddress: Address;
   totalPrice: number;
   orderLines: OrderLineDto[];
 

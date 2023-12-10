@@ -5,8 +5,8 @@ import { CookieService } from 'ngx-cookie-service';
 import { PurchaseOrder } from '../../models/purchase-order';
 import { OrderLineDto } from '../../interfaces/order-line-dto';
 import { MessageService } from '../message.service';
-import { Observable, of } from 'rxjs';
-import { OrderDto } from '../../interfaces/order-dto';
+import { Observable } from 'rxjs';
+import { InboundOrder } from '../../models/inbound-order';
 
 @Injectable({
   providedIn: 'root'
@@ -18,10 +18,23 @@ export class OrderService {
 
   constructor(private http: HttpClient, private cookieService: CookieService, private messageService: MessageService) { }
 
-  public getAllOrders(): Observable<OrderDto[]>{
-    return this.http.get<OrderDto[]>(this.url);
+  /**
+   * Gets all inbound orders
+   */
+  public getAllInboundOrders(): Observable<InboundOrder[]>{
+    return this.http.get<InboundOrder[]>(this.url);
   }
 
+  /**
+   * Gets all purchase orders
+   */
+  public getAllPurchaseOrders(): Observable<PurchaseOrder[]> {
+    return this.http.get<PurchaseOrder[]>(this.url);
+  }
+
+  /**
+   * Gets the currently active purchase order
+   */
   public getCurrentPurchaseOrder(): PurchaseOrder {
     if(this.currentPurchaseOrder != null) {
       return this.currentPurchaseOrder;
@@ -37,28 +50,39 @@ export class OrderService {
     return this.currentPurchaseOrder;
   }
 
+  /**
+   * Adds an order line to the current purchase order
+   * @param orderLine the orderLine to add
+   */
   public addOrderLineToCurrentPurchaseOrder(orderLine: OrderLineDto): void {
     this.currentPurchaseOrder = this.getCurrentPurchaseOrder();
-    const existingOrderLine = this.currentPurchaseOrder.orderLines.find(old => old.productId == orderLine.productId);
+    const existingOrderLine = this.currentPurchaseOrder.orderLines.find(old => old.itemId == orderLine.itemId);
     if(existingOrderLine != null) {
       existingOrderLine.quantity += orderLine.quantity;
-      existingOrderLine.price = existingOrderLine.item.price * existingOrderLine.quantity;
+      existingOrderLine.linePrice = existingOrderLine.item.price * existingOrderLine.quantity;
       this.messageService.show('Tilføjet antal: ' + orderLine.quantity + ' af produkt: ' + orderLine.item.name + ' til kurven');
       return;
     }
-    orderLine.price = orderLine.item.price * orderLine.quantity;
+    orderLine.linePrice = orderLine.item.price * orderLine.quantity;
     this.currentPurchaseOrder.orderLines.push(orderLine);
     this.messageService.show('Tilføjet antal: ' + orderLine.quantity + ' af produkt: ' + orderLine.item.name + ' til kurven');
     this.cookieService.set('purchaseOrder', JSON.stringify(this.currentPurchaseOrder));
   }
 
+  /**
+   * Removes an order line from the current purchase order
+   * @param orderLine the orderLine to remove
+   */
   public removeOrderLineFromCurrentPurchaseOrder(orderLine: OrderLineDto): void {
     this.currentPurchaseOrder = this.getCurrentPurchaseOrder();
-    this.currentPurchaseOrder.orderLines = this.currentPurchaseOrder.orderLines.filter(old => old.productId != orderLine.productId);
+    this.currentPurchaseOrder.orderLines = this.currentPurchaseOrder.orderLines.filter(old => old.itemId != orderLine.itemId);
     this.messageService.show('Fjernede produkt: ' + orderLine.item.name + ' fra kurven');
     this.cookieService.set('purchaseOrder', JSON.stringify(this.currentPurchaseOrder));
   }
 
+  /**
+   * Resets the current purchase order
+   */
   public resetCurrentPurchaseOrder(): void {
     this.currentPurchaseOrder = new PurchaseOrder();
     this.cookieService.set('purchaseOrder', JSON.stringify(this.currentPurchaseOrder));

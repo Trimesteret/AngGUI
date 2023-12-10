@@ -36,7 +36,7 @@ export class ItemDisplayComponent {
   }
 
   public addToCart(item: ItemDto): void {
-    const orderLine = new OrderLine(item.id, this.quantity, item.price, item);
+    const orderLine = new OrderLine(this.quantity, item);
     this.orderService.addOrderLineToCurrentPurchaseOrder(orderLine);
   }
 

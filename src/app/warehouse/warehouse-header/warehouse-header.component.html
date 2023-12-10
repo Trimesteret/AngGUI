@@ -1,11 +1,14 @@
 <mat-toolbar fxFlex fxLayoutAlign="center center" class="background-color-white">
-  <div style="width: 96%; display: flex" fxLayoutAlign="space-between center">
-    <a fxFlex="25" routerLink="">
-      <img style="display: flex" height="30px" alt="Budolfi Vin logo" src="assets/budolfilogo.svg">
-    </a>
-    <div *ngIf="!isTablet" fxFlex="70" fxLayoutAlign="center center" fxLayoutGap="20px">
+  <div style="width: 96%; display: flex" fxLayoutAlign="end center">
+    <div *ngIf="!isTablet" fxFlex fxLayoutAlign="center center" fxLayoutGap="20px">
+      <button mat-button routerLink="">
+        Forside
+        <mat-icon>
+          home
+        </mat-icon>
+      </button>
       <button mat-button routerLink="/warehouse/settings">
-        Settings
+        Indstillinger
         <mat-icon>
           settings
         </mat-icon>
@@ -28,34 +31,32 @@
           person
         </mat-icon>
       </button>
-      <button mat-button *ngIf="isAdmin" routerLink="/warehouse/orders">
+      <button mat-button *ngIf="isAdmin" [matMenuTriggerFor]="orderMenu">
         Ordrer
         <mat-icon>
-          home
+          dataset
         </mat-icon>
       </button>
+      <mat-menu #orderMenu="matMenu">
+        <button mat-menu-item routerLink="/warehouse/inbound-orders">
+          <mat-icon>system_update_alt</mat-icon>
+          <span>Indkommende Ordrer</span>
+        </button>
+        <button mat-menu-item routerLink="/warehouse/purchase-orders">
+          <mat-icon>box</mat-icon>
+          <span>Kunde Ordrer</span>
+        </button>
+      </mat-menu>
       <button (click)="logout()" mat-button>
         Log ud
         <mat-icon>logout</mat-icon>
       </button>
     </div>
-    <div fxFlex.lt-md="70" fxFlex.gt-md="25" fxLayoutGap.gt-md="20" fxLayoutGap.lt-md="0" fxLayoutAlign="end center">
-      <ng-container *ngIf="!isTablet">
-        <button mat-raised-button color="primary" routerLink="/webshop">
-          Webshop
-          <mat-icon>
-            shopping_cart
-          </mat-icon>
-        </button>
-      </ng-container>
-
-      <!-- Tablet -->
-      <ng-container *ngIf="isTablet">
-        <button mat-icon-button color="none" [matMenuTriggerFor]="menu">
-          <mat-icon>menu</mat-icon>
-        </button>
-      </ng-container>
-    </div>
+    <ng-container *ngIf="isTablet">
+      <button mat-icon-button color="none" [matMenuTriggerFor]="menu">
+        <mat-icon>menu</mat-icon>
+      </button>
+    </ng-container>
   </div>
 </mat-toolbar>
 
@@ -66,11 +67,6 @@
       <img height="100%" alt="Budolfi Vin logo" src="assets/budolfiGrapes.svg">
     </mat-icon>
   </button>
-  <button mat-menu-item routerLink="/webshop/catalogue">
-    Webshop
-    <mat-icon>
-      webshop
-    </mat-icon></button>
   <button mat-menu-item routerLink="">
     Vinsmagning
     <mat-icon>

@@ -54,9 +54,9 @@ export class BasketComponent{
         case 'name':
           return this.compare(a.item.name, b.item.name, isAsc);
         case 'itemPrice':
-          return this.compare(a.item.price, b.item.price, isAsc);
-        case 'price':
-          return this.compare(a.price, b.price, isAsc);
+          return this.compare(a.itemPrice, b.itemPrice, isAsc);
+        case 'linePrice':
+          return this.compare(a.linePrice, b.linePrice, isAsc);
         default:
           return 0;
       }
@@ -84,8 +84,7 @@ export class BasketComponent{
   }
 
   public updateLineQuantity(orderLine: OrderLine): void {
-    orderLine.price = Math.round(orderLine.item.price * orderLine.quantity*100)/100;
-    orderLine.quantity = Number(orderLine.quantity);
+    orderLine.linePrice = Math.round(orderLine.item.price * orderLine.quantity*100)/100;
   }
 
   protected readonly Role = Role;

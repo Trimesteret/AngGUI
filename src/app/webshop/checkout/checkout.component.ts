@@ -2,7 +2,7 @@ import { Component } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { OrderLineDto } from '../../shared/interfaces/order-line-dto';
 import { OrderService } from '../../shared/services/order/order.service';
-import { PurchaseOrderDto } from '../../shared/interfaces/purchase-order-dto';
+import { PurchaseOrder } from '../../shared/models/purchase-order';
 
 @Component({
   selector: 'app-checkout',
@@ -11,7 +11,7 @@ import { PurchaseOrderDto } from '../../shared/interfaces/purchase-order-dto';
 })
 export class CheckoutComponent{
   checkoutForm: FormGroup;
-  purchaseOrder: PurchaseOrderDto;
+  purchaseOrder: PurchaseOrder;
   deliveryPrice = 0;
 
   deliveryMethods = [
@@ -72,7 +72,7 @@ export class CheckoutComponent{
     let total = 0;
     this.purchaseOrder = this.orderService.getCurrentPurchaseOrder();
     this.purchaseOrder.orderLines.forEach(function (orderLine : OrderLineDto){
-      total += orderLine.price;
+      total += orderLine.linePrice;
     });
     return total;
   }

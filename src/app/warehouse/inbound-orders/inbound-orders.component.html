@@ -11,7 +11,7 @@
         <input matInput (keyup)="applySearch($event)" >
       </mat-form-field>
 
-      <table mat-table [dataSource]="orders" (matSortChange)="sortData($event)" matSort class="mat-elevation-z8">
+      <table mat-table [dataSource]="inboundOrders" (matSortChange)="sortData($event)" matSort class="mat-elevation-z8">
         <ng-container matColumnDef="id">
           <th mat-header-cell *matHeaderCellDef mat-sort-header sortActionDescription="Sort by id">
             Id

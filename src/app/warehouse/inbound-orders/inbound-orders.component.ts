@@ -4,35 +4,30 @@ import { Router } from '@angular/router';
 import { MessageService } from '../../shared/services/message.service';
 import { AuthenticationService } from '../../shared/services/authentication/authentication.service';
 import { Role } from '../../shared/enums/role';
-import { OrderDto } from '../../shared/interfaces/order-dto';
 import { OrderService } from '../../shared/services/order/order.service';
 import { MatPaginator } from '@angular/material/paginator';
-import { C } from '@angular/cdk/keycodes';
+import { InboundOrder } from '../../shared/models/inbound-order';
 
 @Component({
-  selector: 'app-orders',
-  templateUrl: './orders.component.html',
-  styleUrls: ['./orders.component.scss']
+  selector: 'app-inbound-orders',
+  templateUrl: './inbound-orders.component.html',
+  styleUrls: ['./inbound-orders.component.scss']
 })
-export class OrdersComponent implements AfterViewInit{
+export class InboundOrdersComponent implements AfterViewInit{
   loading = true;
-  orders: MatTableDataSource<OrderDto> = new MatTableDataSource<OrderDto>();
+  inboundOrders: MatTableDataSource<InboundOrder> = new MatTableDataSource<InboundOrder>();
 
   public displayedColumns: string[] = ['id', 'orderState', 'orderDate', 'deliveryDate', 'totalPrice', 'supplier'];
 
   @ViewChild(MatPaginator) paginator: MatPaginator;
-  constructor(
-    private orderService: OrderService,
-    private messageService: MessageService,
-    private authenticationService: AuthenticationService,
-    private router: Router) {
-  }
+  constructor(private orderService: OrderService, private messageService: MessageService, private authenticationService: AuthenticationService,
+    private router: Router) {}
 
   public ngAfterViewInit():void{
-    this.orderService.getAllOrders().subscribe(orders => {
-      this.orders = new MatTableDataSource(orders);
+    this.orderService.getAllInboundOrders().subscribe(inboundOrders => {
+      this.inboundOrders = new MatTableDataSource(inboundOrders);
       this.loading = false;
-      this.orders.paginator = this.paginator;
+      this.inboundOrders.paginator = this.paginator;
     });
   }
 
@@ -42,21 +37,21 @@ export class OrdersComponent implements AfterViewInit{
 
   public applySearch(event: Event): void {
     const filterValue = (event.target as HTMLInputElement).value;
-    this.orders.filter = filterValue.trim().toLowerCase();
+    this.inboundOrders.filter = filterValue.trim().toLowerCase();
 
-    if (this.orders.paginator) {
-      this.orders.paginator.firstPage();
+    if (this.inboundOrders.paginator) {
+      this.inboundOrders.paginator.firstPage();
     }
   }
 
   public sortData(event: any): void {
-    const data = this.orders.data.slice(); // Make a copy of the data array
+    const data = this.inboundOrders.data.slice();
     if (!event.active || event.direction === '') {
-      this.orders.data = data; // Default to unsorted data
+      this.inboundOrders.data = data;
       return;
     }
 
-    this.orders.data = data.sort((a, b) => {
+    this.inboundOrders.data = data.sort((a, b) => {
       const isAsc = event.direction === 'asc';
       switch (event.active) {
         case 'id':
@@ -64,13 +59,13 @@ export class OrdersComponent implements AfterViewInit{
         case 'orderState':
           return this.compare(a.orderState, b.orderState, isAsc);
         case 'orderDate':
-          return this.compare(a.orderDate, b.orderDate, isAsc);
+          return this.compare(a.orderDate.valueOf(), b.orderDate.valueOf(), isAsc);
         case 'deliveryDate':
-          return this.compare(a.deliveryDate, b.deliveryDate, isAsc);
+          return this.compare(a.deliveryDate.valueOf(), b.deliveryDate.valueOf(), isAsc);
         case 'totalPrice':
           return this.compare(a.totalPrice, b.totalPrice, isAsc);
         case 'supplier':
-          return this.compare(a.supplier, b.supplier, isAsc);
+          return this.compare(a.supplier.name, b.supplier.name, isAsc);
         default:
           return 0;
       }
