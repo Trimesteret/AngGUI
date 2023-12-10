@@ -26,10 +26,50 @@ export class OrderService {
   }
 
   /**
+   * Gets an inbound order by id
+   * @param id
+   */
+  public getInboundOrderById(id: number): Observable<InboundOrder> {
+    return this.http.get<InboundOrder>(this.url + `/ìnboundOrder/${id}`);
+  }
+
+  /**
+   * Creates an inbound order
+   * @param inboundOrder the inbound order to create
+   */
+  public createInboundOrder(inboundOrder: InboundOrder): Observable<InboundOrder> {
+    return this.http.post<InboundOrder>(this.url + '/inboundOrder', inboundOrder);
+  }
+
+  /**
+   * Updates an inbound order
+   * @param inboundOrder the inbound order to update
+   */
+  public editInboundOrder(inboundOrder: InboundOrder): Observable<InboundOrder> {
+    return this.http.put<InboundOrder>(this.url + '/inboundOrder', inboundOrder);
+  }
+
+  /**
+   * Deletes an inbound order
+   * @param inboundOrder the inbound order to delete
+   */
+  public deleteInboundOrder(inboundOrder: InboundOrder): Observable<boolean> {
+    return this.http.delete<boolean>(this.url + `/inboundOrder/${inboundOrder.id}`);
+  }
+
+  /**
    * Gets all purchase orders
    */
   public getAllPurchaseOrders(): Observable<PurchaseOrder[]> {
     return this.http.get<PurchaseOrder[]>(this.url);
+  }
+
+  /**
+   * Gets a purchase order by id
+   * @param id
+   */
+  public getPurchaseOrderById(id: number): Observable<PurchaseOrder> {
+    return this.http.get<PurchaseOrder>(this.url + `/purchaseOrder/${id}`);
   }
 
   /**

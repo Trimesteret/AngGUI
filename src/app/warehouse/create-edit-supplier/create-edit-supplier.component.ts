@@ -34,9 +34,9 @@ export class CreateEditSupplierComponent implements AfterViewInit{
   }
 
   /**
-   * Gets all items and builds the table
+   * Gets all items
    */
-  public getAllItemsAndBuildTable(): void {
+  public getAllItems(): void {
     this.itemService.getAllItems().subscribe(items => {
       this.allItems = items;
       this.loading = false;
@@ -63,7 +63,7 @@ export class CreateEditSupplierComponent implements AfterViewInit{
       this.editing = true;
       this.associatedItems = new MatTableDataSource(supplier.items);
       this.supplierName = supplier.name;
-      this.getAllItemsAndBuildTable();
+      this.getAllItems();
       this.loading = false;
     });
   }

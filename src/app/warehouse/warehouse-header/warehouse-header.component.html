@@ -64,14 +64,40 @@
   <button mat-menu-item routerLink="">
     Forside
     <mat-icon>
-      <img height="100%" alt="Budolfi Vin logo" src="assets/budolfiGrapes.svg">
+      home
     </mat-icon>
   </button>
-  <button mat-menu-item routerLink="">
-    Vinsmagning
+  <button mat-menu-item routerLink="/warehouse/settings">
+    Indstillinger
     <mat-icon>
-      wine_bar
+      settings
     </mat-icon>
+  </button>
+  <button mat-menu-item routerLink="/warehouse/browse-items">
+    Produkter
+    <mat-icon>
+      inventory_2
+    </mat-icon>
+  </button>
+  <button mat-menu-item routerLink="/warehouse/browse-suppliers">
+    Leverandører
+    <mat-icon>
+      local_shipping
+    </mat-icon>
+  </button>
+  <button mat-menu-item routerLink="/warehouse/browse-users">
+    Brugere
+    <mat-icon>
+      person
+    </mat-icon>
+  </button>
+  <button mat-menu-item routerLink="/warehouse/inbound-orders">
+    Indkommende Ordrer
+    <mat-icon>system_update_alt</mat-icon>
+  </button>
+  <button mat-menu-item routerLink="/warehouse/purchase-orders">
+    Kunde Ordrer
+    <mat-icon>box</mat-icon>
   </button>
   <button (click)="logout()" mat-menu-item>
     Log ud

@@ -1,17 +1,97 @@
 <app-warehouse-basic-layout>
-  <form [formGroup]="inboundOrderForm">
-    <mat-form-field appearance="fill">
-      <mat-label for="supplier">Supplier: </mat-label>
-      <input matInput id="supplier" type="text" formControlName="supplier">
-    </mat-form-field>
+  <div fxFlex fxLayoutAlign="center start" fxLayout="row" style="background-color: #EFEFEF">
+    <div *ngIf="inboundOrderForm && !loading"  fxLayout="column" class="document" fxLayoutGap="5">
+      <form fxLayout="column" fxLayoutGap="5" [formGroup]="inboundOrderForm" (ngSubmit)="submitInboundOrder()">
+        <span fxLayout="row" fxLayoutGap="15" fxLayoutAlign="start center">
+          <mat-icon>category</mat-icon>
+          <h1 class="no-margin no-padding">{{editing ? 'Rediger bestillings ordre' : 'Opret bestillings ordre'}}</h1>
+        </span>
+        <mat-form-field>
+          <mat-label>Vælg leverandør</mat-label>
+          <mat-select id="supplier" formControlName="supplier">
+            <mat-option [value]="supplier" *ngFor="let supplier of suppliers">{{supplier.name}}</mat-option>
+          </mat-select>
+        </mat-form-field>
 
-    <mat-form-field appearance="fill">
-      <mat-label for="expected-delivery-date">Expected delivery: </mat-label>
-      <input matInput id="expected-delivery-date" [matDatepicker]="picker" formControlName="expectedDeliveryDate">
-      <mat-hint>DD/MM/YYYY</mat-hint>
-      <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
-      <mat-datepicker #picker></mat-datepicker>
-    </mat-form-field>
-    <button (click)="createInboundOrder()" mat-raised-button color="primary">Submit</button>
-  </form>
+        <mat-form-field>
+          <mat-label>Status</mat-label>
+          <mat-select id="order-state" formControlName="orderState">
+            <mat-option [value]="state.key" *ngFor="let state of InboundOrderState | keyValue">{{state.value}}</mat-option>
+          </mat-select>
+        </mat-form-field>
+
+        <mat-form-field appearance="fill">
+          <mat-label for="expected-delivery-date">Bestillings dato: </mat-label>
+          <input matInput id="order-date" [matDatepicker]="picker" formControlName="orderDate">
+          <mat-hint>DD/MM/YYYY</mat-hint>
+          <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
+          <mat-datepicker #picker></mat-datepicker>
+        </mat-form-field>
+
+        <mat-form-field>
+          <mat-label for="expected-delivery-date">Forvented leverings dato </mat-label>
+          <input matInput id="delivery-date" [matDatepicker]="picker" formControlName="deliveryDate">
+          <mat-hint>DD/MM/YYYY</mat-hint>
+          <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
+          <mat-datepicker #picker></mat-datepicker>
+        </mat-form-field>
+      </form>
+      <table mat-table *ngIf="orderLines?.data?.length" [dataSource]="orderLines" (matSortChange)="sortData($event)" matSort class="mat-elevation-z8">
+        <ng-container matColumnDef="id">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header sortActionDescription="Sort by id">
+            Id
+          </th>
+          <td mat-cell *matCellDef="let orderLine"> {{orderLine.id}} </td>
+        </ng-container>
+
+        <ng-container matColumnDef="linePrice">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header sortActionDescription="Sort by status">
+            Linje pris
+          </th>
+          <td mat-cell *matCellDef="let orderLine"> {{orderLine.linePrice}} </td>
+        </ng-container>
+
+        <ng-container matColumnDef="remove">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header sortActionDescription="Sort by status">
+            Fjern
+          </th>
+          <td mat-cell *matCellDef="let item">
+            <button type="button" (click)="removeOrderLineFromTable(item)" color="warn" mat-mini-fab><mat-icon>remove</mat-icon></button>
+          </td>
+        </ng-container>
+
+        <tr mat-header-row *matHeaderRowDef="associatedColumns"></tr>
+        <tr mat-row class="selectable-row" *matRowDef="let item; columns: associatedColumns;"></tr>
+      </table>
+
+      <mat-form-field>
+        <mat-label>Søg</mat-label>
+        <input matInput [matAutocomplete]="auto" [(ngModel)]="search" (ngModelChange)="applySearch()">
+        <mat-autocomplete #auto="matAutocomplete" (optionSelected)="addItemToOrderLines($event)">
+          <mat-option *ngFor="let item of filteredItems" [value]="item">
+            {{ 'Type: ' + ItemType[item.itemType] + ' -  Navn: ' + item.name + ' - Ean: ' + item.ean }}
+          </mat-option>
+        </mat-autocomplete>
+      </mat-form-field>
+
+      <div fxFlex fxLayout="row" fxLayoutAlign="end center" fxLayoutGap="20">
+        <button *ngIf="editing" color="warn" type="button" [disabled]="inboundOrderForm.dirty" (click)="deleteInboundOrder()" mat-raised-button>
+          <mat-icon>delete</mat-icon>
+          Slet
+        </button>
+        <button color="accent" type="button" [disabled]="!inboundOrderForm.dirty" (click)="getInboundOrderAndBuildForm()" mat-raised-button>
+          <mat-icon>restart_alt</mat-icon>
+          Nulstil
+        </button>
+        <button *ngIf="editing" color="primary" type="submit" mat-raised-button>
+          <mat-icon>save</mat-icon>
+          Gem
+        </button>
+        <button *ngIf="!editing" color="primary" type="submit" mat-raised-button>
+          <mat-icon>add</mat-icon>
+          Opret
+        </button>
+      </div>
+    </div>
+  </div>
 </app-warehouse-basic-layout>

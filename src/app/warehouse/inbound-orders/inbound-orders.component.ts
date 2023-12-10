@@ -62,8 +62,6 @@ export class InboundOrdersComponent implements AfterViewInit{
           return this.compare(a.orderDate.valueOf(), b.orderDate.valueOf(), isAsc);
         case 'deliveryDate':
           return this.compare(a.deliveryDate.valueOf(), b.deliveryDate.valueOf(), isAsc);
-        case 'totalPrice':
-          return this.compare(a.totalPrice, b.totalPrice, isAsc);
         case 'supplier':
           return this.compare(a.supplier.name, b.supplier.name, isAsc);
         default:
