@@ -2,7 +2,7 @@
   <form fxFlex class="full-width" fxLayout="column" fxLayoutGap="9" [formGroup]="loginForm" (ngSubmit)="login()">
     <mat-form-field>
       <mat-label>Indtast e-mailadresse</mat-label>
-      <input matInput id="email" type="email" formControlName="email">
+      <input matInput id="email" type="email" formControlName="email" (keyup.enter)="login()">
       <mat-icon matIconSuffix>mail</mat-icon>
     </mat-form-field>
     <mat-form-field>
