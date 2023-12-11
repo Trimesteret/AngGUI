@@ -1,0 +1,45 @@
+<app-warehouse-basic-layout>
+  <div fxFlex fxLayoutAlign="center start" fxLayout="row" style="background-color: #EFEFEF">
+    <form *ngIf="enumForm && !loading"  fxLayout="column" class="document" fxLayoutGap="5" [formGroup]="enumForm" (ngSubmit)="submitEnum()">
+      <span fxLayout="row" fxLayoutGap="15" fxLayoutAlign="start center">
+        <mat-icon>category</mat-icon>
+        <h1 class="no-margin no-padding">{{ editing ? 'Rediger produkt' : 'Opret produkt' }}</h1>
+      </span>
+      <mat-form-field>
+        <mat-label>Vælg type af enum</mat-label>
+        <mat-select formControlName="enumType">
+          <mat-option [value]="enumType.key" *ngFor="let enumType of EnumType | keyValue">{{enumType.value}}</mat-option>
+        </mat-select>
+      </mat-form-field>
+
+      <mat-form-field>
+        <mat-label>Engelsk navn</mat-label>
+        <input matInput type="text" formControlName="key">
+      </mat-form-field>
+
+      <mat-form-field>
+        <mat-label>Dansk navn</mat-label>
+        <input matInput type="text" formControlName="value">
+      </mat-form-field>
+
+      <div fxFlex fxLayout="row" fxLayoutAlign="end center" fxLayoutGap="20">
+        <button *ngIf="editing" color="warn" type="button" [disabled]="enumForm.dirty" (click)="deleteEnum()" mat-raised-button>
+          <mat-icon>delete</mat-icon>
+          Slet
+        </button>
+        <button color="accent" type="button" [disabled]="!enumForm.dirty" (click)="getEnumAndBuildForm()" mat-raised-button>
+          <mat-icon>restart_alt</mat-icon>
+          Nulstil
+        </button>
+        <button *ngIf="editing" color="primary" type="submit" mat-raised-button>
+          <mat-icon>save</mat-icon>
+          Gem
+        </button>
+        <button *ngIf="!editing" color="primary" type="submit" mat-raised-button>
+          <mat-icon>add</mat-icon>
+          Opret
+        </button>
+      </div>
+    </form>
+  </div>
+</app-warehouse-basic-layout>

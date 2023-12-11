@@ -47,12 +47,20 @@ html, body {
   padding-inline: 10px
 }
 
+.padding-inline-60{
+  padding-inline: 60px
+}
+
 .padding-top-10{
   padding-top: 10px;
 }
 
 .padding-top-20{
   padding-top: 20px;
+}
+
+.margin-top-30{
+  margin-top: 30px;
 }
 
 .padding-20{
@@ -94,5 +102,4 @@ $my-theme: mat.define-light-theme((
   )
 ));
 @include mat.core-theme($my-theme);
-@include mat.button-theme($my-theme);
-@include mat.progress-spinner-color($my-theme);
+@include mat.all-component-themes($my-theme);

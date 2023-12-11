@@ -23,5 +23,5 @@ export interface ItemDto {
   expirationDate?: Date,
   wineType?: WineType,
   liquorType?: string,
-  itemType: ItemType
+  itemType: ItemType,
 }

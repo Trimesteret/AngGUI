@@ -1,13 +1,9 @@
 <app-warehouse-basic-layout>
   <div fxFlex fxLayoutAlign="center start" fxLayout="row" style="background-color: #EFEFEF">
     <form *ngIf="itemForm && !loading"  fxLayout="column" class="document" fxLayoutGap="5" [formGroup]="itemForm" (ngSubmit)="submitItem()">
-      <span *ngIf="!editing" fxLayout="row" fxLayoutGap="15" fxLayoutAlign="start center">
+      <span fxLayout="row" fxLayoutGap="15" fxLayoutAlign="start center">
         <mat-icon>category</mat-icon>
-        <h1 class="no-margin no-padding">Opret produkt</h1>
-      </span>
-      <span *ngIf="editing" fxLayout="row" fxLayoutGap="15" fxLayoutAlign="start center">
-        <mat-icon>category</mat-icon>
-        <h1 class="no-margin no-padding">Rediger produkt</h1>
+        <h1 class="no-margin no-padding">{{editing ? 'Rediger produkt' : 'Opret produkt'}}</h1>
       </span>
       <mat-form-field>
         <mat-label>Vælg type af produkt</mat-label>

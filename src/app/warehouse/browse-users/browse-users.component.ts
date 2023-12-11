@@ -51,9 +51,9 @@ export class BrowseUsersComponent implements AfterViewInit{
    * @param event the event
    */
   public sortData(event: any): void {
-    const data = this.users.data.slice(); // Make a copy of the data array
+    const data = this.users.data.slice();
     if (!event.active || event.direction === '') {
-      this.users.data = data; // Default to unsorted data
+      this.users.data = data;
       return;
     }
 

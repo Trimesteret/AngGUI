@@ -19,8 +19,8 @@ export class CreateEditUserComponent {
   editing = false;
   userForm: FormGroup | undefined;
 
-  constructor(private authenticationService: AuthenticationService, private messageService: MessageService, private userService: UserService,
-              private formBuilder: FormBuilder, private route: ActivatedRoute, private location: Location)
+  constructor(private messageService: MessageService, private userService: UserService, private formBuilder: FormBuilder,
+              private route: ActivatedRoute, private location: Location)
   {
     this.getUserAndBuildForm();
   }
