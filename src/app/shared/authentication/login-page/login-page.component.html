@@ -2,14 +2,14 @@
   <form fxFlex class="full-width" fxLayout="column" fxLayoutGap="9" [formGroup]="loginForm" (ngSubmit)="login()">
     <mat-form-field>
       <mat-label>Indtast e-mailadresse</mat-label>
-      <input matInput id="email" type="email" formControlName="email">
+      <input matInput id="email" type="email" formControlName="email" (keyup.enter)="login()">
       <mat-icon matIconSuffix>mail</mat-icon>
       <mat-error *ngIf="loginForm.get('email').hasError('required')">Email skal udfyldes</mat-error>
     </mat-form-field>
     <mat-form-field>
       <mat-label>Indtast adgangskode</mat-label>
-      <input matInput id="password" [type]="hide ? 'password' : 'text'" formControlName="password">
-      <button mat-icon-button matSuffix type="button" (click)="hide = !hide">
+      <input matInput id="password" [type]="hide ? 'password' : 'text'" formControlName="password" (keyup.enter)="login()">
+      <button mat-icon-button matSuffix tabindex="-1" type="button" (click)="hide = !hide">
         <mat-icon>{{hide ? 'visibility_off' : 'visibility'}}</mat-icon>
       </button>
       <mat-error *ngIf="loginForm.get('password').hasError('required')">Adgangskode skal udfyldes</mat-error>

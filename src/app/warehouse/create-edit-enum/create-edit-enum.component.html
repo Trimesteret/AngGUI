@@ -14,12 +14,12 @@
 
       <mat-form-field>
         <mat-label>Engelsk navn</mat-label>
-        <input matInput type="text" formControlName="key">
+        <input matInput type="text" formControlName="key" (keyup.enter)="submitEnum()">
       </mat-form-field>
 
       <mat-form-field>
         <mat-label>Dansk navn</mat-label>
-        <input matInput type="text" formControlName="value">
+        <input matInput type="text" formControlName="value" (keyup.enter)="submitEnum()">
       </mat-form-field>
 
       <div fxFlex fxLayout="row" fxLayoutAlign="end center" fxLayoutGap="20">
