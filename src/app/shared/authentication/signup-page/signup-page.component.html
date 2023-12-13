@@ -4,21 +4,26 @@
       <mat-label>Fornavn</mat-label>
       <input matInput id="first-name" type="text" formControlName="firstName">
       <mat-icon matIconSuffix>person</mat-icon>
+      <mat-error *ngIf="signupForm.get('firstName').hasError('required')">Fornavn skal udfyldes</mat-error>
     </mat-form-field>
     <mat-form-field>
       <mat-label>Efternavn</mat-label>
       <input matInput id="surname" type="text" formControlName="lastName">
       <mat-icon matIconSuffix>person</mat-icon>
+      <mat-error *ngIf="signupForm.get('lastName').hasError('required')">Efternavn skal udfyldes</mat-error>
     </mat-form-field>
     <mat-form-field>
       <mat-label>Telefonnummer</mat-label>
       <input matInput id="phone" type="tel" formControlName="phone">
       <mat-icon matIconSuffix>phone</mat-icon>
+      <mat-error *ngIf="signupForm.get('phone').hasError('required')">Telefonnummer skal udfyldes</mat-error>
     </mat-form-field>
     <mat-form-field>
       <mat-label>Din email</mat-label>
       <input matInput id="email" type="email" formControlName="email">
       <mat-icon matIconSuffix>mail</mat-icon>
+      <mat-error *ngIf="signupForm.get('email').hasError('required')">Email skal udfyldes</mat-error>
+      <mat-error *ngIf="signupForm.get('email').hasError('email')">Email er ugyldig</mat-error>
     </mat-form-field>
     <mat-form-field>
       <mat-label>Din adgangskode</mat-label>
@@ -26,6 +31,8 @@
       <button mat-icon-button matSuffix type="button" (click)="hide = !hide">
         <mat-icon>{{hide ? 'visibility_off' : 'visibility'}}</mat-icon>
       </button>
+      <mat-error *ngIf="signupForm.get('password').hasError('required')">Adgangskode skal udfyldes</mat-error>
+      <mat-error *ngIf="signupForm.get('password').hasError('minlength')">Adgangskode skal minimum have 7 tegn</mat-error>
     </mat-form-field>
     <mat-form-field>
       <mat-label>Gentag adgangskode</mat-label>
@@ -33,6 +40,8 @@
       <button mat-icon-button matSuffix type="button" (click)="repeatHide = !repeatHide">
         <mat-icon>{{repeatHide ? 'visibility_off' : 'visibility'}}</mat-icon>
       </button>
+      <mat-error *ngIf="signupForm.get('repeatPassword').hasError('required')">Adgangskode skal udfyldes</mat-error>
+      <mat-error *ngIf="signupForm.get('repeatPassword').hasError('minlength')">Adgangskode skal minimum have 7 tegn</mat-error>
     </mat-form-field>
   </form>
 </app-login-basic-layout>
