@@ -1,4 +1,4 @@
-<app-front-basic-layout>
+<app-front-basic-layout [loggedIn]="loggedIn">
   <div fxFlex class="padding-inline-60" fxLayoutAlign="center start" fxLayout="row" style="background-color: #EFEFEF" fxLayoutGap="30">
     <form fxFlex *ngIf="checkoutForm" fxLayoutGap="5" fxLayout="column" class="document" [formGroup]="checkoutForm" (ngSubmit)="goToPayment()">
       <span fxLayout="row" fxLayoutGap="15" fxLayoutAlign="start center">

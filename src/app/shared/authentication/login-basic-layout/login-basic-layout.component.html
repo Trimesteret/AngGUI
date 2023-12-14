@@ -4,25 +4,39 @@
     <div fxFlex="100" class="loginBackground">
       <div fxFlex fxLayoutAlign="center center" class="full-height" fxLayout="row" style="padding: 30px">
         <div fxFlex fxLayout="column" fxLayoutGap="10">
-          <div fxFlex fxLayoutAlign="center end">
-            <h1 class="auth-h1">{{title}}</h1>
+          <div fxFlex fxLayoutAlign="center end" fxLayoutGap="12">
+            <mat-icon class="auth-icon">{{icon}}</mat-icon>
+            <h1 class="auth-h1 no-margin">{{title}}</h1>
           </div>
           <ng-content>
           </ng-content>
           <div fxLayout="row" fxLayoutAlign="space-between" fxLayoutGap="10">
-            <div fxFlex *ngIf="page === 'login'" fxLayoutGap="10">
-              <button color="accent" mat-raised-button routerLink="/signup" type="button">Opret bruger</button>
-              <button mat-raised-button routerLink="/forgot-password" type="button">Glemt adgangskode</button>
+            <div fxFlex fxLayoutGap="10">
+              <button *ngIf="page === 'forgot' || page === 'login'" color="accent" mat-raised-button routerLink="/signup" type="button">
+                Opret bruger
+                <mat-icon>person_add</mat-icon>
+              </button>
+              <button *ngIf="page === 'forgot' || page === 'signup'" color="accent" mat-raised-button routerLink="/login" type="button">
+                Login
+                <mat-icon>login</mat-icon>
+              </button>
+              <button *ngIf="page === 'login' || page === 'signup'" mat-raised-button routerLink="/forgot-password" type="button">
+                Glemt adgangskode
+                <mat-icon>key</mat-icon>
+              </button>
             </div>
-            <div fxFlex *ngIf="page === 'signup'" fxLayoutGap="10">
-              <button color="accent" mat-raised-button routerLink="/login" type="button">Login</button>
-              <button mat-raised-button routerLink="/forgot-password" type="button">Glemt adgangskode</button>
-            </div>
-            <div fxFlex *ngIf="page === 'forgot'" fxLayoutGap="10">
-              <button color="accent" mat-raised-button routerLink="/signup" type="button">Opret bruger</button>
-              <button color="accent" mat-raised-button routerLink="/login" type="button">Login</button>
-            </div>
-            <button mat-raised-button color="primary" (click)="this.submitAuth.emit()" type="submit">Indsend</button>
+            <button *ngIf="page === 'login'" mat-raised-button color="primary" (click)="this.submitAuth.emit()" type="submit">
+              Login
+              <mat-icon>login</mat-icon>
+            </button>
+            <button *ngIf="page === 'signup'" mat-raised-button color="primary" (click)="this.submitAuth.emit()" type="submit">
+              Opret bruger
+              <mat-icon>person_add</mat-icon>
+            </button>
+            <button *ngIf="page === 'forgot'" mat-raised-button color="primary" (click)="this.submitAuth.emit()" type="submit">
+              Send ny adgangskode
+              <mat-icon>key</mat-icon>
+            </button>
           </div>
         </div>
       </div>

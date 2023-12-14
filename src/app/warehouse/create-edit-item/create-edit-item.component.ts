@@ -87,7 +87,7 @@ export class CreateEditItemComponent {
       liquorType: [item ? Number.isInteger(item?.liquorType) ? item?.liquorType : LiquorType.Rum : LiquorType.Rum]
     });
 
-    this.selectedItemType = item?.itemType;
+    this.selectedItemType = item ? Number.isInteger(item?.itemType) ? item?.itemType : ItemType.DefaultItem : ItemType.DefaultItem;
 
     if(this.editing) {
       this.itemForm.controls['itemType'].disable();

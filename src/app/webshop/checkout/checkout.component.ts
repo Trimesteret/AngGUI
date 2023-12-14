@@ -3,6 +3,7 @@ import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { OrderLineDto } from '../../shared/interfaces/order-line-dto';
 import { OrderService } from '../../shared/services/order/order.service';
 import { PurchaseOrder } from '../../shared/models/purchase-order';
+import { AuthenticationService } from '../../shared/services/authentication/authentication.service';
 
 @Component({
   selector: 'app-checkout',
@@ -13,6 +14,7 @@ export class CheckoutComponent{
   checkoutForm: FormGroup;
   purchaseOrder: PurchaseOrder;
   deliveryPrice = 0;
+  loggedIn = false;
 
   deliveryMethods = [
     {
@@ -38,9 +40,11 @@ export class CheckoutComponent{
       price: 79
     }];
 
-  constructor(private formBuilder: FormBuilder, private orderService: OrderService) {
+  constructor(private formBuilder: FormBuilder, private orderService: OrderService, private authenticationService: AuthenticationService) {
     this.purchaseOrder = this.orderService.getCurrentPurchaseOrder();
     this.buildCheckOutForm();
+
+    this.loggedIn = this.authenticationService.getLoggedIn();
   }
 
   /**

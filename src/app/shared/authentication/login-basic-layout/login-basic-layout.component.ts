@@ -9,6 +9,7 @@ import { AuthenticationService } from '../../services/authentication/authenticat
 })
 export class LoginBasicLayoutComponent {
   @Input() title = '';
+  @Input() icon = '';
   @Input() loading = false;
   @Input() page = '';
 

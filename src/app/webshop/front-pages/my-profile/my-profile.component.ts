@@ -77,7 +77,7 @@ export class MyProfileComponent implements OnInit{
 
     this.userService.updateCurrentUserPassword(changePasswordDto).subscribe(() => {
       this.loading = false;
-      this.messageService.show('Password updated');
+      this.messageService.show('Adgangskode opdateret');
       this.showChangePasswordFields = !this.showChangePasswordFields;
     },
     error => {
@@ -122,7 +122,7 @@ export class MyProfileComponent implements OnInit{
 
     this.userService.updateCurrentUser(this.profileForm.value as User).subscribe(() => {
       this.loading = false;
-      this.messageService.show('Profile updated');
+      this.messageService.show('Profil opdateret');
     },
     error => {
       this.loading = false;
