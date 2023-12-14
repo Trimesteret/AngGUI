@@ -7,45 +7,45 @@
       </span>
       <mat-form-field>
         <mat-label>Fornavn</mat-label>
-        <input matInput type="text" formControlName="firstName">
+        <input matInput type="text" formControlName="firstName" (keyup.enter)="submitProfile()">
         <mat-icon matIconSuffix>person</mat-icon>
       </mat-form-field>
       <mat-form-field>
         <mat-label>Efternavn</mat-label>
-        <input matInput type="text" formControlName="lastName">
+        <input matInput type="text" formControlName="lastName" (keyup.enter)="submitProfile()">
         <mat-icon matIconSuffix>person</mat-icon>
       </mat-form-field>
       <mat-form-field>
         <mat-label>Telefon</mat-label>
-        <input matInput type="phone" formControlName="phone">
+        <input matInput type="phone" formControlName="phone" (keyup.enter)="submitProfile()">
         <mat-icon matIconSuffix>phone</mat-icon>
       </mat-form-field>
       <mat-form-field>
         <mat-label>Email</mat-label>
-        <input id="email" matInput type="text" formControlName="email">
+        <input id="email" matInput type="text" formControlName="email" (keyup.enter)="submitProfile()">
         <mat-icon matIconSuffix>email</mat-icon>
       </mat-form-field>
       <div *ngIf="showChangePasswordFields" fxLayout="column" fxLayoutAlign="start" fxLayoutGap="5">
         <mat-form-field appearance="fill" fxFlex="20">
           <mat-label>Nuværende adgangskode</mat-label>
-          <input id="password" [type]="hide ? 'password' : 'text'" matInput formControlName="password">
-          <button mat-icon-button matSuffix type="button" (click)="hide = !hide">
+          <input id="password" [type]="hide ? 'password' : 'text'" matInput formControlName="password" (keyup.enter)="submitProfile()">
+          <button mat-icon-button matSuffix type="button" (click)="hide = !hide" tabindex="1">
             <mat-icon>{{hide ? 'visibility_off' : 'visibility'}}</mat-icon>
           </button>
         </mat-form-field>
 
         <mat-form-field appearance="fill">
           <mat-label>Ny adgangskode</mat-label>
-          <input [type]="hideNew ? 'password' : 'text'" matInput formControlName="newPasswordOne">
-          <button mat-icon-button matSuffix type="button" (click)="hideNew = !hideNew">
+          <input [type]="hideNew ? 'password' : 'text'" matInput formControlName="newPasswordOne" (keyup.enter)="submitProfile()">
+          <button mat-icon-button matSuffix type="button" (click)="hideNew = !hideNew" tabindex="1">
             <mat-icon>{{hideNew ? 'visibility_off' : 'visibility'}}</mat-icon>
           </button>
         </mat-form-field>
 
         <mat-form-field appearance="fill">
           <mat-label>Gentag ny adgangskode</mat-label>
-          <input [type]="hideNew ? 'password' : 'text'" matInput formControlName="newPasswordTwo">
-          <button mat-icon-button matSuffix type="button" (click)="hideNew = !hideNew">
+          <input [type]="hideNew ? 'password' : 'text'" matInput formControlName="newPasswordTwo" (keyup.enter)="submitProfile()">
+          <button mat-icon-button matSuffix type="button" (click)="hideNew = !hideNew" tabindex="1">
             <mat-icon>{{hideNew ? 'visibility_off' : 'visibility'}}</mat-icon>
           </button>
         </mat-form-field>

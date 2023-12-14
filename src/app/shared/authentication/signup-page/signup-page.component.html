@@ -2,37 +2,46 @@
   <form fxFlex class="full-width" fxLayout="column" fxLayoutGap="9" [formGroup]="signupForm" (ngSubmit)="signup()">
     <mat-form-field>
       <mat-label>Fornavn</mat-label>
-      <input matInput id="first-name" type="text" formControlName="firstName">
+      <input matInput id="first-name" type="text" formControlName="firstName" (keyup.enter)="signup()">
       <mat-icon matIconSuffix>person</mat-icon>
+      <mat-error *ngIf="signupForm.get('firstName').hasError('required')">Fornavn skal udfyldes</mat-error>
     </mat-form-field>
     <mat-form-field>
       <mat-label>Efternavn</mat-label>
-      <input matInput id="surname" type="text" formControlName="lastName">
+      <input matInput id="surname" type="text" formControlName="lastName" (keyup.enter)="signup()">
       <mat-icon matIconSuffix>person</mat-icon>
+      <mat-error *ngIf="signupForm.get('lastName').hasError('required')">Efternavn skal udfyldes</mat-error>
     </mat-form-field>
     <mat-form-field>
       <mat-label>Telefonnummer</mat-label>
-      <input matInput id="phone" type="tel" formControlName="phone">
+      <input matInput id="phone" type="tel" formControlName="phone" (keyup.enter)="signup()">
       <mat-icon matIconSuffix>phone</mat-icon>
+      <mat-error *ngIf="signupForm.get('phone').hasError('required')">Telefonnummer skal udfyldes</mat-error>
     </mat-form-field>
     <mat-form-field>
       <mat-label>Din email</mat-label>
-      <input matInput id="email" type="email" formControlName="email">
+      <input matInput id="email" type="email" formControlName="email" (keyup.enter)="signup()">
       <mat-icon matIconSuffix>mail</mat-icon>
+      <mat-error *ngIf="signupForm.get('email').hasError('required')">Email skal udfyldes</mat-error>
+      <mat-error *ngIf="signupForm.get('email').hasError('email')">Email er ugyldig</mat-error>
     </mat-form-field>
     <mat-form-field>
       <mat-label>Din adgangskode</mat-label>
-      <input matInput id="password" [type]="hide ? 'password' : 'text'" formControlName="password">
-      <button mat-icon-button matSuffix type="button" (click)="hide = !hide">
+      <input matInput id="password" [type]="hide ? 'password' : 'text'" formControlName="password" (keyup.enter)="signup()">
+      <button mat-icon-button matSuffix tabindex="1" type="button" (click)="hide = !hide">
         <mat-icon>{{hide ? 'visibility_off' : 'visibility'}}</mat-icon>
       </button>
+      <mat-error *ngIf="signupForm.get('password').hasError('required')">Adgangskode skal udfyldes</mat-error>
+      <mat-error *ngIf="signupForm.get('password').hasError('minlength')">Adgangskode skal minimum have 7 tegn</mat-error>
     </mat-form-field>
     <mat-form-field>
       <mat-label>Gentag adgangskode</mat-label>
-      <input matInput id="repeat-password" [type]="repeatHide ? 'password' : 'text'" formControlName="repeatPassword">
-      <button mat-icon-button matSuffix type="button" (click)="repeatHide = !repeatHide">
+      <input matInput id="repeat-password" [type]="repeatHide ? 'password' : 'text'" formControlName="repeatPassword" (keyup.enter)="signup()">
+      <button mat-icon-button matSuffix tabindex="1" type="button" (click)="repeatHide = !repeatHide">
         <mat-icon>{{repeatHide ? 'visibility_off' : 'visibility'}}</mat-icon>
       </button>
+      <mat-error *ngIf="signupForm.get('repeatPassword').hasError('required')">Adgangskode skal udfyldes</mat-error>
+      <mat-error *ngIf="signupForm.get('repeatPassword').hasError('minlength')">Adgangskode skal minimum have 7 tegn</mat-error>
     </mat-form-field>
   </form>
 </app-login-basic-layout>

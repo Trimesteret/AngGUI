@@ -55,7 +55,7 @@
           <div fxFlex fxLayoutAlign="center center" fxLayout="column">
             <mat-form-field class="full-width">
               <mat-label>Antal</mat-label>
-              <input matInput [(ngModel)]="quantity" type="number" value="1">
+              <input matInput [(ngModel)]="quantity" type="number" value="1" (keyup.enter)="addToCart(item)">
             </mat-form-field>
             <button class="full-width" (click)="addToCart(item)" mat-raised-button color="primary">Føj til kurv</button>
           </div>
