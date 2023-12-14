@@ -4,7 +4,6 @@ import { OrderLineDto } from '../../shared/interfaces/order-line-dto';
 import { OrderService } from '../../shared/services/order/order.service';
 import { PurchaseOrder } from '../../shared/models/purchase-order';
 import { AuthenticationService } from '../../shared/services/authentication/authentication.service';
-import { Address } from '../../shared/models/address';
 import { MessageService } from '../../shared/services/message.service';
 
 @Component({
@@ -55,11 +54,14 @@ export class CheckoutComponent{
    */
   public buildCheckOutForm(): void {
     this.checkoutForm = this.formBuilder.group({
-      name: ['', Validators.required],
-      phoneNumber: ['', Validators.required],
-      email: ['', Validators.required],
+      user: this.formBuilder.group({
+        firstName: ['', Validators.required],
+        lastName: ['', Validators.required],
+        phoneNumber: ['', Validators.required],
+        email: ['', Validators.required]
+      }),
       address: this.formBuilder.group({
-        address: ['', Validators.required],
+        addressLine: ['', Validators.required],
         country: ['Danmark', Validators.required],
         postalCode: ['', Validators.required],
         city: ['', Validators.required],
@@ -103,6 +105,12 @@ export class CheckoutComponent{
     }
 
     const purchaseOrder = this.checkoutForm.value as PurchaseOrder;
+    purchaseOrder.orderLines = this.purchaseOrder.orderLines;
+    purchaseOrder.orderDate = new Date();
     console.log(purchaseOrder);
+    this.orderService.createPurchaseOrder(purchaseOrder).subscribe((response) => {
+      console.log(response);
+      /** Reroute to webshop page **/
+    });
   }
 }

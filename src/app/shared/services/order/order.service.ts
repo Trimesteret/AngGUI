@@ -42,6 +42,14 @@ export class OrderService {
   }
 
   /**
+   * Creates a purchase order
+   * @param purchaseOrder
+   */
+  public createPurchaseOrder(purchaseOrder: PurchaseOrder): Observable<PurchaseOrder> {
+    return this.http.post<PurchaseOrder>(this.url + '/purchaseOrder', purchaseOrder);
+  }
+
+  /**
    * Updates an inbound order
    * @param inboundOrder the inbound order to update
    */

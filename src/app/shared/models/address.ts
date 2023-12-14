@@ -3,7 +3,7 @@ export class Address {
   addressLine: string;
   floor?: string;
   door?: string;
-  zipCode: string;
+  postalCode: string;
   city: string;
   country: string;
 }

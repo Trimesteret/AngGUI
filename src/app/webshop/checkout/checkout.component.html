@@ -6,25 +6,31 @@
         <h1 class="no-margin no-padding">Dine informationer</h1>
       </span>
       <ng-container>
-        <mat-form-field>
-          <mat-label>Fuldt navn</mat-label>
-          <input id="name" matInput formControlName="name">
-        </mat-form-field>
+        <div formGroupName="user" fxFlex fxLayout="column">
+          <mat-form-field>
+            <mat-label>Fornavn</mat-label>
+            <input id="first-name" matInput formControlName="firstName">
+          </mat-form-field>
 
-        <mat-form-field>
-          <mat-label>Telefon Nummer</mat-label>
-          <input id="phone-number" matInput formControlName="phoneNumber">
-        </mat-form-field>
+          <mat-form-field>
+            <mat-label>Efternavn</mat-label>
+            <input id="surname" matInput formControlName="lastName">
+          </mat-form-field>
 
-        <mat-form-field>
-          <mat-label>Email</mat-label>
-          <input id="email" matInput formControlName="email">
-        </mat-form-field>
+          <mat-form-field>
+            <mat-label>Telefon Nummer</mat-label>
+            <input id="phone-number" matInput formControlName="phoneNumber">
+          </mat-form-field>
 
+          <mat-form-field>
+            <mat-label>Email</mat-label>
+            <input id="email" matInput formControlName="email">
+          </mat-form-field>
+        </div>
         <div formGroupName="address" fxFlex fxLayout="column">
           <mat-form-field>
             <mat-label>Adresse</mat-label>
-            <input id="address" matInput formControlName="address">
+            <input id="address" matInput formControlName="addressLine">
           </mat-form-field>
 
           <mat-form-field>
@@ -56,9 +62,9 @@
       </mat-selection-list>
 
       <div class="go-to-payment-box" fxLayout="column">
-        <mat-checkbox formControlName="termsCheckbox" required>Jeg accepterer handelsbetingelserne</mat-checkbox>
+        <mat-checkbox formControlName="termsCheckbox">Jeg accepterer handelsbetingelserne</mat-checkbox>
         <mat-checkbox formControlName="newsletterCheckbox">Jeg vil gerne have gode tilbud og nyheder fra Budolfi Vin i indbakken</mat-checkbox>
-        <button fxFlex="50" mat-raised-button color="primary" (click)="goToPayment()"> Gå til betaling </button>
+        <button fxFlex="50" mat-raised-button color="primary"> Gå til betaling </button>
       </div>
     </form>
 
