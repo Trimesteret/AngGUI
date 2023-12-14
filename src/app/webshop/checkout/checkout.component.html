@@ -8,39 +8,41 @@
       <ng-container>
         <mat-form-field>
           <mat-label>Fuldt navn</mat-label>
-          <input matInput formControlName="name">
+          <input id="name" matInput formControlName="name">
         </mat-form-field>
 
         <mat-form-field>
           <mat-label>Telefon Nummer</mat-label>
-          <input matInput formControlName="phoneNumber">
+          <input id="phone-number" matInput formControlName="phoneNumber">
         </mat-form-field>
 
         <mat-form-field>
           <mat-label>Email</mat-label>
-          <input matInput formControlName="email">
+          <input id="email" matInput formControlName="email">
         </mat-form-field>
 
-        <mat-form-field>
-          <mat-label>Adresse</mat-label>
-          <input matInput formControlName="address">
-        </mat-form-field>
-
-        <mat-form-field>
-          <mat-label>Land</mat-label>
-          <input matInput formControlName="country">
-        </mat-form-field>
-
-        <div fxLayout="row" fxLayoutGap="15px">
-          <mat-form-field fxFlex>
-            <mat-label>By</mat-label>
-            <input matInput formControlName="city">
+        <div formGroupName="address" fxFlex fxLayout="column">
+          <mat-form-field>
+            <mat-label>Adresse</mat-label>
+            <input id="address" matInput formControlName="address">
           </mat-form-field>
 
-          <mat-form-field fxFlex>
-            <mat-label>Postnummer</mat-label>
-            <input matInput formControlName="postcode">
+          <mat-form-field>
+            <mat-label>Land</mat-label>
+            <input id="country" matInput formControlName="country">
           </mat-form-field>
+
+          <div fxLayout="row" fxLayoutGap="15px">
+            <mat-form-field fxFlex>
+              <mat-label>By</mat-label>
+              <input id="city" matInput formControlName="city">
+            </mat-form-field>
+
+            <mat-form-field fxFlex>
+              <mat-label>Postnummer</mat-label>
+              <input id="postalCode" matInput formControlName="postalCode">
+            </mat-form-field>
+          </div>
         </div>
       </ng-container>
 

@@ -4,6 +4,8 @@ import { OrderLineDto } from '../../shared/interfaces/order-line-dto';
 import { OrderService } from '../../shared/services/order/order.service';
 import { PurchaseOrder } from '../../shared/models/purchase-order';
 import { AuthenticationService } from '../../shared/services/authentication/authentication.service';
+import { Address } from '../../shared/models/address';
+import { MessageService } from '../../shared/services/message.service';
 
 @Component({
   selector: 'app-checkout',
@@ -40,7 +42,8 @@ export class CheckoutComponent{
       price: 79
     }];
 
-  constructor(private formBuilder: FormBuilder, private orderService: OrderService, private authenticationService: AuthenticationService) {
+  constructor(private formBuilder: FormBuilder, private orderService: OrderService, private authenticationService: AuthenticationService,
+              private messageService: MessageService) {
     this.purchaseOrder = this.orderService.getCurrentPurchaseOrder();
     this.buildCheckOutForm();
 
@@ -55,10 +58,12 @@ export class CheckoutComponent{
       name: ['', Validators.required],
       phoneNumber: ['', Validators.required],
       email: ['', Validators.required],
-      address: ['', Validators.required],
-      country: ['Danmark', Validators.required],
-      postcode: ['', Validators.required],
-      city: ['', Validators.required],
+      address: this.formBuilder.group({
+        address: ['', Validators.required],
+        country: ['Danmark', Validators.required],
+        postalCode: ['', Validators.required],
+        city: ['', Validators.required],
+      }),
       deliveryMethod: ['', Validators.required],
       termsCheckbox: [false, Validators.required],
       newsletterCheckbox: [false],
@@ -88,7 +93,16 @@ export class CheckoutComponent{
     return this.getCalculatedTotalPrice() + this.deliveryPrice;
   }
 
+  /**
+   *
+   */
   public goToPayment(): void {
-    // Not implemented, should send the order to API
+    if(this.checkoutForm.invalid || !this.checkoutForm.get('termsCheckbox').value) {
+      this.messageService.show('Udfyld venligst alle felterne og accepter handelsbetingelserne');
+      return;
+    }
+
+    const purchaseOrder = this.checkoutForm.value as PurchaseOrder;
+    console.log(purchaseOrder);
   }
 }
