@@ -70,6 +70,14 @@ export class ItemsService {
   }
 
   /**
+   * Gets all items by supplier id
+   * @param supplierId
+   */
+  public getSupplierRelatedItems(supplierId: number): Observable<ItemDto[]> {
+    return this.http.get<ItemDto[]>(this.url + '/supplier/' + supplierId);
+  }
+
+  /**
    * Creates an item
    * @param item the item to create
    */

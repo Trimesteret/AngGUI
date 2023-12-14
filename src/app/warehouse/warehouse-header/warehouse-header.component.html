@@ -44,11 +44,11 @@
         </mat-icon>
       </button>
       <mat-menu #orderMenu="matMenu">
-        <button mat-menu-item routerLink="/warehouse/inbound-orders">
+        <button mat-menu-item routerLink="/warehouse/browse-inbound-orders">
           <mat-icon>system_update_alt</mat-icon>
           <span>Indkommende Ordrer</span>
         </button>
-        <button mat-menu-item routerLink="/warehouse/purchase-orders">
+        <button mat-menu-item routerLink="/warehouse/browse-purchase-orders">
           <mat-icon><img src="assets/package.svg" alt="package"></mat-icon>
           <span>Kunde Ordrer</span>
         </button>
@@ -59,7 +59,7 @@
       </button>
     </div>
     <ng-container *ngIf="isTablet">
-      <button mat-icon-button color="none" [matMenuTriggerFor]="menu">
+      <button mat-icon-button [matMenuTriggerFor]="menu">
         <mat-icon>menu</mat-icon>
       </button>
     </ng-container>
@@ -103,11 +103,11 @@
       storefront
     </mat-icon>
   </button>
-  <button mat-menu-item routerLink="/warehouse/inbound-orders">
+  <button mat-menu-item routerLink="/warehouse/browse-inbound-orders">
     Indkommende Ordrer
     <mat-icon>system_update_alt</mat-icon>
   </button>
-  <button mat-menu-item routerLink="/warehouse/purchase-orders">
+  <button mat-menu-item routerLink="/warehouse/browse-purchase-orders">
     Kunde Ordrer
     <mat-icon><img src="assets/package.svg" alt="package"></mat-icon>
   </button>

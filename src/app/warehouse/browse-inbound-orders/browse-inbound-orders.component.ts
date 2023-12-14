@@ -9,11 +9,11 @@ import { MatPaginator } from '@angular/material/paginator';
 import { InboundOrder } from '../../shared/models/inbound-order';
 
 @Component({
-  selector: 'app-inbound-orders',
-  templateUrl: './inbound-orders.component.html',
-  styleUrls: ['./inbound-orders.component.scss']
+  selector: 'app-browse-inbound-orders',
+  templateUrl: './browse-inbound-orders.component.html',
+  styleUrls: ['./browse-inbound-orders.component.scss']
 })
-export class InboundOrdersComponent implements AfterViewInit{
+export class BrowseInboundOrdersComponent implements AfterViewInit{
   loading = true;
   inboundOrders: MatTableDataSource<InboundOrder> = new MatTableDataSource<InboundOrder>();
 
@@ -32,7 +32,7 @@ export class InboundOrdersComponent implements AfterViewInit{
   }
 
   public editOrder(orderId: number): void {
-    this.router.navigate([`/warehouse/order/${orderId}`]);
+    this.router.navigate([`/warehouse/edit-inbound-order/${orderId}`]);
   }
 
   public applySearch(event: Event): void {

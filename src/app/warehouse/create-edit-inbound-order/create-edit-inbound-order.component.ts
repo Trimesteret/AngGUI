@@ -15,21 +15,22 @@ import { OrderLine } from '../../shared/models/order-line';
 import { MatTableDataSource } from '@angular/material/table';
 
 @Component({
-  selector: 'app-create-inbound-order',
-  templateUrl: './create-inbound-order.component.html',
-  styleUrls: ['./create-inbound-order.component.scss'],
+  selector: 'app-create-edit-inbound-order',
+  templateUrl: './create-edit-inbound-order.component.html',
+  styleUrls: ['./create-edit-inbound-order.component.scss'],
 })
 
-export class CreateInboundOrderComponent {
+export class CreateEditInboundOrderComponent {
   loading = true;
   editing = false;
   inboundOrderForm: FormGroup;
   suppliers: SupplierDto[] = [];
   search = '';
-  filteredItems: ItemDto[];
-  allItems: ItemDto[];
+  filteredSupplierItems: ItemDto[];
+  supplierItems: ItemDto[];
+  selectedSupplier: SupplierDto;
   orderLines: MatTableDataSource<OrderLine> = new MatTableDataSource<OrderLine>();
-  associatedColumns: string[] =  ['id', 'linePrice', 'remove'];
+  associatedColumns: string[] =  ['itemName', 'quantity', 'linePrice', 'remove'];
 
   constructor(private formBuilder: FormBuilder, private supplierService: SupplierService, private messageService: MessageService,
               private route: ActivatedRoute, private location: Location, private orderService: OrderService,
@@ -39,15 +40,15 @@ export class CreateInboundOrderComponent {
     this.supplierService.getAllSuppliers().subscribe(suppliers => {
       this.suppliers = suppliers;
     });
-    this.getAllItems();
   }
 
   /**
    * Gets all items
    */
-  public getAllItems(): void {
-    this.itemService.getAllItems().subscribe(items => {
-      this.allItems = items;
+  public getSupplierRelatedItems(): void {
+    this.itemService.getSupplierRelatedItems(this.selectedSupplier?.id).subscribe(items => {
+      this.supplierItems = items;
+      this.supplierItems = this.supplierItems.filter(item => !this.orderLines.data.find(orderLine => orderLine.item.id === item.id));
       this.loading = false;
     });
   }
@@ -81,10 +82,11 @@ export class CreateInboundOrderComponent {
    */
   public addItemToOrderLines(event: any): void {
     const itemId = event.option.value.id;
-    const associatedOrderLine = this.orderLines.data.find(ol => ol.item.id === itemId);
+    const associatedOrderLine = this.orderLines.data.find(ol => ol.itemId === itemId);
     if(!associatedOrderLine){
-      const item = this.allItems.find(item => item.id === itemId);
-      this.orderLines.data.push(new OrderLine(item.quantity, item));
+      const item = this.supplierItems.find(item => item.id === itemId);
+      this.orderLines.data.push(new OrderLine(1, item));
+      this.supplierItems = this.supplierItems.filter(item => !this.orderLines.data.find(orderLine => orderLine.item.id === item.id));
       const updatedData = this.orderLines.data;
       this.orderLines.data = updatedData;
       this.messageService.show('Vare tilknyttet til leverandør');
@@ -101,7 +103,8 @@ export class CreateInboundOrderComponent {
    * @param orderLine the ordeline to remove
    */
   public removeOrderLineFromTable(orderLine: OrderLine): void {
-    this.orderLines.data = this.orderLines.data.filter(ol => ol.id !== orderLine.id);
+    this.orderLines.data = this.orderLines.data.filter(ol => ol.itemId !== orderLine.itemId);
+    this.getSupplierRelatedItems();
   }
 
   /**
@@ -114,6 +117,15 @@ export class CreateInboundOrderComponent {
       orderState: [inboundOrder ? Number.isInteger(inboundOrder.orderState) ? InboundOrderState[inboundOrder.orderState] : InboundOrderState.Open : InboundOrderState.Open, Validators.required],
       orderDate: [inboundOrder?.orderDate ? inboundOrder?.orderDate : new Date(), Validators.required],
       deliveryDate: [inboundOrder?.deliveryDate ? inboundOrder?.deliveryDate : new Date(), Validators.required],
+    });
+
+    if(this.editing) {
+      this.inboundOrderForm.controls['supplier'].disable();
+    }
+
+    this.inboundOrderForm.controls['supplier'].valueChanges.subscribe(value => {
+      this.selectedSupplier = value;
+      this.getSupplierRelatedItems();
     });
   }
 
@@ -171,7 +183,7 @@ export class CreateInboundOrderComponent {
    * The search function for searching through all items
    */
   public applySearch(): void {
-    this.filteredItems = this.allItems.filter(item =>
+    this.filteredSupplierItems = this.supplierItems.filter(item =>
       item.name.toLowerCase().includes(this.search) || item.ean.toLowerCase().includes(this.search)
       || item.id.toString().includes(this.search) || ItemType[item.itemType].toString().includes(this.search)
     );

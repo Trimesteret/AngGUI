@@ -36,12 +36,30 @@
           <mat-datepicker #picker></mat-datepicker>
         </mat-form-field>
       </form>
+
+      <mat-form-field>
+        <mat-label>Søg</mat-label>
+        <input matInput [disabled]="!selectedSupplier" [matAutocomplete]="auto" [(ngModel)]="search" (ngModelChange)="applySearch()">
+        <mat-autocomplete #auto="matAutocomplete" (optionSelected)="addItemToOrderLines($event)">
+          <mat-option *ngFor="let item of filteredSupplierItems" [value]="item">
+            {{ 'Type: ' + ItemType[item.itemType] + ' -  Navn: ' + item.name + ' - Ean: ' + item.ean }}
+          </mat-option>
+        </mat-autocomplete>
+      </mat-form-field>
+
       <table mat-table *ngIf="orderLines?.data?.length" [dataSource]="orderLines" (matSortChange)="sortData($event)" matSort class="mat-elevation-z8">
-        <ng-container matColumnDef="id">
-          <th mat-header-cell *matHeaderCellDef mat-sort-header sortActionDescription="Sort by id">
-            Id
+        <ng-container matColumnDef="itemName">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header sortActionDescription="Sort by status">
+            Navn
           </th>
-          <td mat-cell *matCellDef="let orderLine"> {{orderLine.id}} </td>
+          <td mat-cell *matCellDef="let orderLine"> {{orderLine.item.name}} </td>
+        </ng-container>
+
+        <ng-container matColumnDef="quantity">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header sortActionDescription="Sort by status">
+            Bestilte Antal
+          </th>
+          <td mat-cell *matCellDef="let orderLine"> {{orderLine.quantity}} </td>
         </ng-container>
 
         <ng-container matColumnDef="linePrice">
@@ -55,26 +73,16 @@
           <th mat-header-cell *matHeaderCellDef mat-sort-header sortActionDescription="Sort by status">
             Fjern
           </th>
-          <td mat-cell *matCellDef="let item">
-            <button type="button" (click)="removeOrderLineFromTable(item)" color="warn" mat-mini-fab><mat-icon>remove</mat-icon></button>
+          <td mat-cell *matCellDef="let orderLine">
+            <button type="button" (click)="removeOrderLineFromTable(orderLine)" color="warn" mat-mini-fab><mat-icon>remove</mat-icon></button>
           </td>
         </ng-container>
 
         <tr mat-header-row *matHeaderRowDef="associatedColumns"></tr>
-        <tr mat-row class="selectable-row" *matRowDef="let item; columns: associatedColumns;"></tr>
+        <tr mat-row class="selectable-row" *matRowDef="let orderline; columns: associatedColumns;"></tr>
       </table>
 
-      <mat-form-field>
-        <mat-label>Søg</mat-label>
-        <input matInput [matAutocomplete]="auto" [(ngModel)]="search" (ngModelChange)="applySearch()">
-        <mat-autocomplete #auto="matAutocomplete" (optionSelected)="addItemToOrderLines($event)">
-          <mat-option *ngFor="let item of filteredItems" [value]="item">
-            {{ 'Type: ' + ItemType[item.itemType] + ' -  Navn: ' + item.name + ' - Ean: ' + item.ean }}
-          </mat-option>
-        </mat-autocomplete>
-      </mat-form-field>
-
-      <div fxFlex fxLayout="row" fxLayoutAlign="end center" fxLayoutGap="20">
+      <div fxFlex fxLayout="row" fxLayoutAlign="end center" class="margin-top-30" fxLayoutGap="20">
         <button *ngIf="editing" color="warn" type="button" [disabled]="inboundOrderForm.dirty" (click)="deleteInboundOrder()" mat-raised-button>
           <mat-icon>delete</mat-icon>
           Slet

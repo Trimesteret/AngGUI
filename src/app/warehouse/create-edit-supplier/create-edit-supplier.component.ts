@@ -40,6 +40,7 @@ export class CreateEditSupplierComponent implements AfterViewInit{
     this.itemService.getAllItems().subscribe(items => {
       this.allItems = items;
       this.loading = false;
+      this.allItems = this.allItems.filter(item => !this.associatedItems.data.find(associatedItem => associatedItem.id === item.id));
     });
   }
 
@@ -130,6 +131,7 @@ export class CreateEditSupplierComponent implements AfterViewInit{
     const associatedItem = this.associatedItems.data.find(assItem => assItem.id === itemId);
     if(!associatedItem){
       this.associatedItems.data.push(this.allItems.find(item => item.id === itemId));
+      this.allItems = this.allItems.filter(item => !this.associatedItems.data.find(associatedItem => associatedItem.id === item.id));
       const updatedData = this.associatedItems.data;
       this.associatedItems.data = updatedData;
       this.messageService.show('Vare tilknyttet til leverandør');
@@ -164,9 +166,10 @@ export class CreateEditSupplierComponent implements AfterViewInit{
    * The search function for searching through all items
    */
   public applySearch(): void {
+    const search = this.search.toLowerCase();
     this.filteredItems = this.allItems.filter(item =>
-      item.name.toLowerCase().includes(this.search) || item.ean.toLowerCase().includes(this.search)
-      || item.id.toString().includes(this.search) || ItemType[item.itemType].toString().includes(this.search)
+      item.name.toLowerCase().includes(search) || item.ean.toLowerCase().includes(search)
+      || item.id.toString().includes(search) || ItemType[item.itemType].toString().includes(search)
     );
   }
 
