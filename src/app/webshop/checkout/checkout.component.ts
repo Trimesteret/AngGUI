@@ -7,7 +7,6 @@ import { AuthenticationService } from '../../shared/services/authentication/auth
 import { MessageService } from '../../shared/services/message.service';
 import { UserStandardDto } from '../../shared/models/user-standard-dto';
 import { Address } from '../../shared/models/address';
-import { catchError } from 'rxjs';
 
 @Component({
   selector: 'app-checkout',
