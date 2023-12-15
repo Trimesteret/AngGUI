@@ -54,7 +54,7 @@ export class CheckoutComponent{
    */
   public buildCheckOutForm(): void {
     this.checkoutForm = this.formBuilder.group({
-      user: this.formBuilder.group({
+      customer: this.formBuilder.group({
         firstName: ['', Validators.required],
         lastName: ['', Validators.required],
         phoneNumber: ['', Validators.required],

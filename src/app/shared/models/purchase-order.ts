@@ -1,11 +1,11 @@
 import { PurchaseOrderState } from '../enums/purchase-order-state';
 import { OrderLineDto } from '../interfaces/order-line-dto';
 import { Address } from './address';
-import { User } from './user';
+import { UserStandardDto } from './user-standard-dto';
 
 export class PurchaseOrder {
   id?: number;
-  user: User;
+  customer: UserStandardDto;
   purchaseOrderState: PurchaseOrderState;
   orderDate: Date;
   deliveryDate?: Date;
