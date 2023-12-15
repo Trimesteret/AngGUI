@@ -5,6 +5,9 @@ import { OrderService } from '../../shared/services/order/order.service';
 import { PurchaseOrder } from '../../shared/models/purchase-order';
 import { AuthenticationService } from '../../shared/services/authentication/authentication.service';
 import { MessageService } from '../../shared/services/message.service';
+import { UserStandardDto } from '../../shared/models/user-standard-dto';
+import { Address } from '../../shared/models/address';
+import { catchError } from 'rxjs';
 
 @Component({
   selector: 'app-checkout',
@@ -54,10 +57,10 @@ export class CheckoutComponent{
    */
   public buildCheckOutForm(): void {
     this.checkoutForm = this.formBuilder.group({
-      customer: this.formBuilder.group({
+      orderCustomer: this.formBuilder.group({
         firstName: ['', Validators.required],
         lastName: ['', Validators.required],
-        phoneNumber: ['', Validators.required],
+        phone: ['', Validators.required],
         email: ['', Validators.required]
       }),
       address: this.formBuilder.group({
@@ -105,12 +108,16 @@ export class CheckoutComponent{
     }
 
     const purchaseOrder = this.checkoutForm.value as PurchaseOrder;
+    purchaseOrder.orderCustomer = this.checkoutForm.value.orderCustomer as UserStandardDto;
+    purchaseOrder.address = this.checkoutForm.value.address as Address;
     purchaseOrder.orderLines = this.purchaseOrder.orderLines;
     purchaseOrder.orderDate = new Date();
-    console.log(purchaseOrder);
+
     this.orderService.createPurchaseOrder(purchaseOrder).subscribe((response) => {
       console.log(response);
       /** Reroute to webshop page **/
+    }, error => {
+      this.messageService.showError(error);
     });
   }
 }

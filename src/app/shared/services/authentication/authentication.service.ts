@@ -7,6 +7,7 @@ import { Role } from '../../enums/role';
 import { LoginDto } from '../../models/login-dto';
 import { AuthPas } from '../../models/auth-pas';
 import { User } from '../../models/user';
+import { ForgotPasswordDto } from '../../models/forgot-password-dto';
 
 @Injectable({
   providedIn: 'root'
@@ -62,6 +63,14 @@ export class AuthenticationService {
    */
   public getLoggedIn(): boolean {
     return this.cookieService.check('jwtToken');
+  }
+
+  /**
+   * Forgot password function
+   * @param forgotPasswordDto the forgot password dto
+   */
+  public forgotPassword(forgotPasswordDto: ForgotPasswordDto): Observable<any> {
+    return this.http.post<any>(this.url + '/ForgotPassword', forgotPasswordDto);
   }
 
   /**

@@ -32,8 +32,7 @@ export const roleGuard: CanActivateFn = (route, state) => {
         return of(true);
       } else {
         messageService.show('Du har ikke tilladelse til at se den her side');
-        cookieService.delete('role');
-        router.navigate(['/']);
+        cookieService.set('role', userRole.toString());
         return of(false);
       }
     }),

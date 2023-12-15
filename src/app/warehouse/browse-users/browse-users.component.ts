@@ -17,7 +17,7 @@ export class BrowseUsersComponent implements AfterViewInit{
   loading = true;
   users: MatTableDataSource<UserStandardDto>;
 
-  public displayedColumns: string[] = ['id', 'firstName', 'lastName', 'email', 'phone', 'role'];
+  public displayedColumns: string[] = ['id', 'firstName', 'lastName', 'email', 'phone', 'signedUp', 'role'];
 
   @ViewChild(MatPaginator) paginator: MatPaginator;
 
@@ -70,6 +70,8 @@ export class BrowseUsersComponent implements AfterViewInit{
           return this.compare(a.email, b.email, isAsc);
         case 'phone':
           return this.compare(a.phone, b.phone, isAsc);
+        case 'signedUp':
+          return this.compare(a.signedUp.valueOf().toString(), b.signedUp.valueOf().toString(), isAsc);
         case 'role':
           return this.compare(a.role ? a.role.toString() : 0, b.role ? b.role.toString() : 0, isAsc);
         default:

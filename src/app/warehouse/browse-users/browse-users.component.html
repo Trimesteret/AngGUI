@@ -47,6 +47,13 @@
           <td mat-cell *matCellDef="let user"> {{user.phone}} </td>
         </ng-container>
 
+        <ng-container matColumnDef="signedUp">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header sortActionDescription="Sort by status">
+            Oprettet
+          </th>
+          <td mat-cell *matCellDef="let user"> {{user.signedUp?.toString()}} </td>
+        </ng-container>
+
         <ng-container matColumnDef="role">
           <th mat-header-cell *matHeaderCellDef mat-sort-header sortActionDescription="Sort by status">
             Rolle

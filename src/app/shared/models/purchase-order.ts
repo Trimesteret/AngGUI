@@ -5,7 +5,7 @@ import { UserStandardDto } from './user-standard-dto';
 
 export class PurchaseOrder {
   id?: number;
-  customer: UserStandardDto;
+  orderCustomer: UserStandardDto;
   purchaseOrderState: PurchaseOrderState;
   orderDate: Date;
   deliveryDate?: Date;

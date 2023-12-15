@@ -6,5 +6,6 @@ export interface UserStandardDto {
   lastName: string;
   email: string;
   phone: string;
+  signedUp?: boolean;
   role?: Role;
 }

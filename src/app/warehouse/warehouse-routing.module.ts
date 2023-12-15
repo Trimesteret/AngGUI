@@ -17,7 +17,7 @@ import { BrowsePurchaseOrdersComponent } from './browse-purchase-orders/browse-p
 import { CreateEditPurchaseOrdersComponent } from './create-edit-purchase-orders/create-edit-purchase-orders.component';
 
 const routes: Routes = [
-  { path: 'browse-items', component: BrowseItemsComponent, canActivate: [authGuard, roleGuard], data: { expectedRole: Role.Admin } },
+  { path: 'browse-items', component: BrowseItemsComponent, canActivate: [authGuard, roleGuard], data: { expectedRole: Role.Employee } },
   { path: 'browse-suppliers', component: BrowseSuppliersComponent, canActivate: [authGuard, roleGuard], data: { expectedRole: Role.Admin } },
   { path: 'browse-users', component: BrowseUsersComponent, canActivate: [authGuard, roleGuard], data: { expectedRole: Role.Admin } },
   { path: 'edit-user/:id', component: CreateEditUserComponent, canActivate: [authGuard, roleGuard], data: { expectedRole: Role.Admin } },
@@ -29,7 +29,7 @@ const routes: Routes = [
   { path: 'browse-purchase-orders', component: BrowsePurchaseOrdersComponent, canActivate: [authGuard, roleGuard], data: { expectedRole: Role.Admin } },
   { path: 'create-inbound-order', component: CreateEditInboundOrderComponent, canActivate: [authGuard, roleGuard], data: { expectedRole: Role.Admin } },
   { path: 'edit-inbound-order/:id', component: CreateEditInboundOrderComponent, canActivate: [authGuard, roleGuard], data: { expectedRole: Role.Admin } },
-  { path: 'create-purchase-order', component: CreateEditPurchaseOrdersComponent, canActivate: [authGuard, roleGuard], data: { expectedRole: Role.Admin } },
+  { path: 'create-purchase-order', component: CreateEditPurchaseOrdersComponent, canActivate: [authGuard, roleGuard], data: { expectedRole: Role.Employee } },
   { path: 'edit-purchase-order/:id', component: CreateEditPurchaseOrdersComponent, canActivate: [authGuard, roleGuard], data: { expectedRole: Role.Admin } },
   { path: 'edit-item/:id', component: CreateEditItemComponent, canActivate: [authGuard, roleGuard], data: { expectedRole: Role.Admin } },
   { path: 'edit-enum/:id', component: CreateEditEnumComponent, canActivate: [authGuard, roleGuard], data: { expectedRole: Role.Admin } },

@@ -1,5 +1,8 @@
 import { Component } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { AuthenticationService } from '../../services/authentication/authentication.service';
+import { ForgotPasswordDto } from '../../models/forgot-password-dto';
+import { MessageService } from '../../services/message.service';
 
 @Component({
   selector: 'app-forgot-password',
@@ -13,14 +16,21 @@ export class ForgotPasswordComponent {
     email: new FormControl('', [
       Validators.required,
       Validators.email
-    ]),
-    password: new FormControl('', [
-      Validators.required,
-      Validators.minLength(7)
-    ]),
+    ])
   });
 
+  constructor(private authenticationService: AuthenticationService, private messageService: MessageService) {
+  }
+
   public forgotPassword(): void{
-    console.log(this.forgotForm.value);
+    if(!this.forgotForm.valid){
+      return this.messageService.show('Please fill in a valid email address');
+    }
+
+    const forgotPasswordDto = this.forgotForm.value as ForgotPasswordDto;
+    this.authenticationService.forgotPassword(forgotPasswordDto).subscribe(res => {
+      console.log(res.newPassword);
+      this.messageService.show('Your new password is ' + res.newPassword);
+    });
   }
 }
