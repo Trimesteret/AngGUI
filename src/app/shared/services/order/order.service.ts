@@ -7,6 +7,7 @@ import { OrderLineDto } from '../../interfaces/order-line-dto';
 import { MessageService } from '../message.service';
 import { Observable } from 'rxjs';
 import { InboundOrder } from '../../models/inbound-order';
+import { OrderLine } from '../../models/order-line';
 
 @Injectable({
   providedIn: 'root'
@@ -18,16 +19,21 @@ export class OrderService {
 
   constructor(private http: HttpClient, private cookieService: CookieService, private messageService: MessageService) { }
 
+
+  public getCurrentUserPurchaseOrders(): Observable<PurchaseOrder[]> {
+    return this.http.get<PurchaseOrder[]>(this.url + '/currentUserPurchaseOrders');
+  }
+
   /**
    * Gets all inbound orders
    */
   public getAllInboundOrders(): Observable<InboundOrder[]>{
-    return this.http.get<InboundOrder[]>(this.url);
+    return this.http.get<InboundOrder[]>(this.url + '/inboundOrders');
   }
 
   /**
    * Gets an inbound order by id
-   * @param id
+   * @param id the id of the inbound order
    */
   public getInboundOrderById(id: number): Observable<InboundOrder> {
     return this.http.get<InboundOrder>(this.url + `/ìnboundOrder/${id}`);
@@ -43,10 +49,18 @@ export class OrderService {
 
   /**
    * Creates a purchase order
-   * @param purchaseOrder
+   * @param purchaseOrder the purchase order to create
    */
   public createPurchaseOrder(purchaseOrder: PurchaseOrder): Observable<PurchaseOrder> {
     return this.http.post<PurchaseOrder>(this.url + '/purchaseOrder', purchaseOrder);
+  }
+
+  /**
+   * Updates a purchase order
+   * @param purchaseOrder the purchase order to update
+   */
+  public editPurchaseOrder(purchaseOrder: PurchaseOrder): Observable<PurchaseOrder> {
+    return this.http.put<PurchaseOrder>(this.url + '/purchaseOrder', purchaseOrder);
   }
 
   /**
@@ -69,7 +83,7 @@ export class OrderService {
    * Gets all purchase orders
    */
   public getAllPurchaseOrders(): Observable<PurchaseOrder[]> {
-    return this.http.get<PurchaseOrder[]>(this.url);
+    return this.http.get<PurchaseOrder[]>(this.url + '/purchaseOrders');
   }
 
   /**
@@ -78,6 +92,14 @@ export class OrderService {
    */
   public getPurchaseOrderById(id: number): Observable<PurchaseOrder> {
     return this.http.get<PurchaseOrder>(this.url + `/purchaseOrder/${id}`);
+  }
+
+  /**
+   * Gets all order lines for a purchase order
+   * @param purchaseOrderId the id of the purchase order
+   */
+  public getPurchaseOrderOrderLines(purchaseOrderId: number): Observable<OrderLineDto[]> {
+    return this.http.get<OrderLineDto[]>(this.url + `/purchaseOrderOrderLines/${purchaseOrderId}`);
   }
 
   /**

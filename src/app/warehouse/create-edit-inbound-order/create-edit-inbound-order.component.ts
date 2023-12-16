@@ -130,18 +130,18 @@ export class CreateEditInboundOrderComponent {
   }
 
   /**
-   * The Submit of the item form
+   * The Submit of the inbound order form
    */
   public submitInboundOrder(): void {
     const inboundOrder = this.inboundOrderForm?.value as InboundOrder;
 
     if(inboundOrder == null){
-      this.messageService.show('Fejl: Produkt må ikke være nul');
+      this.messageService.show('Fejl: Bestillings ordren må ikke være nul');
       return;
     }
 
     if(this.inboundOrderForm?.valid == false){
-      this.messageService.show('Fejl: Produkt formen indeholder fejl');
+      this.messageService.show('Fejl: Bestillings ordre formen indeholder fejl');
       return;
     }
 
@@ -206,34 +206,6 @@ export class CreateEditInboundOrderComponent {
       this.location.back();
       this.loading = false;
     });
-  }
-
-  /**
-   * Sorts the data off the tables
-   * @param event the event from the table
-   */
-  public sortData(event: any): void {
-    const data = this.orderLines.data.slice();
-    if (!event.active || event.direction === '') {
-      this.orderLines.data = data;
-      return;
-    }
-
-    this.orderLines.data = data.sort((a, b) => {
-      const isAsc = event.direction === 'asc';
-      switch (event.active) {
-        case 'id':
-          return this.compare(a.id ? a.id : 0, b.id ? b.id : 0, isAsc);
-        case 'linePrice':
-          return this.compare(a.linePrice, b.linePrice, isAsc);
-        default:
-          return 0;
-      }
-    });
-  }
-
-  private compare(a: number | string, b: number | string, isAsc: boolean): number {
-    return (a < b ? -1 : 1) * (isAsc ? 1 : -1);
   }
 
   protected readonly InboundOrderState = InboundOrderState;

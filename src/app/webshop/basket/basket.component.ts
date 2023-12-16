@@ -21,6 +21,7 @@ export class BasketComponent{
   currentPurchaseOrder: PurchaseOrder;
   orderLines: MatTableDataSource<OrderLine> = new MatTableDataSource<OrderLine>();
 
+
   public displayedColumns: string[] = ['imageUrl', 'name', 'itemPrice', 'quantity', 'price', 'remove'];
 
   constructor(public router: Router, private authenticationService: AuthenticationService, private messageService: MessageService,

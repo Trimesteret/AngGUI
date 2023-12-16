@@ -72,30 +72,9 @@
           Gem
         </button>
       </div>
+      <app-data-table [tableData]="purchaseOrders" [displayedColumns]="displayedColumns" [showSearchField]="false">
 
-      <span style="padding-top: 30px" fxLayout="row" fxLayoutGap="15" fxLayoutAlign="start center">
-        <mat-icon>description</mat-icon>
-        <h1 class="no-margin no-padding">Mine ordre</h1>
-      </span>
-
-      <table mat-table [dataSource]="customerPurchaseOrders" (matSortChange)="sortData($event)"matSort class="mat-elevation-z8">
-        <ng-container matColumnDef="id">
-          <th mat-header-cell *matHeaderCellDef mat-sort-header sortActionDescription="Sort by id">
-            Id
-          </th>
-          <td mat-cell *matCellDef="let order"> {{order.id}} </td>
-        </ng-container>
-
-        <ng-container matColumnDef="status">
-          <th mat-header-cell *matHeaderCellDef mat-sort-header sortActionDescription="Sort by status">
-            Status
-          </th>
-          <td mat-cell *matCellDef="let order"> {{order.status}} </td>
-        </ng-container>
-
-        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-        <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
-      </table>
+      </app-data-table>
     </form>
   </div>
 </app-front-basic-layout>

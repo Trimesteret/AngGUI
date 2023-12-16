@@ -1,1 +1,101 @@
-<p>create-edit-purchase-orders works!</p>
+<app-warehouse-basic-layout>
+  <div fxFlex fxLayoutAlign="center start" fxLayout="row" style="background-color: #EFEFEF">
+    <div *ngIf="purchaseOrderForm && !loading"  fxLayout="column" class="document" fxLayoutGap="5">
+      <form fxLayout="column" fxLayoutGap="5" [formGroup]="purchaseOrderForm" (ngSubmit)="submitPurchaseOrder()">
+        <span fxLayout="row" fxLayoutGap="15" fxLayoutAlign="start center">
+          <mat-icon>category</mat-icon>
+          <h1 class="no-margin no-padding">{{editing ? 'Rediger kunde ordre' : 'Opret kunde ordre'}}</h1>
+        </span>
+
+        <mat-form-field>
+          <mat-label>Status</mat-label>
+          <mat-select id="order-state" formControlName="purchaseOrderState">
+            <mat-option [value]="state.key" *ngFor="let state of PurchaseOrderState | keyValue">{{state.value}}</mat-option>
+          </mat-select>
+        </mat-form-field>
+
+        <mat-form-field appearance="fill">
+          <mat-label for="order-date">Bestillings dato: </mat-label>
+          <input matInput id="order-date" [matDatepicker]="deleveryPicker" formControlName="orderDate">
+          <mat-hint>DD/MM/YYYY</mat-hint>
+          <mat-datepicker-toggle matIconSuffix [for]="deleveryPicker"></mat-datepicker-toggle>
+          <mat-datepicker #deleveryPicker></mat-datepicker>
+        </mat-form-field>
+
+        <mat-form-field>
+          <mat-label for="delivery-date">Forvented leverings dato </mat-label>
+          <input matInput id="delivery-date" [matDatepicker]="expectedPicker" formControlName="deliveryDate">
+          <mat-hint>DD/MM/YYYY</mat-hint>
+          <mat-datepicker-toggle matIconSuffix [for]="expectedPicker"></mat-datepicker-toggle>
+          <mat-datepicker #expectedPicker></mat-datepicker>
+        </mat-form-field>
+
+        <span>Kunde</span>
+        <mat-form-field>
+          <mat-label>Kunde fornavn</mat-label>
+          <input matInput formControlName="customerFirstName">
+        </mat-form-field>
+
+        <mat-form-field>
+          <mat-label>Kunde efternavn</mat-label>
+          <input matInput formControlName="customerLastName">
+        </mat-form-field>
+
+        <mat-form-field>
+          <mat-label>Kunde email</mat-label>
+          <input matInput formControlName="customerEmail">
+        </mat-form-field>
+
+        <mat-form-field>
+          <mat-label>Kunde telefon</mat-label>
+          <input matInput formControlName="customerPhone">
+        </mat-form-field>
+
+        <span>Adresse</span>
+        <mat-form-field>
+          <mat-label>Adresse</mat-label>
+          <input matInput formControlName="addressLine">
+        </mat-form-field>
+
+        <mat-form-field>
+          <mat-label>Postnummer</mat-label>
+          <input matInput formControlName="postalCode">
+        </mat-form-field>
+
+        <mat-form-field>
+          <mat-label>By</mat-label>
+          <input matInput formControlName="city">
+        </mat-form-field>
+
+        <mat-form-field>
+          <mat-label>Land</mat-label>
+          <input matInput formControlName="country">
+        </mat-form-field>
+
+        <span>Ordrelinjer</span>
+        <app-data-table [tableData]="orderLines" [displayedColumns]="displayedColumns" [addDeleteButton]="true" [showSearchField]="false">
+
+        </app-data-table>
+
+        <div fxFlex fxLayout="row" fxLayoutAlign="end center" class="margin-top-30" fxLayoutGap="20">
+          <button *ngIf="editing" color="warn" type="button" [disabled]="purchaseOrderForm.dirty" (click)="deleteInboundOrder()" mat-raised-button>
+            <mat-icon>delete</mat-icon>
+            Slet
+          </button>
+          <button color="accent" type="button" [disabled]="!purchaseOrderForm.dirty" (click)="getPurchaseOrderAndBuildForm()" mat-raised-button>
+            <mat-icon>restart_alt</mat-icon>
+            Nulstil
+          </button>
+          <button *ngIf="editing" color="primary" type="submit" mat-raised-button>
+            <mat-icon>save</mat-icon>
+            Gem
+          </button>
+          <button *ngIf="!editing" color="primary" type="submit" mat-raised-button>
+            <mat-icon>add</mat-icon>
+            Opret
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+</app-warehouse-basic-layout>

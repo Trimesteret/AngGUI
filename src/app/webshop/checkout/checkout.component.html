@@ -5,52 +5,47 @@
         <mat-icon>list_alt</mat-icon>
         <h1 class="no-margin no-padding">Dine informationer</h1>
       </span>
-      <ng-container>
-        <div formGroupName="orderCustomer" fxFlex fxLayout="column">
-          <mat-form-field>
-            <mat-label>Fornavn</mat-label>
-            <input id="first-name" matInput formControlName="firstName">
-          </mat-form-field>
+      <mat-form-field>
+        <mat-label>Fornavn</mat-label>
+        <input id="first-name" matInput formControlName="customerFirstName">
+      </mat-form-field>
 
-          <mat-form-field>
-            <mat-label>Efternavn</mat-label>
-            <input id="surname" matInput formControlName="lastName">
-          </mat-form-field>
+      <mat-form-field>
+        <mat-label>Efternavn</mat-label>
+        <input id="surname" matInput formControlName="customerLastName">
+      </mat-form-field>
 
-          <mat-form-field>
-            <mat-label>Telefon Nummer</mat-label>
-            <input id="phone" matInput formControlName="phone">
-          </mat-form-field>
+      <mat-form-field>
+        <mat-label>Telefon Nummer</mat-label>
+        <input id="phone" matInput formControlName="customerPhone">
+      </mat-form-field>
 
-          <mat-form-field>
-            <mat-label>Email</mat-label>
-            <input id="email" matInput formControlName="email">
-          </mat-form-field>
-        </div>
-        <div formGroupName="address" fxFlex fxLayout="column">
-          <mat-form-field>
-            <mat-label>Adresse</mat-label>
-            <input id="address" matInput formControlName="addressLine">
-          </mat-form-field>
+      <mat-form-field>
+        <mat-label>Email</mat-label>
+        <input id="email" matInput formControlName="customerEmail">
+      </mat-form-field>
 
-          <mat-form-field>
-            <mat-label>Land</mat-label>
-            <input id="country" matInput formControlName="country">
-          </mat-form-field>
+      <mat-form-field>
+        <mat-label>Adresse</mat-label>
+        <input id="address" matInput formControlName="addressLine">
+      </mat-form-field>
 
-          <div fxLayout="row" fxLayoutGap="15px">
-            <mat-form-field fxFlex>
-              <mat-label>By</mat-label>
-              <input id="city" matInput formControlName="city">
-            </mat-form-field>
+      <mat-form-field>
+        <mat-label>Land</mat-label>
+        <input id="country" matInput formControlName="country">
+      </mat-form-field>
 
-            <mat-form-field fxFlex>
-              <mat-label>Postnummer</mat-label>
-              <input id="postalCode" matInput formControlName="postalCode">
-            </mat-form-field>
-          </div>
-        </div>
-      </ng-container>
+      <div fxLayout="row" fxLayoutGap="15px">
+        <mat-form-field fxFlex>
+          <mat-label>By</mat-label>
+          <input id="city" matInput formControlName="city">
+        </mat-form-field>
+
+        <mat-form-field fxFlex>
+          <mat-label>Postnummer</mat-label>
+          <input id="postalCode" matInput formControlName="postalCode">
+        </mat-form-field>
+      </div>
 
       <span fxLayout="row" fxLayoutGap="15" fxLayoutAlign="start center">
         <mat-icon>local_shipping</mat-icon>

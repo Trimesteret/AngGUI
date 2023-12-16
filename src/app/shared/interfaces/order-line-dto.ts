@@ -4,7 +4,8 @@ export interface OrderLineDto {
   id?: number;
   item: ItemDto;
   itemId: number;
-  linePrice?: number;
-  itemPrice?: number;
+  linePrice: number;
+  itemPrice: number;
+  itemName: number;
   quantity: number;
 }

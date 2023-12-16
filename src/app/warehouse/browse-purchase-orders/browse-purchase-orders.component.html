@@ -6,52 +6,8 @@
         <h1 class="no-margin no-padding">Kunde ordrer</h1>
       </span>
 
-      <mat-form-field>
-        <mat-label>Søg</mat-label>
-        <input matInput (keyup)="applySearch($event)" >
-      </mat-form-field>
-
-      <table mat-table [dataSource]="purchaseOrders" (matSortChange)="sortData($event)" matSort class="mat-elevation-z8">
-        <ng-container matColumnDef="id">
-          <th mat-header-cell *matHeaderCellDef mat-sort-header sortActionDescription="Sort by id">
-            Id
-          </th>
-          <td mat-cell *matCellDef="let order"> {{order.id}} </td>
-        </ng-container>
-
-        <ng-container matColumnDef="purchaseOrderState">
-          <th mat-header-cell *matHeaderCellDef mat-sort-header sortActionDescription="Sort by status">
-            Status
-          </th>
-          <td mat-cell *matCellDef="let order"> {{order.purchaseOrderState}} </td>
-        </ng-container>
-
-        <ng-container matColumnDef="orderDate">
-          <th mat-header-cell *matHeaderCellDef mat-sort-header sortActionDescription="Sort by status">
-            Bestilt dato
-          </th>
-          <td mat-cell *matCellDef="let order"> {{order.orderDate}} </td>
-        </ng-container>
-
-        <ng-container matColumnDef="deliveryDate">
-          <th mat-header-cell *matHeaderCellDef mat-sort-header sortActionDescription="Sort by status">
-            Leverings dato
-          </th>
-          <td mat-cell *matCellDef="let order"> {{order.deliveryDate}} </td>
-        </ng-container>
-
-        <ng-container matColumnDef="totalPrice">
-          <th mat-header-cell *matHeaderCellDef mat-sort-header sortActionDescription="Sort by status">
-            Pris
-          </th>
-          <td mat-cell *matCellDef="let order"> {{order.totalPrice}} </td>
-        </ng-container>
-
-        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-        <tr mat-row class="selectable-row" (click)="editOrder(order.id)" *matRowDef="let order; columns: displayedColumns;"></tr>
-      </table>
-
-      <mat-paginator [pageSizeOptions]="[10, 25, 50, 100]" aria-label="Select page of orders"></mat-paginator>
+      <app-data-table [tableData]="purchaseOrders" [displayedColumns]="displayedColumns" (lineClickId)="editOrder($event)"></app-data-table>
+      <mat-paginator *ngIf="purchaseOrders?.data.length !== 0" [pageSizeOptions]="[10, 25, 50, 100]" aria-label="Select page of orders"></mat-paginator>
 
       <div class="padding-top-10" fxLayoutAlign="end center">
         <button class="full-width" routerLink="/warehouse/create-purchase-order" mat-raised-button color="primary">
@@ -62,6 +18,3 @@
     </div>
   </div>
 </app-warehouse-basic-layout>
-<div fxFlexFill *ngIf="loading" fxLayoutAlign="center center" class="spinner">
-  <mat-spinner></mat-spinner>
-</div>

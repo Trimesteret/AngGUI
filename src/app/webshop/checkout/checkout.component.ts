@@ -5,8 +5,6 @@ import { OrderService } from '../../shared/services/order/order.service';
 import { PurchaseOrder } from '../../shared/models/purchase-order';
 import { AuthenticationService } from '../../shared/services/authentication/authentication.service';
 import { MessageService } from '../../shared/services/message.service';
-import { UserStandardDto } from '../../shared/models/user-standard-dto';
-import { Address } from '../../shared/models/address';
 
 @Component({
   selector: 'app-checkout',
@@ -56,18 +54,14 @@ export class CheckoutComponent{
    */
   public buildCheckOutForm(): void {
     this.checkoutForm = this.formBuilder.group({
-      orderCustomer: this.formBuilder.group({
-        firstName: ['', Validators.required],
-        lastName: ['', Validators.required],
-        phone: ['', Validators.required],
-        email: ['', Validators.required]
-      }),
-      address: this.formBuilder.group({
-        addressLine: ['', Validators.required],
-        country: ['Danmark', Validators.required],
-        postalCode: ['', Validators.required],
-        city: ['', Validators.required],
-      }),
+      customerFirstName: ['', Validators.required],
+      customerLastName: ['', Validators.required],
+      customerPhone: ['', Validators.required],
+      customerEmail: ['', Validators.required],
+      addressLine: ['', Validators.required],
+      country: ['Danmark', Validators.required],
+      postalCode: ['', Validators.required],
+      city: ['', Validators.required],
       deliveryMethod: ['', Validators.required],
       termsCheckbox: [false, Validators.required],
       newsletterCheckbox: [false],
@@ -107,8 +101,6 @@ export class CheckoutComponent{
     }
 
     const purchaseOrder = this.checkoutForm.value as PurchaseOrder;
-    purchaseOrder.orderCustomer = this.checkoutForm.value.orderCustomer as UserStandardDto;
-    purchaseOrder.address = this.checkoutForm.value.address as Address;
     purchaseOrder.orderLines = this.purchaseOrder.orderLines;
     purchaseOrder.orderDate = new Date();
 
