@@ -5,6 +5,7 @@ import { OrderService } from '../../shared/services/order/order.service';
 import { PurchaseOrder } from '../../shared/models/purchase-order';
 import { AuthenticationService } from '../../shared/services/authentication/authentication.service';
 import { MessageService } from '../../shared/services/message.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-checkout',
@@ -42,7 +43,7 @@ export class CheckoutComponent{
     }];
 
   constructor(private formBuilder: FormBuilder, private orderService: OrderService, private authenticationService: AuthenticationService,
-              private messageService: MessageService) {
+              private messageService: MessageService, private router: Router) {
     this.purchaseOrder = this.orderService.getCurrentPurchaseOrder();
     this.buildCheckOutForm();
 
@@ -105,8 +106,9 @@ export class CheckoutComponent{
     purchaseOrder.orderDate = new Date();
 
     this.orderService.createPurchaseOrder(purchaseOrder).subscribe((response) => {
-      console.log(response);
-      /** Reroute to webshop page **/
+      this.messageService.show('Din ordre er nu oprettet');
+      this.orderService.resetCurrentPurchaseOrder();
+      this.router.navigate(['/webshop']);
     }, error => {
       this.messageService.showError(error);
     });

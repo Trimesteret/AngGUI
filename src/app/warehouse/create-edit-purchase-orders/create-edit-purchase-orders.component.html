@@ -1,6 +1,6 @@
 <app-warehouse-basic-layout>
   <div fxFlex fxLayoutAlign="center start" fxLayout="row" style="background-color: #EFEFEF">
-    <div *ngIf="purchaseOrderForm && !loading"  fxLayout="column" class="document" fxLayoutGap="5">
+    <div *ngIf="purchaseOrderForm && !loading" fxLayout="column" class="document" fxLayoutGap="5">
       <form fxLayout="column" fxLayoutGap="5" [formGroup]="purchaseOrderForm" (ngSubmit)="submitPurchaseOrder()">
         <span fxLayout="row" fxLayoutGap="15" fxLayoutAlign="start center">
           <mat-icon>category</mat-icon>
@@ -73,7 +73,7 @@
         </mat-form-field>
 
         <span>Ordrelinjer</span>
-        <app-data-table *ngIf="!this.loading" [tableData]="orderLines" [displayedColumns]="displayedColumns" [addDeleteButton]="true" [showSearchField]="false"></app-data-table>
+        <app-data-table [tableData]="orderLines" (deleteClickId)="removeOrderLine($event)" [displayedColumns]="displayedColumns" [addDeleteButton]="true" [showSearchField]="false"></app-data-table>
         <mat-paginator *ngIf="orderLines?.data.length !== 0" [pageSizeOptions]="[10, 25, 50, 100]"></mat-paginator>
 
         <div fxFlex fxLayout="row" fxLayoutAlign="end center" class="margin-top-30" fxLayoutGap="20">

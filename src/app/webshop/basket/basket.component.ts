@@ -1,12 +1,15 @@
-import { Component } from '@angular/core';
+import { Component, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
-import { MessageService } from '../../shared/services/message.service';
 import { AuthenticationService } from '../../shared/services/authentication/authentication.service';
 import { OrderService } from '../../shared/services/order/order.service';
 import { PurchaseOrder } from '../../shared/models/purchase-order';
 import { Role } from '../../shared/enums/role';
 import { MatTableDataSource } from '@angular/material/table';
 import { OrderLine } from '../../shared/models/order-line';
+import { TableColumn } from '../../shared/models/table-column';
+import { TableColumnType } from '../../shared/enums/table-column-type';
+import { MatPaginator } from '@angular/material/paginator';
+import { MessageService } from '../../shared/services/message.service';
 
 @Component({
   selector: 'app-basket',
@@ -19,13 +22,17 @@ export class BasketComponent{
   loading = true;
 
   currentPurchaseOrder: PurchaseOrder;
-  orderLines: MatTableDataSource<OrderLine> = new MatTableDataSource<OrderLine>();
+  orderLines: MatTableDataSource<OrderLine>;
 
+  @ViewChild(MatPaginator) paginator: MatPaginator;
 
-  public displayedColumns: string[] = ['imageUrl', 'name', 'itemPrice', 'quantity', 'price', 'remove'];
+  displayedColumns: TableColumn[] = [
+    { key: 'itemName', value: 'Navn' }, { key: 'quantity', value:'Antal', type: TableColumnType.numberInput },
+    { key: 'itemPrice', value: 'Pris', type: TableColumnType.price }, { key: 'linePrice', value: 'Total', type:TableColumnType.price },
+  ];
 
-  constructor(public router: Router, private authenticationService: AuthenticationService, private messageService: MessageService,
-              private orderService: OrderService) {
+  constructor(public router: Router, private authenticationService: AuthenticationService, private orderService: OrderService,
+              private messageService: MessageService) {
     this.loggedIn = this.authenticationService.getLoggedIn();
 
     this.currentPurchaseOrder = this.orderService.getCurrentPurchaseOrder();
@@ -35,40 +42,11 @@ export class BasketComponent{
   }
 
   /**
-   * Sort table data given an event
-   * @param event the event
+   * Removes the orderLine from the purchaseOrder
+   * @param id the id of the orderLine to remove
    */
-  public sortData(event: any): void {
-    const data = this.orderLines.data.slice();
-    if (!event.active || event.direction === '') {
-      this.orderLines.data = data;
-      return;
-    }
-
-    this.orderLines.data = data.sort((a, b) => {
-      const isAsc = event.direction === 'asc';
-      switch (event.active) {
-        case 'id':
-          return this.compare(a.id ? a.id : 0, b.id ? b.id : 0, isAsc);
-        case 'quantity':
-          return this.compare(a.quantity, b.quantity, isAsc);
-        case 'name':
-          return this.compare(a.item.name, b.item.name, isAsc);
-        case 'itemPrice':
-          return this.compare(a.itemPrice, b.itemPrice, isAsc);
-        case 'linePrice':
-          return this.compare(a.linePrice, b.linePrice, isAsc);
-        default:
-          return 0;
-      }
-    });
-  }
-
-  private compare(a: number | string, b: number | string, isAsc: boolean): number {
-    return (a < b ? -1 : 1) * (isAsc ? 1 : -1);
-  }
-
-  public removeOrderLine(orderLine: OrderLine): void {
+  public removeOrderLine(id: number): void {
+    const orderLine = this.orderLines.data.find(orderLine => orderLine.id === id);
     this.orderService.removeOrderLineFromCurrentPurchaseOrder(orderLine);
     this.currentPurchaseOrder = this.orderService.getCurrentPurchaseOrder();
     this.orderLines.data = this.currentPurchaseOrder.orderLines;
@@ -85,7 +63,12 @@ export class BasketComponent{
   }
 
   public updateLineQuantity(orderLine: OrderLine): void {
-    orderLine.linePrice = Math.round(orderLine.item.price * orderLine.quantity*100)/100;
+    if(orderLine.quantity > 0) {
+      orderLine.linePrice = Math.round(orderLine.item.price * orderLine.quantity * 100) / 100;
+    }else{
+      this.messageService.show('Antal skal være større end 0');
+      orderLine.quantity = 1;
+    }
   }
 
   protected readonly Role = Role;

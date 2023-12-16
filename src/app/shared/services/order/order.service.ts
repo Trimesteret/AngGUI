@@ -7,7 +7,6 @@ import { OrderLineDto } from '../../interfaces/order-line-dto';
 import { MessageService } from '../message.service';
 import { Observable } from 'rxjs';
 import { InboundOrder } from '../../models/inbound-order';
-import { OrderLine } from '../../models/order-line';
 
 @Injectable({
   providedIn: 'root'
@@ -95,14 +94,6 @@ export class OrderService {
   }
 
   /**
-   * Gets all order lines for a purchase order
-   * @param purchaseOrderId the id of the purchase order
-   */
-  public getPurchaseOrderOrderLines(purchaseOrderId: number): Observable<OrderLineDto[]> {
-    return this.http.get<OrderLineDto[]>(this.url + `/purchaseOrderOrderLines/${purchaseOrderId}`);
-  }
-
-  /**
    * Gets the currently active purchase order
    */
   public getCurrentPurchaseOrder(): PurchaseOrder {
@@ -134,6 +125,7 @@ export class OrderService {
       return;
     }
     orderLine.linePrice = orderLine.item.price * orderLine.quantity;
+    orderLine.itemName = orderLine.item.name;
     this.currentPurchaseOrder.orderLines.push(orderLine);
     this.messageService.show('Tilføjet antal: ' + orderLine.quantity + ' af produkt: ' + orderLine.item.name + ' til kurven');
     this.cookieService.set('purchaseOrder', JSON.stringify(this.currentPurchaseOrder));

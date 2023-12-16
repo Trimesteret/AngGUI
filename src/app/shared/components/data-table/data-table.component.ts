@@ -26,6 +26,7 @@ export class DataTableComponent implements AfterViewInit {
 
   @Output() lineClickId = new EventEmitter<number>();
   @Output() deleteClickId = new EventEmitter<number>();
+  @Output() lineChange = new EventEmitter<any>();
 
   constructor(private changeDetectorRef: ChangeDetectorRef) {}
 
@@ -43,6 +44,10 @@ export class DataTableComponent implements AfterViewInit {
 
   public deleteClick(id: number): void {
     this.deleteClickId.emit(id);
+  }
+
+  public changeLineInput(element: any): void {
+    this.lineChange.emit(element);
   }
 
   public getColumnNames(): string[] {

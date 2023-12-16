@@ -1,6 +1,7 @@
 export enum TableColumnType {
   text = 0,
-  number = 1,
+  numberInput = 1,
   date = 2,
   delete = 3,
+  price = 4,
 }

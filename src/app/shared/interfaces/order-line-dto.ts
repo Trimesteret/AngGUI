@@ -6,6 +6,6 @@ export interface OrderLineDto {
   itemId: number;
   linePrice: number;
   itemPrice: number;
-  itemName: number;
+  itemName: string;
   quantity: number;
 }

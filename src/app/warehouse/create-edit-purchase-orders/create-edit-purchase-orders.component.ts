@@ -13,6 +13,7 @@ import { PurchaseOrder } from '../../shared/models/purchase-order';
 import { TableColumn } from '../../shared/models/table-column';
 import { MatTableDataSource } from '@angular/material/table';
 import { MatPaginator } from '@angular/material/paginator';
+import { OrderLineDto } from '../../shared/interfaces/order-line-dto';
 
 @Component({
   selector: 'app-create-edit-purchase-orders',
@@ -26,7 +27,7 @@ export class CreateEditPurchaseOrdersComponent {
   suppliers: SupplierDto[] = [];
   supplierItems: ItemDto[];
   selectedSupplier: SupplierDto;
-  orderLines: MatTableDataSource<any>;
+  orderLines: MatTableDataSource<OrderLineDto> = new MatTableDataSource<OrderLineDto>();
   displayedColumns: TableColumn[] = [{ key: 'itemName', value: 'Vare navn' }, { key: 'quantity', value: 'Antal' }, { key: 'linePrice', value: 'Linje pris' }];
 
   @ViewChild(MatPaginator) paginator: MatPaginator;
@@ -52,6 +53,15 @@ export class CreateEditPurchaseOrdersComponent {
   }
 
   /**
+   * Removes an orderLine from the purchaseOrder
+   * @param id the id of the orderLine to remove
+   */
+  public removeOrderLine(id: number): void {
+    this.orderLines.data = this.orderLines.data.filter(orderLine => orderLine.id !== id);
+    this.orderLines.paginator = this.paginator;
+  }
+
+  /**
    * Gets the item and builds the form
    */
   public getPurchaseOrderAndBuildForm(): void {
@@ -67,18 +77,17 @@ export class CreateEditPurchaseOrdersComponent {
       return;
     }
 
-    this.orderService.getPurchaseOrderById(id).subscribe(
-      (purchaseOrder) => {
-        this.editing = true;
-        this.buildPurchaseOrderForm(purchaseOrder);
-        this.orderLines = new MatTableDataSource(purchaseOrder.orderLines);
-        this.orderLines.paginator = this.paginator;
-        this.loading = false;
-      },
-      (error) => {
-        console.error('Error fetching purchase order:', error);
-        this.loading = false;
-      }
+    this.orderService.getPurchaseOrderById(id).subscribe(purchaseOrder => {
+      this.editing = true;
+      this.loading = false;
+      this.buildPurchaseOrderForm(purchaseOrder);
+      this.orderLines = new MatTableDataSource(purchaseOrder.orderLines);
+      this.orderLines.paginator = this.paginator;
+    },
+    (error) => {
+      console.error('Error fetching purchase order:', error);
+      this.loading = false;
+    }
     );
   }
 
@@ -108,6 +117,7 @@ export class CreateEditPurchaseOrdersComponent {
    */
   public submitPurchaseOrder(): void {
     const purchaseOrder = this.purchaseOrderForm?.value as PurchaseOrder;
+    purchaseOrder.orderLines = this.orderLines.data;
 
     if (purchaseOrder == null) {
       this.messageService.show('Fejl: Kunde ordre må ikke være nul');
