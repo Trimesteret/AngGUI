@@ -1,7 +1,5 @@
 import { Component, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
-import { MessageService } from '../../shared/services/message.service';
-import { AuthenticationService } from '../../shared/services/authentication/authentication.service';
 import { Role } from '../../shared/enums/role';
 import { OrderService } from '../../shared/services/order/order.service';
 import { MatPaginator } from '@angular/material/paginator';
@@ -24,8 +22,7 @@ export class BrowsePurchaseOrdersComponent{
   ];
   @ViewChild(MatPaginator) paginator: MatPaginator;
 
-  constructor(private orderService: OrderService, private messageService: MessageService, private authenticationService: AuthenticationService,
-    private router: Router)
+  constructor(private orderService: OrderService, private router: Router)
   {
     this.orderService.getAllPurchaseOrders().subscribe(purchaseOrders => {
       this.purchaseOrders = new MatTableDataSource<PurchaseOrder>(purchaseOrders);

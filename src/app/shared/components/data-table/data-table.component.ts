@@ -5,11 +5,9 @@ import {
   EventEmitter,
   Input,
   Output,
-  ViewChild
 } from '@angular/core';
 import { MatTableDataSource } from '@angular/material/table';
 import { TableColumn } from '../../models/table-column';
-import { MatPaginator } from '@angular/material/paginator';
 import { TableColumnType } from '../../enums/table-column-type';
 
 @Component({

@@ -1,8 +1,7 @@
-import { Component } from '@angular/core';
+import { Component, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { SupplierDto } from '../../shared/models/supplier-dto';
 import { ItemDto } from '../../shared/interfaces/item-dto';
-import { OrderLine } from '../../shared/models/order-line';
 import { SupplierService } from '../../shared/services/suppliers/supplier.service';
 import { MessageService } from '../../shared/services/message.service';
 import { ActivatedRoute, Router } from '@angular/router';
@@ -13,6 +12,7 @@ import { PurchaseOrderState } from '../../shared/enums/purchase-order-state';
 import { PurchaseOrder } from '../../shared/models/purchase-order';
 import { TableColumn } from '../../shared/models/table-column';
 import { MatTableDataSource } from '@angular/material/table';
+import { MatPaginator } from '@angular/material/paginator';
 
 @Component({
   selector: 'app-create-edit-purchase-orders',
@@ -24,13 +24,12 @@ export class CreateEditPurchaseOrdersComponent {
   editing = false;
   purchaseOrderForm: FormGroup;
   suppliers: SupplierDto[] = [];
-  search = '';
-  filteredSupplierItems: ItemDto[];
   supplierItems: ItemDto[];
   selectedSupplier: SupplierDto;
-  orderLines: MatTableDataSource<OrderLine>;
-  orderLinesData: OrderLine[];
+  orderLines: MatTableDataSource<any>;
   displayedColumns: TableColumn[] = [{ key: 'itemName', value: 'Vare navn' }, { key: 'quantity', value: 'Antal' }, { key: 'linePrice', value: 'Linje pris' }];
+
+  @ViewChild(MatPaginator) paginator: MatPaginator;
 
   constructor(private formBuilder: FormBuilder, private supplierService: SupplierService, private messageService: MessageService,
               private route: ActivatedRoute, private location: Location, private orderService: OrderService,
@@ -47,7 +46,7 @@ export class CreateEditPurchaseOrdersComponent {
   public getSupplierRelatedItems(): void {
     this.itemService.getSupplierRelatedItems(this.selectedSupplier?.id).subscribe(items => {
       this.supplierItems = items;
-      this.supplierItems = this.supplierItems.filter(item => !this.orderLinesData.find(orderLine => orderLine.item.id === item.id));
+      this.supplierItems = this.supplierItems.filter(item => !this.orderLines.data.find(orderLine => orderLine.item.id === item.id));
       this.loading = false;
     });
   }
@@ -68,14 +67,19 @@ export class CreateEditPurchaseOrdersComponent {
       return;
     }
 
-    this.orderService.getPurchaseOrderOrderLines(id).subscribe(orderLines => {
-      this.orderLinesData = orderLines;
-    });
-    this.orderService.getPurchaseOrderById(id).subscribe(purchaseOrder => {
-      this.editing = true;
-      this.buildPurchaseOrderForm(purchaseOrder);
-      this.loading = false;
-    });
+    this.orderService.getPurchaseOrderById(id).subscribe(
+      (purchaseOrder) => {
+        this.editing = true;
+        this.buildPurchaseOrderForm(purchaseOrder);
+        this.orderLines = new MatTableDataSource(purchaseOrder.orderLines);
+        this.orderLines.paginator = this.paginator;
+        this.loading = false;
+      },
+      (error) => {
+        console.error('Error fetching purchase order:', error);
+        this.loading = false;
+      }
+    );
   }
 
   /**

@@ -73,9 +73,8 @@
         </mat-form-field>
 
         <span>Ordrelinjer</span>
-        <app-data-table [tableData]="orderLines" [displayedColumns]="displayedColumns" [addDeleteButton]="true" [showSearchField]="false">
-
-        </app-data-table>
+        <app-data-table *ngIf="!this.loading" [tableData]="orderLines" [displayedColumns]="displayedColumns" [addDeleteButton]="true" [showSearchField]="false"></app-data-table>
+        <mat-paginator *ngIf="orderLines?.data.length !== 0" [pageSizeOptions]="[10, 25, 50, 100]"></mat-paginator>
 
         <div fxFlex fxLayout="row" fxLayoutAlign="end center" class="margin-top-30" fxLayoutGap="20">
           <button *ngIf="editing" color="warn" type="button" [disabled]="purchaseOrderForm.dirty" (click)="deleteInboundOrder()" mat-raised-button>
