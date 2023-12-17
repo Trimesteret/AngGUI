@@ -7,7 +7,7 @@
       </span>
       <mat-form-field>
         <mat-label>Søg</mat-label>
-        <mat-select [(ngModel)]="selectedEnumType">
+        <mat-select [(ngModel)]="selectedEnumType" (ngModelChange)="getAllEnumsByType()">
           <mat-option *ngFor="let type of EnumType | keyValue" [value]="type.key">
             {{type.value}}
           </mat-option>

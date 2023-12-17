@@ -24,17 +24,22 @@
 
       <mat-form-field>
         <mat-label>Varebeskrivelse</mat-label>
-        <textarea matInput type="text" formControlName="description"></textarea>
+        <textarea matInput id="description" type="text" formControlName="description"></textarea>
       </mat-form-field>
 
       <mat-form-field>
         <mat-label>Pris</mat-label>
-        <input matInput type="text" formControlName="price">
+        <input matInput id="price" type="text" formControlName="price">
       </mat-form-field>
 
       <mat-form-field>
         <mat-label>Antal</mat-label>
-        <input matInput type="phone" formControlName="quantity">
+        <input matInput id="quantity" type="phone" formControlName="quantity">
+      </mat-form-field>
+
+      <mat-form-field>
+        <mat-label>Reserveret antal</mat-label>
+        <input matInput id="reserved-quantity" type="phone" formControlName="reservedQuantity">
       </mat-form-field>
 
       <mat-form-field>
@@ -89,16 +94,15 @@
 
         <mat-form-field>
           <mat-label>Passer til:</mat-label>
-          <mat-select multiple formControlName="suitableForEnumIds">
+          <mat-select [multiple]="true" formControlName="suitableForEnumIds">
             <mat-option *ngFor="let suitableFor of suitableForEnums" [value]="suitableFor.id">{{suitableFor.value}}</mat-option>
           </mat-select>
         </mat-form-field>
 
         <mat-form-field>
           <mat-label>Vintype</mat-label>
-          <mat-select formControlName="wineType">
-            <mat-option>None</mat-option>
-            <mat-option *ngFor="let wineType of WineType | keyValue" [value]="wineType.key">{{wineType.value}}</mat-option>
+          <mat-select formControlName="wineTypeEnumKey">
+            <mat-option *ngFor="let wineType of wineTypeEnums" [value]="wineType.key">{{wineType.value}}</mat-option>
           </mat-select>
         </mat-form-field>
       </ng-container>
@@ -107,8 +111,8 @@
       <ng-container *ngIf="selectedItemType === ItemType.Liquor">
         <mat-form-field>
           <mat-label>Likørtype</mat-label>
-          <mat-select formControlName="liquorType">
-            <mat-option *ngFor="let liquorType of LiquorType | keyValue" [value]="liquorType.key">{{liquorType.value}}</mat-option>
+          <mat-select formControlName="liquorTypeEnumKey">
+            <mat-option *ngFor="let liquorType of liquorTypeEnums" [value]="liquorType.key">{{liquorType.value}}</mat-option>
           </mat-select>
         </mat-form-field>
       </ng-container>

@@ -22,11 +22,14 @@ export class SettingsComponent{
 
   @ViewChild(MatPaginator) paginator: MatPaginator;
 
+  constructor(private enumService: EnumService, private router: Router) {
+    this.selectedEnumType = EnumType.suitableFor;
+    this.getAllEnumsByType();
+  }
 
-  constructor(private enumService: EnumService, private messageService: MessageService, private router: Router) {
+  public getAllEnumsByType(): void {
     this.enumService.getAllCustomEnumsByType(this.selectedEnumType).subscribe(customEnums => {
       this.customEnums = new MatTableDataSource<CustomEnum>(customEnums);
-      this.selectedEnumType = EnumType.suitableFor;
       this.customEnums.paginator = this.paginator;
     });
   }

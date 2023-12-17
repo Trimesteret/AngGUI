@@ -1,5 +1,5 @@
-import { WineType } from '../enums/wine-type';
 import { ItemType } from '../enums/item-type';
+import { CustomEnum } from '../enums/custom-enum';
 
 export interface ItemDto {
   id?: number,
@@ -7,6 +7,7 @@ export interface ItemDto {
   ean: string,
   price: number,
   quantity: number,
+  reservedQuantity: number,
   imageUrl: string,
   description: string,
   mass: number,
@@ -21,7 +22,7 @@ export interface ItemDto {
   servingTemperature?: string,
   suitableForEnumIds?: number[],
   expirationDate?: Date,
-  wineType?: WineType,
-  liquorType?: string,
+  wineTypeEnum?: CustomEnum,
+  liquorTypeEnum?: CustomEnum,
   itemType: ItemType,
 }

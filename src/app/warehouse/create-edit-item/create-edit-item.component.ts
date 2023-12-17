@@ -5,8 +5,6 @@ import { AuthenticationService } from 'src/app/shared/services/authentication/au
 import { ItemsService } from '../../shared/services/items/items.service';
 import { ItemDto } from '../../shared/interfaces/item-dto';
 import { ItemType } from '../../shared/enums/item-type';
-import { WineType } from '../../shared/enums/wine-type';
-import { LiquorType } from '../../shared/enums/Liquor-type';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Location } from '@angular/common';
 import { CustomEnum } from '../../shared/enums/custom-enum';
@@ -26,6 +24,8 @@ export class CreateEditItemComponent {
   editing = false;
   itemForm: FormGroup | undefined;
   suitableForEnums: CustomEnum[] = [];
+  wineTypeEnums: CustomEnum[] = [];
+  liquorTypeEnums: CustomEnum[] = [];
 
 
   constructor(private formBuilder: FormBuilder, private itemService: ItemsService, private messageService: MessageService,
@@ -35,6 +35,14 @@ export class CreateEditItemComponent {
     this.getItemAndBuildForm();
     this.enumService.getAllCustomEnumsByType(EnumType.suitableFor).subscribe(customEnums => {
       this.suitableForEnums = customEnums;
+    });
+
+    this.enumService.getAllCustomEnumsByType(EnumType.wineType).subscribe(customEnums => {
+      this.wineTypeEnums = customEnums;
+    });
+
+    this.enumService.getAllCustomEnumsByType(EnumType.liquorType).subscribe(customEnums => {
+      this.liquorTypeEnums = customEnums;
     });
   }
 
@@ -70,8 +78,9 @@ export class CreateEditItemComponent {
       name: [item?.name ? item?.name : '', Validators.required],
       EAN: [item?.ean ? item?.ean : '', Validators.required],
       description: [item?.description ? item?.description : '', Validators.required],
-      price: [item?.price ? item?.price : '', [Validators.required]],
-      quantity: [item?.quantity ? item?.quantity : '', [Validators.required]],
+      price: [item?.price ? item?.price : 0, [Validators.required]],
+      quantity: [item?.quantity ? item?.quantity : 0, [Validators.required]],
+      reservedQuantity: [item?.reservedQuantity ? item?.reservedQuantity : 0],
       imageUrl: [item?.imageUrl ? item?.imageUrl : '', [Validators.required]],
       year: [item?.year ? item?.year : null],
       volume: [item?.volume ? item?.volume : null],
@@ -83,8 +92,8 @@ export class CreateEditItemComponent {
       tastingNotes: [item?.tastingNotes ? item?.tastingNotes : ''],
       suitableForEnumIds: [item?.suitableForEnumIds ? item?.suitableForEnumIds : []],
       itemType: [item ? Number.isInteger(item?.itemType) ? item?.itemType : ItemType.DefaultItem : ItemType.DefaultItem],
-      wineType: [item ? Number.isInteger(item?.wineType) ? item?.wineType : WineType.RedWine : WineType.RedWine],
-      liquorType: [item ? Number.isInteger(item?.liquorType) ? item?.liquorType : LiquorType.Rum : LiquorType.Rum]
+      wineTypeEnumKey: [item?.wineTypeEnum ? item.wineTypeEnum.key : ''],
+      liquorTypeEnumKey: [item?.liquorTypeEnum ? item.liquorTypeEnum.key : '']
     });
 
     this.selectedItemType = item ? Number.isInteger(item?.itemType) ? item?.itemType : ItemType.DefaultItem : ItemType.DefaultItem;
@@ -104,6 +113,8 @@ export class CreateEditItemComponent {
   public submitItem(): void {
     const item = this.itemForm?.value as ItemDto;
 
+    item.liquorTypeEnum = this.liquorTypeEnums.find(liquorType => liquorType.key == this.itemForm?.value?.liquorTypeEnumKey);
+    item.wineTypeEnum = this.wineTypeEnums.find(wineType => wineType.key == this.itemForm?.value?.wineTypeEnumKey);
 
     if(this.selectedItemType == null){
       this.messageService.show('Fejl: Valgte produkt type må ikke være nul');
@@ -179,8 +190,6 @@ export class CreateEditItemComponent {
   }
 
   protected readonly ItemType = ItemType;
-  protected readonly WineType = WineType;
-  protected readonly LiquorType = LiquorType;
 }
 
 
