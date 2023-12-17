@@ -62,18 +62,41 @@ export class ItemsService {
     return this.http.get<ItemDto[]>(this.url + '/search', { params: params });
   }
 
+  /**
+   * Gets all items
+   */
   public getAllItems(): Observable<ItemDto[]> {
     return this.http.get<ItemDto[]>(this.url);
   }
 
+  /**
+   * Gets all items by supplier id
+   * @param supplierId
+   */
+  public getSupplierRelatedItems(supplierId: number): Observable<ItemDto[]> {
+    return this.http.get<ItemDto[]>(this.url + '/supplier/' + supplierId);
+  }
+
+  /**
+   * Creates an item
+   * @param item the item to create
+   */
   public createItem(item: ItemDto):Observable<ItemDto>  {
     return this.http.post<ItemDto>(this.url, item);
   }
 
+  /**
+   * Edits an item
+   * @param item the item to edit
+   */
   public editItem(item: ItemDto): Observable<ItemDto> {
     return this.http.put<ItemDto>(this.url, item);
   }
 
+  /**
+   * Deletes an item
+   * @param id the id of the item to delete
+   */
   public deleteItem(id: number): Observable<boolean> {
     return this.http.delete<boolean>(this.url + '/' + id);
   }

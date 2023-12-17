@@ -1,7 +1,6 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { WarehouseRoutingModule } from './warehouse-routing.module';
-import { CreateInboundOrderComponent } from './create-inbound-order/create-inbound-order.component';
 import { MatTabsModule } from '@angular/material/tabs';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
@@ -32,21 +31,27 @@ import { CreateEditEnumComponent } from './create-edit-enum/create-edit-enum.com
 import { BrowseSuppliersComponent } from './browse-suppliers/browse-suppliers.component';
 import { CreateEditSupplierComponent } from './create-edit-supplier/create-edit-supplier.component';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
-
+import { CreateEditInboundOrderComponent } from './create-edit-inbound-order/create-edit-inbound-order.component';
+import { BrowseInboundOrdersComponent } from './browse-inbound-orders/browse-inbound-orders.component';
+import { BrowsePurchaseOrdersComponent } from './browse-purchase-orders/browse-purchase-orders.component';
+import { CreateEditPurchaseOrdersComponent } from './create-edit-purchase-orders/create-edit-purchase-orders.component';
 
 @NgModule({
   declarations: [
-    CreateInboundOrderComponent,
+    CreateEditInboundOrderComponent,
     BrowseItemsComponent,
     WarehouseBasicLayoutComponent,
     WarehouseHeaderComponent,
     BrowseUsersComponent,
     CreateEditUserComponent,
     CreateEditItemComponent,
+    BrowseInboundOrdersComponent,
     SettingsComponent,
     CreateEditEnumComponent,
     BrowseSuppliersComponent,
-    CreateEditSupplierComponent
+    CreateEditSupplierComponent,
+    BrowsePurchaseOrdersComponent,
+    CreateEditPurchaseOrdersComponent
   ],
   imports: [
     CommonModule,

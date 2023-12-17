@@ -6,59 +6,8 @@
         <h1 class="no-margin no-padding">Alle brugere</h1>
       </span>
 
-      <mat-form-field>
-        <mat-label>Søg</mat-label>
-        <input matInput (keyup)="applySearch($event)" >
-      </mat-form-field>
-
-      <table mat-table [dataSource]="users" (matSortChange)="sortData($event)" matSort class="mat-elevation-z8">
-        <ng-container matColumnDef="id">
-          <th mat-header-cell *matHeaderCellDef mat-sort-header sortActionDescription="Sort by id">
-            Id
-          </th>
-          <td mat-cell *matCellDef="let user"> {{user.id}} </td>
-        </ng-container>
-
-        <ng-container matColumnDef="firstName">
-          <th mat-header-cell *matHeaderCellDef mat-sort-header sortActionDescription="Sort by status">
-            Fornavn
-          </th>
-          <td mat-cell *matCellDef="let user"> {{user.firstName}} </td>
-        </ng-container>
-
-        <ng-container matColumnDef="lastName">
-          <th mat-header-cell *matHeaderCellDef mat-sort-header sortActionDescription="Sort by status">
-            Efternavn
-          </th>
-          <td mat-cell *matCellDef="let user"> {{user.lastName}} </td>
-        </ng-container>
-
-        <ng-container matColumnDef="email">
-          <th mat-header-cell *matHeaderCellDef mat-sort-header sortActionDescription="Sort by status">
-            Email
-          </th>
-          <td mat-cell *matCellDef="let user"> {{user.email}} </td>
-        </ng-container>
-
-        <ng-container matColumnDef="phone">
-          <th mat-header-cell *matHeaderCellDef mat-sort-header sortActionDescription="Sort by status">
-            Telefonnummer
-          </th>
-          <td mat-cell *matCellDef="let user"> {{user.phone}} </td>
-        </ng-container>
-
-        <ng-container matColumnDef="role">
-          <th mat-header-cell *matHeaderCellDef mat-sort-header sortActionDescription="Sort by status">
-            Rolle
-          </th>
-          <td mat-cell *matCellDef="let user"> {{ Role[user.role] }} </td>
-        </ng-container>
-
-        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-        <tr mat-row class="selectable-row" (click)="editUser(user.id)" *matRowDef="let user; columns: displayedColumns;"></tr>
-      </table>
-
-      <mat-paginator [pageSizeOptions]="[10, 25, 50, 100]" aria-label="Vælg side med produkter"></mat-paginator>
+      <app-data-table [tableData]="users" [displayedColumns]="displayedColumns" (lineClickId)="editUser($event)"></app-data-table>
+      <mat-paginator *ngIf="users?.data.length !== 0" [pageSizeOptions]="[10, 25, 50, 100]"></mat-paginator>
 
       <div class="padding-top-10" fxLayoutAlign="end center">
         <button class="full-width" routerLink="/warehouse/create-user" mat-raised-button color="primary">
@@ -69,6 +18,3 @@
     </div>
   </div>
 </app-warehouse-basic-layout>
-<div fxFlexFill *ngIf="loading" fxLayoutAlign="center center" class="spinner">
-  <mat-spinner></mat-spinner>
-</div>

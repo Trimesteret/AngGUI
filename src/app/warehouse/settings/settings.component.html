@@ -7,7 +7,7 @@
       </span>
       <mat-form-field>
         <mat-label>Søg</mat-label>
-        <mat-select [(ngModel)]="selectedEnumType">
+        <mat-select [(ngModel)]="selectedEnumType" (ngModelChange)="getAllEnumsByType()">
           <mat-option *ngFor="let type of EnumType | keyValue" [value]="type.key">
             {{type.value}}
           </mat-option>
@@ -18,38 +18,9 @@
         <mat-icon>dashboard_customize</mat-icon>
         <h1 class="no-margin no-padding">{{EnumType[selectedEnumType]}}</h1>
       </span>
-      <mat-form-field>
-        <mat-label>Søg</mat-label>
-        <input matInput (keyup)="applySearch($event)" >
-      </mat-form-field>
 
-      <table mat-table [dataSource]="customEnums" (matSortChange)="sortData($event)" matSort class="mat-elevation-z8">
-        <ng-container matColumnDef="id">
-          <th mat-header-cell *matHeaderCellDef mat-sort-header sortActionDescription="Sort by id">
-            Id
-          </th>
-          <td mat-cell *matCellDef="let enum"> {{enum.id}} </td>
-        </ng-container>
-
-        <ng-container matColumnDef="key">
-          <th mat-header-cell *matHeaderCellDef mat-sort-header sortActionDescription="Sort by status">
-            Engelsk navn
-          </th>
-          <td mat-cell *matCellDef="let enum"> {{enum.key}} </td>
-        </ng-container>
-
-        <ng-container matColumnDef="value">
-          <th mat-header-cell *matHeaderCellDef mat-sort-header sortActionDescription="Sort by status">
-            Dansk navn
-          </th>
-          <td mat-cell *matCellDef="let enum"> {{enum.value}} </td>
-        </ng-container>
-
-        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-        <tr mat-row  (click)="editEnum(enum.id)" class="selectable-row" *matRowDef="let enum; columns: displayedColumns;"></tr>
-      </table>
-
-      <mat-paginator [pageSizeOptions]="[10, 25, 50, 100]" aria-label="Vælg side med produkter"></mat-paginator>
+      <app-data-table [tableData]="customEnums" [displayedColumns]="displayedColumns" (lineClickId)="editEnum($event)"></app-data-table>
+      <mat-paginator *ngIf="customEnums?.data.length !== 0" [pageSizeOptions]="[10, 25, 50, 100]"></mat-paginator>
 
       <div class="padding-top-10" fxLayoutAlign="end center">
         <button class="full-width" routerLink="/warehouse/create-enum" mat-raised-button color="primary">

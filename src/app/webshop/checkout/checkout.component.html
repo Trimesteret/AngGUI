@@ -1,48 +1,51 @@
-<app-front-basic-layout>
+<app-front-basic-layout [loggedIn]="loggedIn">
   <div fxFlex class="padding-inline-60" fxLayoutAlign="center start" fxLayout="row" style="background-color: #EFEFEF" fxLayoutGap="30">
     <form fxFlex *ngIf="checkoutForm" fxLayoutGap="5" fxLayout="column" class="document" [formGroup]="checkoutForm" (ngSubmit)="goToPayment()">
       <span fxLayout="row" fxLayoutGap="15" fxLayoutAlign="start center">
         <mat-icon>list_alt</mat-icon>
         <h1 class="no-margin no-padding">Dine informationer</h1>
       </span>
-      <ng-container>
-        <mat-form-field>
-          <mat-label>Fuldt navn</mat-label>
-          <input matInput formControlName="name">
+      <mat-form-field>
+        <mat-label>Fornavn</mat-label>
+        <input id="first-name" matInput formControlName="customerFirstName">
+      </mat-form-field>
+
+      <mat-form-field>
+        <mat-label>Efternavn</mat-label>
+        <input id="surname" matInput formControlName="customerLastName">
+      </mat-form-field>
+
+      <mat-form-field>
+        <mat-label>Telefon Nummer</mat-label>
+        <input id="phone" matInput formControlName="customerPhone">
+      </mat-form-field>
+
+      <mat-form-field>
+        <mat-label>Email</mat-label>
+        <input id="email" matInput formControlName="customerEmail">
+      </mat-form-field>
+
+      <mat-form-field>
+        <mat-label>Adresse</mat-label>
+        <input id="address" matInput formControlName="addressLine">
+      </mat-form-field>
+
+      <mat-form-field>
+        <mat-label>Land</mat-label>
+        <input id="country" matInput formControlName="country">
+      </mat-form-field>
+
+      <div fxLayout="row" fxLayoutGap="15px">
+        <mat-form-field fxFlex>
+          <mat-label>By</mat-label>
+          <input id="city" matInput formControlName="city">
         </mat-form-field>
 
-        <mat-form-field>
-          <mat-label>Telefon Nummer</mat-label>
-          <input matInput formControlName="phoneNumber">
+        <mat-form-field fxFlex>
+          <mat-label>Postnummer</mat-label>
+          <input id="postalCode" matInput formControlName="postalCode">
         </mat-form-field>
-
-        <mat-form-field>
-          <mat-label>Email</mat-label>
-          <input matInput formControlName="email">
-        </mat-form-field>
-
-        <mat-form-field>
-          <mat-label>Adresse</mat-label>
-          <input matInput formControlName="address">
-        </mat-form-field>
-
-        <mat-form-field>
-          <mat-label>Land</mat-label>
-          <input matInput formControlName="country">
-        </mat-form-field>
-
-        <div fxLayout="row" fxLayoutGap="15px">
-          <mat-form-field fxFlex>
-            <mat-label>By</mat-label>
-            <input matInput formControlName="city">
-          </mat-form-field>
-
-          <mat-form-field fxFlex>
-            <mat-label>Postnummer</mat-label>
-            <input matInput formControlName="postcode">
-          </mat-form-field>
-        </div>
-      </ng-container>
+      </div>
 
       <span fxLayout="row" fxLayoutGap="15" fxLayoutAlign="start center">
         <mat-icon>local_shipping</mat-icon>
@@ -54,9 +57,9 @@
       </mat-selection-list>
 
       <div class="go-to-payment-box" fxLayout="column">
-        <mat-checkbox formControlName="termsCheckbox" required>Jeg accepterer handelsbetingelserne</mat-checkbox>
+        <mat-checkbox formControlName="termsCheckbox">Jeg accepterer handelsbetingelserne</mat-checkbox>
         <mat-checkbox formControlName="newsletterCheckbox">Jeg vil gerne have gode tilbud og nyheder fra Budolfi Vin i indbakken</mat-checkbox>
-        <button fxFlex="50" mat-raised-button color="primary" (click)="goToPayment()"> Gå til betaling </button>
+        <button fxFlex="50" mat-raised-button color="primary"> Gå til betaling </button>
       </div>
     </form>
 

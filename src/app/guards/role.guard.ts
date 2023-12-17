@@ -31,15 +31,15 @@ export const roleGuard: CanActivateFn = (route, state) => {
         cookieService.set('role', userRole.toString());
         return of(true);
       } else {
-        messageService.show('You do not have permission to access this page');
-        cookieService.delete('role');
-        router.navigate(['/']);
+        messageService.show('Du har ikke tilladelse til at se den her side');
+        cookieService.set('role', userRole.toString());
         return of(false);
       }
     }),
     catchError(error => {
-      messageService.show(error);
-      authService.logOut();
+      messageService.showError(error);
+      cookieService.delete('role');
+      authService.logOut().subscribe();
       router.navigate(['/login']);
       return of(false);
     })

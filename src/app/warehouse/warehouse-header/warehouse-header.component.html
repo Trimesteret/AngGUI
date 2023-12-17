@@ -1,55 +1,68 @@
 <mat-toolbar fxFlex fxLayoutAlign="center center" class="background-color-white">
-  <div style="width: 96%; display: flex" fxLayoutAlign="space-between center">
-    <a fxFlex="25" routerLink="">
-      <img style="display: flex" height="30px" alt="Budolfi Vin logo" src="assets/budolfilogo.svg">
-    </a>
-    <div *ngIf="!isTablet" fxFlex="70" fxLayoutAlign="center center" fxLayoutGap="20px">
+  <div style="width: 96%; display: flex" fxLayoutAlign="end center">
+    <div *ngIf="!isTablet" fxFlex fxLayoutAlign="center center" fxLayoutGap="20px">
+      <button mat-button routerLink="">
+        Forside
+        <mat-icon>
+          home
+        </mat-icon>
+      </button>
       <button mat-button routerLink="/warehouse/settings">
-        Settings
+        Indstillinger
         <mat-icon>
           settings
         </mat-icon>
       </button>
-      <button mat-button *ngIf="isAdmin" routerLink="/warehouse/browse-items">
+      <button mat-button routerLink="/warehouse/browse-items">
         Produkter
         <mat-icon>
           inventory_2
         </mat-icon>
       </button>
-      <button mat-button *ngIf="isAdmin" routerLink="/warehouse/browse-suppliers">
+      <button mat-button routerLink="/warehouse/browse-suppliers">
         Leverandører
         <mat-icon>
           local_shipping
         </mat-icon>
       </button>
-      <button mat-button *ngIf="isAdmin" routerLink="/warehouse/browse-users">
+      <button mat-button routerLink="/warehouse/browse-users">
         Brugere
         <mat-icon>
           person
         </mat-icon>
       </button>
+      <button mat-button [matMenuTriggerFor]="orderMenu">
+        Ordrer
+        <mat-icon>
+          dataset
+        </mat-icon>
+      </button>
+      <button mat-button>
+        Kasse
+        <mat-icon>
+          storefront
+        </mat-icon>
+      </button>
+      <mat-menu #orderMenu="matMenu">
+        <button mat-menu-item routerLink="/warehouse/browse-inbound-orders">
+          <mat-icon>system_update_alt</mat-icon>
+          <span>Indkommende Ordrer</span>
+        </button>
+        <button mat-menu-item routerLink="/warehouse/browse-purchase-orders">
+          <mat-icon><img src="assets/package.svg" alt="package"></mat-icon>
+          <span>Kunde Ordrer</span>
+        </button>
+      </mat-menu>
       <button (click)="logout()" mat-button>
         Log ud
         <mat-icon>logout</mat-icon>
       </button>
     </div>
-    <div fxFlex.lt-md="70" fxFlex.gt-md="25" fxLayoutGap.gt-md="20" fxLayoutGap.lt-md="0" fxLayoutAlign="end center">
-      <ng-container *ngIf="!isTablet">
-        <button mat-raised-button color="primary" routerLink="/webshop">
-          Webshop
-          <mat-icon>
-            shopping_cart
-          </mat-icon>
-        </button>
-      </ng-container>
-
-      <!-- Tablet -->
-      <ng-container *ngIf="isTablet">
-        <button mat-icon-button color="none" [matMenuTriggerFor]="menu">
-          <mat-icon>menu</mat-icon>
-        </button>
-      </ng-container>
-    </div>
+    <ng-container *ngIf="isTablet">
+      <button mat-icon-button [matMenuTriggerFor]="menu">
+        <mat-icon>menu</mat-icon>
+      </button>
+    </ng-container>
   </div>
 </mat-toolbar>
 
@@ -57,19 +70,46 @@
   <button mat-menu-item routerLink="">
     Forside
     <mat-icon>
-      <img height="100%" alt="Budolfi Vin logo" src="assets/budolfiGrapes.svg">
+      home
     </mat-icon>
   </button>
-  <button mat-menu-item routerLink="/webshop/catalogue">
-    Webshop
+  <button mat-menu-item routerLink="/warehouse/settings">
+    Indstillinger
     <mat-icon>
-      webshop
-    </mat-icon></button>
-  <button mat-menu-item routerLink="">
-    Vinsmagning
-    <mat-icon>
-      wine_bar
+      settings
     </mat-icon>
+  </button>
+  <button mat-menu-item routerLink="/warehouse/browse-items">
+    Produkter
+    <mat-icon>
+      inventory_2
+    </mat-icon>
+  </button>
+  <button mat-menu-item routerLink="/warehouse/browse-suppliers">
+    Leverandører
+    <mat-icon>
+      local_shipping
+    </mat-icon>
+  </button>
+  <button mat-menu-item routerLink="/warehouse/browse-users">
+    Brugere
+    <mat-icon>
+      person
+    </mat-icon>
+  </button>
+  <button mat-menu-item>
+    Kasse
+    <mat-icon>
+      storefront
+    </mat-icon>
+  </button>
+  <button mat-menu-item routerLink="/warehouse/browse-inbound-orders">
+    Indkommende Ordrer
+    <mat-icon>system_update_alt</mat-icon>
+  </button>
+  <button mat-menu-item routerLink="/warehouse/browse-purchase-orders">
+    Kunde Ordrer
+    <mat-icon><img src="assets/package.svg" alt="package"></mat-icon>
   </button>
   <button (click)="logout()" mat-menu-item>
     Log ud

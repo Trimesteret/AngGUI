@@ -1,18 +1,20 @@
 import { ItemDto } from '../interfaces/item-dto';
 
 export class OrderLine {
-  id: number | null;
-  productId: number;
-  quantity: number;
-  price: number;
+  id?: number;
   item: ItemDto;
-  purchaseOrderId?: number;
+  itemId: number;
+  linePrice: number;
+  itemPrice: number;
+  itemName: string;
+  quantity: number;
 
-  constructor(productId: number, quantity: number, price: number, item: ItemDto) {
-    this.productId = productId;
-    this.quantity = quantity;
-    this.price = price;
+  constructor(quantity: number, item: ItemDto) {
     this.item = item;
+    this.itemId = item.id;
+    this.quantity = quantity;
+    this.itemName = this.item.name;
+    this.itemPrice = this.item.price;
+    this.linePrice = this.item.price * this.quantity;
   }
-
 }

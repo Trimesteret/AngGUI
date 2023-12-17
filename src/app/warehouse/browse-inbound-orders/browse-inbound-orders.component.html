@@ -1,0 +1,19 @@
+<app-warehouse-basic-layout>
+  <div fxFlex fxLayoutAlign="center start" fxLayout="row" style="background-color: #EFEFEF">
+    <div fxLayout="column" class="document" fxLayoutGap="5">
+      <span class="padding-bottom-10" fxLayout="row" fxLayoutGap="15" fxLayoutAlign="start center">
+        <mat-icon>list</mat-icon>
+        <h1 class="no-margin no-padding">Indkommende ordre</h1>
+      </span>
+
+      <app-data-table [tableData]="inboundOrders" [displayedColumns]="displayedColumns"></app-data-table>
+
+      <div class="padding-top-10" fxLayoutAlign="end center">
+        <button class="full-width" routerLink="/warehouse/create-inbound-order" mat-raised-button color="primary">
+          Opret ny indkommende ordre
+          <mat-icon>add</mat-icon>
+        </button>
+      </div>
+    </div>
+  </div>
+</app-warehouse-basic-layout>

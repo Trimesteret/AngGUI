@@ -1,0 +1,59 @@
+<div fxFlex fxLayout="column" fxLayoutGap="10">
+  <ng-container>
+
+    <mat-form-field *ngIf="showSearchField" fxFlex class="full-width">
+      <mat-label>Søg</mat-label>
+      <input matInput (keyup)="applySearch($event)" >
+    </mat-form-field>
+
+    <table mat-table [dataSource]="tableData" (matSortChange)="sortData($event)" matSort class="mat-elevation-z8">
+      <ng-container *ngFor="let column of displayedColumns" [ngSwitch]="column.type">
+        <ng-container [matColumnDef]="column.key" *ngSwitchCase="TableColumnType.delete">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header>{{ column.value }}</th>
+          <td mat-cell *matCellDef="let element">
+            <button mat-icon-button color="warn" (click)="deleteClick(element.id)">
+              <mat-icon>delete</mat-icon>
+            </button>
+          </td>
+        </ng-container>
+
+        <ng-container [matColumnDef]="column.key" *ngSwitchCase="TableColumnType.numberInput">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header>{{ column.value }}</th>
+          <td mat-cell *matCellDef="let element">
+            <input matInput class="table-input" type="number" [(ngModel)]="element[column.key]" (ngModelChange)="changeLineInput(element)" [value]="element[column.key]">
+          </td>
+        </ng-container>
+
+        <ng-container [matColumnDef]="column.key" *ngSwitchCase="TableColumnType.price">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header>{{ column.value }}</th>
+          <td mat-cell *matCellDef="let element">
+            {{element[column.key]}} kr
+          </td>
+        </ng-container>
+
+        <ng-container [matColumnDef]="column.key" *ngSwitchCase="TableColumnType.date">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header>{{ column.value }}</th>
+          <td mat-cell *matCellDef="let element">
+            {{element[column.key] | date: 'HH:mm'}}
+            |
+            {{element[column.key] | date: 'dd-MM-yyyy'}}
+          </td>
+        </ng-container>
+
+        <ng-container [matColumnDef]="column.key" *ngSwitchDefault>
+          <th mat-header-cell *matHeaderCellDef mat-sort-header>{{ column.value }}</th>
+          <td mat-cell *matCellDef="let element">
+            {{element[column.key]}}
+          </td>
+        </ng-container>
+      </ng-container>
+
+      <tr mat-header-row *matHeaderRowDef="getColumnNames()"></tr>
+      <tr mat-row class="selectable-row" (click)="lineClick(element.id)" *matRowDef="let element; columns: getColumnNames();"></tr>
+    </table>
+  </ng-container>
+
+  <div fxFlex fxLayoutAlign="center center">
+    <mat-spinner class="margin-top-30" *ngIf="loading"></mat-spinner>
+  </div>
+</div>

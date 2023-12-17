@@ -1,12 +1,17 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { MessageService } from '../../../shared/services/message.service';
-import { MatTableDataSource } from '@angular/material/table';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { UserService } from '../../../shared/services/authentication/user.service';
 import { AuthenticationService } from '../../../shared/services/authentication/authentication.service';
 import { User } from '../../../shared/models/user';
 import { LoginDto } from '../../../shared/models/login-dto';
+import { TableColumn } from '../../../shared/models/table-column';
+import { TableColumnType } from '../../../shared/enums/table-column-type';
+import { PurchaseOrder } from '../../../shared/models/purchase-order';
+import { Observable } from 'rxjs';
+import { OrderService } from '../../../shared/services/order/order.service';
+import { MatTableDataSource } from '@angular/material/table';
 
 @Component({
   selector: 'app-my-profile',
@@ -20,16 +25,22 @@ export class MyProfileComponent implements OnInit{
   loggedIn = false;
   loading = true;
   profileForm: FormGroup | undefined;
-  public customerPurchaseOrders = new MatTableDataSource<any>();
 
-  public displayedColumns: string[] = ['id', 'status'];
+  purchaseOrders: MatTableDataSource<PurchaseOrder>;
+  displayedColumns: TableColumn[] = [
+    { key: 'id', value: 'Id' }, { key: 'purchaseOrderState', value: 'Ordre status' }, { key: 'orderDate', value: 'Ordre dato', type: TableColumnType.date },
+    { key: 'deliveryDate', value: 'Leverings dato', type: TableColumnType.date }, { key: 'totalPrice', value: 'Total pris' }
+  ];
 
   constructor(public router: Router, private formBuilder: FormBuilder, private authenticationService: AuthenticationService,
-              private messageService: MessageService, private userService: UserService) {
+              private messageService: MessageService, private userService: UserService, private orderService: OrderService) {
     this.loggedIn = this.authenticationService.getLoggedIn();
+    this.orderService.getCurrentUserPurchaseOrders().subscribe(purchaseOrders => {
+      this.purchaseOrders = new MatTableDataSource<PurchaseOrder>(purchaseOrders);
+    });
   }
 
-  ngOnInit(): void {
+  public ngOnInit(): void {
     this.getUserAndBuildForm();
   }
 
@@ -77,7 +88,7 @@ export class MyProfileComponent implements OnInit{
 
     this.userService.updateCurrentUserPassword(changePasswordDto).subscribe(() => {
       this.loading = false;
-      this.messageService.show('Password updated');
+      this.messageService.show('Adgangskode opdateret');
       this.showChangePasswordFields = !this.showChangePasswordFields;
     },
     error => {
@@ -88,33 +99,6 @@ export class MyProfileComponent implements OnInit{
   }
 
   /**
-   * Sort table data given an event
-   * @param event the event
-   */
-  public sortData(event: any): void {
-    const data = this.customerPurchaseOrders.data.slice();
-    if (!event.active || event.direction === '') {
-      this.customerPurchaseOrders.data = data;
-      return;
-    }
-
-    this.customerPurchaseOrders.data = data.sort((a, b) => {
-      const isAsc = event.direction === 'asc';
-      switch (event.active) {
-        case 'id':
-          return this.compare(a.id, b.id, isAsc);
-        case 'status':
-          return this.compare(a.status, b.status, isAsc);
-        default:
-          return 0;
-      }
-    });
-  }
-  private compare(a: number | string, b: number | string, isAsc: boolean): number {
-    return (a < b ? -1 : 1) * (isAsc ? 1 : -1);
-  }
-
-  /**
    * Is run when the user submits the profileForm
    */
   public submitProfile(): void{
@@ -122,7 +106,7 @@ export class MyProfileComponent implements OnInit{
 
     this.userService.updateCurrentUser(this.profileForm.value as User).subscribe(() => {
       this.loading = false;
-      this.messageService.show('Profile updated');
+      this.messageService.show('Profil opdateret');
     },
     error => {
       this.loading = false;

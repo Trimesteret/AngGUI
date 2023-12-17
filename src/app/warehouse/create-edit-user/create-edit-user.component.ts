@@ -1,9 +1,8 @@
 import { Component } from '@angular/core';
-import { AuthenticationService } from '../../shared/services/authentication/authentication.service';
 import { MessageService } from '../../shared/services/message.service';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { UserService } from '../../shared/services/authentication/user.service';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { Role } from '../../shared/enums/role';
 import { Location } from '@angular/common';
 import { UserStandardDto } from '../../shared/models/user-standard-dto';
@@ -20,7 +19,7 @@ export class CreateEditUserComponent {
   userForm: FormGroup | undefined;
 
   constructor(private messageService: MessageService, private userService: UserService, private formBuilder: FormBuilder,
-              private route: ActivatedRoute, private location: Location)
+              private route: ActivatedRoute, private location: Location, private router: Router)
   {
     this.getUserAndBuildForm();
   }
@@ -77,27 +76,51 @@ export class CreateEditUserComponent {
   }
 
   /**
-   * Is run when the user submits the profileForm
+   * The Submit of the item form
    */
-  public submitUser(): void{
-    if(!this.userForm?.valid){
-      this.messageService.show('Please fill in all required fields');
+  public submitUser(): void {
+    const user = this.userForm?.value as UserStandardDto;
+
+    if(user == null){
+      this.messageService.show('Fejl: Bruger må ikke være nul');
       return;
     }
 
-    this.loading = true;
+    if(this.userForm?.valid == false){
+      this.messageService.show('Fejl: Bruger formen indeholder fejl');
+      return;
+    }
 
-    const user = this.userForm.value as UserStandardDto;
-    user.id = this.route.snapshot.params['id'];
-    console.log(user);
+    if (this.editing) {
+      user.id = parseInt(this.route.snapshot.params['id']);
+      return this.submitEditUser(user);
+    }
 
-    this.userService.editUser(user).subscribe(() => {
-      this.loading = false;
+    return this.submitCreateUser(user);
+  }
+
+  /**
+   * Edits an user given an userDto
+   * @param user
+   */
+  public submitEditUser(user: UserStandardDto): void {
+    this.userService.editUser(user).subscribe(user => {
       this.buildUserForm(user);
-      this.messageService.show('User updated');
-    },
-    error => {
-      this.loading = false;
+      this.messageService.show('Item edited');
+    }, error => {
+      this.messageService.showError(error);
+    });
+  }
+
+  /**
+   * Creates a user given a userDto
+   * @param user
+   */
+  public submitCreateUser(user: UserStandardDto): void{
+    this.userService.createUser(user).subscribe(user => {
+      this.router.navigate(['/warehouse/edit-user/' + user.id]);
+      this.messageService.show('Produkt oprettet');
+    }, error => {
       this.messageService.showError(error);
     });
   }

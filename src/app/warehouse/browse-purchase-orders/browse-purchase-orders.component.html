@@ -1,0 +1,20 @@
+<app-warehouse-basic-layout>
+  <div fxFlex fxLayoutAlign="center start" fxLayout="row" style="background-color: #EFEFEF">
+    <div fxLayout="column" class="document" fxLayoutGap="5">
+      <span class="padding-bottom-10" fxLayout="row" fxLayoutGap="15" fxLayoutAlign="start center">
+        <mat-icon><img src="assets/package.svg" alt="package"></mat-icon>
+        <h1 class="no-margin no-padding">Kunde ordrer</h1>
+      </span>
+
+      <app-data-table [tableData]="purchaseOrders" [displayedColumns]="displayedColumns" (lineClickId)="editOrder($event)"></app-data-table>
+      <mat-paginator *ngIf="purchaseOrders?.data.length !== 0" [pageSizeOptions]="[10, 25, 50, 100]" aria-label="Select page of orders"></mat-paginator>
+
+      <div class="padding-top-10" fxLayoutAlign="end center">
+        <button class="full-width" routerLink="/warehouse/create-purchase-order" mat-raised-button color="primary">
+          Opret ny kunde ordre
+          <mat-icon>add</mat-icon>
+        </button>
+      </div>
+    </div>
+  </div>
+</app-warehouse-basic-layout>

@@ -2,7 +2,10 @@ import { Component } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { OrderLineDto } from '../../shared/interfaces/order-line-dto';
 import { OrderService } from '../../shared/services/order/order.service';
-import { PurchaseOrderDto } from '../../shared/interfaces/purchase-order-dto';
+import { PurchaseOrder } from '../../shared/models/purchase-order';
+import { AuthenticationService } from '../../shared/services/authentication/authentication.service';
+import { MessageService } from '../../shared/services/message.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-checkout',
@@ -11,8 +14,9 @@ import { PurchaseOrderDto } from '../../shared/interfaces/purchase-order-dto';
 })
 export class CheckoutComponent{
   checkoutForm: FormGroup;
-  purchaseOrder: PurchaseOrderDto;
+  purchaseOrder: PurchaseOrder;
   deliveryPrice = 0;
+  loggedIn = false;
 
   deliveryMethods = [
     {
@@ -38,9 +42,12 @@ export class CheckoutComponent{
       price: 79
     }];
 
-  constructor(private formBuilder: FormBuilder, private orderService: OrderService) {
+  constructor(private formBuilder: FormBuilder, private orderService: OrderService, private authenticationService: AuthenticationService,
+              private messageService: MessageService, private router: Router) {
     this.purchaseOrder = this.orderService.getCurrentPurchaseOrder();
     this.buildCheckOutForm();
+
+    this.loggedIn = this.authenticationService.getLoggedIn();
   }
 
   /**
@@ -48,12 +55,13 @@ export class CheckoutComponent{
    */
   public buildCheckOutForm(): void {
     this.checkoutForm = this.formBuilder.group({
-      name: ['', Validators.required],
-      phoneNumber: ['', Validators.required],
-      email: ['', Validators.required],
-      address: ['', Validators.required],
+      customerFirstName: ['', Validators.required],
+      customerLastName: ['', Validators.required],
+      customerPhone: ['', Validators.required],
+      customerEmail: ['', Validators.required],
+      addressLine: ['', Validators.required],
       country: ['Danmark', Validators.required],
-      postcode: ['', Validators.required],
+      postalCode: ['', Validators.required],
       city: ['', Validators.required],
       deliveryMethod: ['', Validators.required],
       termsCheckbox: [false, Validators.required],
@@ -72,7 +80,7 @@ export class CheckoutComponent{
     let total = 0;
     this.purchaseOrder = this.orderService.getCurrentPurchaseOrder();
     this.purchaseOrder.orderLines.forEach(function (orderLine : OrderLineDto){
-      total += orderLine.price;
+      total += orderLine.linePrice;
     });
     return total;
   }
@@ -84,7 +92,25 @@ export class CheckoutComponent{
     return this.getCalculatedTotalPrice() + this.deliveryPrice;
   }
 
+  /**
+   *
+   */
   public goToPayment(): void {
-    // Not implemented, should send the order to API
+    if(this.checkoutForm.invalid || !this.checkoutForm.get('termsCheckbox').value) {
+      this.messageService.show('Udfyld venligst alle felterne og accepter handelsbetingelserne');
+      return;
+    }
+
+    const purchaseOrder = this.checkoutForm.value as PurchaseOrder;
+    purchaseOrder.orderLines = this.purchaseOrder.orderLines;
+    purchaseOrder.orderDate = new Date();
+
+    this.orderService.createPurchaseOrder(purchaseOrder).subscribe((response) => {
+      this.messageService.show('Din ordre er nu oprettet');
+      this.orderService.resetCurrentPurchaseOrder();
+      this.router.navigate(['/webshop']);
+    }, error => {
+      this.messageService.showError(error);
+    });
   }
 }

@@ -22,6 +22,7 @@ import { MatSortModule } from '@angular/material/sort';
 import { MatRadioModule } from '@angular/material/radio';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatListModule } from '@angular/material/list';
+import { MatPaginatorModule } from '@angular/material/paginator';
 
 @NgModule({
   declarations: [
@@ -52,7 +53,8 @@ import { MatListModule } from '@angular/material/list';
     NgOptimizedImage,
     MatRadioModule,
     MatCheckboxModule,
-    MatListModule
+    MatListModule,
+    MatPaginatorModule
   ]
 })
 export class WebshopModule { }

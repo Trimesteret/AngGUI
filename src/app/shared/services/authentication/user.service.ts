@@ -37,10 +37,19 @@ export class UserService {
   }
 
   /**
-   * The get all users function
+   * The edit user function
+   * @param user
    */
   public editUser(user: UserStandardDto): Observable<UserStandardDto>{
     return this.http.put<UserStandardDto>(this.url, user);
+  }
+
+  /**
+   * The create user function
+   * @param user
+   */
+  public createUser(user: UserStandardDto): Observable<UserStandardDto>{
+    return this.http.post<UserStandardDto>(this.url, user);
   }
 
   /**

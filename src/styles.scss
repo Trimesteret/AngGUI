@@ -3,7 +3,6 @@
 @import 'https://fonts.googleapis.com/icon?family=Material+Icons';
 @import 'customPallet.scss';
 
-
 body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
 html, body {
   height: 100%;
@@ -78,6 +77,18 @@ html, body {
   padding: 30px;
 }
 
+.color-white{
+  color: white;
+}
+
+.table-input{
+  width: 80px;
+  border: 0;
+}
+
+.table-input::-webkit-inner-spin-button, .table-input::-webkit-outer-spin-button {
+  opacity: 1;
+}
 
 .selectable-row:hover {
   background: whitesmoke;

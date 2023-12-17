@@ -1,12 +1,13 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpParams } from '@angular/common/http';
-import { Observable, tap } from 'rxjs';
+import { Observable, of, tap } from 'rxjs';
 import { CookieService } from 'ngx-cookie-service';
 import { environment } from '../../../../environments/environment';
 import { Role } from '../../enums/role';
 import { LoginDto } from '../../models/login-dto';
 import { AuthPas } from '../../models/auth-pas';
 import { User } from '../../models/user';
+import { ForgotPasswordDto } from '../../models/forgot-password-dto';
 
 @Injectable({
   providedIn: 'root'
@@ -24,8 +25,7 @@ export class AuthenticationService {
   public login(loginDto: LoginDto): Observable<AuthPas>{
     return this.http.post<AuthPas>(this.url + '/Login', loginDto).pipe(
       tap(authRes => {
-        this.cookieService.set('jwtToken', authRes.token);
-        this.cookieService.set('role', authRes.role ? authRes.role.toString() : '');
+        this.setCookies(authRes.token, authRes.role);
       }));
   }
 
@@ -66,6 +66,14 @@ export class AuthenticationService {
   }
 
   /**
+   * Forgot password function
+   * @param forgotPasswordDto the forgot password dto
+   */
+  public forgotPassword(forgotPasswordDto: ForgotPasswordDto): Observable<any> {
+    return this.http.post<any>(this.url + '/ForgotPassword', forgotPasswordDto);
+  }
+
+  /**
    * Verify token
    */
   public verifyAuthToken(token: string): Observable<boolean>{
@@ -86,11 +94,38 @@ export class AuthenticationService {
   }
 
   /**
+   * Sets the cookies
+   * @param token
+   * @param role
+   */
+  public setCookies(token?: string, role?: Role): void {
+    if(token) {
+      this.cookieService.set('jwtToken', token);
+    }
+
+    if(Number.isInteger(role)) {
+      this.cookieService.set('role', role.toString());
+    }
+  }
+
+  /**
+   * Deletes all cookies
+   */
+  public deleteCookies(): void {
+    this.cookieService.delete('jwtToken');
+    this.cookieService.delete('role');
+    this.cookieService.deleteAll();
+  }
+
+  /**
    * Logs out the user with a token
    */
   public logOut(): Observable<boolean> {
     const token = this.cookieService.get('jwtToken');
-    this.cookieService.deleteAll();
+    this.deleteCookies();
+    if(!token) {
+      return of(true);
+    }
     return this.http.post<boolean>(this.url + '/LogOut', { token: token } as AuthPas);
   }
 }
