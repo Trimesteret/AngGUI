@@ -76,7 +76,7 @@ export class CreateEditUserComponent {
   }
 
   /**
-   * The Submit of the item form
+   * The Submit of the user form
    */
   public submitUser(): void {
     const user = this.userForm?.value as UserStandardDto;
@@ -106,7 +106,7 @@ export class CreateEditUserComponent {
   public submitEditUser(user: UserStandardDto): void {
     this.userService.editUser(user).subscribe(user => {
       this.buildUserForm(user);
-      this.messageService.show('Item edited');
+      this.messageService.show('Bruger redigeret');
     }, error => {
       this.messageService.showError(error);
     });
@@ -119,7 +119,7 @@ export class CreateEditUserComponent {
   public submitCreateUser(user: UserStandardDto): void{
     this.userService.createUser(user).subscribe(user => {
       this.router.navigate(['/warehouse/edit-user/' + user.id]);
-      this.messageService.show('Produkt oprettet');
+      this.messageService.show('Bruger oprettet');
     }, error => {
       this.messageService.showError(error);
     });
