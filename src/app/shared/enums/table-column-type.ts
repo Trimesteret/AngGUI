@@ -4,4 +4,6 @@ export enum TableColumnType {
   date = 2,
   delete = 3,
   price = 4,
+  enum = 5,
+  boolean = 6,
 }

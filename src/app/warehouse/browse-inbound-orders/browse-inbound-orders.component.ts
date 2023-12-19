@@ -1,12 +1,13 @@
-import { Component } from '@angular/core';
+import { Component, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
-import { MessageService } from '../../shared/services/message.service';
-import { AuthenticationService } from '../../shared/services/authentication/authentication.service';
 import { Role } from '../../shared/enums/role';
 import { OrderService } from '../../shared/services/order/order.service';
 import { InboundOrder } from '../../shared/models/inbound-order';
 import { TableColumn } from '../../shared/models/table-column';
 import { MatTableDataSource } from '@angular/material/table';
+import { TableColumnType } from '../../shared/enums/table-column-type';
+import { InboundOrderState } from '../../shared/enums/inbound-order-state';
+import { MatPaginator } from '@angular/material/paginator';
 
 @Component({
   selector: 'app-browse-inbound-orders',
@@ -16,16 +17,19 @@ import { MatTableDataSource } from '@angular/material/table';
 export class BrowseInboundOrdersComponent{
   inboundOrders: MatTableDataSource<InboundOrder>;
 
+  @ViewChild(MatPaginator) paginator: MatPaginator;
+
   public displayedColumns: TableColumn[] = [
-    { key: 'id', value: 'Id' }, { key: 'orderState', value: 'Ordre status' }, { key: 'orderDate', value: 'Ordre dato' },
-    { key: 'deliveryDate', value: 'Leverings dato' }, { key: 'totalPrice', value: 'Total pris' }, { key: 'supplier', value: 'Leverandør' }
+    { key: 'id', value: 'Id' }, { key: 'inboundOrderState', value: 'Ordre status', type: TableColumnType.enum, enum: InboundOrderState },
+    { key: 'orderDate', value: 'Ordre dato', type: TableColumnType.date }, { key: 'deliveryDate', value: 'Leverings dato', type: TableColumnType.date },
+    { key: 'totalPrice', value: 'Total pris', type: TableColumnType.price }, { key: 'supplierName', value: 'Leverandør' }
   ];
 
-  constructor(private orderService: OrderService, private messageService: MessageService, private authenticationService: AuthenticationService,
-    private router: Router)
+  constructor(private orderService: OrderService, private router: Router)
   {
     this.orderService.getAllInboundOrders().subscribe(inboundOrders => {
       this.inboundOrders = new MatTableDataSource<InboundOrder>(inboundOrders);
+      this.inboundOrders.paginator = this.paginator;
     });
   }
 

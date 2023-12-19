@@ -8,6 +8,7 @@ import { UserStandardDto } from '../../shared/models/user-standard-dto';
 import { TableColumn } from '../../shared/models/table-column';
 import { MatTableDataSource } from '@angular/material/table';
 import { MatPaginator } from '@angular/material/paginator';
+import { TableColumnType } from '../../shared/enums/table-column-type';
 
 @Component({
   selector: 'app-browse-users',
@@ -19,8 +20,8 @@ export class BrowseUsersComponent{
 
   public displayedColumns: TableColumn[] = [
     { key: 'id', value: 'Id' }, { key: 'firstName', value: 'Fornavn' }, { key: 'lastName', value: 'Efternavn' },
-    { key: 'email', value: 'Email' }, { key: 'phone', value: 'Telefon nummer' }, { key: 'signedUp', value: 'Oprettet' },
-    { key: 'role', value: 'Rolle' }
+    { key: 'email', value: 'Email' }, { key: 'phone', value: 'Telefon nummer' }, { key: 'signedUp', value: 'Oprettet', type: TableColumnType.boolean },
+    { key: 'role', value: 'Rolle', type: TableColumnType.enum, enum: Role  }
   ];
 
   @ViewChild(MatPaginator) paginator: MatPaginator;

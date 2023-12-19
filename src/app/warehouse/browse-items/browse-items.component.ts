@@ -8,6 +8,8 @@ import { Router } from '@angular/router';
 import { MatTableDataSource } from '@angular/material/table';
 import { TableColumn } from '../../shared/models/table-column';
 import { MatPaginator } from '@angular/material/paginator';
+import { TableColumnType } from '../../shared/enums/table-column-type';
+import { InboundOrderState } from '../../shared/enums/inbound-order-state';
 
 @Component({
   selector: 'app-browse-items',
@@ -21,7 +23,7 @@ export class BrowseItemsComponent{
 
   public displayedColumns: TableColumn[] = [
     { key: 'id', value: 'Id' }, { key: 'ean', value: 'EAN' }, { key: 'name', value: 'Navn' }, { key: 'price', value: 'Pris' },
-    { key: 'itemType', value: 'Type' }, { key: 'quantity', value: 'Antal' }
+    { key: 'itemType', value: 'Varetype', type: TableColumnType.enum, enum: ItemType }, { key: 'quantity', value: 'Antal' }
   ];
 
   constructor(private itemService: ItemsService, private messageService: MessageService, private authenticationService: AuthenticationService, private router: Router) {

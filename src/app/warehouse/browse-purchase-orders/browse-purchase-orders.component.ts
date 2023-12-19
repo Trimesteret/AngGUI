@@ -7,6 +7,7 @@ import { PurchaseOrder } from '../../shared/models/purchase-order';
 import { TableColumn } from '../../shared/models/table-column';
 import { TableColumnType } from '../../shared/enums/table-column-type';
 import { MatTableDataSource } from '@angular/material/table';
+import { PurchaseOrderState } from '../../shared/enums/purchase-order-state';
 
 @Component({
   selector: 'app-browse-purchase-orders',
@@ -17,8 +18,8 @@ export class BrowsePurchaseOrdersComponent{
   purchaseOrders: MatTableDataSource<PurchaseOrder>;
 
   public displayedColumns: TableColumn[] = [
-    { key: 'id', value: 'Id' }, { key: 'purchaseOrderState', value: 'Ordre status' }, { key: 'orderDate', value: 'Ordre dato', type: TableColumnType.date },
-    { key: 'deliveryDate', value: 'Leverings dato', type: TableColumnType.date }, { key: 'totalPrice', value: 'Total pris' }
+    { key: 'id', value: 'Id' }, { key: 'purchaseOrderState', value: 'Ordre status', type: TableColumnType.enum, enum: PurchaseOrderState }, { key: 'orderDate', value: 'Ordre dato', type: TableColumnType.date },
+    { key: 'deliveryDate', value: 'Leverings dato', type: TableColumnType.date }, { key: 'totalPrice', value: 'Total pris', type: TableColumnType.price }
   ];
   @ViewChild(MatPaginator) paginator: MatPaginator;
 

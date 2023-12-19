@@ -4,9 +4,10 @@ import { InboundOrderState } from '../enums/inbound-order-state';
 
 export class InboundOrder {
   id?: number;
-  orderState: InboundOrderState;
+  inboundOrderState: InboundOrderState;
   orderDate?: Date;
   deliveryDate?: Date;
   orderLines: OrderLine[];
+  supplierName?: string;
   supplier: SupplierDto;
 }

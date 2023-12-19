@@ -7,6 +7,8 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { SupplierDto } from '../../shared/models/supplier-dto';
 import { ItemType } from '../../shared/enums/item-type';
 import { ItemDto } from '../../shared/interfaces/item-dto';
+import { TableColumn } from '../../shared/models/table-column';
+import { TableColumnType } from '../../shared/enums/table-column-type';
 
 @Component({
   selector: 'app-create-edit-supplier',
@@ -21,7 +23,8 @@ export class CreateEditSupplierComponent implements AfterViewInit{
   search = '';
   supplierName: string;
   editing = false;
-  associatedColumns: string[] =  ['id', 'ean', 'name', 'price', 'itemType', 'quantity', 'remove'];
+  displayColumns: TableColumn[] = [{ key: 'id', value: 'Id' }, { key: 'ean', value: 'Ean' }, { key: 'name', value: 'Navn' },
+    { key: 'price', value: 'Pris', type: TableColumnType.price }, { key: 'itemType', value: 'Varetype', type: TableColumnType.enum, enum: ItemType }];
 
   constructor(private itemService: ItemsService, private supplierService: SupplierService, private messageService: MessageService,
               private router: Router, private route: ActivatedRoute, private changeDetectorRef: ChangeDetectorRef) {}
@@ -71,10 +74,10 @@ export class CreateEditSupplierComponent implements AfterViewInit{
 
   /**
    * Remove item from list given an itemDto
-   * @param removeItem the itemDto to remove
+   * @param id the itemDto to remove
    */
-  public removeItemFromTable(removeItem: ItemDto): void {
-    this.associatedItems.data = this.associatedItems.data.filter(item => item.id !== removeItem.id);
+  public removeItemFromTable(id: number): void {
+    this.associatedItems.data = this.associatedItems.data.filter(item => item.id !== id);
   }
 
   /**

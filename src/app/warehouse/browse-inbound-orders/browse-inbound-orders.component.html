@@ -6,7 +6,8 @@
         <h1 class="no-margin no-padding">Indkommende ordre</h1>
       </span>
 
-      <app-data-table [tableData]="inboundOrders" [displayedColumns]="displayedColumns"></app-data-table>
+      <app-data-table (lineClickId)="editOrder($event)" [tableData]="inboundOrders" [displayedColumns]="displayedColumns"></app-data-table>
+      <mat-paginator *ngIf="inboundOrders?.data.length !== 0" [pageSizeOptions]="[10, 25, 50, 100]" aria-label="Select page of orders"></mat-paginator>
 
       <div class="padding-top-10" fxLayoutAlign="end center">
         <button class="full-width" routerLink="/warehouse/create-inbound-order" mat-raised-button color="primary">

@@ -1,4 +1,4 @@
-import { Component, ViewChild } from '@angular/core';
+import { AfterViewInit, Component, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { SupplierDto } from '../../shared/models/supplier-dto';
 import { ItemDto } from '../../shared/interfaces/item-dto';
@@ -14,27 +14,38 @@ import { TableColumn } from '../../shared/models/table-column';
 import { MatTableDataSource } from '@angular/material/table';
 import { MatPaginator } from '@angular/material/paginator';
 import { OrderLineDto } from '../../shared/interfaces/order-line-dto';
+import { TableColumnType } from '../../shared/enums/table-column-type';
+import { OrderLine } from '../../shared/models/order-line';
+import { ItemType } from '../../shared/enums/item-type';
 
 @Component({
   selector: 'app-create-edit-purchase-orders',
   templateUrl: './create-edit-purchase-orders.component.html',
   styleUrls: ['./create-edit-purchase-orders.component.scss']
 })
-export class CreateEditPurchaseOrdersComponent {
+export class CreateEditPurchaseOrdersComponent{
   loading = true;
   editing = false;
   purchaseOrderForm: FormGroup;
   suppliers: SupplierDto[] = [];
-  supplierItems: ItemDto[];
-  selectedSupplier: SupplierDto;
+  allItems: ItemDto[];
+  filteredItems: ItemDto[];
   orderLines: MatTableDataSource<OrderLineDto> = new MatTableDataSource<OrderLineDto>();
-  displayedColumns: TableColumn[] = [{ key: 'itemName', value: 'Vare navn' }, { key: 'quantity', value: 'Antal' }, { key: 'linePrice', value: 'Linje pris' }];
+  displayedColumns: TableColumn[] = [{ key: 'itemName', value: 'Vare navn' },
+    { key: 'quantity', value: 'Antal', type: TableColumnType.numberInput }, { key: 'itemPrice', value: 'Vare pris', type: TableColumnType.price },
+    { key: 'linePrice', value: 'Linje pris', type: TableColumnType.price }];
+
+  search: string;
+
 
   @ViewChild(MatPaginator) paginator: MatPaginator;
 
   constructor(private formBuilder: FormBuilder, private supplierService: SupplierService, private messageService: MessageService,
               private route: ActivatedRoute, private location: Location, private orderService: OrderService,
               private router: Router, private itemService: ItemsService) {
+    itemService.getAllItems().subscribe(items => {
+      this.allItems = items;
+    });
     this.getPurchaseOrderAndBuildForm();
     this.supplierService.getAllSuppliers().subscribe(suppliers => {
       this.suppliers = suppliers;
@@ -42,14 +53,23 @@ export class CreateEditPurchaseOrdersComponent {
   }
 
   /**
-   * Gets all items
+   * The search function for searching through all items
    */
-  public getSupplierRelatedItems(): void {
-    this.itemService.getSupplierRelatedItems(this.selectedSupplier?.id).subscribe(items => {
-      this.supplierItems = items;
-      this.supplierItems = this.supplierItems.filter(item => !this.orderLines.data.find(orderLine => orderLine.item.id === item.id));
-      this.loading = false;
-    });
+  public applySearch(): void {
+    this.filteredItems = this.allItems.filter(item =>
+      item.name.toLowerCase().includes(this.search) || item.ean.toLowerCase().includes(this.search)
+      || item.id.toString().includes(this.search) || ItemType[item.itemType].toString().includes(this.search)
+    );
+  }
+
+  /**
+   * Edits an orderLine in the table
+   * @param element
+   */
+  public editOrderLineInTable(element: OrderLine): void {
+    const orderLine = this.orderLines.data.find(ol => ol.id === element.id);
+    orderLine.quantity = element.quantity;
+    orderLine.linePrice = element.itemPrice * element.quantity;
   }
 
   /**
@@ -58,17 +78,15 @@ export class CreateEditPurchaseOrdersComponent {
    */
   public removeOrderLine(id: number): void {
     this.orderLines.data = this.orderLines.data.filter(orderLine => orderLine.id !== id);
-    this.orderLines.paginator = this.paginator;
   }
 
   /**
    * Gets the item and builds the form
    */
   public getPurchaseOrderAndBuildForm(): void {
-    let id = null;
     const idString = this.route.snapshot.params['id'];
 
-    id = parseInt(idString);
+    const id = parseInt(idString);
 
     if (!Number.isInteger(id)) {
       this.buildPurchaseOrderForm();
@@ -78,17 +96,39 @@ export class CreateEditPurchaseOrdersComponent {
     }
 
     this.orderService.getPurchaseOrderById(id).subscribe(purchaseOrder => {
+      this.orderLines = new MatTableDataSource(purchaseOrder.orderLines);
+      this.orderLines.paginator = this.paginator;
       this.editing = true;
       this.loading = false;
       this.buildPurchaseOrderForm(purchaseOrder);
-      this.orderLines = new MatTableDataSource(purchaseOrder.orderLines);
-      this.orderLines.paginator = this.paginator;
     },
     (error) => {
       console.error('Error fetching purchase order:', error);
       this.loading = false;
+    });
+  }
+
+  /**
+   * Adds an item to the table given an itemDto
+   * @param event the event from the mat select
+   */
+  public addItemToOrderLines(event: any): void {
+    const itemId = event?.option?.value;
+
+    const associatedOrderLine = this.orderLines.data.find(ol => ol.itemId === itemId);
+    if(!associatedOrderLine){
+      const item = this.allItems.find(item => item.id === itemId);
+      this.orderLines.data.push(new OrderLine(1, item));
+      this.allItems = this.allItems.filter(item => !this.orderLines.data.find(orderLine => orderLine.itemId === item.id));
+      const updatedData = this.orderLines.data;
+      this.orderLines.data = updatedData;
+      this.messageService.show('Vare tilføjet til kunde ordre');
+      this.search = '';
+    } else {
+      this.messageService.show('Vare er allerede tilføjet til kunde ordre');
+      this.search = '';
     }
-    );
+    this.search = '';
   }
 
   /**
@@ -117,12 +157,13 @@ export class CreateEditPurchaseOrdersComponent {
    */
   public submitPurchaseOrder(): void {
     const purchaseOrder = this.purchaseOrderForm?.value as PurchaseOrder;
-    purchaseOrder.orderLines = this.orderLines.data;
 
     if (purchaseOrder == null) {
       this.messageService.show('Fejl: Kunde ordre må ikke være nul');
       return;
     }
+
+    purchaseOrder.orderLines = this.orderLines.data;
 
     if (this.purchaseOrderForm?.valid == false) {
       this.messageService.show('Fejl: Kunde ordre formen indeholder fejl');
@@ -169,7 +210,7 @@ export class CreateEditPurchaseOrdersComponent {
   public deleteInboundOrder(): void {
     const id = this.route.snapshot.params['id'];
     this.loading = true;
-    this.orderService.deleteInboundOrder(id).subscribe(res => {
+    this.orderService.deleteOrder(id).subscribe(res => {
       if (!res) {
         this.messageService.show('Der gik noget galt da Bestillings ordre blev forsøgt slettet');
         this.loading = false;
@@ -183,4 +224,5 @@ export class CreateEditPurchaseOrdersComponent {
   }
 
   protected readonly PurchaseOrderState = PurchaseOrderState;
+  protected readonly ItemType = ItemType;
 }

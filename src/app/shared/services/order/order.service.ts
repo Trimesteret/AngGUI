@@ -35,7 +35,7 @@ export class OrderService {
    * @param id the id of the inbound order
    */
   public getInboundOrderById(id: number): Observable<InboundOrder> {
-    return this.http.get<InboundOrder>(this.url + `/ìnboundOrder/${id}`);
+    return this.http.get<InboundOrder>(this.url + `/inboundOrder/${id}`);
   }
 
   /**
@@ -72,10 +72,10 @@ export class OrderService {
 
   /**
    * Deletes an inbound order
-   * @param inboundOrder the inbound order to delete
+   * @param id the id of the inbound order to delete
    */
-  public deleteInboundOrder(inboundOrder: InboundOrder): Observable<boolean> {
-    return this.http.delete<boolean>(this.url + `/inboundOrder/${inboundOrder.id}`);
+  public deleteOrder(id: number): Observable<boolean> {
+    return this.http.delete<boolean>(this.url + `/${id}`);
   }
 
   /**

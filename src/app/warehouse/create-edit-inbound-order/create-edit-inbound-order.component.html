@@ -1,15 +1,16 @@
 <app-warehouse-basic-layout>
   <div fxFlex fxLayoutAlign="center start" fxLayout="row" style="background-color: #EFEFEF">
-    <div *ngIf="inboundOrderForm && !loading"  fxLayout="column" class="document" fxLayoutGap="5">
-      <form fxLayout="column" fxLayoutGap="5" [formGroup]="inboundOrderForm" (ngSubmit)="submitInboundOrder()">
+    <div fxLayout="column" class="document" fxLayoutGap="5">
+      <form *ngIf="inboundOrderForm" fxLayout="column" fxLayoutGap="5" [formGroup]="inboundOrderForm" (ngSubmit)="submitInboundOrder()">
         <span fxLayout="row" fxLayoutGap="15" fxLayoutAlign="start center">
           <mat-icon>category</mat-icon>
           <h1 class="no-margin no-padding">{{editing ? 'Rediger bestillings ordre' : 'Opret bestillings ordre'}}</h1>
         </span>
+
         <mat-form-field>
           <mat-label>Vælg leverandør</mat-label>
-          <mat-select id="supplier" formControlName="supplier">
-            <mat-option [value]="supplier" *ngFor="let supplier of suppliers">{{supplier.name}}</mat-option>
+          <mat-select id="supplier" formControlName="supplierId">
+            <mat-option [value]="supplier.id" *ngFor="let supplier of suppliers">{{supplier.name}}</mat-option>
           </mat-select>
         </mat-form-field>
 
@@ -21,7 +22,7 @@
         </mat-form-field>
 
         <mat-form-field appearance="fill">
-          <mat-label for="expected-delivery-date">Bestillings dato: </mat-label>
+          <mat-label for="expected-delivery-date">Bestillings dato</mat-label>
           <input matInput id="order-date" [matDatepicker]="picker" formControlName="orderDate">
           <mat-hint>DD/MM/YYYY</mat-hint>
           <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
@@ -30,29 +31,29 @@
 
         <mat-form-field>
           <mat-label for="expected-delivery-date">Forvented leverings dato </mat-label>
-          <input matInput id="delivery-date" [matDatepicker]="picker" formControlName="deliveryDate">
+          <input matInput id="delivery-date" [matDatepicker]="expectedPicker" formControlName="deliveryDate">
           <mat-hint>DD/MM/YYYY</mat-hint>
-          <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
-          <mat-datepicker #picker></mat-datepicker>
+          <mat-datepicker-toggle matIconSuffix [for]="expectedPicker"></mat-datepicker-toggle>
+          <mat-datepicker #expectedPicker></mat-datepicker>
         </mat-form-field>
       </form>
 
+      <span>Tilføj ordrelinjer på bestillings ordre</span>
       <mat-form-field>
         <mat-label>Søg</mat-label>
         <input matInput [disabled]="!selectedSupplier" [matAutocomplete]="auto" [(ngModel)]="search" (ngModelChange)="applySearch()">
         <mat-autocomplete #auto="matAutocomplete" (optionSelected)="addItemToOrderLines($event)">
-          <mat-option *ngFor="let item of filteredSupplierItems" [value]="item">
-            {{ 'Type: ' + ItemType[item.itemType] + ' -  Navn: ' + item.name + ' - Ean: ' + item.ean }}
+          <mat-option *ngFor="let item of filteredSupplierItems" [value]="item.id">
+            {{ 'Type: ' + ItemType[item?.itemType] + ' -  Navn: ' + item?.name + ' - Ean: ' + item?.ean }}
           </mat-option>
         </mat-autocomplete>
       </mat-form-field>
 
-      <app-data-table>
+      <app-data-table (lineChange)="editOrderLineInTable($event)" (deleteClickId)="removeOrderLineFromTable($event)" [displayedColumns]="displayedColumns" [showSearchField]="false" [addDeleteButton]="true" [tableData]="orderLines"></app-data-table>
+      <mat-paginator [pageSizeOptions]="[10, 25, 50, 100]"></mat-paginator>
 
-      </app-data-table>
-
-      <div fxFlex fxLayout="row" fxLayoutAlign="end center" class="margin-top-30" fxLayoutGap="20">
-        <button *ngIf="editing" color="warn" type="button" [disabled]="inboundOrderForm.dirty" (click)="deleteInboundOrder()" mat-raised-button>
+      <div fxFlex *ngIf="inboundOrderForm" fxLayout="row" fxLayoutAlign="end center" class="margin-top-30" fxLayoutGap="20">
+        <button *ngIf="editing" color="warn" type="button" [disabled]="inboundOrderForm.dirty" (click)="deleteOrder()" mat-raised-button>
           <mat-icon>delete</mat-icon>
           Slet
         </button>
@@ -60,11 +61,11 @@
           <mat-icon>restart_alt</mat-icon>
           Nulstil
         </button>
-        <button *ngIf="editing" color="primary" type="submit" mat-raised-button>
+        <button *ngIf="editing" color="primary" type="submit" (click)="submitInboundOrder()" mat-raised-button>
           <mat-icon>save</mat-icon>
           Gem
         </button>
-        <button *ngIf="!editing" color="primary" type="submit" mat-raised-button>
+        <button *ngIf="!editing" color="primary" type="submit" (click)="submitInboundOrder()" mat-raised-button>
           <mat-icon>add</mat-icon>
           Opret
         </button>

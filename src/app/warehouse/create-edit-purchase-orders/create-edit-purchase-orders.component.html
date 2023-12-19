@@ -1,7 +1,7 @@
 <app-warehouse-basic-layout>
   <div fxFlex fxLayoutAlign="center start" fxLayout="row" style="background-color: #EFEFEF">
-    <div *ngIf="purchaseOrderForm && !loading" fxLayout="column" class="document" fxLayoutGap="5">
-      <form fxLayout="column" fxLayoutGap="5" [formGroup]="purchaseOrderForm" (ngSubmit)="submitPurchaseOrder()">
+    <div fxLayout="column" class="document" fxLayoutGap="5">
+      <form *ngIf="purchaseOrderForm" fxLayout="column" fxLayoutGap="5" [formGroup]="purchaseOrderForm" (ngSubmit)="submitPurchaseOrder()">
         <span fxLayout="row" fxLayoutGap="15" fxLayoutAlign="start center">
           <mat-icon>category</mat-icon>
           <h1 class="no-margin no-padding">{{editing ? 'Rediger kunde ordre' : 'Opret kunde ordre'}}</h1>
@@ -15,7 +15,7 @@
         </mat-form-field>
 
         <mat-form-field appearance="fill">
-          <mat-label for="order-date">Bestillings dato: </mat-label>
+          <mat-label>Bestillings dato: </mat-label>
           <input matInput id="order-date" [matDatepicker]="deleveryPicker" formControlName="orderDate">
           <mat-hint>DD/MM/YYYY</mat-hint>
           <mat-datepicker-toggle matIconSuffix [for]="deleveryPicker"></mat-datepicker-toggle>
@@ -23,7 +23,7 @@
         </mat-form-field>
 
         <mat-form-field>
-          <mat-label for="delivery-date">Forvented leverings dato </mat-label>
+          <mat-label>Forvented leverings dato </mat-label>
           <input matInput id="delivery-date" [matDatepicker]="expectedPicker" formControlName="deliveryDate">
           <mat-hint>DD/MM/YYYY</mat-hint>
           <mat-datepicker-toggle matIconSuffix [for]="expectedPicker"></mat-datepicker-toggle>
@@ -71,30 +71,40 @@
           <mat-label>Land</mat-label>
           <input matInput formControlName="country">
         </mat-form-field>
-
-        <span>Ordrelinjer</span>
-        <app-data-table [tableData]="orderLines" (deleteClickId)="removeOrderLine($event)" [displayedColumns]="displayedColumns" [addDeleteButton]="true" [showSearchField]="false"></app-data-table>
-        <mat-paginator *ngIf="orderLines?.data.length !== 0" [pageSizeOptions]="[10, 25, 50, 100]"></mat-paginator>
-
-        <div fxFlex fxLayout="row" fxLayoutAlign="end center" class="margin-top-30" fxLayoutGap="20">
-          <button *ngIf="editing" color="warn" type="button" [disabled]="purchaseOrderForm.dirty" (click)="deleteInboundOrder()" mat-raised-button>
-            <mat-icon>delete</mat-icon>
-            Slet
-          </button>
-          <button color="accent" type="button" [disabled]="!purchaseOrderForm.dirty" (click)="getPurchaseOrderAndBuildForm()" mat-raised-button>
-            <mat-icon>restart_alt</mat-icon>
-            Nulstil
-          </button>
-          <button *ngIf="editing" color="primary" type="submit" mat-raised-button>
-            <mat-icon>save</mat-icon>
-            Gem
-          </button>
-          <button *ngIf="!editing" color="primary" type="submit" mat-raised-button>
-            <mat-icon>add</mat-icon>
-            Opret
-          </button>
-        </div>
       </form>
+
+      <span>Tilføj ordrelinjer på kunde ordre</span>
+      <mat-form-field>
+        <mat-label>Søg</mat-label>
+        <input matInput [matAutocomplete]="auto" [(ngModel)]="search" (ngModelChange)="applySearch()">
+        <mat-autocomplete #auto="matAutocomplete" (optionSelected)="addItemToOrderLines($event)">
+          <mat-option *ngFor="let item of filteredItems" [value]="item.id">
+            {{ 'Type: ' + ItemType[item?.itemType] + ' -  Navn: ' + item?.name + ' - Ean: ' + item?.ean }}
+          </mat-option>
+        </mat-autocomplete>
+      </mat-form-field>
+
+      <app-data-table (lineChange)="editOrderLineInTable($event)" [tableData]="orderLines" (deleteClickId)="removeOrderLine($event)" [displayedColumns]="displayedColumns" [addDeleteButton]="true" [showSearchField]="false"></app-data-table>
+      <mat-paginator [pageSizeOptions]="[10, 25, 50, 100]"></mat-paginator>
+
+      <div *ngIf="purchaseOrderForm" fxFlex fxLayout="row" fxLayoutAlign="end center" class="margin-top-30" fxLayoutGap="20">
+        <button *ngIf="editing" color="warn" type="button" [disabled]="purchaseOrderForm.dirty" (click)="deleteInboundOrder()" mat-raised-button>
+          <mat-icon>delete</mat-icon>
+          Slet
+        </button>
+        <button color="accent" type="button" [disabled]="!purchaseOrderForm.dirty" (click)="getPurchaseOrderAndBuildForm()" mat-raised-button>
+          <mat-icon>restart_alt</mat-icon>
+          Nulstil
+        </button>
+        <button *ngIf="editing" color="primary" type="submit" (click)="submitPurchaseOrder()" mat-raised-button>
+          <mat-icon>save</mat-icon>
+          Gem
+        </button>
+        <button *ngIf="!editing" color="primary" type="submit" (click)="submitPurchaseOrder()" mat-raised-button>
+          <mat-icon>add</mat-icon>
+          Opret
+        </button>
+      </div>
     </div>
   </div>
 </app-warehouse-basic-layout>

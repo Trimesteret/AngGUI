@@ -78,6 +78,6 @@ import { CreateEditPurchaseOrdersComponent } from './create-edit-purchase-orders
     MatPaginatorModule,
     MatAutocompleteModule
   ],
-  providers: [{ provide: MAT_DATE_LOCALE, useValue: 'es-Es' }]
+  providers: [{ provide: MAT_DATE_LOCALE, useValue: 'da-Dk' }]
 })
 export class WarehouseModule { }

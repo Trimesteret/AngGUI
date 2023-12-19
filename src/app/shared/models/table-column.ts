@@ -4,4 +4,5 @@ export interface TableColumn {
   key: string;
   value: string;
   type?: TableColumnType;
+  enum?: any;
 }

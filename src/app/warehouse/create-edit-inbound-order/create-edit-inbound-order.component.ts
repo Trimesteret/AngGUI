@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MessageService } from '../../shared/services/message.service';
 import { ActivatedRoute, Router } from '@angular/router';
@@ -13,6 +13,10 @@ import { ItemDto } from '../../shared/interfaces/item-dto';
 import { ItemsService } from '../../shared/services/items/items.service';
 import { OrderLine } from '../../shared/models/order-line';
 import { MatTableDataSource } from '@angular/material/table';
+import { TableColumn } from '../../shared/models/table-column';
+import { OrderLineDto } from '../../shared/interfaces/order-line-dto';
+import { MatPaginator } from '@angular/material/paginator';
+import { TableColumnType } from '../../shared/enums/table-column-type';
 
 @Component({
   selector: 'app-create-edit-inbound-order',
@@ -29,8 +33,11 @@ export class CreateEditInboundOrderComponent {
   filteredSupplierItems: ItemDto[];
   supplierItems: ItemDto[];
   selectedSupplier: SupplierDto;
-  orderLines: MatTableDataSource<OrderLine> = new MatTableDataSource<OrderLine>();
-  associatedColumns: string[] =  ['itemName', 'quantity', 'linePrice', 'remove'];
+  orderLines: MatTableDataSource<OrderLineDto> = new MatTableDataSource<OrderLineDto>();
+  displayedColumns: TableColumn[] = [{ key: 'itemName', value: 'Vare navn' }, { key: 'quantity', value: 'Antal', type: TableColumnType.numberInput },
+    { key: 'itemPrice', value: 'Vare pris', type: TableColumnType.price }, { key: 'linePrice', value: 'Linje pris', type: TableColumnType.price }];
+
+  @ViewChild(MatPaginator) paginator: MatPaginator;
 
   constructor(private formBuilder: FormBuilder, private supplierService: SupplierService, private messageService: MessageService,
               private route: ActivatedRoute, private location: Location, private orderService: OrderService,
@@ -43,26 +50,14 @@ export class CreateEditInboundOrderComponent {
   }
 
   /**
-   * Gets all items
-   */
-  public getSupplierRelatedItems(): void {
-    this.itemService.getSupplierRelatedItems(this.selectedSupplier?.id).subscribe(items => {
-      this.supplierItems = items;
-      this.supplierItems = this.supplierItems.filter(item => !this.orderLines.data.find(orderLine => orderLine.item.id === item.id));
-      this.loading = false;
-    });
-  }
-
-  /**
    * Gets the item and builds the form
    */
   public getInboundOrderAndBuildForm(): void {
-    let id = null;
     const idString = this.route.snapshot.params['id'];
 
-    id = parseInt(idString);
+    const id = parseInt(idString);
 
-    if(!Number.isInteger(id)) {
+    if (!Number.isInteger(id)) {
       this.buildInboundOrderForm();
       this.editing = false;
       this.loading = false;
@@ -71,7 +66,24 @@ export class CreateEditInboundOrderComponent {
 
     this.orderService.getInboundOrderById(id).subscribe(inboundOrder => {
       this.editing = true;
+      this.loading = false;
       this.buildInboundOrderForm(inboundOrder);
+      this.orderLines = new MatTableDataSource(inboundOrder.orderLines);
+      this.orderLines.paginator = this.paginator;
+    },
+    (error) => {
+      console.error(error);
+      this.loading = false;
+    });
+  }
+
+  /**
+   * Gets all items
+   */
+  public getSupplierRelatedItems(): void {
+    console.log(this.selectedSupplier);
+    this.itemService.getSupplierRelatedItems(this.selectedSupplier?.id).subscribe(items => {
+      this.supplierItems = items.filter(item => !this.orderLines.data.find(orderLine => orderLine.itemId === item.id));
       this.loading = false;
     });
   }
@@ -81,18 +93,19 @@ export class CreateEditInboundOrderComponent {
    * @param event the event from the mat select
    */
   public addItemToOrderLines(event: any): void {
-    const itemId = event.option.value.id;
+    const itemId = event?.option?.value;
+
     const associatedOrderLine = this.orderLines.data.find(ol => ol.itemId === itemId);
     if(!associatedOrderLine){
       const item = this.supplierItems.find(item => item.id === itemId);
       this.orderLines.data.push(new OrderLine(1, item));
-      this.supplierItems = this.supplierItems.filter(item => !this.orderLines.data.find(orderLine => orderLine.item.id === item.id));
+      this.supplierItems = this.supplierItems.filter(item => !this.orderLines.data.find(orderLine => orderLine.itemId === item.id));
       const updatedData = this.orderLines.data;
       this.orderLines.data = updatedData;
-      this.messageService.show('Vare tilknyttet til leverandør');
+      this.messageService.show('Vare tilføjet til bestillings ordre');
       this.search = '';
     } else {
-      this.messageService.show('Vare er allerede tilknyttet');
+      this.messageService.show('Vare er allerede tilføjet til bestillings ordre');
       this.search = '';
     }
     this.search = '';
@@ -100,10 +113,10 @@ export class CreateEditInboundOrderComponent {
 
   /**
    * Removes an orderLine from the table
-   * @param orderLine the ordeline to remove
+   * @param id the ordeline id to remove
    */
-  public removeOrderLineFromTable(orderLine: OrderLine): void {
-    this.orderLines.data = this.orderLines.data.filter(ol => ol.itemId !== orderLine.itemId);
+  public removeOrderLineFromTable(id: number): void {
+    this.orderLines.data = this.orderLines.data.filter(ol => ol.id !== id);
     this.getSupplierRelatedItems();
   }
 
@@ -113,20 +126,32 @@ export class CreateEditInboundOrderComponent {
    */
   public buildInboundOrderForm(inboundOrder?: InboundOrder): void {
     this.inboundOrderForm = this.formBuilder.group({
-      supplier: [inboundOrder?.supplier ? inboundOrder?.supplier : null, Validators.required],
-      orderState: [inboundOrder ? Number.isInteger(inboundOrder.orderState) ? InboundOrderState[inboundOrder.orderState] : InboundOrderState.Open : InboundOrderState.Open, Validators.required],
+      supplierId: [inboundOrder?.supplier?.id ? inboundOrder?.supplier.id : null, Validators.required],
+      orderState: [inboundOrder ? Number.isInteger(inboundOrder.inboundOrderState) ? inboundOrder.inboundOrderState : InboundOrderState.Open : InboundOrderState.Open, Validators.required],
       orderDate: [inboundOrder?.orderDate ? inboundOrder?.orderDate : new Date(), Validators.required],
       deliveryDate: [inboundOrder?.deliveryDate ? inboundOrder?.deliveryDate : new Date(), Validators.required],
     });
 
     if(this.editing) {
-      this.inboundOrderForm.controls['supplier'].disable();
+      this.selectedSupplier = inboundOrder.supplier;
+      this.getSupplierRelatedItems();
+      this.inboundOrderForm.controls['supplierId'].disable();
     }
 
-    this.inboundOrderForm.controls['supplier'].valueChanges.subscribe(value => {
-      this.selectedSupplier = value;
+    this.inboundOrderForm.controls['supplierId'].valueChanges.subscribe(id => {
+      this.selectedSupplier = this.suppliers.find(supplier => supplier.id == id);
       this.getSupplierRelatedItems();
     });
+  }
+
+  /**
+   * Edits an orderLine in the table
+   * @param element
+   */
+  public editOrderLineInTable(element: OrderLine): void {
+    const orderLine = this.orderLines.data.find(ol => ol.id === element.id);
+    orderLine.quantity = element.quantity;
+    orderLine.linePrice = element.itemPrice * element.quantity;
   }
 
   /**
@@ -140,13 +165,20 @@ export class CreateEditInboundOrderComponent {
       return;
     }
 
+    this.selectedSupplier = this.suppliers.find(supplier => supplier.id == this.inboundOrderForm.controls['supplierId'].value);
+    inboundOrder.supplier = this.selectedSupplier;
+    inboundOrder.orderLines = this.orderLines.data;
+
     if(this.inboundOrderForm?.valid == false){
       this.messageService.show('Fejl: Bestillings ordre formen indeholder fejl');
       return;
     }
 
     if (this.editing) {
-      inboundOrder.id = parseInt(this.route.snapshot.params['id']);
+      const idString = this.route.snapshot.params['id'];
+
+      inboundOrder.id = parseInt(idString);
+
       return this.submitEditInboundOrder(inboundOrder);
     }
 
@@ -158,8 +190,9 @@ export class CreateEditInboundOrderComponent {
    * @param inboundOrder the new values of the inboundOrder as an inboundOrder
    */
   public submitEditInboundOrder(inboundOrder: InboundOrder): void {
-    this.orderService.editInboundOrder(inboundOrder).subscribe(item => {
-      this.buildInboundOrderForm(item);
+    this.orderService.editInboundOrder(inboundOrder).subscribe(inboundOrder => {
+      console.log(inboundOrder);
+      this.buildInboundOrderForm(inboundOrder);
       this.messageService.show('Bestillings ordre redigeret');
     }, error => {
       this.messageService.showError(error);
@@ -192,17 +225,17 @@ export class CreateEditInboundOrderComponent {
   /**
    * Deletes an inboundOrder
    */
-  public deleteInboundOrder(): void {
-    const id = this.route.snapshot.params['id'];
+  public deleteOrder(): void {
+    const id = parseInt(this.route.snapshot.params['id']);
     this.loading = true;
-    this.orderService.deleteInboundOrder(id).subscribe(res => {
+    this.orderService.deleteOrder(id).subscribe(res => {
       if(!res) {
         this.messageService.show('Der gik noget galt da Bestillings ordre blev forsøgt slettet');
         this.loading = false;
         return;
       }
 
-      this.messageService.show('Produkt slettet');
+      this.messageService.show('Bestillings ordre blev slettet');
       this.location.back();
       this.loading = false;
     });
