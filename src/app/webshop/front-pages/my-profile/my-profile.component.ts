@@ -9,7 +9,6 @@ import { LoginDto } from '../../../shared/models/login-dto';
 import { TableColumn } from '../../../shared/models/table-column';
 import { TableColumnType } from '../../../shared/enums/table-column-type';
 import { PurchaseOrder } from '../../../shared/models/purchase-order';
-import { Observable } from 'rxjs';
 import { OrderService } from '../../../shared/services/order/order.service';
 import { MatTableDataSource } from '@angular/material/table';
 

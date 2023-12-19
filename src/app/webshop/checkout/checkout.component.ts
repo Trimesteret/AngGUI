@@ -105,7 +105,7 @@ export class CheckoutComponent{
     purchaseOrder.orderLines = this.purchaseOrder.orderLines;
     purchaseOrder.orderDate = new Date();
 
-    this.orderService.createPurchaseOrder(purchaseOrder).subscribe((response) => {
+    this.orderService.createPurchaseOrder(purchaseOrder).subscribe(() => {
       this.messageService.show('Din ordre er nu oprettet');
       this.orderService.resetCurrentPurchaseOrder();
       this.router.navigate(['/webshop']);
